@@ -1,0 +1,449 @@
+<template>
+  <LessonLayout :lesson-id="1" title="线性空间与线性子空间" subtitle="Linear Space & Subspaces">
+    <Section num="1" title="线性空间的定义与公理">
+      <p>
+        线性空间（向量空间）是矩阵论最基本的代数结构。设 <span class="formula-inline">V</span> 是非空集合，
+        <span class="formula-inline">\mathbb{F}</span> 为数域，在 <span class="formula-inline">V</span> 上定义加法
+        <span class="formula-inline">+</span> 和数乘 <span class="formula-inline">\cdot</span>，满足以下 8 条公理，
+        则称 <span class="formula-inline">V</span> 为 <span class="formula-inline">\mathbb{F}</span> 上的线性空间。
+      </p>
+
+      <Theorem title="线性空间八条公理" type="definition" icon="📐">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px 20px; font-size:14px;">
+          <div><strong>加法：</strong></div><div></div>
+          <div>(A1) 交换律：<span class="formula-inline">\alpha+\beta=\beta+\alpha</span></div>
+          <div>(A2) 结合律：<span class="formula-inline">(\alpha+\beta)+\gamma=\alpha+(\beta+\gamma)</span></div>
+          <div>(A3) 零元存在：<span class="formula-inline">\exists\,0\in V,\ \alpha+0=\alpha</span></div>
+          <div>(A4) 负元存在：<span class="formula-inline">\exists(-\alpha),\ \alpha+(-\alpha)=0</span></div>
+          <div><strong>数乘：</strong></div><div></div>
+          <div>(M1) 数乘结合：<span class="formula-inline">k(l\alpha)=(kl)\alpha</span></div>
+          <div>(M2) 单位数乘：<span class="formula-inline">1\cdot\alpha=\alpha</span></div>
+          <div>(M3) 向量分配：<span class="formula-inline">k(\alpha+\beta)=k\alpha+k\beta</span></div>
+          <div>(M4) 数量分配：<span class="formula-inline">(k+l)\alpha=k\alpha+l\alpha</span></div>
+        </div>
+      </Theorem>
+
+      <p>常见线性空间：<span class="formula-inline">\mathbb{R}^n</span>、<span class="formula-inline">\mathbb{C}^{m\times n}</span>、
+        <span class="formula-inline">P_n[x]</span>（次数不超过 n 的多项式空间）、<span class="formula-inline">C[a,b]</span>（连续函数空间）等。</p>
+    </Section>
+
+    <Section num="2" title="线性子空间">
+      <p>设 <span class="formula-inline">W\subseteq V</span>，若 <span class="formula-inline">W</span> 关于 <span class="formula-inline">V</span> 的加法和数乘也构成线性空间，则称 <span class="formula-inline">W</span> 为 <span class="formula-inline">V</span> 的子空间。</p>
+
+      <Theorem title="子空间判定定理" type="theorem">
+        <span class="formula-inline">W\subseteq V</span> 是子空间 <span class="formula-inline">\iff</span>
+        <Formula display>W \neq \emptyset \quad\text{且}\quad \forall\alpha,\beta\in W,\ \forall k,l\in\mathbb{F},\ k\alpha+l\beta\in W</Formula>
+        即：W 对线性组合封闭。特别地，<span class="formula-inline">0\in W</span>。
+      </Theorem>
+
+      <Theorem title="生成子空间" type="definition" icon="🔹">
+        给定向量组 <span class="formula-inline">\alpha_1,\dots,\alpha_s\in V</span>，其所有线性组合构成的集合
+        <Formula display>\operatorname{span}\{\alpha_1,\dots,\alpha_s\} = \left\{\sum_{i=1}^s k_i\alpha_i \,\Big|\, k_i\in\mathbb{F}\right\}</Formula>
+        是 <span class="formula-inline">V</span> 的子空间，称为由 <span class="formula-inline">\alpha_1,\dots,\alpha_s</span> 生成（张成）的子空间。
+      </Theorem>
+
+      <AnimationBox title="R³ 中过原点的平面/直线是子空间" :playing="playing1" @play="play1" @pause="pause1" @reset="reset1"
+        description="拖动观察：过原点的平面（二维子空间）和过原点的直线（一维子空间）对向量加法和数乘封闭；不过原点的平面不是子空间。">
+        <svg width="600" height="400" viewBox="0 0 600 400" ref="svg1Ref">
+          <defs>
+            <linearGradient id="planeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#6366f1" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.15"/>
+            </linearGradient>
+          </defs>
+          <!-- 3D coordinate axes (isometric) -->
+          <!-- Origin at (300, 250) -->
+          <!-- x-axis (screen-right-down), y-axis (screen-left-down), z-axis (screen-up) -->
+          <g :transform="`rotate(${rot1}, 300, 250)`">
+            <!-- Plane through origin -->
+            <polygon :points="planePoints1" fill="url(#planeGrad1)" stroke="#6366f1" stroke-width="1.5" stroke-opacity="0.7"/>
+            <!-- Axes -->
+            <line x1="300" y1="250" x2="520" y2="340" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+            <line x1="300" y1="250" x2="80" y2="340" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+            <line x1="300" y1="250" x2="300" y2="60" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+            <text x="530" y="345" fill="#64748b" font-size="13">x</text>
+            <text x="65" y="350" fill="#64748b" font-size="13">y</text>
+            <text x="305" y="55" fill="#64748b" font-size="13">z</text>
+            <!-- Two vectors in plane -->
+            <line x1="300" y1="250" :x2="300+v1x" :y2="250+v1y" stroke="#4338ca" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+            <line x1="300" y1="250" :x2="300+v2x" :y2="250+v2y" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arrowPurple)"/>
+            <!-- Sum vector -->
+            <line x1="300" y1="250" :x2="300+v1x+v2x" :y2="250+v1y+v2y" stroke="#ec4899" stroke-width="2.5" marker-end="url(#arrowPink)" stroke-dasharray="6,3"/>
+            <!-- Parallelogram -->
+            <line :x1="300+v1x" :y1="250+v1y" :x2="300+v1x+v2x" :y2="250+v1y+v2y" stroke="#ec4899" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+            <line :x1="300+v2x" :y1="250+v2y" :x2="300+v1x+v2x" :y2="250+v1y+v2y" stroke="#ec4899" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+            <!-- Labels -->
+            <text :x="300+v1x+10" :y="250+v1y-5" fill="#4338ca" font-size="13" font-weight="bold">α</text>
+            <text :x="300+v2x-20" :y="250+v2y-5" fill="#7c3aed" font-size="13" font-weight="bold">β</text>
+            <text :x="300+v1x+v2x+8" :y="250+v1y+v2y+5" fill="#ec4899" font-size="13" font-weight="bold">α+β</text>
+            <!-- Origin -->
+            <circle cx="300" cy="250" r="4" fill="#1e293b"/>
+            <text x="285" y="270" fill="#1e293b" font-size="12">0</text>
+          </g>
+          <defs>
+            <marker id="arrowGray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/>
+            </marker>
+            <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#4338ca"/>
+            </marker>
+            <marker id="arrowPurple" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/>
+            </marker>
+            <marker id="arrowPink" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#ec4899"/>
+            </marker>
+          </defs>
+        </svg>
+      </AnimationBox>
+    </Section>
+
+    <Section num="3" title="基、维数与坐标">
+      <Theorem title="基与维数" type="definition" icon="📏">
+        设 <span class="formula-inline">V</span> 是线性空间，若存在向量组 <span class="formula-inline">\varepsilon_1,\varepsilon_2,\dots,\varepsilon_n\in V</span>，满足：
+        <ol style="margin:8px 0 0 20px;">
+          <li><strong>线性无关</strong>：<span class="formula-inline">k_1\varepsilon_1+\cdots+k_n\varepsilon_n=0\Rightarrow k_1=\cdots=k_n=0</span></li>
+          <li><strong>张成空间</strong>：<span class="formula-inline">\forall\alpha\in V,\ \alpha=\sum_{i=1}^n x_i\varepsilon_i</span></li>
+        </ol>
+        则称 <span class="formula-inline">\varepsilon_1,\dots,\varepsilon_n</span> 为 <span class="formula-inline">V</span> 的一组<strong>基</strong>，
+        <span class="formula-inline">n</span> 为 <span class="formula-inline">V</span> 的<strong>维数</strong>，记 <span class="formula-inline">\dim V=n</span>。
+        系数 <span class="formula-inline">(x_1,\dots,x_n)^T</span> 称为 <span class="formula-inline">\alpha</span> 在该基下的<strong>坐标</strong>。
+      </Theorem>
+
+      <p>
+        <strong>关键性质：</strong><br>
+        ① <span class="formula-inline">\dim V=n</span> 中任意 <span class="formula-inline">n+1</span> 个向量必线性相关；<br>
+        ② 任意 <span class="formula-inline">n</span> 个线性无关向量都是一组基；<br>
+        ③ 线性子空间 <span class="formula-inline">W\subseteq V\Rightarrow\dim W\leq\dim V</span>。
+      </p>
+    </Section>
+
+    <Section num="4" title="子空间的和与交、维数公式">
+      <Theorem title="交空间与和空间" type="definition" icon="🔗">
+        设 <span class="formula-inline">W_1,W_2</span> 是 <span class="formula-inline">V</span> 的子空间，则：
+        <ul style="margin:8px 0 0 20px;">
+          <li><strong>交</strong>：<span class="formula-inline">W_1\cap W_2=\{\alpha\mid\alpha\in W_1\text{ 且 }\alpha\in W_2\}</span>（子空间）</li>
+          <li><strong>和</strong>：<span class="formula-inline">W_1+W_2=\{\alpha_1+\alpha_2\mid\alpha_1\in W_1,\alpha_2\in W_2\}</span>（子空间）</li>
+        </ul>
+      </Theorem>
+
+      <Theorem title="维数公式" type="theorem">
+        <Formula display>\dim(W_1+W_2)=\dim W_1+\dim W_2-\dim(W_1\cap W_2)</Formula>
+      </Theorem>
+
+      <AnimationBox title="子空间的和与交（平面 + 平面）" :playing="playing2" @play="play2" @pause="pause2" @reset="reset2"
+        description="在 R³ 中，两个过原点的平面 W₁ 和 W₂，它们的交是一条直线，它们的和可能是整个 R³。">
+        <svg width="600" height="400" viewBox="0 0 600 400" ref="svg2Ref">
+          <defs>
+            <linearGradient id="planeW1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#6366f1" stop-opacity="0.1"/>
+            </linearGradient>
+            <linearGradient id="planeW2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ec4899" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#ec4899" stop-opacity="0.1"/>
+            </linearGradient>
+          </defs>
+          <g :transform="`rotate(${rot2}, 300, 220)`">
+            <!-- W1 plane (horizontal-like) -->
+            <polygon :points="w1Points" fill="url(#planeW1)" stroke="#6366f1" stroke-width="1.5"/>
+            <!-- W2 plane (vertical-like) -->
+            <polygon :points="w2Points" fill="url(#planeW2)" stroke="#ec4899" stroke-width="1.5"/>
+            <!-- Intersection line -->
+            <line x1="80" y1="220" x2="520" y2="220" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrowOrange)" marker-start="url(#arrowOrange)"/>
+            <!-- Axes -->
+            <line x1="300" y1="220" x2="500" y2="310" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
+            <line x1="300" y1="220" x2="100" y2="310" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
+            <line x1="300" y1="220" x2="300" y2="50" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
+            <text x="510" y="315" fill="#64748b" font-size="12">x</text>
+            <text x="80" y="320" fill="#64748b" font-size="12">y</text>
+            <text x="305" y="45" fill="#64748b" font-size="12">z</text>
+            <!-- Labels -->
+            <text x="440" y="140" fill="#4338ca" font-size="14" font-weight="bold">W₁</text>
+            <text x="440" y="300" fill="#be185d" font-size="14" font-weight="bold">W₂</text>
+            <text x="525" y="215" fill="#d97706" font-size="13" font-weight="bold">W₁∩W₂</text>
+            <circle cx="300" cy="220" r="4" fill="#1e293b"/>
+          </g>
+          <defs>
+            <marker id="arrowGray2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+              <polygon points="0 0, 7 2.5, 0 5" fill="#94a3b8"/>
+            </marker>
+            <marker id="arrowOrange" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+              <polygon points="0 0, 7 2.5, 0 5" fill="#f59e0b"/>
+            </marker>
+          </defs>
+        </svg>
+      </AnimationBox>
+    </Section>
+
+    <Section num="5" title="直和分解">
+      <Theorem title="直和 (Direct Sum)" type="definition" icon="✨">
+        若 <span class="formula-inline">W_1+W_2</span> 中每个向量 <span class="formula">\alpha</span> 的分解式
+        <span class="formula-inline">\alpha=\alpha_1+\alpha_2\ (\alpha_1\in W_1,\alpha_2\in W_2)</span> 是<strong>唯一</strong>的，
+        则称 <span class="formula-inline">W_1+W_2</span> 为<strong>直和</strong>，记为 <span class="formula-inline">W_1\oplus W_2</span>。
+      </Theorem>
+
+      <Theorem title="直和等价条件" type="theorem">
+        下列命题等价：
+        <ol style="margin:8px 0 0 20px;">
+          <li><span class="formula-inline">W_1+W_2</span> 是直和；</li>
+          <li>零向量分解唯一：<span class="formula-inline">\alpha_1+\alpha_2=0\Rightarrow\alpha_1=\alpha_2=0</span>；</li>
+          <li><span class="formula-inline">W_1\cap W_2=\{0\}</span>；</li>
+          <li><span class="formula-inline">\dim(W_1+W_2)=\dim W_1+\dim W_2</span>。</li>
+        </ol>
+      </Theorem>
+
+      <AnimationBox title="直和中的唯一分解" :playing="playing3" @play="play3" @pause="pause3" @reset="reset3"
+        description="向量 v 在直和 W₁⊕W₂ 中唯一分解为 v = v₁ + v₂，其中 v₁∈W₁（x轴），v₂∈W₂（y轴）。">
+        <svg width="600" height="400" viewBox="0 0 600 400" ref="svg3Ref">
+          <!-- Coordinate system: W1 = x-axis, W2 = y-axis -->
+          <line x1="60" y1="340" x2="560" y2="340" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowB3)"/>
+          <line x1="80" y1="380" x2="80" y2="40" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowP3)"/>
+          <text x="565" y="345" fill="#4338ca" font-size="14" font-weight="bold">W₁ (x轴)</text>
+          <text x="55" y="35" fill="#7c3aed" font-size="14" font-weight="bold">W₂ (y轴)</text>
+
+          <!-- Grid hints -->
+          <g stroke="#e2e8f0" stroke-width="0.5">
+            <line v-for="i in 10" :key="'gx'+i" :x1="80+i*45" y1="40" :x2="80+i*45" y2="380"/>
+            <line v-for="i in 7" :key="'gy'+i" :x1="80" :y1="340-i*40" x2="560" :y2="340-i*40"/>
+          </g>
+
+          <!-- Vector v (animated) -->
+          <line x1="80" y1="340" :x2="80+vx3" :y2="340-vy3" stroke="#ec4899" stroke-width="3" marker-end="url(#arrowPk3)"/>
+          <text :x="80+vx3+10" :y="340-vy3" fill="#be185d" font-size="14" font-weight="bold">v</text>
+
+          <!-- Projection to W1 -->
+          <line x1="80" y1="340" :x2="80+vx3" y2="340" stroke="#4338ca" stroke-width="2.5" marker-end="url(#arrowB3)" :opacity="projAlpha"/>
+          <text :x="80+vx3/2" y="360" fill="#4338ca" font-size="13" font-weight="bold" :opacity="projAlpha">v₁∈W₁</text>
+
+          <!-- Projection to W2 -->
+          <line x1="80" y1="340" x2="80" :y2="340-vy3" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arrowP3)" :opacity="projAlpha"/>
+          <text x="30" :y="340-vy3/2" fill="#7c3aed" font-size="13" font-weight="bold" :opacity="projAlpha">v₂∈W₂</text>
+
+          <!-- Dashed projection lines -->
+          <line :x1="80+vx3" y1="340" :x2="80+vx3" :y2="340-vy3" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5,3" :opacity="projAlpha"/>
+          <line x1="80" :y1="340-vy3" :x2="80+vx3" :y2="340-vy3" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5,3" :opacity="projAlpha"/>
+
+          <!-- Right angle mark -->
+          <path :opacity="projAlpha" d="M 220 340 L 220 290 L 270 290" fill="none" stroke="#10b981" stroke-width="1.5"
+                :transform="`translate(${vx3-140}, ${-vy3+50})`"/>
+
+          <circle cx="80" cy="340" r="4" fill="#1e293b"/>
+          <text x="65" y="358" fill="#1e293b" font-size="12">0</text>
+
+          <defs>
+            <marker id="arrowB3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#6366f1"/></marker>
+            <marker id="arrowP3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#7c3aed"/></marker>
+            <marker id="arrowPk3" markerWidth="9" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#ec4899"/></marker>
+          </defs>
+        </svg>
+      </AnimationBox>
+    </Section>
+
+    <Section num="6" title="真题例题详解">
+      <ExampleBox source="2022年期末考试" badge="📝 真题">
+        <template #problem>
+          设 <span class="formula-inline">W_1=\{(x_1,x_2,x_3,x_4)^T\mid x_1-x_2+x_3-x_4=0\}</span>，
+          <span class="formula-inline">W_2=\operatorname{span}\{(1,1,1,1)^T,(1,-1,1,-1)^T\}</span>。
+          <br>(1) 求 <span class="formula-inline">\dim W_1</span> 和 <span class="formula-inline">\dim W_2</span>；
+          <br>(2) 求 <span class="formula-inline">W_1\cap W_2</span> 及其维数；
+          <br>(3) 问 <span class="formula-inline">W_1+W_2</span> 是否为直和？并求 <span class="formula-inline">\dim(W_1+W_2)</span>。
+        </template>
+        <template #solution>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>求 dim W₁：</strong>
+              W₁ 是方程 <span class="formula-inline">x_1-x_2+x_3-x_4=0</span> 的解空间，系数矩阵秩为 1，所以
+              <span class="formula-inline">\dim W_1=4-1=3</span>。
+              基础解系：令 <span class="formula-inline">(x_2,x_3,x_4)</span> 分别取 <span class="formula-inline">(1,0,0),(0,1,0),(0,0,1)</span>，得
+              <span class="formula-inline">\xi_1=(1,1,0,0)^T</span>，<span class="formula-inline">\xi_2=(-1,0,1,0)^T</span>，
+              <span class="formula-inline">\xi_3=(1,0,0,1)^T</span>。
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <strong>求 dim W₂：</strong>
+              <span class="formula-inline">\alpha_1=(1,1,1,1)^T</span>，<span class="formula-inline">\alpha_2=(1,-1,1,-1)^T</span>，
+              显然 <span class="formula-inline">\alpha_1,\alpha_2</span> 线性无关（不成比例），所以 <span class="formula-inline">\dim W_2=2</span>。
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <strong>求 W₁∩W₂：</strong>
+              设 <span class="formula-inline">\alpha\in W_1\cap W_2</span>，则 <span class="formula-inline">\alpha=k_1\alpha_1+k_2\alpha_2</span>，
+              且 <span class="formula-inline">\alpha</span> 满足 W₁ 的方程：
+              <span class="formula-inline">(k_1+k_2)-(k_1-k_2)+(k_1+k_2)-(k_1-k_2)=0</span>，
+              即 <span class="formula-inline">4k_2=0\Rightarrow k_2=0</span>。
+              所以 <span class="formula-inline">\alpha=k_1(1,1,1,1)^T</span>，即
+              <span class="formula-inline">W_1\cap W_2=\operatorname{span}\{(1,1,1,1)^T\}</span>，
+              <span class="formula-inline">\dim(W_1\cap W_2)=1</span>。
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <strong>判断直和并求维数：</strong>
+              因为 <span class="formula-inline">W_1\cap W_2\neq\{0\}</span>，所以 <strong>不是直和</strong>。
+              由维数公式：
+              <Formula display>\dim(W_1+W_2)=3+2-1=4</Formula>
+              即 <span class="formula-inline">W_1+W_2=\mathbb{R}^4</span>。
+            </div>
+          </div>
+        </template>
+      </ExampleBox>
+
+      <ExampleBox source="2021年期末考试" badge="📝 真题">
+        <template #problem>
+          设 <span class="formula-inline">V=\mathbb{R}^{2\times 2}</span>（二阶实方阵空间），
+          <span class="formula-inline">W_1=\left\{\begin{pmatrix}a&b\\0&0\end{pmatrix}\mid a,b\in\mathbb{R}\right\}</span>，
+          <span class="formula-inline">W_2=\left\{\begin{pmatrix}a&0\\c&0\end{pmatrix}\mid a,c\in\mathbb{R}\right\}</span>。
+          <br>证明 <span class="formula-inline">W_1+W_2</span> 不是直和，并求 <span class="formula-inline">\dim(W_1+W_2)</span>。
+        </template>
+        <template #solution>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              显然 <span class="formula-inline">W_1</span> 的一组基为
+              <span class="formula-inline">E_{11}=\begin{pmatrix}1&0\\0&0\end{pmatrix},E_{12}=\begin{pmatrix}0&1\\0&0\end{pmatrix}</span>，
+              所以 <span class="formula-inline">\dim W_1=2</span>。
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <span class="formula-inline">W_2</span> 的一组基为
+              <span class="formula-inline">E_{11}=\begin{pmatrix}1&0\\0&0\end{pmatrix},E_{21}=\begin{pmatrix}0&0\\1&0\end{pmatrix}</span>，
+              所以 <span class="formula-inline">\dim W_2=2</span>。
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <strong>求交集：</strong>
+              <span class="formula-inline">\begin{pmatrix}a&b\\0&0\end{pmatrix}=\begin{pmatrix}a'&0\\c'&0\end{pmatrix}</span>
+              要求 <span class="formula-inline">b=0,c'=0</span>，故
+              <span class="formula-inline">W_1\cap W_2=\left\{\begin{pmatrix}a&0\\0&0\end{pmatrix}\right\}=\operatorname{span}\{E_{11}\}</span>，
+              <span class="formula-inline">\dim(W_1\cap W_2)=1</span>。
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              因为 <span class="formula-inline">W_1\cap W_2\neq\{0\}</span>（包含 <span class="formula-inline">E_{11}</span>），
+              所以 <strong>不是直和</strong>。由维数公式：
+              <span class="formula-inline">\dim(W_1+W_2)=2+2-1=3</span>。
+              实际上 <span class="formula-inline">W_1+W_2=\left\{\begin{pmatrix}a&b\\c&0\end{pmatrix}\right\}</span>，维数确实为 3。
+            </div>
+          </div>
+        </template>
+      </ExampleBox>
+    </Section>
+
+    <Section title="📌 知识点小结">
+      <Steps :steps="[
+        '线性空间：非空集合 + 数域 + 加法/数乘 = 满足8条公理的代数结构',
+        '子空间判定：非空 + 对线性组合封闭（kα + lβ ∈ W），零向量必在其中',
+        '基 = 线性无关 + 张成空间；维数 = 基中向量个数',
+        '维数公式：dim(W₁+W₂) = dim W₁ + dim W₂ − dim(W₁∩W₂)',
+        '直和 ⟺ 零向量分解唯一 ⟺ W₁∩W₂ = {0} ⟺ dim(W₁+W₂) = dim W₁ + dim W₂'
+      ]" />
+    </Section>
+  </LessonLayout>
+</template>
+
+<script setup>
+import LessonLayout from '../../components/LessonLayout.vue'
+import Section from '../../components/ui/Section.vue'
+import Formula from '../../components/ui/Formula.vue'
+import Theorem from '../../components/ui/Theorem.vue'
+import AnimationBox from '../../components/ui/AnimationBox.vue'
+import ExampleBox from '../../components/ui/ExampleBox.vue'
+import Steps from '../../components/ui/Steps.vue'
+import { useKatex } from '../../composables/useKatex'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+
+const renderTrigger = ref(0)
+const { renderMath } = useKatex(renderTrigger)
+
+// ===== Animation 1: Plane subspace in R3 =====
+const playing1 = ref(false)
+const rot1 = ref(0)
+let rafId1 = null
+const v1x = 120, v1y = -30  // vector α in plane
+const v2x = -60, v2y = -60  // vector β in plane
+const planePoints1 = computed(() => {
+  // A slanted plane through origin
+  const cx = 300, cy = 250
+  return `${cx-200},${cy+20} ${cx+200},${cy-30} ${cx+180},${cy-80} ${cx-180},${cy-30}`
+})
+
+function animate1() {
+  rot1.value = (rot1.value + 0.3) % 360
+  rafId1 = requestAnimationFrame(animate1)
+}
+function play1() { if (!playing1.value) { playing1.value = true; animate1() } }
+function pause1() { playing1.value = false; if (rafId1) cancelAnimationFrame(rafId1) }
+function reset1() { pause1(); rot1.value = 0 }
+
+// ===== Animation 2: Sum and intersection of two planes =====
+const playing2 = ref(false)
+const rot2 = ref(0)
+let rafId2 = null
+const w1Points = computed(() => {
+  const cx = 300, cy = 220
+  return `${cx-220},${cy+10} ${cx+220},${cy-20} ${cx+220},${cy+10} ${cx-220},${cy+40}`
+})
+const w2Points = computed(() => {
+  const cx = 300, cy = 220
+  const tilt = Math.sin(rot2.value * Math.PI / 180) * 40
+  return `${cx-200},${cy-tilt} ${cx+200},${cy+tilt} ${cx+200},${cy+120+tilt} ${cx-200},${cy+120-tilt}`
+})
+
+function animate2() {
+  rot2.value = (rot2.value + 0.4) % 360
+  rafId2 = requestAnimationFrame(animate2)
+}
+function play2() { if (!playing2.value) { playing2.value = true; animate2() } }
+function pause2() { playing2.value = false; if (rafId2) cancelAnimationFrame(rafId2) }
+function reset2() { pause2(); rot2.value = 0 }
+
+// ===== Animation 3: Direct sum unique decomposition =====
+const playing3 = ref(false)
+const vx3 = ref(0), vy3 = ref(0)
+const projAlpha = ref(0)
+let rafId3 = null
+const targetX = 280, targetY = 200
+let phase3 = 0  // 0: draw v, 1: draw projections, 2: pause
+
+function animate3() {
+  if (phase3 === 0) {
+    vx3.value = Math.min(vx3.value + 4, targetX)
+    vy3.value = Math.min(vy3.value + 3, targetY)
+    if (vx3.value >= targetX && vy3.value >= targetY) phase3 = 1
+  } else if (phase3 === 1) {
+    projAlpha.value = Math.min(projAlpha.value + 0.02, 1)
+    if (projAlpha.value >= 1) phase3 = 2
+  } else {
+    // pause then reset
+    setTimeout(() => {
+      phase3 = 0
+      vx3.value = 0; vy3.value = 0; projAlpha.value = 0
+    }, 1500)
+    return
+  }
+  rafId3 = requestAnimationFrame(animate3)
+}
+function play3() { if (!playing3.value) { playing3.value = true; animate3() } }
+function pause3() { playing3.value = false; if (rafId3) cancelAnimationFrame(rafId3) }
+function reset3() { pause3(); vx3.value = 0; vy3.value = 0; projAlpha.value = 0; phase3 = 0 }
+
+onMounted(() => { renderTrigger.value++ })
+onUnmounted(() => {
+  if (rafId1) cancelAnimationFrame(rafId1)
+  if (rafId2) cancelAnimationFrame(rafId2)
+  if (rafId3) cancelAnimationFrame(rafId3)
+})
+</script>

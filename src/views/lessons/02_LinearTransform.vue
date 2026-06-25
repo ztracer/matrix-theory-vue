@@ -27,7 +27,7 @@
       <Formula display>T(\varepsilon_j)=a_{1j}\varepsilon_1+a_{2j}\varepsilon_2+\cdots+a_{nj}\varepsilon_n,\quad j=1,\dots,n</Formula>
       <p>
         则 <span class="formula-inline">A=(a_{ij})_{n\times n}</span> 称为 <span class="formula-inline">T</span> 在该基下的<strong>矩阵</strong>。
-        <strong>关键理解：A 的第 j 列就是 T(εⱼ) 在基 {εᵢ} 下的坐标。</strong>
+        <strong>关键理解：A 的第 j 列就是 <span class="formula-inline">T(\varepsilon_j)</span> 在基 <span class="formula-inline">\{\varepsilon_i\}</span> 下的坐标。</strong>
       </p>
 
       <Theorem title="坐标变换公式" type="theorem">
@@ -37,7 +37,7 @@
 
       <AnimationBox title="R² 中矩阵对单位正方形的变换" :playing="playing1" @play="play1" @pause="pause1" @reset="reset1"
         :step="true" @step="step1" description="观察不同 2×2 矩阵对单位正方形的作用：拉伸、旋转、剪切、反射等。点击▶播放自动循环，或⏭步进切换变换类型。">
-        <canvas ref="canvas1Ref" width="600" height="400" style="max-width:100%;"></canvas>
+        <canvas ref="canvas1Ref" width="600" height="400" style="max-width:100%;width:100%;"></canvas>
       </AnimationBox>
     </Section>
 
@@ -75,8 +75,8 @@
       </Theorem>
 
       <AnimationBox title="Gram-Schmidt 逐步正交化（R³ 投影到2D）" :playing="playing2" @play="play2" @pause="pause2" @reset="reset2"
-        :step="true" @step="step2" description="逐步演示：先单位化 a₁ 得 u₁；再从 a₂ 减去在 u₁ 上的投影，单位化得 u₂；最后从 a₃ 减去在 u₁、u₂ 上的投影，单位化得 u₃。">
-        <canvas ref="canvas2Ref" width="600" height="420" style="max-width:100%;"></canvas>
+        :step="true" @step="step2" description="逐步演示：先单位化 a₁ 得 u₁；再从 a₂ 减去在 u₁ 上的投影分量，单位化得 u₂；最后从 a₃ 减去在 u₁、u₂ 上的投影，单位化得 u₃。点击▶自动播放或⏭单步推进。">
+        <canvas ref="canvas2Ref" width="600" height="420" style="max-width:100%;width:100%;"></canvas>
       </AnimationBox>
     </Section>
 
@@ -90,7 +90,7 @@
 
       <AnimationBox title="Householder 镜像反射" :playing="playing3" @play="play3" @pause="pause3" @reset="reset3"
         description="向量 x 经 Householder 反射后变为 Hx = x - 2(x·u)u，即关于法向量 u 的超平面（直线）做镜像反射。">
-        <canvas ref="canvas3Ref" width="600" height="400" style="max-width:100%;"></canvas>
+        <canvas ref="canvas3Ref" width="600" height="400" style="max-width:100%;width:100%;"></canvas>
       </AnimationBox>
     </Section>
 
@@ -153,25 +153,24 @@
             <div class="step-num">1</div>
             <div class="step-text">
               <strong>计算 ||x||：</strong>
-              <span class="formula-inline">\|x\|=\sqrt{1+4+4}=3</span>。
-              要使 <span class="formula-inline">Hx=\sigma\|x\|e_1</span>，取 <span class="formula-inline">\sigma=-\operatorname{sign}(x_1)=-1</span>（数值稳定取法）。
+              <span class="formula-inline">\|x\|=\sqrt{1^2+2^2+2^2}=\sqrt{9}=3</span>。
+              要使 <span class="formula-inline">Hx</span> 与 <span class="formula-inline">e_1</span> 同方向，即 <span class="formula-inline">Hx=\|x\|e_1=3e_1</span>。
             </div>
           </div>
           <div class="step">
             <div class="step-num">2</div>
             <div class="step-text">
-              <strong>构造 v = x + ||x||e₁：</strong>
-              <span class="formula-inline">v=x-\|x\|(-e_1)?</span> 标准取法：
-              <span class="formula-inline">v=x\pm\|x\|e_1</span>，取 <span class="formula-inline">\sigma=\operatorname{sign}(x_1)=1</span> 时
-              <span class="formula-inline">v=x-\|x\|e_1=(1,2,2)^T-3(1,0,0)^T=(-2,2,2)^T</span>。
+              <strong>构造反射向量 v = x − ||x||e₁：</strong>
+              取 <span class="formula-inline">v=x-\|x\|e_1</span>（保证 <span class="formula-inline">Hx</span> 与 <span class="formula-inline">e_1</span> 同向）：
+              <span class="formula-inline">v=(1,2,2)^T-3(1,0,0)^T=(-2,2,2)^T</span>。
             </div>
           </div>
           <div class="step">
             <div class="step-num">3</div>
             <div class="step-text">
               <strong>单位化 u = v/||v||：</strong>
-              <span class="formula-inline">\|v\|=\sqrt{4+4+4}=2\sqrt{3}</span>，
-              <span class="formula-inline">u=\dfrac{1}{2\sqrt{3}}(-2,2,2)^T=\dfrac{1}{\sqrt{3}}(-1,1,1)^T</span>。
+              <span class="formula-inline">\|v\|=\sqrt{(-2)^2+2^2+2^2}=\sqrt{12}=2\sqrt{3}</span>，
+              <span class="formula-inline">u=\dfrac{v}{\|v\|}=\dfrac{1}{2\sqrt{3}}(-2,2,2)^T=\dfrac{1}{\sqrt{3}}(-1,1,1)^T</span>。
             </div>
           </div>
           <div class="step">
@@ -222,14 +221,18 @@
       </ExampleBox>
     </Section>
 
+    <Section title="🗂️ 真题与习题汇总">
+      <WeekQuizBank :quizzes="quizzes" weekLabel="第1周" />
+    </Section>
+
     <Section title="📌 知识点小结">
       <Steps :steps="[
         '线性变换：T(kα+lβ)=kT(α)+lT(β)，保持线性组合',
         '矩阵表示：A 的第 j 列 = T(εⱼ) 在基下的坐标；T(α) 的坐标 = Ax',
         '相似矩阵：B = P⁻¹AP，不同基下同一变换的矩阵，有相同的迹/秩/行列式/特征值',
         '秩-零化度定理：dim Ker(T) + dim Im(T) = n',
-        'Gram-Schmidt：βₖ = αₖ − Σ(αₖ,uᵢ)uᵢ，再单位化 uₖ = βₖ/||βₖ||',
-        'Householder：H = I − 2uuᵀ/||u||²，对称正交矩阵，实现超平面镜像反射'
+        'Gram-Schmidt：βₖ = αₖ − Σ(αₖ,γᵢ)γᵢ，再单位化 γₖ = βₖ/||βₖ||',
+        'Householder：H = I − 2uuᵀ（||u||=1），对称正交矩阵，实现超平面镜像反射'
       ]" />
     </Section>
   </LessonLayout>
@@ -243,11 +246,16 @@ import Theorem from '../../components/ui/Theorem.vue'
 import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
+import QuizProblem from '../../components/quiz/QuizProblem.vue'
+import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
 import { useKatex } from '../../composables/useKatex'
+import { quizBank } from '../../data/quizBank'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const renderTrigger = ref(0)
 useKatex(renderTrigger)
+
+const quizzes = (quizBank[2] || []).map(q => ({ ...q, lessonNum: '02', lessonTitle: '线性变换及其矩阵' }))
 
 // ===== Animation 1: Matrix transforms on unit square (Canvas) =====
 const canvas1Ref = ref(null)
@@ -263,7 +271,7 @@ const transforms = [
   { name: '旋转 45°', mat: [[Math.cos(Math.PI/4),-Math.sin(Math.PI/4)],[Math.sin(Math.PI/4),Math.cos(Math.PI/4)]], color: '#818cf8' },
   { name: '缩放+旋转', mat: [[1.2*Math.cos(Math.PI/6),-1.2*Math.sin(Math.PI/6)],[0.8*Math.sin(Math.PI/6),0.8*Math.cos(Math.PI/6)]], color: '#a78bfa' }
 ]
-let interpT1 = 0  // interpolation progress 0->1
+let interpT1 = 0
 
 function matVec(M, v) {
   return [M[0][0]*v[0]+M[0][1]*v[1], M[1][0]*v[0]+M[1][1]*v[1]]
@@ -279,19 +287,16 @@ function drawCanvas1() {
   const scale = 70
   ctx1.clearRect(0, 0, W, H)
 
-  // Grid
   ctx1.strokeStyle = '#f1f5f9'
   ctx1.lineWidth = 1
   for (let i = -4; i <= 4; i++) {
     ctx1.beginPath(); ctx1.moveTo(cx+i*scale, 20); ctx1.lineTo(cx+i*scale, H-20); ctx1.stroke()
     ctx1.beginPath(); ctx1.moveTo(20, cy+i*scale); ctx1.lineTo(W-20, cy+i*scale); ctx1.stroke()
   }
-  // Axes
   ctx1.strokeStyle = '#cbd5e1'; ctx1.lineWidth = 1.5
   ctx1.beginPath(); ctx1.moveTo(20,cy); ctx1.lineTo(W-20,cy); ctx1.stroke()
   ctx1.beginPath(); ctx1.moveTo(cx,20); ctx1.lineTo(cx,H-20); ctx1.stroke()
 
-  // Original unit square (faded)
   const origPts = [[0,0],[1,0],[1,1],[0,1]]
   ctx1.fillStyle = 'rgba(148,163,184,0.12)'
   ctx1.strokeStyle = '#94a3b8'; ctx1.lineWidth = 1.5; ctx1.setLineDash([4,4])
@@ -302,25 +307,21 @@ function drawCanvas1() {
   })
   ctx1.closePath(); ctx1.fill(); ctx1.stroke(); ctx1.setLineDash([])
 
-  // Interpolated matrix
   const cur = transforms[transIdx1]
   const prev = transforms[(transIdx1-1+transforms.length)%transforms.length]
   const M = lerpMat(prev.mat, cur.mat, interpT1)
 
-  // Transform unit square
   const tPts = origPts.map(p => {
     const v = matVec(M, p)
     return [cx + v[0]*scale, cy - v[1]*scale]
   })
 
-  // Draw transformed square
   ctx1.fillStyle = cur.color + '33'
   ctx1.strokeStyle = cur.color; ctx1.lineWidth = 2.5
   ctx1.beginPath()
   tPts.forEach((p,i) => i===0 ? ctx1.moveTo(p[0],p[1]) : ctx1.lineTo(p[0],p[1]))
   ctx1.closePath(); ctx1.fill(); ctx1.stroke()
 
-  // Draw basis vectors e1, e2 transformed
   const e1 = matVec(M, [1,0]), e2 = matVec(M, [0,1])
   drawArrow1(ctx1, cx, cy, cx+e1[0]*scale, cy-e1[1]*scale, '#4338ca', 2.5)
   drawArrow1(ctx1, cx, cy, cx+e2[0]*scale, cy-e2[1]*scale, '#7c3aed', 2.5)
@@ -329,7 +330,6 @@ function drawCanvas1() {
   ctx1.fillStyle = '#7c3aed'
   ctx1.fillText('T(e₂)', cx+e2[0]*scale+8, cy-e2[1]*scale-5)
 
-  // Label
   ctx1.fillStyle = '#1e293b'; ctx1.font = 'bold 16px sans-serif'; ctx1.textAlign = 'center'
   ctx1.fillText(cur.name, cx, 30)
   ctx1.font = '13px sans-serif'; ctx1.fillStyle = '#64748b'
@@ -339,13 +339,13 @@ function drawCanvas1() {
 }
 function drawArrow1(ctx, x1,y1,x2,y2,color,w) {
   ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w
-  ctx.beginPath(); ctx1.moveTo(x1,y1); ctx1.lineTo(x2,y2); ctx1.stroke()
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke()
   const ang = Math.atan2(y2-y1, x2-x1), len = 10
   ctx.beginPath()
-  ctx1.moveTo(x2,y2)
-  ctx1.lineTo(x2-len*Math.cos(ang-0.3), y2-len*Math.sin(ang-0.3))
-  ctx1.lineTo(x2-len*Math.cos(ang+0.3), y2-len*Math.sin(ang+0.3))
-  ctx1.closePath(); ctx1.fill()
+  ctx.moveTo(x2,y2)
+  ctx.lineTo(x2-len*Math.cos(ang-0.3), y2-len*Math.sin(ang-0.3))
+  ctx.lineTo(x2-len*Math.cos(ang+0.3), y2-len*Math.sin(ang+0.3))
+  ctx.closePath(); ctx.fill()
 }
 
 function loop1() {
@@ -377,18 +377,16 @@ const canvas2Ref = ref(null)
 const playing2 = ref(false)
 let ctx2 = null, rafId2 = null
 let gsStep = 0, gsProgress = 0
-// 3 vectors in R³, project to 2D with simple oblique projection
-// Project 3D to 2D: (x,y,z) -> (x - 0.3*z, y - 0.3*z) (isometric-ish)
 function proj3d(p) {
   return [p[0] - 0.35*p[2], p[1] - 0.2*p[2]]
 }
 const gsAlpha = [
-  [2.0, 0.3, 0.2],   // a1
-  [0.6, 1.8, 0.5],   // a2
-  [0.3, 0.4, 2.0]    // a3
+  [2.0, 0.3, 0.2],
+  [0.6, 1.8, 0.5],
+  [0.3, 0.4, 2.0]
 ]
-let gsU = []  // orthonormal vectors
-let gsBeta = [] // unnormalized orthogonal vectors
+let gsU = []
+let gsBeta = []
 const gsScale = 90, gsCx = 280, gsCy = 260
 
 function vecSub(a,b){return a.map((v,i)=>v-b[i])}
@@ -411,22 +409,18 @@ function drawCanvas2() {
   const W = 600, H = 420
   ctx2.clearRect(0,0,W,H)
 
-  // Axes (3D projected)
   ctx2.strokeStyle = '#e2e8f0'; ctx2.lineWidth = 1
   ctx2.setLineDash([3,3])
-  const origin = [0,0,0]
   const axes = [[3.5,0,0],[0,3.5,0],[0,0,3.5]]
   const axLabels = ['x','y','z']
-  const axColors = ['#94a3b8','#94a3b8','#94a3b8']
   axes.forEach((ax,i) => {
     const p = proj3d(ax)
     ctx2.beginPath(); ctx2.moveTo(gsCx, gsCy); ctx2.lineTo(gsCx+p[0]*gsScale, gsCy-p[1]*gsScale); ctx2.stroke()
-    ctx2.fillStyle = axColors[i]; ctx2.font = '12px sans-serif'
+    ctx2.fillStyle = '#94a3b8'; ctx2.font = '12px sans-serif'
     ctx2.fillText(axLabels[i], gsCx+p[0]*gsScale+5, gsCy-p[1]*gsScale+5)
   })
   ctx2.setLineDash([])
 
-  // Draw all original alpha vectors (faded)
   gsAlpha.forEach((a,i) => {
     const p = proj3d(a)
     ctx2.globalAlpha = gsStep >= i ? 1 : 0.25
@@ -436,23 +430,19 @@ function drawCanvas2() {
   })
   ctx2.globalAlpha = 1
 
-  // Step-by-step GS
-  // Step 0: waiting; Step 1: normalize a1 to u1; Step 2: project a2, subtract, normalize to u2; Step 3: project a3, subtract, normalize to u3
-  const t = gsProgress  // 0..1
+  const t = gsProgress
 
   if (gsStep >= 1) {
-    // u1 = a1/||a1||
+    // u1 = a1/||a1||  (unit vector in direction of a1)
     const u1 = vecScale(gsAlpha[0], 1/vecNorm(gsAlpha[0]))
     gsU[0] = u1
     const pu1 = proj3d(u1)
     const a1p = proj3d(gsAlpha[0])
-    // draw a1 in process
     if (gsStep === 1) {
-      // Animate normalization: a1 shrinking to u1
+      // Animate: a1 shrinking/normalizing to u1
       const cur = vecScale(gsAlpha[0], 1 - t + t/vecNorm(gsAlpha[0]))
       drawGSArrow(ctx2, proj3d(cur), '#4338ca', 3, null)
     } else {
-      // draw a1 faded, u1 in bold
       ctx2.globalAlpha = 0.3
       drawGSArrow(ctx2, a1p, '#94a3b8', 1.5, null)
       ctx2.globalAlpha = 1
@@ -462,23 +452,20 @@ function drawCanvas2() {
 
   if (gsStep >= 2) {
     const u1 = gsU[0]
-    const proj = vecScale(u1, vecDot(gsAlpha[1], u1))  // projection of a2 onto u1
+    // proj = (a2·u1)u1  (projection of a2 onto span{u1})
+    const proj = vecScale(u1, vecDot(gsAlpha[1], u1))
     gsBeta[1] = vecSub(gsAlpha[1], proj)
     const u2 = vecScale(gsBeta[1], 1/vecNorm(gsBeta[1]))
     gsU[1] = u2
 
     if (gsStep === 2) {
-      // Phase 2a: show projection (t in 0..0.5), 2b: show beta and normalize (t in 0.5..1)
       if (t < 0.5) {
-        // Show projection growing
+        // Show projection component growing (dashed line to a2)
         const curProj = vecScale(proj, t*2)
-        // draw a2 faded
         ctx2.globalAlpha = 0.3
         drawGSArrow(ctx2, proj3d(gsAlpha[1]), '#94a3b8', 1.5, null)
         ctx2.globalAlpha = 1
-        // draw projection
         drawGSArrow(ctx2, proj3d(curProj), '#f59e0b', 2.5, null)
-        // draw dashed line from proj tip to a2
         const cp = proj3d(curProj), ap = proj3d(gsAlpha[1])
         ctx2.strokeStyle = '#f59e0b'; ctx2.lineWidth = 1; ctx2.setLineDash([4,3])
         ctx2.beginPath(); ctx2.moveTo(gsCx+cp[0]*gsScale, gsCy-cp[1]*gsScale); ctx2.lineTo(gsCx+ap[0]*gsScale, gsCy-ap[1]*gsScale); ctx2.stroke()
@@ -486,16 +473,13 @@ function drawCanvas2() {
         ctx2.fillStyle = '#d97706'; ctx2.font = '13px sans-serif'
         ctx2.fillText('(a₂·u₁)u₁', gsCx+cp[0]*gsScale/2-20, gsCy-cp[1]*gsScale/2)
       } else {
-        // Show beta vector = a2 - proj
+        // Show beta2 = a2 - proj, then normalize
         const t2 = (t-0.5)*2
         const curBeta = vecScale(gsBeta[1], t2)
-        // draw proj faded
         ctx2.globalAlpha = 0.3
         drawGSArrow(ctx2, proj3d(proj), '#f59e0b', 1.5, null)
         ctx2.globalAlpha = 1
-        // draw beta
         drawGSArrow(ctx2, proj3d(curBeta), '#7c3aed', 3, null)
-        // draw dashed from beta tip to a2 tip
         const bp = proj3d(curBeta), ap = proj3d(gsAlpha[1])
         ctx2.strokeStyle = '#7c3aed'; ctx2.lineWidth = 1; ctx2.setLineDash([4,3])
         ctx2.beginPath(); ctx2.moveTo(gsCx+bp[0]*gsScale, gsCy-bp[1]*gsScale); ctx2.lineTo(gsCx+ap[0]*gsScale, gsCy-ap[1]*gsScale); ctx2.stroke()
@@ -504,27 +488,26 @@ function drawCanvas2() {
         ctx2.fillText('β₂ = a₂ − proj', gsCx+bp[0]*gsScale+8, gsCy-bp[1]*gsScale-5)
       }
     } else {
-      // Both u1 and u2 done
       const pu2 = proj3d(u2)
       drawGSArrow(ctx2, pu1, '#4338ca', 3, 'u₁')
       drawGSArrow(ctx2, pu2, '#7c3aed', 3, 'u₂')
-      // right angle mark
+      // Right angle mark between u1 and u2
       const r = 15
       ctx2.strokeStyle = '#10b981'; ctx2.lineWidth = 1.5
       const u1p = proj3d(u1), u2p = proj3d(u2)
-      // Simple corner mark
       const u1n = [u1p[0]/Math.hypot(u1p[0],u1p[1]), u1p[1]/Math.hypot(u1p[0],u1p[1])]
       const u2n = [u2p[0]/Math.hypot(u2p[0],u2p[1]), u2p[1]/Math.hypot(u2p[0],u2p[1])]
       ctx2.beginPath()
-      ctx2.moveTo(gsCx+u1n[0]*r*gsScale/gsScale, gsCy-u1n[1]*r*gsScale/gsScale)
-      ctx2.lineTo(gsCx+(u1n[0]+u2n[0])*r*gsScale/gsScale, gsCy-(u1n[1]+u2n[1])*r*gsScale/gsScale)
-      ctx2.lineTo(gsCx+u2n[0]*r*gsScale/gsScale, gsCy-u2n[1]*r*gsScale/gsScale)
+      ctx2.moveTo(gsCx+u1n[0]*r, gsCy-u1n[1]*r)
+      ctx2.lineTo(gsCx+(u1n[0]+u2n[0])*r, gsCy-(u1n[1]+u2n[1])*r)
+      ctx2.lineTo(gsCx+u2n[0]*r, gsCy-u2n[1]*r)
       ctx2.stroke()
     }
   }
 
   if (gsStep >= 3) {
     const u1 = gsU[0], u2 = gsU[1]
+    // proj1 = (a3·u1)u1,  proj2 = (a3·u2)u2
     const proj1 = vecScale(u1, vecDot(gsAlpha[2], u1))
     const proj2 = vecScale(u2, vecDot(gsAlpha[2], u2))
     gsBeta[2] = vecSub(vecSub(gsAlpha[2], proj1), proj2)
@@ -534,7 +517,6 @@ function drawCanvas2() {
     if (gsStep === 3) {
       const t2 = t
       if (t2 < 0.4) {
-        // show proj1 growing
         const cp = vecScale(proj1, t2/0.4)
         ctx2.globalAlpha = 0.25
         drawGSArrow(ctx2, proj3d(gsAlpha[2]), '#94a3b8', 1, null)
@@ -543,7 +525,6 @@ function drawCanvas2() {
         ctx2.fillStyle = '#d97706'; ctx2.font = '12px sans-serif'
         ctx2.fillText('(a₃·u₁)u₁', gsCx+proj3d(cp)[0]*gsScale/2-10, gsCy-proj3d(cp)[1]*gsScale/2)
       } else if (t2 < 0.7) {
-        // show proj1+proj2
         const tt = (t2-0.4)/0.3
         const cp1 = proj1
         const cp2 = vecAdd(proj1, vecScale(proj2, tt))
@@ -552,14 +533,12 @@ function drawCanvas2() {
         ctx2.globalAlpha = 0.5
         drawGSArrow(ctx2, proj3d(cp1), '#f59e0b', 1.5, null)
         ctx2.globalAlpha = 1
-        // draw proj2 starting from tip of proj1
         const p1 = proj3d(cp1), p2 = proj3d(cp2)
         ctx2.strokeStyle = '#f97316'; ctx2.lineWidth = 2.5
         drawArrow1(ctx2, gsCx+p1[0]*gsScale, gsCy-p1[1]*gsScale, gsCx+p2[0]*gsScale, gsCy-p2[1]*gsScale, '#f97316', 2.5)
         ctx2.fillStyle = '#c2410c'; ctx2.font = '12px sans-serif'
         ctx2.fillText('(a₃·u₂)u₂', gsCx+(p1[0]+p2[0])*gsScale/2, gsCy-(p1[1]+p2[1])*gsScale/2-8)
       } else {
-        // show beta3
         const tt = (t2-0.7)/0.3
         const beta = vecScale(gsBeta[2], tt)
         ctx2.globalAlpha = 0.2
@@ -578,11 +557,9 @@ function drawCanvas2() {
     }
   }
 
-  // Origin dot
   ctx2.fillStyle = '#1e293b'
   ctx2.beginPath(); ctx2.arc(gsCx, gsCy, 3, 0, Math.PI*2); ctx2.fill()
 
-  // Status text
   const statusText = [
     '点击 ▶ 开始 Gram-Schmidt 正交化',
     '第 1 步：单位化 α₁ → u₁',
@@ -637,9 +614,7 @@ const canvas3Ref = ref(null)
 const playing3 = ref(false)
 let ctx3 = null, rafId3 = null
 let hhT = 0
-// Hyperplane: line through origin with normal u (unit)
-const hhU = [Math.cos(Math.PI/3), Math.sin(Math.PI/3)]  // normal at 60°
-// Vector x to reflect
+const hhU = [Math.cos(Math.PI/3), Math.sin(Math.PI/3)]
 const hhX = [2.2, 0.5]
 const hhScale = 80, hhCx = 300, hhCy = 260
 
@@ -648,21 +623,17 @@ function drawCanvas3() {
   const W = 600, H = 400
   ctx3.clearRect(0,0,W,H)
 
-  // Grid
   ctx3.strokeStyle = '#f1f5f9'; ctx3.lineWidth = 1
   for (let i = -4; i <= 4; i++) {
     ctx3.beginPath(); ctx3.moveTo(hhCx+i*hhScale, 20); ctx3.lineTo(hhCx+i*hhScale, H-20); ctx3.stroke()
     ctx3.beginPath(); ctx3.moveTo(20, hhCy+i*hhScale); ctx3.lineTo(W-20, hhCy+i*hhScale); ctx3.stroke()
   }
-  // Axes
   ctx3.strokeStyle = '#e2e8f0'; ctx3.lineWidth = 1.2
   ctx3.beginPath(); ctx3.moveTo(20,hhCy); ctx3.lineTo(W-20,hhCy); ctx3.stroke()
   ctx3.beginPath(); ctx3.moveTo(hhCx,20); ctx3.lineTo(hhCx,H-20); ctx3.stroke()
 
-  // Hyperplane (mirror line): perpendicular to u, through origin
-  const hx = -hhU[1], hy = hhU[0]  // direction along hyperplane
+  const hx = -hhU[1], hy = hhU[0]
   const L = 5
-  // Mirror line
   ctx3.strokeStyle = '#6366f1'; ctx3.lineWidth = 2.5; ctx3.setLineDash([8,4])
   ctx3.beginPath()
   ctx3.moveTo(hhCx+hx*L*hhScale, hhCy-hy*L*hhScale)
@@ -671,22 +642,17 @@ function drawCanvas3() {
   ctx3.fillStyle = '#4338ca'; ctx3.font = 'bold 13px sans-serif'
   ctx3.fillText('镜面 (法向量 u)', hhCx+hx*L*hhScale-80, hhCy-hy*L*hhScale-10)
 
-  // Normal vector u
   drawArrow1(ctx3, hhCx, hhCy, hhCx+hhU[0]*hhScale*1.5, hhCy-hhU[1]*hhScale*1.5, '#f59e0b', 2)
   ctx3.fillStyle = '#d97706'; ctx3.font = 'bold 13px sans-serif'
   ctx3.fillText('u', hhCx+hhU[0]*hhScale*1.5+5, hhCy-hhU[1]*hhScale*1.5-5)
 
-  // Reflection: Hx = x - 2(x·u)u
   const dot = hhX[0]*hhU[0] + hhX[1]*hhU[1]
   const hxX = [hhX[0] - 2*dot*hhU[0], hhX[1] - 2*dot*hhU[1]]
 
-  // Interpolate between x and Hx
   const ang = Math.atan2(hhX[1], hhX[0])
   const hAng = Math.atan2(hxX[1], hxX[0])
-  // Reflect across mirror: rotate the vector
   let curAng, curLen
   if (hhT < 1) {
-    // Animate: approach mirror, then reflect
     const t = hhT
     curAng = ang + (hAng - ang) * t
     curLen = Math.hypot(hhX[0], hhX[1])
@@ -696,11 +662,8 @@ function drawCanvas3() {
   }
   const cur = [curLen*Math.cos(curAng), curLen*Math.sin(curAng)]
 
-  // Projection onto normal (dashed)
   const proj = [dot*hhU[0], dot*hhU[1]]
   ctx3.strokeStyle = '#f59e0b'; ctx3.lineWidth = 1; ctx3.setLineDash([4,3])
-  // Line from cur to its projection on mirror (parallel to u)
-  // projection on mirror = x - (x·u)u
   const onMirror = [hhX[0]-proj[0], hhX[1]-proj[1]]
   const curOnMirror = [cur[0] - (cur[0]*hhU[0]+cur[1]*hhU[1])*hhU[0], cur[1] - (cur[0]*hhU[0]+cur[1]*hhU[1])*hhU[1]]
   if (hhT > 0.01) {
@@ -711,39 +674,32 @@ function drawCanvas3() {
   }
   ctx3.setLineDash([])
 
-  // Original x (faded)
   ctx3.globalAlpha = 0.25
   drawArrow1(ctx3, hhCx, hhCy, hhCx+hhX[0]*hhScale, hhCy-hhX[1]*hhScale, '#94a3b8', 1.5)
   ctx3.globalAlpha = 1
 
-  // Reflected target (faded)
   ctx3.globalAlpha = 0.25
   drawArrow1(ctx3, hhCx, hhCy, hhCx+hxX[0]*hhScale, hhCy-hxX[1]*hhScale, '#ec4899', 1.5)
   ctx3.globalAlpha = 1
 
-  // Current vector (animated)
   const curColor = hhT < 0.5 ? '#4338ca' : '#ec4899'
   drawArrow1(ctx3, hhCx, hhCy, hhCx+cur[0]*hhScale, hhCy-cur[1]*hhScale, curColor, 3)
   ctx3.fillStyle = curColor; ctx3.font = 'bold 14px sans-serif'
   const lbl = hhT < 0.5 ? 'x' : 'Hx'
   ctx3.fillText(lbl, hhCx+cur[0]*hhScale+8, hhCy-cur[1]*hhScale-5)
 
-  // Right angle mark at mirror
   ctx3.strokeStyle = '#10b981'; ctx3.lineWidth = 1.2
   const r2 = 10
   ctx3.beginPath()
   const mx = curOnMirror[0]*hhScale, my = curOnMirror[1]*hhScale
-  // mark along mirror and along u from the foot
   ctx3.moveTo(hhCx+mx+hx*r2, hhCy-my-hy*r2)
   ctx3.lineTo(hhCx+mx+hx*r2-hhU[0]*r2*0.7, hhCy-my-hy*r2+hhU[1]*r2*0.7)
   ctx3.lineTo(hhCx+mx-hhU[0]*r2*0.7, hhCy-my+hhU[1]*r2*0.7)
   ctx3.stroke()
 
-  // Origin
   ctx3.fillStyle = '#1e293b'
   ctx3.beginPath(); ctx3.arc(hhCx, hhCy, 3, 0, Math.PI*2); ctx3.fill()
 
-  // Label
   ctx3.fillStyle = '#1e293b'; ctx3.font = 'bold 14px sans-serif'; ctx3.textAlign = 'center'
   const prog = Math.min(hhT, 1)
   ctx3.fillText(`Hx = x − 2(x·u)u   (进度 ${(prog*100).toFixed(0)}%)`, W/2, 28)
@@ -767,16 +723,15 @@ function pause3() { playing3.value = false; if (rafId3) cancelAnimationFrame(raf
 function reset3() { pause3(); hhT = 0; drawCanvas3() }
 
 onMounted(() => {
-  // Init canvas 1
   const c1 = canvas1Ref.value
   if (c1) { ctx1 = c1.getContext('2d'); drawCanvas1() }
-  // Init canvas 2
   const c2 = canvas2Ref.value
   if (c2) { ctx2 = c2.getContext('2d'); drawCanvas2() }
-  // Init canvas 3
   const c3 = canvas3Ref.value
   if (c3) { ctx3 = c3.getContext('2d'); drawCanvas3() }
   renderTrigger.value++
+  // Auto-start Gram-Schmidt animation on mount
+  setTimeout(() => play2(), 600)
 })
 
 onUnmounted(() => {

@@ -172,7 +172,7 @@
                 <span v-for="t in l.tags" :key="t" class="tag">{{ t }}</span>
               </div>
               <div class="card-footer">
-                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 真题例题</span>
+                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 道真题</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -201,7 +201,7 @@
                 <span v-for="t in l.tags" :key="t" class="tag">{{ t }}</span>
               </div>
               <div class="card-footer">
-                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 真题例题</span>
+                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 道真题</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -230,7 +230,7 @@
                 <span v-for="t in l.tags" :key="t" class="tag">{{ t }}</span>
               </div>
               <div class="card-footer">
-                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 真题例题</span>
+                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 道真题</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -276,13 +276,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { quizBank, lessonMeta } from '@/data/quizBank'
 
 const router = useRouter()
 const tip = ref(null)
 const tipShow = ref(false)
 const tipText = ref('')
+
+// 动态获取某课的真题数量
+const getQuizCount = (id) => quizBank[id]?.length || 0
 
 const mathSymbols = [
   { sym: 'A=UΣVᵀ', style: 'top:8%;left:5%;font-size:42px;animation-delay:0s' },
@@ -304,81 +308,44 @@ const w1Nodes = [
   { id:'02', x:200, y:450, color:'#6366f1', label1:'线性', label2:'变换', path:'/lesson/02',
     tip:'02 线性变换及其矩阵\n矩阵表示、相似变换、核与像、Gram-Schmidt正交化、Householder反射。' },
   { id:'03', x:380, y:390, color:'#7c3aed', label1:'Jordan', label2:'标准形', path:'/lesson/03',
-    tip:'03 对角化与Jordan标准形\n特征值特征向量、代数/几何重数、Jordan块、Jordan链。' },
+    tip:'03 对角化与Jordan标准形\n特征值特征向量、代数与几何重数、Jordan块、Jordan链。' },
   { id:'04', x:480, y:380, color:'#8b5cf6', label1:'矩阵', label2:'函数', path:'/lesson/04',
-    tip:'04 矩阵函数与微分方程\n矩阵指数e^At、相图分析、线性微分方程组求解。' },
+    tip:'04 矩阵函数与微分方程\n矩阵指数、相图分析、线性微分方程组求解。' },
 ]
 
 const w2Nodes = [
   { id:'05', x:400, y:290, color:'#0d9488', label1:'LU/QR', label2:'分解', path:'/lesson/05',
-    tip:'05 三角分解与QR分解\nLU分解(Gauss消元)、QR分解、Gram-Schmidt、Householder反射。' },
+    tip:'05 三角分解与QR分解\nLU分解（Gauss消元）、QR分解、Gram-Schmidt、Householder反射。' },
   { id:'06', x:600, y:290, color:'#14b8a6', label1:'SVD', label2:'分解', path:'/lesson/06',
-    tip:'06 满秩分解与SVD\n奇异值分解A=UΣVᵀ、几何意义（旋转-拉伸-旋转）、最佳低秩逼近。' },
+    tip:'06 满秩分解与SVD\n奇异值分解、几何意义（旋转-拉伸-旋转）、最佳低秩逼近。' },
   { id:'07', x:500, y:420, color:'#06b6d4', label1:'M-P', label2:'广义逆', path:'/lesson/07',
-    tip:'07 Moore-Penrose广义逆\n四个Penrose方程、A⁺的SVD构造、极小范数最小二乘解。' },
+    tip:'07 Moore-Penrose广义逆\n四个Penrose方程、广义逆的SVD构造、极小范数最小二乘解。' },
 ]
 
 const w3Nodes = [
   { id:'08', x:680, y:320, color:'#ea580c', label1:'投影', label2:'矩阵', path:'/lesson/08',
-    tip:'08 投影矩阵与应用\n幂等性P²=P、正交投影vs斜投影、到列空间的投影。' },
+    tip:'08 投影矩阵与应用\n幂等性（投影两次等于投影一次）、正交投影与斜投影、到列空间的投影。' },
   { id:'09', x:820, y:350, color:'#f97316', label1:'最小', label2:'二乘', path:'/lesson/09',
-    tip:'09 最小二乘与范数\nmin||Ax-b||²、正规方程、向量/矩阵范数、谱半径。' },
+    tip:'09 最小二乘与范数\n最小二乘极小化、正规方程、向量与矩阵范数、谱半径。' },
   { id:'10', x:910, y:380, color:'#fb923c', label1:'特征值', label2:'估计', path:'/lesson/10',
     tip:'10 特征值估计与极大极小原理\n盖尔圆盘定理、隔离定理、Rayleigh商。' },
   { id:'11', x:830, y:500, color:'#ec4899', label1:'考前', label2:'复习', path:'/lesson/11',
-    tip:'11 考前预测与复习\n高频计算/证明模板、解题流程、易错点总结。' },
+    tip:'11 考前预测与复习\n高频计算与证明模板、解题流程、易错点总结。' },
 ]
 
-const week1 = [
-  {id:1,num:'01',icon:'📐',title:'线性空间与线性子空间',en:'Linear Space & Subspaces',
-   desc:'8条公理、子空间判定、基与维数、和/交空间、直和分解、维数公式。',
-   path:'/lesson/01',tags:['公理体系','子空间','直和'],anims:3},
-  {id:2,num:'02',icon:'🔄',title:'线性变换及其矩阵',en:'Linear Transformations',
-   desc:'线性变换定义、矩阵表示、相似变换、核与像、秩-零化度定理、Householder反射。',
-   path:'/lesson/02',tags:['矩阵表示','相似','正交化'],anims:3},
-  {id:3,num:'03',icon:'✨',title:'对角化与Jordan标准形',en:'Diagonalization & Jordan Form',
-   desc:'特征值特征向量、代数/几何重数、可对角化条件、Jordan块与Jordan链。',
-   path:'/lesson/03',tags:['特征值','Jordan块','C-H定理'],anims:3},
-  {id:4,num:'04',icon:'📈',title:'矩阵函数与矩阵微分方程',en:'Matrix Functions & ODEs',
-   desc:'矩阵幂级数、矩阵指数e^At、Jordan块指数、线性微分方程组、相图分析。',
-   path:'/lesson/04',tags:['e^At','相图','稳定性'],anims:3},
-]
-
-const week2 = [
-  {id:5,num:'05',icon:'🔺',title:'三角分解与QR分解',en:'LU & QR Decomposition',
-   desc:'LU分解（Gauss消元）、QR分解、Gram-Schmidt正交化、Householder反射清零。',
-   path:'/lesson/05',tags:['LU','QR','消元','反射'],anims:3},
-  {id:6,num:'06',icon:'💎',title:'满秩分解与SVD',en:'Full Rank & SVD',
-   desc:'满秩分解A=FG、奇异值σ=√λ(AᵀA)、SVD几何意义、Frobenius范数、低秩逼近。',
-   path:'/lesson/06',tags:['SVD','奇异值','低秩逼近'],anims:3},
-  {id:7,num:'07',icon:'🔮',title:'Moore-Penrose广义逆',en:'Moore-Penrose Inverse',
-   desc:'{1}-逆、四个Penrose方程、A⁺唯一性、SVD构造、极小范数最小二乘解。',
-   path:'/lesson/07',tags:['广义逆','Penrose方程'],anims:3},
-]
-
-const week3 = [
-  {id:8,num:'08',icon:'📍',title:'投影矩阵与广义逆应用',en:'Projection Matrices',
-   desc:'投影矩阵(P²=P)、正交投影、斜投影、一维投影、列空间投影。',
-   path:'/lesson/08',tags:['正交投影','斜投影','幂等'],anims:3},
-  {id:9,num:'09',icon:'📊',title:'最小二乘与范数',en:'Least Squares & Norms',
-   desc:'最小二乘问题、正规方程（残差正交）、向量/矩阵范数公理、L¹/L²/L∞单位球。',
-   path:'/lesson/09',tags:['正规方程','残差','范数'],anims:3},
-  {id:10,num:'10',icon:'🎯',title:'特征值估计与极大极小原理',en:'Gershgorin Circles',
-   desc:'盖尔圆盘定理、隔离定理、实矩阵共轭对、Rayleigh商、Courant-Fischer定理。',
-   path:'/lesson/10',tags:['盖尔圆盘','Rayleigh商'],anims:3},
-  {id:11,num:'11',icon:'🏆',title:'考前预测与复习',en:'Exam Review',
-   desc:'高频计算题模板、高频证明题模板、三阶矩阵套路、解题流程、易错点对比。',
-   path:'/lesson/11',tags:['真题','模板','易错点'],anims:3},
-]
+// 从 lessonMeta 按周派生课程列表（anims 从 lessonMeta 读取，quizCount 通过 quizBank 动态计算）
+const week1 = computed(() => lessonMeta.filter(l => l.week === 1))
+const week2 = computed(() => lessonMeta.filter(l => l.week === 2))
+const week3 = computed(() => lessonMeta.filter(l => l.week === 3))
 
 const path = [
   {step:'基础概念',name:'线性空间与子空间',desc:'公理体系、子空间、基维数、直和',path:'/lesson/01'},
   {step:'映射观点',name:'线性变换及其矩阵',desc:'矩阵表示、相似、核与像',path:'/lesson/02'},
   {step:'特征分析',name:'Jordan标准形',desc:'特征值、重数、Jordan块',path:'/lesson/03'},
-  {step:'动态系统',name:'矩阵函数与微分方程',desc:'e^At、相图、稳定性',path:'/lesson/04'},
+  {step:'动态系统',name:'矩阵函数与微分方程',desc:'矩阵指数、相图、稳定性',path:'/lesson/04'},
   {step:'基本分解',name:'LU与QR分解',desc:'Gauss消元、正交化、反射',path:'/lesson/05'},
   {step:'核心分解',name:'SVD奇异值分解',desc:'旋转-拉伸-旋转、低秩逼近',path:'/lesson/06'},
-  {step:'逆的推广',name:'Moore-Penrose广义逆',desc:'Penrose方程、A⁺b双重角色',path:'/lesson/07'},
+  {step:'逆的推广',name:'Moore-Penrose广义逆',desc:'Penrose方程、广义逆双重角色',path:'/lesson/07'},
   {step:'几何应用',name:'投影矩阵',desc:'正交投影、斜投影、幂等性',path:'/lesson/08'},
   {step:'数据拟合',name:'最小二乘与范数',desc:'正规方程、残差正交、范数',path:'/lesson/09'},
   {step:'特征值界',name:'盖尔圆盘估计',desc:'圆盘定理、隔离、Rayleigh商',path:'/lesson/10'},
@@ -512,8 +479,9 @@ const hideTip = () => { tipShow.value = false }
   box-shadow:0 4px 40px rgba(0,0,0,.06);
   border:1px solid var(--border);
   padding:24px; position:relative;
+  overflow:hidden;
 }
-.mindmap-svg { width:100%; height:auto; display:block; }
+.mindmap-svg { width:100%; height:auto; display:block; max-width:100%; }
 .mm-node { cursor:pointer; }
 .mm-node:hover circle { filter:brightness(1.15); }
 .mm-node circle { transition:filter .2s; transform-origin:center; }

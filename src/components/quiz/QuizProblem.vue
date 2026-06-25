@@ -1,0 +1,148 @@
+<template>
+  <div class="quiz-card">
+    <div class="quiz-header">
+      <span class="quiz-badge">{{ badge || '📝 题目' }}</span>
+      <span class="quiz-source" v-if="quiz.source">{{ quiz.source }}</span>
+      <span class="quiz-id" v-if="quiz.id">#{{ quiz.id }}</span>
+    </div>
+    <div class="quiz-problem">
+      <strong>【题目】</strong>
+      <span class="formula-inline">{{ quiz.problem }}</span>
+    </div>
+    <button class="quiz-toggle" @click="show=!show">
+      <span class="toggle-icon">{{ show ? '▼' : '▶' }}</span>
+      {{ show ? '收起解答' : '点击查看详细解答' }}
+    </button>
+    <transition name="slide">
+      <div class="quiz-solution" v-if="show">
+        <div v-for="(step, i) in quiz.steps" :key="i" class="solution-step">
+          <div class="step-num-circle">{{ i + 1 }}</div>
+          <div class="step-body">
+            <div class="step-title">{{ step.title }}</div>
+            <div class="step-content">
+              <span class="formula-inline">{{ step.content }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, nextTick, watch } from 'vue'
+import katex from 'katex'
+
+const props = defineProps({
+  quiz: { type: Object, required: true },
+  badge: { type: String, default: '📝 题目' },
+  defaultOpen: { type: Boolean, default: false }
+})
+
+const show = ref(props.defaultOpen)
+
+function renderMathIn(el) {
+  if (!el) return
+  el.querySelectorAll('.formula-inline, .formula-block').forEach(node => {
+    if (node.dataset.katexRendered) return
+    try {
+      katex.render(node.textContent.trim(), node, {
+        throwOnError: false,
+        displayMode: node.classList.contains('formula-block'),
+        macros: {
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\diag": "\\operatorname{diag}",
+          "\\rank": "\\operatorname{rank}",
+          "\\Ker": "\\operatorname{Ker}",
+          "\\Im": "\\operatorname{Im}",
+          "\\tr": "\\operatorname{tr}",
+          "\\sign": "\\operatorname{sign}",
+          "\\T": "^\\mathsf{T}",
+          "\\Span": "\\operatorname{span}",
+          "\\det": "\\operatorname{det}"
+        }
+      })
+      node.dataset.katexRendered = 'true'
+    } catch(e) {
+      console.warn('Quiz KaTeX error:', e.message)
+    }
+  })
+}
+
+onMounted(() => {
+  nextTick(() => renderMathIn(document.querySelector('.quiz-card')))
+})
+
+watch(show, () => {
+  nextTick(() => setTimeout(() => renderMathIn(document.querySelector('.quiz-card')), 50))
+})
+</script>
+
+<style scoped>
+.quiz-card {
+  margin: 16px 0;
+  border-radius: 12px;
+  border: 2px solid #fbbf24;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+}
+.quiz-header {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+}
+.quiz-badge {
+  color: #fff; font-weight: 700; font-size: 13px;
+  padding: 4px 10px; background: rgba(255,255,255,.2); border-radius: 6px;
+}
+.quiz-source { color: rgba(255,255,255,.9); font-size: 13px; }
+.quiz-id { color: rgba(255,255,255,.6); font-size: 12px; margin-left: auto; }
+.quiz-problem {
+  padding: 14px 16px;
+  font-size: 15px; line-height: 1.9; color: #78350f;
+  overflow-x: auto;
+}
+.quiz-problem strong { color: #92400e; margin-right: 6px; }
+.quiz-toggle {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: rgba(245,158,11,.08);
+  border-top: 1px dashed #fcd34d;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #b45309;
+  font-family: inherit;
+  text-align: left;
+  transition: background .2s;
+}
+.quiz-toggle:hover { background: rgba(245,158,11,.15); }
+.toggle-icon { margin-right: 6px; }
+.quiz-solution {
+  padding: 4px 16px 16px;
+  font-size: 14px; line-height: 1.8; color: #78350f;
+}
+.solution-step {
+  display: flex; gap: 12px;
+  margin: 10px 0;
+  padding: 12px 14px;
+  background: rgba(255,255,255,.7);
+  border-radius: 10px;
+  border-left: 3px solid #f59e0b;
+  overflow-x: auto;
+}
+.step-num-circle {
+  min-width: 28px; height: 28px;
+  background: linear-gradient(135deg,#f59e0b,#fbbf24); color:#fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; flex-shrink: 0;
+}
+.step-body { flex: 1; min-width: 0; }
+.step-title { font-weight: 700; color: #92400e; margin-bottom: 4px; }
+.step-content { color: #78350f; overflow-x: auto; }
+.slide-enter-active, .slide-leave-active { transition: all .3s ease; }
+.slide-enter-from, .slide-leave-to { opacity: 0; transform: translateY(-8px); }
+</style>

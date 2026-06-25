@@ -67,45 +67,39 @@
       </div>
     </Section>
 
-    <!-- Animation 1: 解题流程全景动画 -->
+    <!-- Animation 1: 解题流程全景动画 (auto模式 - CSS动画自动循环高亮) -->
     <Section title="动画：考试解题流程" :num="3">
       <AnimationBox
         title="五步法解题流程全景"
-        :playing="playing1"
-        description="从读题到验证的标准解题流程，按步骤播放动画，养成良好解题习惯。"
-        @play="play1"
-        @pause="pause1"
-        @reset="reset1"
+        mode="auto"
+        description="从读题到验证的标准解题流程，自动循环高亮5个步骤，养成良好解题习惯。"
       >
-        <svg ref="svg1" viewBox="0 0 700 280" width="700" height="280">
-          <!-- Flow line -->
-          <line x1="60" y1="140" x2="640" y2="140" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
-          <line v-if="flowStep >= 1" x1="60" y1="140" :x2="flowX" y2="140" stroke="url(#flowGrad)" stroke-width="4" stroke-linecap="round"/>
+        <svg viewBox="0 0 700 280" class="responsive-svg">
           <defs>
             <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stop-color="#ea580c"/>
               <stop offset="100%" stop-color="#7c3aed"/>
             </linearGradient>
           </defs>
+          <!-- Flow line (always fully visible in auto mode) -->
+          <line x1="60" y1="140" x2="640" y2="140" stroke="url(#flowGrad)" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
 
-          <!-- Flow nodes -->
-          <g v-for="(node, i) in flowNodes" :key="i" @click="jumpToStep(i+1)" style="cursor:pointer">
-            <circle :cx="node.x" :cy="140" :r="i < flowStep ? 32 : 30"
-                    :fill="i < flowStep ? node.activeColor : '#f1f5f9'"
-                    :stroke="i < flowStep ? node.activeColor : '#cbd5e1'" stroke-width="2"/>
-            <text :x="node.x" :y="138" text-anchor="middle" :fill="i < flowStep ? '#fff' : '#94a3b8'" font-size="11" font-weight="700">{{ node.icon }}</text>
-            <text :x="node.x" :y="153" text-anchor="middle" :fill="i < flowStep ? '#fff' : '#94a3b8'" font-size="10">{{ node.labelShort }}</text>
+          <!-- Flow nodes with CSS pulse animation -->
+          <g v-for="(node, i) in flowNodes" :key="i">
+            <circle class="flow-node" :cx="node.x" :cy="140" r="30"
+                    :fill="node.activeColor" :stroke="node.activeColor" stroke-width="2"
+                    :style="{ color: node.activeColor, animationDelay: (i * 1) + 's' }"/>
+            <text :x="node.x" :y="138" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">{{ node.icon }}</text>
+            <text :x="node.x" :y="153" text-anchor="middle" fill="#fff" font-size="10">{{ node.labelShort }}</text>
             <text :x="node.x" :y="190" text-anchor="middle" fill="#334155" font-size="13" font-weight="600">{{ node.label }}</text>
             <text :x="node.x" :y="210" text-anchor="middle" fill="#64748b" font-size="11">{{ node.desc }}</text>
-            <!-- Active indicator -->
-            <circle v-if="i === flowStep - 1" :cx="node.x" cy="140" r="38" fill="none" :stroke="node.activeColor" stroke-width="2" stroke-dasharray="4,3">
-              <animate attributeName="r" values="36;42;36" dur="1.2s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite"/>
-            </circle>
           </g>
 
-          <!-- Arrows between nodes -->
-          <polygon v-if="flowStep >= 1" :points="flowArrowPoints" fill="#7c3aed"/>
+          <!-- Step numbers below -->
+          <g v-for="(node, i) in flowNodes" :key="'num'+i">
+            <circle :cx="node.x" cy="245" r="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+            <text :x="node.x" :y="249" text-anchor="middle" fill="#64748b" font-size="11" font-weight="700">{{ i+1 }}</text>
+          </g>
         </svg>
       </AnimationBox>
     </Section>
@@ -154,15 +148,14 @@
       </div>
     </Section>
 
-    <!-- Animation 2: 知识体系思维导图 (CRITICAL - correct layout) -->
+    <!-- Animation 2: 知识体系思维导图 (auto模式 - CSS脉冲效果) -->
     <Section title="知识体系关联思维导图" :num="5">
       <AnimationBox
         title="三周知识体系全景图"
-        :playing="playing2"
-        description="中心为矩阵论核心，三周内容分别在左上(蓝紫色)、上方(青绿色)、右上(橙粉色)区域。点击知识点回顾对应课程。"
-        :hide-controls="true"
+        mode="auto"
+        description="中心为矩阵论核心，三周内容分别在左上(蓝紫色)、上方(青绿色)、右上(橙粉色)区域。节点自动脉冲高亮，展示知识关联。"
       >
-        <svg ref="svg2" viewBox="0 0 1000 600" width="1000" height="600" class="mindmap-svg">
+        <svg viewBox="0 0 1000 600" class="responsive-svg mindmap-svg">
           <defs>
             <linearGradient id="gRoot2" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#4f46e5"/><stop offset="50%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#ec4899"/>
@@ -182,139 +175,113 @@
             </filter>
           </defs>
 
-          <!-- ========== EDGES ========== -->
-          <g class="edges" :opacity="edgeOpacity">
+          <!-- ========== EDGES (always visible) ========== -->
+          <g class="edges">
             <!-- Root to Week nodes (curved, outward from center) -->
             <path d="M500,320 C380,270 270,210 200,175" stroke="#c7d2fe" stroke-width="3" fill="none"/>
             <path d="M500,320 C500,250 500,180 500,145" stroke="#99f6e4" stroke-width="3" fill="none"/>
             <path d="M500,320 C620,270 730,210 800,175" stroke="#fed7aa" stroke-width="3" fill="none"/>
 
-            <!-- Week 1 edges: W1(200,175) to its 4 knowledge nodes -->
-            <!-- 线性空间 (80,120) - upper-left -->
+            <!-- Week 1 edges -->
             <path d="M200,175 C150,155 110,140 85,130" stroke="#a5b4fc" stroke-width="2" fill="none"/>
-            <!-- 线性变换 (90,280) - left -->
             <path d="M200,175 C155,210 120,250 100,275" stroke="#a5b4fc" stroke-width="2" fill="none"/>
-            <!-- Jordan标准形 (200,360) - below W1 -->
             <path d="M200,175 C195,240 198,310 200,340" stroke="#a5b4fc" stroke-width="2" fill="none"/>
-            <!-- 矩阵函数 (310,280) - right-down, between W1 and root -->
             <path d="M200,175 C240,210 280,250 305,270" stroke="#a5b4fc" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
 
-            <!-- Week 2 edges: W2(500,145) to its 3 knowledge nodes -->
-            <!-- LU/QR分解 (370,240) - left-down -->
+            <!-- Week 2 edges -->
             <path d="M500,145 C450,180 410,210 385,230" stroke="#5eead4" stroke-width="2" fill="none"/>
-            <!-- SVD分解 (630,240) - right-down -->
             <path d="M500,145 C550,180 590,210 615,230" stroke="#5eead4" stroke-width="2" fill="none"/>
-            <!-- M-P广义逆 (500,290) - directly down toward center -->
             <path d="M500,145 C500,200 500,250 500,275" stroke="#5eead4" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
 
-            <!-- Week 3 edges: W3(800,175) to its 4 knowledge nodes -->
-            <!-- 投影矩阵 (690,260) - left-down toward center -->
+            <!-- Week 3 edges -->
             <path d="M800,175 C760,210 720,240 700,255" stroke="#fdba74" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
-            <!-- 最小二乘 (900,120) - upper-right -->
             <path d="M800,175 C840,155 870,140 888,128" stroke="#fdba74" stroke-width="2" fill="none"/>
-            <!-- 盖尔圆盘 (920,280) - right -->
             <path d="M800,175 C850,210 890,250 908,270" stroke="#fdba74" stroke-width="2" fill="none"/>
-            <!-- 考前复习 (830,400) - lower-right (pink accent) -->
             <path d="M800,175 C810,250 820,330 828,375" stroke="#f9a8d4" stroke-width="2.5" fill="none"/>
           </g>
 
-          <!-- ========== NODES ========== -->
+          <!-- ========== NODES (always visible, with CSS pulse) ========== -->
           <!-- Root node: 矩阵论 at (500,320) -->
-          <g class="mm-node" :transform="`scale(${rootScale}) translate(${(1-rootScale)/rootScale*500},${(1-rootScale)/rootScale*320})`" filter="url(#glow)">
+          <g class="mm-node mm-root" filter="url(#glow)">
             <circle cx="500" cy="320" r="52" fill="url(#gRoot2)"/>
             <text x="500" y="315" text-anchor="middle" fill="#fff" font-weight="800" font-size="20">矩阵论</text>
             <text x="500" y="338" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="11">Matrix Theory</text>
           </g>
 
-          <!-- Week 1 node at (200,175) -->
-          <g class="mm-node" :transform="`translate(0,${w1Offset})`">
+          <!-- Week nodes -->
+          <g class="mm-node mm-week">
             <circle cx="200" cy="175" r="40" fill="url(#gW1r)"/>
             <text x="200" y="170" text-anchor="middle" fill="#fff" font-weight="700" font-size="13">第1周</text>
             <text x="200" y="187" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">空间变换</text>
           </g>
-
-          <!-- Week 2 node at (500,145) -->
-          <g class="mm-node" :transform="`translate(0,${w2Offset})`">
+          <g class="mm-node mm-week" style="animation-delay:0.3s">
             <circle cx="500" cy="145" r="40" fill="url(#gW2r)"/>
             <text x="500" y="140" text-anchor="middle" fill="#fff" font-weight="700" font-size="13">第2周</text>
             <text x="500" y="157" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">矩阵分解</text>
           </g>
-
-          <!-- Week 3 node at (800,175) -->
-          <g class="mm-node" :transform="`translate(0,${w3Offset})`">
+          <g class="mm-node mm-week" style="animation-delay:0.6s">
             <circle cx="800" cy="175" r="40" fill="url(#gW3r)"/>
             <text x="800" y="170" text-anchor="middle" fill="#fff" font-weight="700" font-size="13">第3周</text>
             <text x="800" y="187" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">应用专题</text>
           </g>
 
-          <!-- Week 1 knowledge nodes -->
-          <g class="mm-node topic" :opacity="nodeOpacity[0]">
-            <!-- 线性空间 (80,120) -->
+          <!-- Week 1 knowledge nodes with staggered pulse -->
+          <g class="mm-topic" style="animation-delay:0.9s">
             <circle cx="80" cy="120" r="30" fill="#4f46e5"/>
             <text x="80" y="117" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">线性</text>
             <text x="80" y="131" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">空间</text>
           </g>
-          <g class="mm-node topic" :opacity="nodeOpacity[1]">
-            <!-- 线性变换 (90,280) -->
+          <g class="mm-topic" style="animation-delay:1.1s">
             <circle cx="90" cy="280" r="30" fill="#6366f1"/>
             <text x="90" y="277" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">线性</text>
             <text x="90" y="291" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">变换</text>
           </g>
-          <g class="mm-node topic" :opacity="nodeOpacity[2]">
-            <!-- Jordan标准形 (200,360) -->
+          <g class="mm-topic" style="animation-delay:1.3s">
             <circle cx="200" cy="360" r="30" fill="#7c3aed"/>
             <text x="200" y="357" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">Jordan</text>
             <text x="200" y="371" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">标准形</text>
           </g>
-          <g class="mm-node topic" :opacity="nodeOpacity[3]">
-            <!-- 矩阵函数 (310,280) -->
+          <g class="mm-topic" style="animation-delay:1.5s">
             <circle cx="310" cy="280" r="28" fill="#8b5cf6"/>
             <text x="310" y="277" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">矩阵</text>
             <text x="310" y="291" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">函数</text>
           </g>
 
           <!-- Week 2 knowledge nodes -->
-          <g class="mm-node topic" :opacity="nodeOpacity[4]">
-            <!-- LU/QR分解 (370,240) -->
+          <g class="mm-topic" style="animation-delay:1.7s">
             <circle cx="370" cy="240" r="30" fill="#0d9488"/>
             <text x="370" y="237" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">LU/QR</text>
             <text x="370" y="251" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">分解</text>
           </g>
-          <g class="mm-node topic" :opacity="nodeOpacity[5]">
-            <!-- SVD分解 (630,240) -->
+          <g class="mm-topic" style="animation-delay:1.9s">
             <circle cx="630" cy="240" r="30" fill="#14b8a6"/>
             <text x="630" y="237" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">SVD</text>
             <text x="630" y="251" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">分解</text>
           </g>
-          <g class="mm-node topic" :opacity="nodeOpacity[6]">
-            <!-- M-P广义逆 (500,290) -->
+          <g class="mm-topic" style="animation-delay:2.1s">
             <circle cx="500" cy="290" r="28" fill="#06b6d4"/>
             <text x="500" y="287" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">M-P</text>
             <text x="500" y="301" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">广义逆</text>
           </g>
 
           <!-- Week 3 knowledge nodes -->
-          <g class="mm-node topic" :opacity="nodeOpacity[7]">
-            <!-- 投影矩阵 (690,260) -->
+          <g class="mm-topic" style="animation-delay:2.3s">
             <circle cx="690" cy="260" r="28" fill="#ea580c"/>
             <text x="690" y="257" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">投影</text>
             <text x="690" y="271" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">矩阵</text>
           </g>
-          <g class="mm-node topic" :opacity="nodeOpacity[8]">
-            <!-- 最小二乘 (900,120) -->
+          <g class="mm-topic" style="animation-delay:2.5s">
             <circle cx="900" cy="120" r="30" fill="#f97316"/>
             <text x="900" y="117" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">最小</text>
             <text x="900" y="131" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">二乘</text>
           </g>
-          <g class="mm-node topic" :opacity="nodeOpacity[9]">
-            <!-- 盖尔圆盘 (920,280) -->
+          <g class="mm-topic" style="animation-delay:2.7s">
             <circle cx="920" cy="280" r="30" fill="#fb923c"/>
             <text x="920" y="277" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">盖尔</text>
             <text x="920" y="291" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">圆盘</text>
           </g>
-          <g class="mm-node topic" :opacity="nodeOpacity[10]">
-            <!-- 考前复习 (830,400) - pink accent -->
-            <circle cx="830" cy="400" r="33" fill="#ec4899" filter="url(#glow)"/>
+          <g class="mm-topic mm-current" style="animation-delay:2.9s" filter="url(#glow)">
+            <circle cx="830" cy="400" r="33" fill="#ec4899"/>
             <text x="830" y="397" text-anchor="middle" fill="#fff" font-weight="700" font-size="12">考前</text>
             <text x="830" y="413" text-anchor="middle" fill="rgba(255,255,255,.95)" font-size="11">复习</text>
           </g>
@@ -353,7 +320,7 @@
         @pause="pause3"
         @reset="reset3"
       >
-        <svg ref="svg3" viewBox="0 0 720 420" width="720" height="420">
+        <svg ref="svg3" viewBox="0 0 720 420" class="responsive-svg">
           <!-- Correct side (left) -->
           <rect x="10" y="10" width="340" height="400" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
           <text x="180" y="40" text-anchor="middle" fill="#065f46" font-size="16" font-weight="700">✓ 正确做法</text>
@@ -450,13 +417,18 @@
     <!-- Final summary steps -->
     <Section title="考场应试锦囊" :num="8">
       <Steps :steps="[
-        '拿到题目先分类：计算题/证明题，判断题型（Jordan/e^At/QR/SVD/投影/盖尔）',
+        '拿到题目先分类：计算题/证明题，判断题型（Jordan/<span class=&quot;formula-inline&quot;>e^{At}</span>/QR/SVD/投影/盖尔）',
         '计算题先写公式框架，再代入数值；三阶矩阵优先用迹和行列式校验特征值',
         'Jordan题：先求特征值→分析几何重数→确定块结构→求特征/广义特征向量',
-        'e^At题：优先用对角化/Jordan标准形方法，注意Jordan块的指数公式',
+        '<span class=&quot;formula-inline&quot;>e^{At}</span>题：优先用对角化/Jordan标准形方法，注意Jordan块的指数公式',
         '证明题：紧扣定义（子空间封闭、投影幂等+对称、范数三公理），必要时用反证法',
-        '最后5分钟检查：特征值之和是否等于迹？P⁻¹AP是否等于J？P²是否等于P？'
+        '最后5分钟检查：特征值之和是否等于迹？<span class=&quot;formula-inline&quot;>P^{-1}AP</span>是否等于J？<span class=&quot;formula-inline&quot;>P^2</span>是否等于P？'
       ]"/>
+    </Section>
+
+    <!-- WeekQuizBank: 汇总第3周全部题目 -->
+    <Section title="🗂️ 真题与习题汇总（三周综合）">
+      <WeekQuizBank :quizzes="allQuizzes" weekLabel="三周总复习" />
     </Section>
   </LessonLayout>
 </template>
@@ -469,8 +441,17 @@ import Theorem from '../../components/ui/Theorem.vue'
 import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
+import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
+import { getQuizzesByWeek } from '../../data/quizBank'
 import { useKatex } from '../../composables/useKatex'
 import { ref, computed, onUnmounted } from 'vue'
+
+// 汇总三周所有题目用于总复习
+const allQuizzes = computed(() => [
+  ...getQuizzesByWeek(1),
+  ...getQuizzesByWeek(2),
+  ...getQuizzesByWeek(3)
+])
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)
@@ -545,7 +526,7 @@ const proofTemplates = [
   {
     title: 'ρ(A)≤||A||',
     method: '取特征对Ax=λx，用范数定义',
-    steps: ['设λ为特征值，x为特征向量：Ax=λx', '取范数：|λ|·||x||=||Ax||≤||A||·||x||', '两边除以||x||（>0）得|λ|≤||A|', '由λ任意性ρ(A)≤||A||']
+    steps: ['设λ为特征值，x为特征向量：Ax=λx', '取范数：|λ|·||x||=||Ax||≤||A||·||x||', '两边除以||x||（>0）得|λ|≤||A||', '由λ任意性ρ(A)≤||A||']
   }
 ]
 
@@ -581,10 +562,7 @@ const mistakes = [
   }
 ]
 
-// ====== Animation 1: Flow steps ======
-const playing1 = ref(false)
-let rafId1 = null, t1 = 0
-const flowStep = ref(0)
+// ====== Animation 1: Flow steps (auto mode - CSS animation only, no JS needed) ======
 const flowNodes = [
   { x: 60, label: '读题', labelShort: '读题', icon: '📖', desc: '识别题型', activeColor: '#ea580c' },
   { x: 200, label: '判型', labelShort: '判型', icon: '🔍', desc: '分类题目', activeColor: '#f97316' },
@@ -592,70 +570,9 @@ const flowNodes = [
   { x: 480, label: '计算', labelShort: '计算', icon: '🧮', desc: '代入求解', activeColor: '#7c3aed' },
   { x: 620, label: '验证', labelShort: '验证', icon: '✅', desc: '校验答案', activeColor: '#10b981' }
 ]
-const flowX = computed(() => flowStep.value > 0 ? flowNodes[Math.min(flowStep.value-1, 4)].x : 60)
-const flowArrowPoints = computed(() => {
-  if (flowStep.value < 1) return ''
-  const curX = flowNodes[Math.min(flowStep.value-1, 4)].x
-  return `${curX+5},135 ${curX+12},140 ${curX+5},145`
-})
 
-const animate1 = () => {
-  t1 += 0.008
-  const step = Math.floor(t1 * 1.2) + 1
-  flowStep.value = Math.min(step, 5)
-  if (flowStep.value < 5) rafId1 = requestAnimationFrame(animate1)
-  else { playing1.value = false }
-}
-const play1 = () => { if (!playing1.value) { playing1.value = true; t1 = 0; flowStep.value = 0; animate1() } }
-const pause1 = () => { playing1.value = false; if (rafId1) cancelAnimationFrame(rafId1) }
-const reset1 = () => { pause1(); t1 = 0; flowStep.value = 0 }
-const jumpToStep = (s) => { flowStep.value = s }
-
-// ====== Animation 2: Mind map ======
-const playing2 = ref(false)
-let rafId2 = null, t2 = 0
-const edgeOpacity = ref(0)
-const nodeOpacity = ref([0,0,0,0,0,0,0,0,0,0,0])
-const rootScale = ref(0)
-const w1Offset = ref(-30)
-const w2Offset = ref(-30)
-const w3Offset = ref(-30)
-
-const animate2 = () => {
-  t2 += 0.01
-  if (t2 < 0.5) {
-    rootScale.value = easeOutBack(Math.min(t2*2, 1))
-    edgeOpacity.value = 0
-  } else if (t2 < 1) {
-    rootScale.value = 1
-    edgeOpacity.value = easeOutCubic((t2-0.5)*2)
-    w1Offset.value = -30 * (1 - easeOutCubic((t2-0.5)*2))
-    w2Offset.value = -30 * (1 - easeOutCubic((t2-0.5)*2))
-    w3Offset.value = -30 * (1 - easeOutCubic((t2-0.5)*2))
-  } else if (t2 < 3) {
-    edgeOpacity.value = 1
-    w1Offset.value = 0; w2Offset.value = 0; w3Offset.value = 0
-    const nodeIdx = Math.floor((t2 - 1) / 0.18)
-    for (let i = 0; i <= Math.min(nodeIdx, 10); i++) {
-      nodeOpacity.value[i] = Math.min(1, (t2 - 1 - i*0.18) * 3)
-    }
-  } else {
-    playing2.value = false
-    for (let i = 0; i <= 10; i++) nodeOpacity.value[i] = 1
-  }
-  rafId2 = requestAnimationFrame(animate2)
-}
-const play2 = () => { if (!playing2.value) { playing2.value = true; t2 = 0; rootScale.value=0; edgeOpacity.value=0; nodeOpacity.value=[0,0,0,0,0,0,0,0,0,0,0]; w1Offset.value=-30;w2Offset.value=-30;w3Offset.value=-30; animate2() } }
-const pause2 = () => { playing2.value = false; if (rafId2) cancelAnimationFrame(rafId2) }
-const reset2 = () => {
-  pause2(); t2 = 0; rootScale.value=1; edgeOpacity.value=1
-  nodeOpacity.value=[1,1,1,1,1,1,1,1,1,1,1]
-  w1Offset.value=0;w2Offset.value=0;w3Offset.value=0
-}
-// Auto-start mindmap visible
-rootScale.value = 1
-edgeOpacity.value = 1
-for (let i = 0; i <= 10; i++) nodeOpacity.value[i] = 1
+// ====== Animation 2: Mind map (auto mode - CSS animation only) ======
+// All nodes/edges are always visible; CSS handles the pulse effect
 
 // ====== Animation 3: Mistakes comparison ======
 const playing3 = ref(false)
@@ -677,19 +594,81 @@ const reset3 = () => { pause3(); t3 = 0; mistakeOpacity.value=[1,1,1,1] }
 mistakeOpacity.value = [1,1,1,1]
 
 function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3) }
-function easeOutBack(t) { const c1 = 1.70158; const c3 = c1 + 1; return 1 + c3*Math.pow(t-1,3) + c1*Math.pow(t-1,2) }
 
 onUnmounted(() => {
-  if (rafId1) cancelAnimationFrame(rafId1)
-  if (rafId2) cancelAnimationFrame(rafId2)
   if (rafId3) cancelAnimationFrame(rafId3)
 })
 </script>
-
 <style scoped>
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; }
 h3 { color: #7c3aed; }
+.responsive-svg { max-width: 100%; height: auto; display: block; }
+:deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
+
+/* ====== 五步法流程图 auto模式 CSS动画 ====== */
+@keyframes flow-pulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+    filter: none;
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.25);
+    filter: drop-shadow(0 0 12px currentColor);
+  }
+}
+.flow-node {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: flow-pulse 5s ease-in-out infinite;
+}
+
+/* ====== 思维导图 auto模式 CSS脉冲动画 ====== */
+@keyframes mindmap-pulse {
+  0%, 100% {
+    opacity: 0.75;
+    transform: scale(1);
+    filter: none;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 8px rgba(124,58,237,0.5));
+  }
+}
+@keyframes root-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(236,72,153,0.6));
+  }
+}
+.mm-root circle {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: root-pulse 4s ease-in-out infinite;
+}
+.mm-week circle {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: mindmap-pulse 6s ease-in-out infinite;
+}
+.mm-topic circle {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: mindmap-pulse 6s ease-in-out infinite;
+}
+.mm-current circle {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: mindmap-pulse 3s ease-in-out infinite;
+}
 
 .review-banner {
   display: grid;

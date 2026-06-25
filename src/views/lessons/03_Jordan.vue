@@ -18,7 +18,7 @@
 
       <AnimationBox title="特征向量方向不变性" :playing="playing1" @play="play1" @pause="pause1" @reset="reset1"
         description="矩阵 A 作用于单位圆上各点（向量），得到椭圆。沿特征向量方向的向量仅被缩放（方向不变），其他方向向量同时被旋转和缩放。">
-        <canvas ref="canvas1Ref" width="600" height="400" style="max-width:100%;"></canvas>
+        <canvas ref="canvas1Ref" width="600" height="400" style="max-width:100%;width:100%;"></canvas>
       </AnimationBox>
     </Section>
 
@@ -54,7 +54,7 @@
 
       <AnimationBox title="Jordan 块的剪切效果" :playing="playing2" @play="play2" @pause="pause2" @reset="reset2"
         description="Jordan 块 J₂(λ)=[[λ,1],[0,λ]] 作用于正方形：不仅缩放，还产生沿 x 方向的剪切，这是不可对角化矩阵的特征——缺少一个方向的特征向量。">
-        <canvas ref="canvas2Ref" width="600" height="400" style="max-width:100%;"></canvas>
+        <canvas ref="canvas2Ref" width="600" height="400" style="max-width:100%;width:100%;"></canvas>
       </AnimationBox>
     </Section>
 
@@ -73,9 +73,15 @@
         即矩阵满足自身的特征方程。
       </Theorem>
 
-      <AnimationBox title="Jordan 链构造 (A−λI)η = ξ" :playing="playing3" @play="play3" @pause="pause3" @reset="reset3"
-        description="从特征向量 ξ 出发，求解 (A−λI)η = ξ 得到广义特征向量 η，构成 Jordan 链。图中展示 (A−λI) 将 η 映射到 ξ。">
-        <svg width="600" height="400" viewBox="0 0 600 400">
+      <AnimationBox title="Jordan 链构造 (A−λI)η = ξ" mode="auto"
+        description="自动演示：从特征向量 ξ 出发，广义特征向量 η 经 (A−λI) 映射到 ξ，构成 Jordan 链。绿色标记为 Ker(A−λI)（特征子空间）。">
+        <svg viewBox="0 0 600 400" style="width:100%;max-width:600px;">
+          <defs>
+            <marker id="arrG3" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#94a3b8"/></marker>
+            <marker id="arrPk3j" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#ec4899"/></marker>
+            <marker id="arrB3j" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4338ca"/></marker>
+            <marker id="arrO3j" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto"><polygon points="0 0,10 4,0 8" fill="#f59e0b"/></marker>
+          </defs>
           <!-- Left space -->
           <rect x="30" y="40" width="240" height="320" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
           <text x="150" y="65" text-anchor="middle" fill="#4338ca" font-weight="bold" font-size="14">原空间 V</text>
@@ -84,14 +90,14 @@
           <text x="450" y="65" text-anchor="middle" fill="#6d28d9" font-weight="bold" font-size="14">像空间 V</text>
 
           <!-- Axes in left -->
-          <line x1="80" y1="300" x2="230" y2="300" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrG)"/>
-          <line x1="80" y1="300" x2="80" y2="100" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrG)"/>
+          <line x1="80" y1="300" x2="230" y2="300" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrG3)"/>
+          <line x1="80" y1="300" x2="80" y2="100" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrG3)"/>
           <text x="235" y="305" fill="#64748b" font-size="11">x</text>
           <text x="70" y="95" fill="#64748b" font-size="11">y</text>
 
           <!-- Axes in right -->
-          <line x1="380" y1="300" x2="530" y2="300" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrG)"/>
-          <line x1="380" y1="300" x2="380" y2="100" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrG)"/>
+          <line x1="380" y1="300" x2="530" y2="300" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrG3)"/>
+          <line x1="380" y1="300" x2="380" y2="100" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrG3)"/>
           <text x="535" y="305" fill="#64748b" font-size="11">x</text>
           <text x="370" y="95" fill="#64748b" font-size="11">y</text>
 
@@ -102,14 +108,6 @@
           <!-- Generalized eigenvector eta in left (blue, animated growing) -->
           <line x1="80" y1="300" :x2="80+etaX" :y2="300-etaY" stroke="#4338ca" stroke-width="3" marker-end="url(#arrB3j)"/>
           <text :x="80+etaX+8" :y="300-etaY-5" fill="#4338ca" font-weight="bold" font-size="14">η (广义特征向量)</text>
-
-          <!-- Arrow from eta to xi via A-lambdaI -->
-          <defs>
-            <marker id="arrG" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#94a3b8"/></marker>
-            <marker id="arrPk3j" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#ec4899"/></marker>
-            <marker id="arrB3j" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4338ca"/></marker>
-            <marker id="arrO3j" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto"><polygon points="0 0,10 4,0 8" fill="#f59e0b"/></marker>
-          </defs>
 
           <!-- (A-lambda I) mapping arrow across -->
           <path :d="`M ${80+etaX+20} ${300-etaY} C ${280} ${300-etaY-40}, ${330} ${300-xiY-40}, ${380+xiX-10} ${300-xiY}`"
@@ -122,10 +120,9 @@
 
           <!-- Null space indicator (eigen-direction) -->
           <line x1="80" y1="300" :x2="80+xiX*0.4" :y2="300-xiY*0.4" stroke="#10b981" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
-          <text x="85" y="260" fill="#059669" font-size="11" opacity="0.7">Ker(A-λI)</text>
+          <text x="85" y="260" fill="#059669" font-size="11" opacity="0.7">Ker(A−λI)</text>
 
-          <!-- Formula -->
-          <rect x="100" y="345" width="400" height="0" fill="none"/>
+          <!-- Formula at bottom -->
           <text x="300" y="380" text-anchor="middle" fill="#4f46e5" font-size="15" font-weight="bold">(A−λI)ξ = 0    (A−λI)η = ξ    (A−λI)²η = 0</text>
         </svg>
       </AnimationBox>
@@ -224,6 +221,10 @@
       </ExampleBox>
     </Section>
 
+    <Section title="🗂️ 真题与习题汇总">
+      <WeekQuizBank :quizzes="quizzes" weekLabel="第1周" />
+    </Section>
+
     <Section title="📌 知识点小结">
       <Steps :steps="[
         '特征值 λ、特征向量 x：Ax = λx (x≠0)，由 det(λI−A)=0 求 λ，解 (λI−A)x=0 求 x',
@@ -245,19 +246,22 @@ import Theorem from '../../components/ui/Theorem.vue'
 import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
+import QuizProblem from '../../components/quiz/QuizProblem.vue'
+import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
 import { useKatex } from '../../composables/useKatex'
+import { quizBank } from '../../data/quizBank'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const renderTrigger = ref(0)
 useKatex(renderTrigger)
 
-// ===== Animation 1: Eigenvector direction invariance (Canvas) =====
+const quizzes = (quizBank[3] || []).map(q => ({ ...q, lessonNum: '03', lessonTitle: '对角化与Jordan标准形' }))
+
+// ===== Animation 1: Eigenvector direction invariance (Canvas, interactive) =====
 const canvas1Ref = ref(null)
 const playing1 = ref(false)
 let ctx1 = null, rafId1 = null
 let t1 = 0
-// Matrix with eigenvectors along certain directions
-// A = [[2, 0.5], [0.5, 1.5]] -> eigenvalues ~2.3 and ~1.2, eigenvectors at some angle
 const A1 = [[2, 0.6], [0.6, 1.2]]
 const cx1 = 300, cy1 = 220, sc1 = 90
 
@@ -268,7 +272,6 @@ function drawCanvas1() {
   const W = 600, H = 400
   ctx1.clearRect(0,0,W,H)
 
-  // Grid
   ctx1.strokeStyle = '#f1f5f9'; ctx1.lineWidth = 1
   for (let i = -3; i <= 3; i++) {
     ctx1.beginPath(); ctx1.moveTo(cx1+i*sc1, 30); ctx1.lineTo(cx1+i*sc1, H-30); ctx1.stroke()
@@ -278,24 +281,17 @@ function drawCanvas1() {
   ctx1.beginPath(); ctx1.moveTo(30,cy1); ctx1.lineTo(W-30,cy1); ctx1.stroke()
   ctx1.beginPath(); ctx1.moveTo(cx1,30); ctx1.lineTo(cx1,H-30); ctx1.stroke()
 
-  // Compute eigenvectors of A1
-  // Characteristic: det(A-lambda I) = (2-l)(1.2-l) - 0.36 = l^2 - 3.2l + 2.04 = 0
-  // lambda = (3.2 +/- sqrt(10.24-8.16))/2 = (3.2 +/- sqrt(2.08))/2 = (3.2 +/- 1.442)/2 = 2.321 or 0.879
-  // Eigenvector for lambda1=2.321: (2-2.321)x + 0.6y = 0 => -0.321x + 0.6y = 0 => y = 0.535x
-  // Eigenvector for lambda2=0.879: (2-0.879)x + 0.6y = 0 => 1.121x + 0.6y = 0 => y = -1.868x
   const e1Dir = [1, 0.535], e2Dir = [1, -1.868]
   const e1Len = Math.hypot(e1Dir[0], e1Dir[1]), e2Len = Math.hypot(e2Dir[0], e2Dir[1])
   const eig1 = [e1Dir[0]/e1Len, e1Dir[1]/e1Len]
   const eig2 = [e2Dir[0]/e2Len, e2Dir[1]/e2Len]
 
-  // Draw unit circle and its image (ellipse)
   ctx1.fillStyle = 'rgba(99,102,241,0.08)'
   ctx1.strokeStyle = '#94a3b8'; ctx1.lineWidth = 1.5; ctx1.setLineDash([5,3])
   ctx1.beginPath()
   ctx1.arc(cx1, cy1, sc1, 0, Math.PI*2)
   ctx1.fill(); ctx1.stroke(); ctx1.setLineDash([])
 
-  // Image ellipse - animated (rotating point on circle)
   const numPts = 200
   ctx1.fillStyle = 'rgba(99,102,241,0.15)'
   ctx1.strokeStyle = '#6366f1'; ctx1.lineWidth = 2
@@ -309,15 +305,12 @@ function drawCanvas1() {
   }
   ctx1.closePath(); ctx1.fill(); ctx1.stroke()
 
-  // Draw eigenvector directions (lines through origin)
   drawLine1(ctx1, cx1, cy1, eig1, 2.5*sc1, '#ec4899', 2.5)
   drawLine1(ctx1, cx1, cy1, eig2, 2.5*sc1, '#f59e0b', 2.5)
 
-  // Animate a point on circle being transformed
   const theta = t1
   const v = [Math.cos(theta), Math.sin(theta)]
   const av = matVec1(A1, v)
-  // Original vector on circle
   const ox = cx1 + v[0]*sc1, oy = cy1 - v[1]*sc1
   ctx1.fillStyle = '#4338ca'
   ctx1.beginPath(); ctx1.arc(ox, oy, 5, 0, Math.PI*2); ctx1.fill()
@@ -325,7 +318,6 @@ function drawCanvas1() {
   ctx1.fillStyle = '#4338ca'; ctx1.font = '12px sans-serif'
   ctx1.fillText('x', ox+7, oy-5)
 
-  // Transformed vector on ellipse
   const ax = cx1 + av[0]*sc1, ay = cy1 - av[1]*sc1
   ctx1.fillStyle = '#7c3aed'
   ctx1.beginPath(); ctx1.arc(ax, ay, 6, 0, Math.PI*2); ctx1.fill()
@@ -333,20 +325,18 @@ function drawCanvas1() {
   ctx1.fillStyle = '#6d28d9'; ctx1.font = 'bold 12px sans-serif'
   ctx1.fillText('Ax', ax+8, ay-5)
 
-  // Labels for eigen directions
   ctx1.fillStyle = '#be185d'; ctx1.font = 'bold 13px sans-serif'
   ctx1.fillText('特征方向 (λ₁≈2.3)', cx1+eig1[0]*sc1*2.2+5, cy1-eig1[1]*sc1*2.2)
   ctx1.fillStyle = '#d97706'
   ctx1.fillText('特征方向 (λ₂≈0.9)', cx1+eig2[0]*sc1*2.2+5, cy1-eig2[1]*sc1*2.2)
 
-  // Legend
   ctx1.fillStyle = '#1e293b'; ctx1.font = 'bold 14px sans-serif'; ctx1.textAlign = 'center'
   ctx1.fillText('单位圆 → A 作用后 → 椭圆；特征向量方向只缩放不旋转', W/2, 25)
   ctx1.textAlign = 'left'
 }
 
 function drawLine1(ctx, cx, cy, dir, len, color, w) {
-  ctx.strokeStyle = color; ctx.lineWidth = w; ctx1.setLineDash([6,4])
+  ctx.strokeStyle = color; ctx.lineWidth = w; ctx.setLineDash([6,4])
   ctx.beginPath()
   ctx.moveTo(cx-dir[0]*len, cy+dir[1]*len)
   ctx.lineTo(cx+dir[0]*len, cy-dir[1]*len)
@@ -368,20 +358,19 @@ function play1() { if (!playing1.value) { playing1.value = true; loop1() } }
 function pause1() { playing1.value = false; if (rafId1) cancelAnimationFrame(rafId1) }
 function reset1() { pause1(); t1 = 0; drawCanvas1() }
 
-// ===== Animation 2: Jordan block shear (Canvas) =====
+// ===== Animation 2: Jordan block shear (Canvas, interactive) =====
 const canvas2Ref = ref(null)
 const playing2 = ref(false)
 let ctx2 = null, rafId2 = null
 let t2 = 0
 const cx2 = 300, cy2 = 240, sc2 = 70
-const lambda2 = 1.2  // eigenvalue
+const lambda2 = 1.2
 
 function drawCanvas2() {
   if (!ctx2) return
   const W = 600, H = 400
   ctx2.clearRect(0,0,W,H)
 
-  // Grid
   ctx2.strokeStyle = '#f1f5f9'; ctx2.lineWidth = 1
   for (let i = -4; i <= 4; i++) {
     ctx2.beginPath(); ctx2.moveTo(cx2+i*sc2, 30); ctx2.lineTo(cx2+i*sc2, H-30); ctx2.stroke()
@@ -391,11 +380,9 @@ function drawCanvas2() {
   ctx2.beginPath(); ctx2.moveTo(30,cy2); ctx2.lineTo(W-30,cy2); ctx2.stroke()
   ctx2.beginPath(); ctx2.moveTo(cx2,30); ctx2.lineTo(cx2,H-30); ctx2.stroke()
 
-  // Jordan block J = [[lambda, shear*phase], [0, lambda]]
   const shear = Math.min(t2 * 1.5, 1.5)
   const J = [[lambda2, shear], [0, lambda2]]
 
-  // Original square
   const orig = [[0,0],[1,0],[1,1],[0,1]]
   ctx2.fillStyle = 'rgba(148,163,184,0.1)'
   ctx2.strokeStyle = '#94a3b8'; ctx2.lineWidth = 1.5; ctx2.setLineDash([4,4])
@@ -406,7 +393,6 @@ function drawCanvas2() {
   })
   ctx2.closePath(); ctx2.fill(); ctx2.stroke(); ctx2.setLineDash([])
 
-  // Transformed square
   const tPts = orig.map(p => [J[0][0]*p[0]+J[0][1]*p[1], J[1][0]*p[0]+J[1][1]*p[1]])
   ctx2.fillStyle = 'rgba(99,102,241,0.2)'
   ctx2.strokeStyle = '#6366f1'; ctx2.lineWidth = 2.5
@@ -417,26 +403,22 @@ function drawCanvas2() {
   })
   ctx2.closePath(); ctx2.fill(); ctx2.stroke()
 
-  // Eigenvector direction (x-axis only!)
   const eigDir = [1, 0]
   drawLine1(ctx2, cx2, cy2, eigDir, 4*sc2, '#ec4899', 2.5)
   ctx2.fillStyle = '#be185d'; ctx2.font = 'bold 13px sans-serif'
   ctx2.fillText('唯一特征方向 (x轴)', cx2+10, cy2-10)
 
-  // Show that [0,1] gets sheared
   const e2 = [0,1]
   const Je2 = [shear, lambda2]
   drawArrowDyn1(ctx2, cx2, cy2, cx2+Je2[0]*sc2, cy2-Je2[1]*sc2, '#7c3aed', 2.5)
   ctx2.fillStyle = '#6d28d9'; ctx2.font = 'bold 13px sans-serif'
   ctx2.fillText('J·e₂ (被剪切)', cx2+Je2[0]*sc2+8, cy2-Je2[1]*sc2-5)
 
-  // e1
   const Je1 = [lambda2, 0]
   drawArrowDyn1(ctx2, cx2, cy2, cx2+Je1[0]*sc2, cy2-Je1[1]*sc2, '#ec4899', 2.5)
   ctx2.fillStyle = '#be185d'; ctx2.font = 'bold 13px sans-serif'
   ctx2.fillText('J·e₁ = λe₁', cx2+Je1[0]*sc2/2-20, cy2+20)
 
-  // Matrix label
   ctx2.fillStyle = '#1e293b'; ctx2.font = 'bold 14px sans-serif'; ctx2.textAlign = 'center'
   ctx2.fillText(`J = [[${lambda2}, ${shear.toFixed(2)}], [0, ${lambda2}]] — 剪切强度随时间增大`, W/2, 25)
   ctx2.fillStyle = '#64748b'; ctx2.font = '13px sans-serif'
@@ -460,13 +442,12 @@ function play2() {
 function pause2() { playing2.value = false; if (rafId2) cancelAnimationFrame(rafId2) }
 function reset2() { pause2(); t2 = 0; drawCanvas2() }
 
-// ===== Animation 3: Jordan chain (SVG animation) =====
-const playing3 = ref(false)
-let rafId3 = null
+// ===== Animation 3: Jordan chain (SVG, auto-mode) =====
 const xiX = ref(0), xiY = ref(0)
 const etaX = ref(0), etaY = ref(0)
-const xiTarget = {x: 100, y: 70}   // eigenvector: along ~35 degrees
-const etaTarget = {x: 60, y: 160}   // generalized eigenvector: steeper
+let rafId3 = null
+const xiTarget = {x: 100, y: 70}
+const etaTarget = {x: 60, y: 160}
 let phase3 = 0
 
 function loop3() {
@@ -482,14 +463,11 @@ function loop3() {
     setTimeout(() => {
       phase3 = 0
       xiX.value = 0; xiY.value = 0; etaX.value = 0; etaY.value = 0
-    }, 2000)
+    }, 2500)
     return
   }
   rafId3 = requestAnimationFrame(loop3)
 }
-function play3() { if (!playing3.value) { playing3.value = true; loop3() } }
-function pause3() { playing3.value = false; if (rafId3) cancelAnimationFrame(rafId3) }
-function reset3() { pause3(); phase3 = 0; xiX.value=0; xiY.value=0; etaX.value=0; etaY.value=0 }
 
 onMounted(() => {
   const c1 = canvas1Ref.value
@@ -497,6 +475,8 @@ onMounted(() => {
   const c2 = canvas2Ref.value
   if (c2) { ctx2 = c2.getContext('2d'); drawCanvas2() }
   renderTrigger.value++
+  // Auto-start auto-mode animation (Jordan chain)
+  loop3()
 })
 onUnmounted(() => {
   if (rafId1) cancelAnimationFrame(rafId1)

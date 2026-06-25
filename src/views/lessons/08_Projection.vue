@@ -57,7 +57,7 @@
       </Theorem>
     </Section>
 
-    <!-- Animation 1: 正交投影vs斜投影对比 -->
+    <!-- Animation 1: 正交投影vs斜投影对比 (几何演示 - 保留interactive) -->
     <Section title="动画：正交投影 vs 斜投影" :num="2">
       <AnimationBox
         title="正交投影与斜投影对比（可调节斜投影角度）"
@@ -73,7 +73,7 @@
             {{ obliqueAngle }}°
           </label>
         </template>
-        <svg ref="svg1" viewBox="0 0 500 400" width="500" height="400">
+        <svg ref="svg1" viewBox="0 0 500 400" class="responsive-svg">
           <defs>
             <marker id="arrow1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <polygon points="0 0, 8 3, 0 6" fill="#334155"/>
@@ -179,7 +179,7 @@
       </Theorem>
     </Section>
 
-    <!-- Animation 2: 幂等性动画 -->
+    <!-- Animation 2: 幂等性动画 (几何演示 - 保留interactive) -->
     <Section title="动画：投影幂等性 P²=P" :num="4">
       <AnimationBox
         title="投影的幂等性：P(Px) = Px"
@@ -189,7 +189,7 @@
         @pause="pause2"
         @reset="reset2"
       >
-        <svg ref="svg2" viewBox="0 0 500 400" width="500" height="400">
+        <svg ref="svg2" viewBox="0 0 500 400" class="responsive-svg">
           <defs>
             <marker id="arrow2a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <polygon points="0 0, 8 3, 0 6" fill="#334155"/>
@@ -268,7 +268,7 @@
       </Theorem>
     </Section>
 
-    <!-- Animation 3: 直和分解可视化 -->
+    <!-- Animation 3: 直和分解可视化 (几何演示 - 保留interactive) -->
     <Section title="动画：R(P)⊕N(P) 直和分解" :num="6">
       <AnimationBox
         title="直和分解可视化：x = Px + (I-P)x"
@@ -278,7 +278,7 @@
         @pause="pause3"
         @reset="reset3"
       >
-        <svg ref="svg3" viewBox="0 0 500 400" width="500" height="400">
+        <svg ref="svg3" viewBox="0 0 500 400" class="responsive-svg">
           <defs>
             <marker id="arrow3a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <polygon points="0 0, 8 3, 0 6" fill="#334155"/>
@@ -424,14 +424,47 @@
         </template>
       </ExampleBox>
 
+      <ExampleBox source="矩阵方程综合题" badge="📝 真题3">
+        <template #problem>
+          <p>设<span class="formula-inline">A = \begin{pmatrix} 1 & 1 \\ 0 & 1 \\ 1 & 0 \end{pmatrix}</span>，<span class="formula-inline">b = (1, 2, 2)^{\mathsf{T}}</span>。判断方程组<span class="formula-inline">Ax = b</span>是否有解；若无解，求其极小范数最小二乘解。</p>
+        </template>
+        <template #solution>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div>
+              <p><strong>判断相容性：</strong>增广矩阵秩<span class="formula-inline">\operatorname{rank}(A|b)</span>。<span class="formula-inline">A^{\mathsf{T}}A = \begin{pmatrix}2&1\\1&2\end{pmatrix}</span>，<span class="formula-inline">\operatorname{rank}(A)=2</span>，<span class="formula-inline">AA^+b = Pb</span>。由于b不在R(A)中（验证略），方程组无解。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div>
+              <p><strong>极小范数最小二乘解：</strong><span class="formula-inline">x^+ = A^+b = (A^{\mathsf{T}}A)^{-1}A^{\mathsf{T}}b</span></p>
+              <Formula>A^{\mathsf{T}}b = \begin{pmatrix} 1 & 0 & 1 \\ 1 & 1 & 0 \end{pmatrix}\begin{pmatrix} 1 \\ 2 \\ 2 \end{pmatrix} = \begin{pmatrix} 3 \\ 3 \end{pmatrix}</Formula>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div>
+              <Formula>x^+ = \frac{1}{3}\begin{pmatrix} 2 & -1 \\ -1 & 2 \end{pmatrix}\begin{pmatrix} 3 \\ 3 \end{pmatrix} = \begin{pmatrix} 1 \\ 1 \end{pmatrix}</Formula>
+              <p>验证残差<span class="formula-inline">r = b - Ax^+ = (1,2,2)^{\mathsf{T}} - (2,1,1)^{\mathsf{T}} = (-1,1,1)^{\mathsf{T}}</span>，<span class="formula-inline">A^{\mathsf{T}}r = (0,0)^{\mathsf{T}}</span> ✓</p>
+            </div>
+          </div>
+        </template>
+      </ExampleBox>
+
       <Steps :steps="[
-        '识别投影类型：正交投影(Pᵀ=P)还是斜投影？目标子空间是什么？投影方向是什么？',
-        '正交投影到列空间R(A)：直接套公式 P = A(AᵀA)⁻¹Aᵀ，注意A必须列满秩',
-        '一维正交投影：P = uuᵀ/(uᵀu)，这是最简单的投影矩阵',
-        '斜投影 P_{L,M}：利用 V=L⊕M，通过基矩阵A、B构造 P=A(BA)⁻¹B',
-        '验证：务必检查 P²=P（幂等性），正交投影额外检查 Pᵀ=P',
-        '矩阵方程 AXB=D：先验证有解条件 AA⁺DB⁺B=D，再写通解 X=A⁺DB⁺+(I-A⁺A)Y(I-BB⁺)'
+        '识别投影类型：正交投影(<span class=&quot;formula-inline&quot;>P^{\\mathsf{T}}=P</span>)还是斜投影？目标子空间是什么？投影方向是什么？',
+        '正交投影到列空间<span class=&quot;formula-inline&quot;>R(A)</span>：直接套公式 <span class=&quot;formula-inline&quot;>P = A(A^{\\mathsf{T}}A)^{-1}A^{\\mathsf{T}}</span>，注意A必须列满秩',
+        '一维正交投影：<span class=&quot;formula-inline&quot;>P = uu^{\\mathsf{T}}/(u^{\\mathsf{T}}u)</span>，这是最简单的投影矩阵',
+        '斜投影 <span class=&quot;formula-inline&quot;>P_{L,M}</span>：利用 <span class=&quot;formula-inline&quot;>V=L\\oplus M</span>，通过基矩阵A、B构造 <span class=&quot;formula-inline&quot;>P=A(BA)^{-1}B</span>',
+        '验证：务必检查 <span class=&quot;formula-inline&quot;>P^2=P</span>（幂等性），正交投影额外检查 <span class=&quot;formula-inline&quot;>P^{\\mathsf{T}}=P</span>',
+        '矩阵方程 <span class=&quot;formula-inline&quot;>AXB=D</span>：先验证有解条件 <span class=&quot;formula-inline&quot;>AA^+DB^+B=D</span>，再写通解 <span class=&quot;formula-inline&quot;>X=A^+DB^++(I-A^+A)Y(I-BB^+)</span>'
       ]"/>
+    </Section>
+
+    <!-- WeekQuizBank -->
+    <Section title="🗂️ 真题与习题汇总">
+      <WeekQuizBank :quizzes="quizzes" weekLabel="第3周" />
     </Section>
   </LessonLayout>
 </template>
@@ -444,8 +477,12 @@ import Theorem from '../../components/ui/Theorem.vue'
 import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
+import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
+import { quizBank } from '../../data/quizBank'
 import { useKatex } from '../../composables/useKatex'
 import { ref, onUnmounted, computed } from 'vue'
+
+const quizzes = quizBank[8]
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)
@@ -460,7 +497,6 @@ const lineAngleRad = Math.PI / 6 // 30 degrees - the subspace L direction
 // x vector endpoint (fixed for demo)
 const xVec = { x: 80, y: 120 } // relative to origin
 
-const lineAngleRadRef = computed(() => lineAngleRad)
 const cosL = Math.cos(lineAngleRad)
 const sinL = Math.sin(lineAngleRad)
 
@@ -468,7 +504,6 @@ const sinL = Math.sin(lineAngleRad)
 const px = ref(xVec.x)
 const py = ref(xVec.y)
 const opx = computed(() => {
-  // project (px,py) onto direction (cosL, sinL)
   const dot = px.value * cosL + py.value * sinL
   return dot * cosL
 })
@@ -480,20 +515,10 @@ const opy = computed(() => {
 // Oblique projection: project along direction at angle obliqueAngle from horizontal
 const obpx = computed(() => {
   const theta = (obliqueAngle.value * Math.PI) / 180
-  // Direction of oblique projection: (cos(theta), sin(theta))
-  // We need to find scalar t such that x + t*d lies on L
-  // L: point = s*(cosL, sinL)
-  // x + t*d = s*(cosL, sinL) => need to solve
-  // Actually: oblique projection onto L along direction d means:
-  // P_oblq * x = x - t*d where result is on L
-  // Parametrize: (px + t*dx, py + t*dy) is on line through origin in direction (cosL, sinL)
-  // So (px + t*dx)/cosL = (py + t*dy)/sinL = s
   const dx = Math.cos(theta)
   const dy = Math.sin(theta)
-  // px*sinL + t*dx*sinL = py*cosL + t*dy*cosL
-  // t*(dx*sinL - dy*cosL) = py*cosL - px*sinL
   const denom = dx * sinL - dy * cosL
-  if (Math.abs(denom) < 0.001) return opx.value // fallback
+  if (Math.abs(denom) < 0.001) return opx.value
   const t = (py.value * cosL - px.value * sinL) / denom
   return px.value + t * dx
 })
@@ -509,7 +534,6 @@ const obpy = computed(() => {
 
 const animate1 = () => {
   t1.value += 0.008
-  // Rotate x vector around origin slowly
   const ang = t1.value * 0.5
   px.value = 60 * Math.cos(ang) + 100 * Math.cos(ang + 0.5)
   py.value = 60 * Math.sin(ang) + 80 * Math.sin(ang + 0.3)
@@ -526,12 +550,10 @@ const reset1 = () => {
 // ====== Animation 2: Idempotency P²=P ======
 const playing2 = ref(false)
 let rafId2 = null
-const stage2 = ref(0) // 0=x shown, 1=first projection, 2=second projection
+const stage2 = ref(0)
 const x2px = 140
-const x2py = -100 // y is down in SVG, so we use negative for up; but actually in our coord system py is screen-down...
-// Let's fix: screen y goes down, so "up" in math = lower y in screen
-// Origin at (250, 300). x vector goes to (250+140, 300-100) = (390, 200) - right and up
-const x2Vec = { x: 140, y: 100 } // 100 pixels up in math = -100 screen offset
+const x2py = 100
+const x2Vec = { x: 140, y: 100 }
 const px1x = ref(0)
 const px1y = ref(0)
 const ppx = ref(0)
@@ -544,20 +566,15 @@ const animate2 = () => {
   t2 += 0.015
   if (t2 < 1) {
     stage2.value = 1
-    // Animate first projection: x -> Px (orthogonal projection onto x-axis which is y=0 in screen=300)
     const progress = Math.min(t2, 1)
-    px1x.value = x2Vec.x * easeOutCubic(progress)
-    px1y.value = x2Vec.y * easeOutCubic(progress) // project to y=0 (on the axis), so go from x2Vec.y to 0
-    // Wait: Px is on L which is the x-axis. So Px = (x2Vec.x, 0) in math coords relative to origin
     px1x.value = x2Vec.x
-    px1y.value = x2Vec.y * (1 - easeOutCubic(progress)) // goes from x2Vec.y to 0
+    px1y.value = x2Vec.y * (1 - easeOutCubic(progress))
     projAlpha1.value = easeOutCubic(progress)
     ppx.value = 0; ppy.value = 0; projAlpha2.value = 0
   } else if (t2 < 2) {
     stage2.value = 2
     projAlpha1.value = 1
     px1x.value = x2Vec.x; px1y.value = 0
-    // Second projection from Px to P(Px) = Px (stays same, show overlapping)
     const progress = easeOutCubic(Math.min((t2 - 1), 1))
     ppx.value = x2Vec.x * progress
     ppy.value = 0
@@ -584,14 +601,14 @@ let rafId3 = null
 let t3 = 0
 const decomp3 = ref(0)
 const x3x = 120
-const x3y = 80 // math up
+const x3y = 80
 const px3 = ref(0)
 
 const animate3 = () => {
   t3 += 0.012
   const p = Math.min(t3, 1)
   decomp3.value = easeOutCubic(p)
-  px3.value = x3x * decomp3.value // Px component is along R(P) (horizontal) = x3x
+  px3.value = x3x * decomp3.value
   rafId3 = requestAnimationFrame(animate3)
 }
 const play3 = () => { if (!playing3.value) { playing3.value = true; t3 = 0; animate3() } }
@@ -625,4 +642,6 @@ onUnmounted(() => {
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; }
 h3 { color: #7c3aed; }
+.responsive-svg { max-width: 100%; height: auto; display: block; }
+:deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
 </style>

@@ -33,7 +33,7 @@
       <Theorem title="子空间判定定理" type="theorem">
         <span class="formula-inline">W\subseteq V</span> 是子空间 <span class="formula-inline">\iff</span>
         <Formula display>W \neq \emptyset \quad\text{且}\quad \forall\alpha,\beta\in W,\ \forall k,l\in\mathbb{F},\ k\alpha+l\beta\in W</Formula>
-        即：W 对线性组合封闭。特别地，<span class="formula-inline">0\in W</span>。
+        即：<span class="formula-inline">W</span> 对线性组合封闭。特别地，<span class="formula-inline">0\in W</span>。
       </Theorem>
 
       <Theorem title="生成子空间" type="definition" icon="🔹">
@@ -42,41 +42,31 @@
         是 <span class="formula-inline">V</span> 的子空间，称为由 <span class="formula-inline">\alpha_1,\dots,\alpha_s</span> 生成（张成）的子空间。
       </Theorem>
 
-      <AnimationBox title="R³ 中过原点的平面/直线是子空间" :playing="playing1" @play="play1" @pause="pause1" @reset="reset1"
-        description="拖动观察：过原点的平面（二维子空间）和过原点的直线（一维子空间）对向量加法和数乘封闭；不过原点的平面不是子空间。">
-        <svg width="600" height="400" viewBox="0 0 600 400" ref="svg1Ref">
+      <AnimationBox title="R³ 中过原点的平面/直线是子空间" mode="auto"
+        description="自动旋转观察：过原点的平面（二维子空间）对向量加法和数乘封闭——两向量之和 α+β 仍在平面内（平行四边形法则）。">
+        <svg viewBox="0 0 600 400" ref="svg1Ref" style="width:100%;max-width:600px;">
           <defs>
             <linearGradient id="planeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#6366f1" stop-opacity="0.25"/>
               <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.15"/>
             </linearGradient>
           </defs>
-          <!-- 3D coordinate axes (isometric) -->
-          <!-- Origin at (300, 250) -->
-          <!-- x-axis (screen-right-down), y-axis (screen-left-down), z-axis (screen-up) -->
           <g :transform="`rotate(${rot1}, 300, 250)`">
-            <!-- Plane through origin -->
             <polygon :points="planePoints1" fill="url(#planeGrad1)" stroke="#6366f1" stroke-width="1.5" stroke-opacity="0.7"/>
-            <!-- Axes -->
             <line x1="300" y1="250" x2="520" y2="340" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
             <line x1="300" y1="250" x2="80" y2="340" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
             <line x1="300" y1="250" x2="300" y2="60" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
             <text x="530" y="345" fill="#64748b" font-size="13">x</text>
             <text x="65" y="350" fill="#64748b" font-size="13">y</text>
             <text x="305" y="55" fill="#64748b" font-size="13">z</text>
-            <!-- Two vectors in plane -->
             <line x1="300" y1="250" :x2="300+v1x" :y2="250+v1y" stroke="#4338ca" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
             <line x1="300" y1="250" :x2="300+v2x" :y2="250+v2y" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arrowPurple)"/>
-            <!-- Sum vector -->
             <line x1="300" y1="250" :x2="300+v1x+v2x" :y2="250+v1y+v2y" stroke="#ec4899" stroke-width="2.5" marker-end="url(#arrowPink)" stroke-dasharray="6,3"/>
-            <!-- Parallelogram -->
             <line :x1="300+v1x" :y1="250+v1y" :x2="300+v1x+v2x" :y2="250+v1y+v2y" stroke="#ec4899" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
             <line :x1="300+v2x" :y1="250+v2y" :x2="300+v1x+v2x" :y2="250+v1y+v2y" stroke="#ec4899" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
-            <!-- Labels -->
             <text :x="300+v1x+10" :y="250+v1y-5" fill="#4338ca" font-size="13" font-weight="bold">α</text>
             <text :x="300+v2x-20" :y="250+v2y-5" fill="#7c3aed" font-size="13" font-weight="bold">β</text>
             <text :x="300+v1x+v2x+8" :y="250+v1y+v2y+5" fill="#ec4899" font-size="13" font-weight="bold">α+β</text>
-            <!-- Origin -->
             <circle cx="300" cy="250" r="4" fill="#1e293b"/>
             <text x="285" y="270" fill="#1e293b" font-size="12">0</text>
           </g>
@@ -131,9 +121,9 @@
         <Formula display>\dim(W_1+W_2)=\dim W_1+\dim W_2-\dim(W_1\cap W_2)</Formula>
       </Theorem>
 
-      <AnimationBox title="子空间的和与交（平面 + 平面）" :playing="playing2" @play="play2" @pause="pause2" @reset="reset2"
-        description="在 R³ 中，两个过原点的平面 W₁ 和 W₂，它们的交是一条直线，它们的和可能是整个 R³。">
-        <svg width="600" height="400" viewBox="0 0 600 400" ref="svg2Ref">
+      <AnimationBox title="子空间的和与交（平面 + 平面）" mode="auto"
+        description="自动旋转观察 R³ 中两个过原点的平面 W₁ 和 W₂：它们的交是一条直线（橙色），它们的和可能是整个 R³。">
+        <svg viewBox="0 0 600 400" ref="svg2Ref" style="width:100%;max-width:600px;">
           <defs>
             <linearGradient id="planeW1" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
@@ -145,20 +135,15 @@
             </linearGradient>
           </defs>
           <g :transform="`rotate(${rot2}, 300, 220)`">
-            <!-- W1 plane (horizontal-like) -->
             <polygon :points="w1Points" fill="url(#planeW1)" stroke="#6366f1" stroke-width="1.5"/>
-            <!-- W2 plane (vertical-like) -->
             <polygon :points="w2Points" fill="url(#planeW2)" stroke="#ec4899" stroke-width="1.5"/>
-            <!-- Intersection line -->
             <line x1="80" y1="220" x2="520" y2="220" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrowOrange)" marker-start="url(#arrowOrange)"/>
-            <!-- Axes -->
             <line x1="300" y1="220" x2="500" y2="310" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
             <line x1="300" y1="220" x2="100" y2="310" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
             <line x1="300" y1="220" x2="300" y2="50" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
             <text x="510" y="315" fill="#64748b" font-size="12">x</text>
             <text x="80" y="320" fill="#64748b" font-size="12">y</text>
             <text x="305" y="45" fill="#64748b" font-size="12">z</text>
-            <!-- Labels -->
             <text x="440" y="140" fill="#4338ca" font-size="14" font-weight="bold">W₁</text>
             <text x="440" y="300" fill="#be185d" font-size="14" font-weight="bold">W₂</text>
             <text x="525" y="215" fill="#d97706" font-size="13" font-weight="bold">W₁∩W₂</text>
@@ -178,7 +163,7 @@
 
     <Section num="5" title="直和分解">
       <Theorem title="直和 (Direct Sum)" type="definition" icon="✨">
-        若 <span class="formula-inline">W_1+W_2</span> 中每个向量 <span class="formula">\alpha</span> 的分解式
+        若 <span class="formula-inline">W_1+W_2</span> 中每个向量 <span class="formula-inline">\alpha</span> 的分解式
         <span class="formula-inline">\alpha=\alpha_1+\alpha_2\ (\alpha_1\in W_1,\alpha_2\in W_2)</span> 是<strong>唯一</strong>的，
         则称 <span class="formula-inline">W_1+W_2</span> 为<strong>直和</strong>，记为 <span class="formula-inline">W_1\oplus W_2</span>。
       </Theorem>
@@ -194,37 +179,30 @@
       </Theorem>
 
       <AnimationBox title="直和中的唯一分解" :playing="playing3" @play="play3" @pause="pause3" @reset="reset3"
-        description="向量 v 在直和 W₁⊕W₂ 中唯一分解为 v = v₁ + v₂，其中 v₁∈W₁（x轴），v₂∈W₂（y轴）。">
-        <svg width="600" height="400" viewBox="0 0 600 400" ref="svg3Ref">
-          <!-- Coordinate system: W1 = x-axis, W2 = y-axis -->
+        description="点击播放：向量 v 在直和 W₁⊕W₂ 中唯一分解为 v = v₁ + v₂，其中 v₁∈W₁（x轴），v₂∈W₂（y轴），虚线为投影辅助线。">
+        <svg viewBox="0 0 600 400" ref="svg3Ref" style="width:100%;max-width:600px;">
           <line x1="60" y1="340" x2="560" y2="340" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowB3)"/>
           <line x1="80" y1="380" x2="80" y2="40" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowP3)"/>
           <text x="565" y="345" fill="#4338ca" font-size="14" font-weight="bold">W₁ (x轴)</text>
           <text x="55" y="35" fill="#7c3aed" font-size="14" font-weight="bold">W₂ (y轴)</text>
 
-          <!-- Grid hints -->
           <g stroke="#e2e8f0" stroke-width="0.5">
             <line v-for="i in 10" :key="'gx'+i" :x1="80+i*45" y1="40" :x2="80+i*45" y2="380"/>
             <line v-for="i in 7" :key="'gy'+i" :x1="80" :y1="340-i*40" x2="560" :y2="340-i*40"/>
           </g>
 
-          <!-- Vector v (animated) -->
           <line x1="80" y1="340" :x2="80+vx3" :y2="340-vy3" stroke="#ec4899" stroke-width="3" marker-end="url(#arrowPk3)"/>
           <text :x="80+vx3+10" :y="340-vy3" fill="#be185d" font-size="14" font-weight="bold">v</text>
 
-          <!-- Projection to W1 -->
           <line x1="80" y1="340" :x2="80+vx3" y2="340" stroke="#4338ca" stroke-width="2.5" marker-end="url(#arrowB3)" :opacity="projAlpha"/>
           <text :x="80+vx3/2" y="360" fill="#4338ca" font-size="13" font-weight="bold" :opacity="projAlpha">v₁∈W₁</text>
 
-          <!-- Projection to W2 -->
           <line x1="80" y1="340" x2="80" :y2="340-vy3" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arrowP3)" :opacity="projAlpha"/>
           <text x="30" :y="340-vy3/2" fill="#7c3aed" font-size="13" font-weight="bold" :opacity="projAlpha">v₂∈W₂</text>
 
-          <!-- Dashed projection lines -->
           <line :x1="80+vx3" y1="340" :x2="80+vx3" :y2="340-vy3" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5,3" :opacity="projAlpha"/>
           <line x1="80" :y1="340-vy3" :x2="80+vx3" :y2="340-vy3" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5,3" :opacity="projAlpha"/>
 
-          <!-- Right angle mark -->
           <path :opacity="projAlpha" d="M 220 340 L 220 290 L 270 290" fill="none" stroke="#10b981" stroke-width="1.5"
                 :transform="`translate(${vx3-140}, ${-vy3+50})`"/>
 
@@ -342,6 +320,10 @@
       </ExampleBox>
     </Section>
 
+    <Section title="🗂️ 真题与习题汇总">
+      <WeekQuizBank :quizzes="quizzes" weekLabel="第1周" />
+    </Section>
+
     <Section title="📌 知识点小结">
       <Steps :steps="[
         '线性空间：非空集合 + 数域 + 加法/数乘 = 满足8条公理的代数结构',
@@ -362,20 +344,23 @@ import Theorem from '../../components/ui/Theorem.vue'
 import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
+import QuizProblem from '../../components/quiz/QuizProblem.vue'
+import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
 import { useKatex } from '../../composables/useKatex'
+import { quizBank } from '../../data/quizBank'
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)
 
-// ===== Animation 1: Plane subspace in R3 =====
-const playing1 = ref(false)
+const quizzes = (quizBank[1] || []).map(q => ({ ...q, lessonNum: '01', lessonTitle: '线性空间与线性子空间' }))
+
+// ===== Animation 1: Plane subspace in R3 (auto-rotate) =====
 const rot1 = ref(0)
 let rafId1 = null
-const v1x = 120, v1y = -30  // vector α in plane
-const v2x = -60, v2y = -60  // vector β in plane
+const v1x = 120, v1y = -30
+const v2x = -60, v2y = -60
 const planePoints1 = computed(() => {
-  // A slanted plane through origin
   const cx = 300, cy = 250
   return `${cx-200},${cy+20} ${cx+200},${cy-30} ${cx+180},${cy-80} ${cx-180},${cy-30}`
 })
@@ -384,12 +369,8 @@ function animate1() {
   rot1.value = (rot1.value + 0.3) % 360
   rafId1 = requestAnimationFrame(animate1)
 }
-function play1() { if (!playing1.value) { playing1.value = true; animate1() } }
-function pause1() { playing1.value = false; if (rafId1) cancelAnimationFrame(rafId1) }
-function reset1() { pause1(); rot1.value = 0 }
 
-// ===== Animation 2: Sum and intersection of two planes =====
-const playing2 = ref(false)
+// ===== Animation 2: Sum and intersection of two planes (auto-rotate) =====
 const rot2 = ref(0)
 let rafId2 = null
 const w1Points = computed(() => {
@@ -406,17 +387,14 @@ function animate2() {
   rot2.value = (rot2.value + 0.4) % 360
   rafId2 = requestAnimationFrame(animate2)
 }
-function play2() { if (!playing2.value) { playing2.value = true; animate2() } }
-function pause2() { playing2.value = false; if (rafId2) cancelAnimationFrame(rafId2) }
-function reset2() { pause2(); rot2.value = 0 }
 
-// ===== Animation 3: Direct sum unique decomposition =====
+// ===== Animation 3: Direct sum unique decomposition (interactive) =====
 const playing3 = ref(false)
 const vx3 = ref(0), vy3 = ref(0)
 const projAlpha = ref(0)
 let rafId3 = null
 const targetX = 280, targetY = 200
-let phase3 = 0  // 0: draw v, 1: draw projections, 2: pause
+let phase3 = 0
 
 function animate3() {
   if (phase3 === 0) {
@@ -427,7 +405,6 @@ function animate3() {
     projAlpha.value = Math.min(projAlpha.value + 0.02, 1)
     if (projAlpha.value >= 1) phase3 = 2
   } else {
-    // pause then reset
     setTimeout(() => {
       phase3 = 0
       vx3.value = 0; vy3.value = 0; projAlpha.value = 0
@@ -440,7 +417,12 @@ function play3() { if (!playing3.value) { playing3.value = true; animate3() } }
 function pause3() { playing3.value = false; if (rafId3) cancelAnimationFrame(rafId3) }
 function reset3() { pause3(); vx3.value = 0; vy3.value = 0; projAlpha.value = 0; phase3 = 0 }
 
-onMounted(() => { renderTrigger.value++ })
+onMounted(() => {
+  renderTrigger.value++
+  // Auto-start auto-mode animations
+  animate1()
+  animate2()
+})
 onUnmounted(() => {
   if (rafId1) cancelAnimationFrame(rafId1)
   if (rafId2) cancelAnimationFrame(rafId2)

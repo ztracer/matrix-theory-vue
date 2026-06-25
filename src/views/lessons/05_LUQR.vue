@@ -161,7 +161,7 @@
       <AnimationBox
         title="Gram-Schmidt正交化 (R³)"
         :playing="gsPlaying"
-        description="蓝色为原始向量a_i，绿色为正交向量b_i，橙色虚线为被减去的投影分量"
+        description="蓝色为原始向量aᵢ，绿色为正交向量bᵢ，橙色虚线为被减去的投影分量"
         @play="gsPlay"
         @pause="gsPause"
         @reset="gsReset"
@@ -279,7 +279,7 @@
       <AnimationBox
         title="Householder反射几何直观"
         :playing="hhPlaying"
-        description="红色向量x经紫色镜面反射后映射到绿色的-σe₁方向，镜面垂直于u"
+        description="红色向量x经紫色镜面反射后映射到绿色的-σe₁方向，镜面垂直于u（紫色法向量）"
         @play="hhPlay"
         @pause="hhPause"
         @reset="hhReset"
@@ -402,8 +402,86 @@
       </ExampleBox>
     </Section>
 
-    <!-- 8. 小结 -->
-    <Section title="知识点小结" :num="8">
+    <!-- 8. 知识结构图（auto模式） -->
+    <Section title="知识结构：矩阵三角分解方法谱系" :num="8">
+      <p>下图自动循环展示矩阵三角分解的各类方法及其关系：</p>
+      <AnimationBox
+        mode="auto"
+        title="矩阵分解方法关系图"
+        description="脉冲高亮依次展示：Gauss消元→LU→LDU→Cholesky；Gram-Schmidt/Householder→QR"
+      >
+        <div class="concept-map">
+          <div class="cm-root">矩阵分解</div>
+          <div class="cm-branches">
+            <div class="cm-branch cm-branch-lu">
+              <div class="cm-node cm-n1" style="animation-delay:0s">LU分解</div>
+              <div class="cm-children">
+                <div class="cm-node cm-n2" style="animation-delay:1s">Gauss消元</div>
+                <div class="cm-node cm-n3" style="animation-delay:2s">LDU分解</div>
+                <div class="cm-node cm-n4" style="animation-delay:3s">Cholesky<br/><span class="cm-small">A=LLᵀ(正定)</span></div>
+              </div>
+            </div>
+            <div class="cm-branch cm-branch-qr">
+              <div class="cm-node cm-n5" style="animation-delay:4s">QR分解</div>
+              <div class="cm-children">
+                <div class="cm-node cm-n6" style="animation-delay:5s">Gram-Schmidt<br/><span class="cm-small">(正交化)</span></div>
+                <div class="cm-node cm-n7" style="animation-delay:6s">Householder<br/><span class="cm-small">(反射·数值稳定)</span></div>
+                <div class="cm-node cm-n8" style="animation-delay:7s">Givens旋转<br/><span class="cm-small">(平面旋转)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </AnimationBox>
+    </Section>
+
+    <!-- 9. 例题2：LU分解 -->
+    <Section title="真题精讲（续）" :num="9">
+      <ExampleBox source="教材经典习题" badge="📝 LU分解例题">
+        <template #problem>
+          <p>用Gauss消元法对矩阵 <span class="formula-inline">A = \begin{pmatrix} 2 & 1 & 1 \\ 4 & 3 & 3 \\ 2 & 2 & 1 \end{pmatrix}</span> 做LU分解，并用结果解方程组 <span class="formula-inline">Ax = b</span>，其中 <span class="formula-inline">b = (1,2,1)\T</span>。</p>
+        </template>
+        <template #solution>
+          <div class="step">
+            <span class="step-num">1</span>
+            <div>
+              <p><strong>第一步消元（第1列）：</strong></p>
+              <p>主元 <span class="formula-inline">a_{11}=2</span>，乘数 <span class="formula-inline">l_{21}=a_{21}/a_{11}=4/2=2</span>，<span class="formula-inline">l_{31}=a_{31}/a_{11}=2/2=1</span>。</p>
+              <p><span class="formula-inline">R_2 \leftarrow R_2 - 2R_1</span>，<span class="formula-inline">R_3 \leftarrow R_3 - R_1</span>：</p>
+              <div class="formula-block">A^{(1)} = \begin{pmatrix} 2 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 1 & 0 \end{pmatrix}</div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <div>
+              <p><strong>第二步消元（第2列）：</strong></p>
+              <p>主元 <span class="formula-inline">a_{22}^{(1)}=1</span>，乘数 <span class="formula-inline">l_{32}=1/1=1</span>。</p>
+              <p><span class="formula-inline">R_3 \leftarrow R_3 - R_2</span>：</p>
+              <div class="formula-block">U = A^{(2)} = \begin{pmatrix} 2 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & -1 \end{pmatrix}</div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <div>
+              <p><strong>写出L和U：</strong></p>
+              <div class="formula-block">L = \begin{pmatrix} 1 & 0 & 0 \\ 2 & 1 & 0 \\ 1 & 1 & 1 \end{pmatrix}, \quad U = \begin{pmatrix} 2 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & -1 \end{pmatrix}</div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">4</span>
+            <div>
+              <p><strong>解 Ly=b（前代）：</strong></p>
+              <p><span class="formula-inline">y_1=1,\ y_2=2-2\cdot 1=0,\ y_3=1-1\cdot 1-1\cdot 0=0</span></p>
+              <p><strong>解 Ux=y（回代）：</strong></p>
+              <p><span class="formula-inline">-x_3=0\Rightarrow x_3=0,\ x_2+x_3=0\Rightarrow x_2=0,\ 2x_1+x_2+x_3=1\Rightarrow x_1=1/2</span></p>
+              <p>故 <span class="formula-inline">x = (1/2, 0, 0)\T</span>。</p>
+            </div>
+          </div>
+        </template>
+      </ExampleBox>
+    </Section>
+
+    <!-- 10. 小结 -->
+    <Section title="知识点小结" :num="10">
       <Steps :steps="[
         'LU分解 A=LU：L单位下三角记录Gauss乘数，U上三角为消元结果；顺序主子式非零则存在唯一。',
         'LDU分解 A=LDU：D为对角阵，对称正定时得Cholesky分解 A=LLᵀ。',
@@ -412,6 +490,11 @@
         'Householder反射 H=I-2uuᵀ/(uᵀu)：对称正交矩阵，取u=x+sign(x₁)‖x‖e₁可将x反射到-σe₁方向，一次清零多个元素。',
         '用Householder方法做QR分解：依次对第1列到第n-1列构造反射矩阵，数值稳定性好，是实际计算的首选方法。'
       ]"/>
+    </Section>
+
+    <!-- 11. 真题与习题汇总 -->
+    <Section title="🗂️ 真题与习题汇总">
+      <WeekQuizBank :quizzes="quizzes" weekLabel="第2周" />
     </Section>
 
   </LessonLayout>
@@ -425,8 +508,13 @@ import Theorem from '../../components/ui/Theorem.vue'
 import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
+import QuizProblem from '../../components/quiz/QuizProblem.vue'
+import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
+import { quizBank } from '../../data/quizBank'
 import { useKatex } from '../../composables/useKatex'
 import { ref, onUnmounted, computed } from 'vue'
+
+const quizzes = quizBank[5]
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)
@@ -640,6 +728,7 @@ function gsReset() {
 // ========== Householder动画 ==========
 const hhPlaying = ref(false)
 let hhAnimId = null
+let hhReflectRafId = null
 const hhStep = ref(0)
 const hhSvgWidth = ref(700)
 const hhT = ref(0)
@@ -717,7 +806,7 @@ function animateHHReflect() {
     hhT.value = Math.min((now - start) / dur, 1)
     renderTrigger.value++
     if (hhT.value < 1 && hhPlaying.value) {
-      requestAnimationFrame(tick)
+      hhReflectRafId = requestAnimationFrame(tick)
     } else {
       hhT.value = 1
       hhStep.value = 3
@@ -728,7 +817,7 @@ function animateHHReflect() {
       }
     }
   }
-  requestAnimationFrame(tick)
+  hhReflectRafId = requestAnimationFrame(tick)
 }
 
 function hhLoop() {
@@ -748,10 +837,12 @@ function hhPlay() {
 function hhPause() {
   hhPlaying.value = false
   if (hhAnimId) clearTimeout(hhAnimId)
+  if (hhReflectRafId) cancelAnimationFrame(hhReflectRafId)
 }
 function hhReset() {
   hhPlaying.value = false
   if (hhAnimId) clearTimeout(hhAnimId)
+  if (hhReflectRafId) cancelAnimationFrame(hhReflectRafId)
   hhStep.value = 0
   hhT.value = 0
   hhSigma.value = 0
@@ -771,4 +862,82 @@ onUnmounted(() => {
 <style scoped>
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; margin: 12px 0; }
+
+/* 概念关系图（auto模式） */
+.concept-map {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  min-height: 280px;
+}
+.cm-root {
+  background: linear-gradient(135deg,#4f46e5,#7c3aed);
+  color: #fff;
+  padding: 10px 28px;
+  border-radius: 24px;
+  font-size: 18px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(79,70,229,.3);
+  animation: cm-pulse 2s ease-in-out infinite;
+}
+.cm-branches {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cm-branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  padding-top: 20px;
+}
+.cm-branch::before {
+  content: '';
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  width: 2px;
+  height: 20px;
+  background: #94a3b8;
+}
+.cm-children {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cm-node {
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  color: #475569;
+  opacity: 0;
+  animation: cm-light 8s ease-in-out infinite;
+  line-height: 1.4;
+}
+.cm-small { font-size: 11px; font-weight: 400; color: #94a3b8; }
+.cm-branch-lu .cm-node { border-color: #93c5fd; color: #1e40af; }
+.cm-branch-qr .cm-node { border-color: #6ee7b7; color: #065f46; }
+.cm-n1 { animation-delay: 0s !important; }
+.cm-n5 { animation-delay: 4s !important; }
+@keyframes cm-pulse {
+  0%,100% { box-shadow: 0 4px 14px rgba(79,70,229,.3); transform: scale(1); }
+  50% { box-shadow: 0 6px 24px rgba(79,70,229,.5); transform: scale(1.04); }
+}
+@keyframes cm-light {
+  0% { opacity: 0; transform: scale(0.8); }
+  5% { opacity: 1; transform: scale(1.1); }
+  10% { transform: scale(1); }
+  85% { opacity: 1; transform: scale(1); }
+  95%,100% { opacity: 0.3; transform: scale(0.95); }
+}
 </style>

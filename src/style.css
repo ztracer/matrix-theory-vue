@@ -34,6 +34,7 @@
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 #app {
@@ -54,20 +55,68 @@ a:hover {
   text-decoration: underline;
 }
 
-/* KaTeX display fix */
+/* ========== KaTeX 公式修复 ========== */
+/* 公式容器统一支持横向滚动，防止溢出截断 */
+.formula-block, .formula-inline,
+.formula-box, .formula-box .formula-content,
+.theorem-body, .section-body,
+.quiz-problem, .step-content,
+.solution-content, .example-problem,
+.example-solution, .katex-display {
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+}
+
+/* 块级公式 */
+.formula-block {
+  display: block;
+  margin: 12px 0;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+  border-radius: 8px;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  text-align: center;
+  min-width: 0;
+}
+
+/* 行内公式 */
+.formula-inline {
+  display: inline;
+  white-space: nowrap;
+}
+
+/* KaTeX 显示模式 */
 .katex-display {
-  margin: 12px 0 !important;
-  overflow-x: auto;
-  overflow-y: hidden;
+  margin: 8px 0 !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
   padding: 4px 0;
 }
-.katex { font-size: 1.05em; }
 
-/* Scrollbar */
+/* 确保KaTeX内容不被截断 */
+.katex {
+  font-size: 1.05em;
+  white-space: normal;
+}
+
+/* 让定理框/步骤框内的公式可滚动 */
+.theorem-box, .example-box, .solution-step, .section-card {
+  overflow-x: auto;
+}
+
+.theorem-body {
+  overflow-x: auto;
+}
+
+/* ========== Scrollbar ========== */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* 横向滚动条美化 */
+::-webkit-scrollbar:horizontal { height: 8px; }
 
 /* Button base */
 button {
@@ -75,6 +124,16 @@ button {
   cursor: pointer;
 }
 
+/* 文本换行 */
+p, li, td, th {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* SVG 响应式 */
+svg { max-width: 100%; height: auto; }
+
 @media (max-width: 768px) {
   .container { padding: 0 16px; }
+  .katex { font-size: 0.95em; }
 }

@@ -31,7 +31,7 @@
       </Theorem>
     </Section>
 
-    <!-- Animation 1: Gershgorin circles for preset matrices -->
+    <!-- Animation 1: Gershgorin circles for preset matrices (几何演示 - 保留interactive) -->
     <Section title="动画：盖尔圆盘逐行绘制" :num="2">
       <AnimationBox
         title="复平面上的盖尔圆盘（3个预设三阶矩阵）"
@@ -51,7 +51,7 @@
             </select>
           </label>
         </template>
-        <svg ref="svg1" viewBox="0 0 560 420" width="560" height="420">
+        <svg ref="svg1" viewBox="0 0 560 420" class="responsive-svg">
           <defs>
             <marker id="arr-re" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
               <polygon points="0 0,7 2.5,0 5" fill="#334155"/>
@@ -137,7 +137,7 @@
       </Theorem>
     </Section>
 
-    <!-- Animation 2: Isolation animation -->
+    <!-- Animation 2: Isolation animation (几何演示 - 保留interactive) -->
     <Section title="动画：圆盘隔离与特征值计数" :num="4">
       <AnimationBox
         title="调节ε缩小圆盘半径观察隔离"
@@ -153,7 +153,7 @@
             {{ isoEpsilon.toFixed(2) }}
           </label>
         </template>
-        <svg ref="svg2" viewBox="0 0 520 380" width="520" height="380">
+        <svg ref="svg2" viewBox="0 0 520 380" class="responsive-svg">
           <rect x="0" y="0" width="520" height="380" fill="#fafbff"/>
           <g opacity="0.12">
             <line v-for="i in 26" :key="'g2v'+i" :x1="i*20" y1="0" :x2="i*20" y2="380" stroke="#94a3b8" stroke-width="0.5"/>
@@ -214,7 +214,7 @@
       </Theorem>
     </Section>
 
-    <!-- Animation 3: Rayleigh quotient -->
+    <!-- Animation 3: Rayleigh quotient (几何演示 - 保留interactive) -->
     <Section title="动画：Rayleigh商在单位圆上的极值" :num="6">
       <AnimationBox
         title="2×2对称矩阵Rayleigh商可视化"
@@ -224,7 +224,7 @@
         @pause="pause3"
         @reset="reset3"
       >
-        <svg ref="svg3" viewBox="0 0 580 380" width="580" height="380">
+        <svg ref="svg3" viewBox="0 0 580 380" class="responsive-svg">
           <!-- Left: unit circle -->
           <rect x="0" y="0" width="280" height="380" fill="#fafbff"/>
           <g transform="translate(140,190)">
@@ -274,7 +274,7 @@
 
     <!-- 真题例题 -->
     <Section title="真题例题" :num="7">
-      <ExampleBox source="盖尔圆盘隔离真题" badge="📝 真题">
+      <ExampleBox source="盖尔圆盘隔离真题" badge="📝 真题1">
         <template #problem>
           <p>用盖尔圆盘定理证明矩阵<span class="formula-inline">A = \begin{pmatrix} 10 & 1 & 1 \\ 1 & 2 & 0.5 \\ 1 & 0.5 & 1 \end{pmatrix}</span>可对角化，并估计特征值范围。</p>
         </template>
@@ -304,14 +304,66 @@
         </template>
       </ExampleBox>
 
+      <ExampleBox source="Rayleigh商证明题" badge="📝 真题2">
+        <template #problem>
+          <p>设A是实对称矩阵，证明Rayleigh商<span class="formula-inline">R(x) = \frac{x^{\mathsf{T}}Ax}{x^{\mathsf{T}}x}</span>的极值恰为A的特征值：<span class="formula-inline">\max_{x\neq 0}R(x)=\lambda_{\max}</span>，<span class="formula-inline">\min_{x\neq 0}R(x)=\lambda_{\min}</span>。</p>
+        </template>
+        <template #solution>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div>
+              <p><strong>正交对角化</strong>：<span class="formula-inline">A = Q\Lambda Q^{\mathsf{T}}</span>，令<span class="formula-inline">y = Q^{\mathsf{T}}x</span>，则<span class="formula-inline">R(x) = \frac{y^{\mathsf{T}}\Lambda y}{y^{\mathsf{T}}y} = \frac{\sum \lambda_i y_i^2}{\sum y_i^2}</span>。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div>
+              <p><strong>上下界</strong>：<span class="formula-inline">\lambda_{\min}\sum y_i^2 \leq \sum \lambda_i y_i^2 \leq \lambda_{\max}\sum y_i^2</span>，故<span class="formula-inline">\lambda_{\min} \leq R(x) \leq \lambda_{\max}</span>。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div>
+              <p><strong>等号可达</strong>：<span class="formula-inline">x</span>为对应特征向量时取等号。</p>
+            </div>
+          </div>
+        </template>
+      </ExampleBox>
+
+      <ExampleBox source="严格对角占优可逆性" badge="📝 真题3">
+        <template #problem>
+          <p>用盖尔圆盘定理证明：严格对角占优矩阵必可逆。并判断矩阵<span class="formula-inline">A = \begin{pmatrix} 5 & 1 & 1 \\ 1 & 4 & 1 \\ 1 & 1 & 3 \end{pmatrix}</span>是否可逆。</p>
+        </template>
+        <template #solution>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div>
+              <p><strong>证明</strong>：若A不可逆，则<span class="formula-inline">0</span>是A的特征值。由盖尔圆盘第一定理，存在k使得<span class="formula-inline">|0 - a_{kk}| \leq R_k</span>，即<span class="formula-inline">|a_{kk}| \leq R_k</span>，与严格对角占优矛盾。故A可逆。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div>
+              <p><strong>应用到题目矩阵</strong>：<span class="formula-inline">|a_{11}|=5 > R_1=2</span>，<span class="formula-inline">|a_{22}|=4 > R_2=2</span>，<span class="formula-inline">|a_{33}|=3 > R_3=2</span>，严格对角占优，故可逆。</p>
+              <p>盖尔圆盘：<span class="formula-inline">G_1:|z-5|\leq 2, G_2:|z-4|\leq 2, G_3:|z-3|\leq 2</span>，所有特征值在右半平面（实部>0）。</p>
+            </div>
+          </div>
+        </template>
+      </ExampleBox>
+
       <Steps :steps="[
-        '盖尔圆盘：圆心aᵢᵢ，半径Rᵢ=Σⱼ≠ᵢ|aᵢⱼ|（去心行和），特征值⊆∪Gᵢ',
-        '列盖尔圆盘：用Aᵀ（去心列和）得到另一组圆盘，取交集缩小范围',
+        '盖尔圆盘：圆心<span class=&quot;formula-inline&quot;>a_{ii}</span>，半径<span class=&quot;formula-inline&quot;>R_i=\\sum_{j\\neq i}|a_{ij}|</span>（去心行和），特征值<span class=&quot;formula-inline&quot;>\\subseteq \\bigcup G_i</span>',
+        '列盖尔圆盘：用<span class=&quot;formula-inline&quot;>A^{\\mathsf{T}}</span>（去心列和）得到另一组圆盘，取交集缩小范围',
         '隔离定理：k个不交圆盘的连通分支恰含k个特征值',
-        '对角缩放D⁻¹AD：调节dᵢ缩放圆盘半径，实现隔离',
-        '实对称矩阵：特征值全实，可对角化；Rayleigh商R(x)=xᵀAx/xᵀx',
-        'Courant-Fischer：λₖ=min_{dimV=k} max_{x∈V} R(x)，λmax=max R(x), λmin=min R(x)'
+        '对角缩放<span class=&quot;formula-inline&quot;>D^{-1}AD</span>：调节<span class=&quot;formula-inline&quot;>d_i</span>缩放圆盘半径，实现隔离',
+        '实对称矩阵：特征值全实，可对角化；Rayleigh商<span class=&quot;formula-inline&quot;>R(x)=x^{\\mathsf{T}}Ax/x^{\\mathsf{T}}x</span>',
+        'Courant-Fischer：<span class=&quot;formula-inline&quot;>\\lambda_k = \\min_{\\dim V=k}\\max_{x\\in V} R(x)</span>，<span class=&quot;formula-inline&quot;>\\lambda_{\\max}=\\max R(x)</span>, <span class=&quot;formula-inline&quot;>\\lambda_{\\min}=\\min R(x)</span>'
       ]"/>
+    </Section>
+
+    <!-- WeekQuizBank -->
+    <Section title="🗂️ 真题与习题汇总">
+      <WeekQuizBank :quizzes="quizzes" weekLabel="第3周" />
     </Section>
   </LessonLayout>
 </template>
@@ -324,8 +376,12 @@ import Theorem from '../../components/ui/Theorem.vue'
 import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
+import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
+import { quizBank } from '../../data/quizBank'
 import { useKatex } from '../../composables/useKatex'
 import { ref, computed, onUnmounted } from 'vue'
+
+const quizzes = quizBank[10]
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)
@@ -456,4 +512,6 @@ onUnmounted(() => {
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; }
 h3 { color: #7c3aed; }
+.responsive-svg { max-width: 100%; height: auto; display: block; }
+:deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
 </style>

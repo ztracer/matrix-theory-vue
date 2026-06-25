@@ -29,7 +29,7 @@
       </Theorem>
     </Section>
 
-    <!-- Animation 1: 3D orthogonal projection to plane -->
+    <!-- Animation 1: 3D orthogonal projection to plane (几何演示 - 保留interactive) -->
     <Section title="动画：R³中b到平面R(A)的正交投影" :num="2">
       <AnimationBox
         title="正交投影找最近点"
@@ -39,7 +39,7 @@
         @pause="pause1"
         @reset="reset1"
       >
-        <svg ref="svg1" viewBox="0 0 520 400" width="520" height="400">
+        <svg ref="svg1" viewBox="0 0 520 400" class="responsive-svg">
           <defs>
             <marker id="arr-b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <polygon points="0 0,8 3,0 6" fill="#2563eb"/>
@@ -114,7 +114,7 @@
       </Theorem>
     </Section>
 
-    <!-- Animation 2: Residual orthogonality -->
+    <!-- Animation 2: Residual orthogonality (几何演示 - 保留interactive) -->
     <Section title="动画：残差与列向量正交" :num="4">
       <AnimationBox
         title="正规方程几何：r ⊥ a₁, r ⊥ a₂"
@@ -124,7 +124,7 @@
         @pause="pause2"
         @reset="reset2"
       >
-        <svg ref="svg2" viewBox="0 0 500 380" width="500" height="380">
+        <svg ref="svg2" viewBox="0 0 500 380" class="responsive-svg">
           <defs>
             <marker id="arr-a1" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
               <polygon points="0 0,7 2.5,0 5" fill="#0d9488"/>
@@ -167,7 +167,6 @@
 
           <!-- Right angle with a1 -->
           <g v-if="orthoProg > 0.9">
-            <!-- small square indicating r ⊥ a1 -->
             <rect x="150" :y="250 - 12" width="12" height="12" fill="none" stroke="#dc2626" stroke-width="1" opacity="0.7"
                   transform="skewX(-15)"/>
             <text x="100" y="100" font-size="12" fill="#dc2626" font-weight="600">a₁ᵀr = 0 ✓</text>
@@ -201,7 +200,7 @@
       </Theorem>
     </Section>
 
-    <!-- Animation 3: Unit balls for L1, L2, Linf -->
+    <!-- Animation 3: Unit balls for L1, L2, Linf (几何演示 - 保留interactive) -->
     <Section title="动画：L¹/L²/L∞ 单位球对比" :num="6">
       <AnimationBox
         title="不同范数的单位球"
@@ -223,7 +222,7 @@
             </select>
           </label>
         </template>
-        <svg ref="svg3" viewBox="0 0 500 400" width="500" height="400">
+        <svg ref="svg3" viewBox="0 0 500 400" class="responsive-svg">
           <!-- Grid -->
           <g opacity="0.1">
             <line v-for="i in 20" :key="'gx'+i" :x1="i*25" y1="0" :x2="i*25" y2="400" stroke="#94a3b8" stroke-width="0.5"/>
@@ -240,17 +239,17 @@
           <text x="258" y="100" font-size="10" fill="#94a3b8">1</text>
           <text x="258" y="305" font-size="10" fill="#94a3b8">-1</text>
 
-          <!-- Unit ball L1 (diamond) - vertices at (±1,0), (0,±1) in norm coords, scale=100 -->
+          <!-- Unit ball L1 (diamond) -->
           <polygon v-if="showL1" points="350,200 250,100 150,200 250,300"
                    fill="#ec4899" :opacity="ballProg*0.2" stroke="#ec4899" stroke-width="2"/>
           <text v-if="showL1 && ballProg>0.5" x="60" y="120" fill="#ec4899" font-size="13" font-weight="700">‖x‖₁=1</text>
 
-          <!-- Unit ball L2 (circle) radius=100 -->
+          <!-- Unit ball L2 (circle) -->
           <circle v-if="showL2" cx="250" cy="200" :r="100*ballProg"
                   fill="#7c3aed" :opacity="ballProg*0.15" stroke="#7c3aed" stroke-width="2"/>
           <text v-if="showL2 && ballProg>0.5" x="400" y="140" fill="#7c3aed" font-size="13" font-weight="700">‖x‖₂=1</text>
 
-          <!-- Unit ball Linf (square) from (150,100) to (350,300) -->
+          <!-- Unit ball Linf (square) -->
           <rect v-if="showLinf" :x="250-100*ballProg" :y="200-100*ballProg" :width="200*ballProg" :height="200*ballProg"
                 fill="#ea580c" :opacity="ballProg*0.12" stroke="#ea580c" stroke-width="2"/>
           <text v-if="showLinf && ballProg>0.5" x="360" y="95" fill="#ea580c" font-size="13" font-weight="700">‖x‖∞=1</text>
@@ -373,14 +372,46 @@
         </template>
       </ExampleBox>
 
+      <ExampleBox source="二次拟合真题" badge="📝 真题3">
+        <template #problem>
+          <p>给定数据点<span class="formula-inline">(-1,0), (0,1), (1,2), (2,3)</span>，用最小二乘法求二次多项式拟合<span class="formula-inline">y = a_0 + a_1 x + a_2 x^2</span>。</p>
+        </template>
+        <template #solution>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div>
+              <p><strong>建立超定方程组</strong>：</p>
+              <Formula>A = \begin{pmatrix} 1 & -1 & 1 \\ 1 & 0 & 0 \\ 1 & 1 & 1 \\ 1 & 2 & 4 \end{pmatrix}, \quad b = \begin{pmatrix} 0 \\ 1 \\ 2 \\ 3 \end{pmatrix}</Formula>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div>
+              <p><strong>正规方程</strong>：<span class="formula-inline">A^{\mathsf{T}}A = \begin{pmatrix}4&2&6\\2&6&8\\6&8&18\end{pmatrix}</span>，<span class="formula-inline">A^{\mathsf{T}}b = (6,8,14)^{\mathsf{T}}</span></p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div>
+              <p><strong>求解</strong>：<span class="formula-inline">(a_0,a_1,a_2)^{\mathsf{T}} = (A^{\mathsf{T}}A)^{-1}A^{\mathsf{T}}b = (1, 1.3, -0.1)^{\mathsf{T}}</span>（近似值），最佳拟合为<span class="formula-inline">y \approx 1 + 1.3x - 0.1x^2</span>。</p>
+            </div>
+          </div>
+        </template>
+      </ExampleBox>
+
       <Steps :steps="[
-        '最小二乘问题：判断Ax=b是否无解（r(A)≠r(A|b)），写出min||Ax-b||²',
-        '正规方程：计算AᵀA和Aᵀb，解AᵀAx=Aᵀb；列满秩时x=(AᵀA)⁻¹Aᵀb=A⁺b',
-        '几何验证：残差r=b-Ax*应满足Aᵀr=0（r⊥R(A)），可用此检查计算',
+        '最小二乘问题：判断<span class=&quot;formula-inline&quot;>Ax=b</span>是否无解（<span class=&quot;formula-inline&quot;>r(A)\\neq r(A|b)</span>），写出<span class=&quot;formula-inline&quot;>\\min\\|Ax-b\\|^2</span>',
+        '正规方程：计算<span class=&quot;formula-inline&quot;>A^{\\mathsf{T}}A</span>和<span class=&quot;formula-inline&quot;>A^{\\mathsf{T}}b</span>，解<span class=&quot;formula-inline&quot;>A^{\\mathsf{T}}Ax=A^{\\mathsf{T}}b</span>；列满秩时<span class=&quot;formula-inline&quot;>x=(A^{\\mathsf{T}}A)^{-1}A^{\\mathsf{T}}b=A^+b</span>',
+        '几何验证：残差<span class=&quot;formula-inline&quot;>r=b-Ax^*</span>应满足<span class=&quot;formula-inline&quot;>A^{\\mathsf{T}}r=0</span>（<span class=&quot;formula-inline&quot;>r\\perp R(A)</span>），可用此检查计算',
         '向量范数：验证三公理（正定/齐次/三角不等式），注意L¹/L²/L∞公式',
-        '矩阵从属范数：||A||=max(||Ax||/||x||)，记列和/谱/行和范数公式',
-        '谱半径不等式：ρ(A)≤||A||对任意矩阵范数成立，证明思路是取特征对用定义'
+        '矩阵从属范数：<span class=&quot;formula-inline&quot;>\\|A\\|=\\max(\\|Ax\\|/\\|x\\|)</span>，记列和/谱/行和范数公式',
+        '谱半径不等式：<span class=&quot;formula-inline&quot;>\\rho(A)\\leq\\|A\\|</span>对任意矩阵范数成立，证明思路是取特征对用定义'
       ]"/>
+    </Section>
+
+    <!-- WeekQuizBank -->
+    <Section title="🗂️ 真题与习题汇总">
+      <WeekQuizBank :quizzes="quizzes" weekLabel="第3周" />
     </Section>
   </LessonLayout>
 </template>
@@ -393,8 +424,12 @@ import Theorem from '../../components/ui/Theorem.vue'
 import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
+import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
+import { quizBank } from '../../data/quizBank'
 import { useKatex } from '../../composables/useKatex'
 import { ref, computed, onUnmounted } from 'vue'
+
+const quizzes = quizBank[9]
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)
@@ -403,9 +438,7 @@ const { renderMath } = useKatex(renderTrigger)
 const playing1 = ref(false)
 let rafId1 = null, t1 = 0
 const lsProg = ref(0)
-// b vector in screen coords (origin at 60,350)
 const bx = ref(200), by = ref(220)
-// Pb is projection onto plane (approximate in this 2.5D view)
 const pbx = computed(() => 180 * lsProg.value)
 const pby = computed(() => 120 * lsProg.value)
 const planePoints = '80,350 420,310 440,170 100,150'
@@ -414,7 +447,6 @@ const planeLabels = [420, 165]
 const animate1 = () => {
   t1 += 0.012
   lsProg.value = Math.min(easeOutCubic(t1), 1)
-  // Slow rotation of b
   const ang = t1 * 0.3
   bx.value = 200 + 30 * Math.sin(ang)
   by.value = 220 + 20 * Math.cos(ang * 0.7)
@@ -429,7 +461,7 @@ const playing2 = ref(false)
 let rafId2 = null, t2 = 0
 const orthoProg = ref(0)
 const a1x = 200, a1y = 30
-const a2x = 100, a2y = -10 // slightly below
+const a2x = 100, a2y = -10
 const b2x = 220, b2y = 130
 const p2x = computed(() => 190 * orthoProg.value)
 const p2y = computed(() => 35 * orthoProg.value)
@@ -461,7 +493,6 @@ const normLabel = computed(() => {
   return ''
 })
 
-// Point on unit ball for current norm at angle rotAngle
 const rvx = computed(() => {
   const th = rotAngle.value
   let r = 1
@@ -511,4 +542,6 @@ onUnmounted(() => {
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; }
 h3 { color: #7c3aed; }
+.responsive-svg { max-width: 100%; height: auto; display: block; }
+:deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
 </style>

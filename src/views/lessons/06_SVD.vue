@@ -28,71 +28,38 @@
       <p>观察线性映射 <span class="formula-inline">A = FG</span> 的几何过程：<span class="formula-inline">\R^m \leftarrow \R^r \leftarrow \R^n</span>，中间经过 <span class="formula-inline">r</span> 维空间。</p>
 
       <AnimationBox
+        mode="auto"
         title="满秩分解降维可视化"
-        :playing="frPlaying"
-        description="n维空间经G映射到r维空间（降维），再经F映射到m维空间（嵌入）"
-        @play="frPlay"
-        @pause="frPause"
-        @reset="frReset"
+        description="n维空间经G映射到r维空间（降维），再经F映射到m维空间（嵌入），脉冲依次点亮"
       >
-        <svg :width="frSvgWidth" height="320" viewBox="0 0 700 320">
-          <!-- R^n 空间 (左) -->
-          <g transform="translate(100, 160)">
-            <rect x="-80" y="-80" width="160" height="160" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
-            <text y="-90" text-anchor="middle" font-size="15" font-weight="700" fill="#d97706">ℝⁿ (n=3)</text>
-            <!-- 球体代表R^n中的单位球 -->
-            <circle :cx="frNball.x" :cy="frNball.y" :r="40" fill="#fde68a" fill-opacity="0.4" stroke="#f59e0b" stroke-width="1.5"/>
-            <text y="5" text-anchor="middle" font-size="13" fill="#92400e">n维空间</text>
-          </g>
-
-          <!-- G箭头 -->
-          <g>
-            <defs>
-              <marker id="arrG" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" fill="#0d9488"/>
-              </marker>
-            </defs>
-            <line x1="190" y1="160" :x2="frGarrow?310:250" y2="160" stroke="#0d9488" stroke-width="3" marker-end="url(#arrG)"/>
-            <text x="250" y="145" text-anchor="middle" font-size="14" font-weight="700" fill="#0d9488">G</text>
-            <text x="250" y="180" text-anchor="middle" font-size="11" fill="#64748b">行满秩</text>
-          </g>
-
-          <!-- R^r 空间 (中) -->
-          <g transform="translate(350, 160)">
-            <rect x="-40" y="-60" width="80" height="120" rx="12" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
-            <text y="-70" text-anchor="middle" font-size="15" font-weight="700" fill="#059669">ℝʳ (r=2)</text>
-            <!-- 椭球 -->
-            <ellipse :cx="0" :cy="0" :rx="frRellipse.rx" :ry="frRellipse.ry" fill="#6ee7b7" fill-opacity="0.4" stroke="#059669" stroke-width="1.5"/>
-            <text y="5" text-anchor="middle" font-size="13" fill="#065f46">r维空间</text>
-            <text y="22" text-anchor="middle" font-size="11" fill="#64748b">(列空间)</text>
-          </g>
-
-          <!-- F箭头 -->
-          <g>
-            <defs>
-              <marker id="arrF" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" fill="#0d9488"/>
-              </marker>
-            </defs>
-            <line x1="400" y1="160" :x2="frFarrow?510:450" y2="160" stroke="#0d9488" stroke-width="3" marker-end="url(#arrF)"/>
-            <text x="455" y="145" text-anchor="middle" font-size="14" font-weight="700" fill="#0d9488">F</text>
-            <text x="455" y="180" text-anchor="middle" font-size="11" fill="#64748b">列满秩</text>
-          </g>
-
-          <!-- R^m 空间 (右) -->
-          <g transform="translate(580, 160)">
-            <rect x="-80" y="-80" width="160" height="160" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,3"/>
-            <text y="-90" text-anchor="middle" font-size="15" font-weight="700" fill="#2563eb">ℝᵐ (m=3)</text>
-            <!-- 扁椭球 -->
-            <ellipse :cx="frMellipse.cx" :cy="frMellipse.cy" :rx="frMellipse.rx" :ry="frMellipse.ry" fill="#93c5fd" fill-opacity="0.4" stroke="#3b82f6" stroke-width="1.5" :transform="frMellipse.rot"/>
-            <text y="5" text-anchor="middle" font-size="13" fill="#1e40af">m维空间</text>
-          </g>
-
-          <!-- 说明文字 -->
-          <rect x="50" y="260" width="600" height="45" rx="8" fill="#f0fdfa" stroke="#14b8a6"/>
-          <text x="350" y="280" text-anchor="middle" font-size="14" font-weight="600" fill="#0d9488">{{ frStepText }}</text>
-          <text x="350" y="298" text-anchor="middle" font-size="12" fill="#64748b">A=FG 将n维映射压缩到r维子空间再嵌入m维</text>
-        </svg>
+        <div class="fr-flow">
+          <div class="fr-space fr-n">
+            <div class="fr-ball" style="animation-delay:0s"></div>
+            <div class="fr-label">ℝⁿ</div>
+            <div class="fr-sub">(n维空间)</div>
+          </div>
+          <div class="fr-arrow">
+            <div class="fr-arrow-line" style="animation-delay:1s"></div>
+            <div class="fr-arrow-label" style="color:#0d9488">G</div>
+            <div class="fr-arrow-sub">行满秩·降维</div>
+          </div>
+          <div class="fr-space fr-r">
+            <div class="fr-ellipse" style="animation-delay:2s"></div>
+            <div class="fr-label">ℝʳ</div>
+            <div class="fr-sub">(r维·列空间)</div>
+          </div>
+          <div class="fr-arrow">
+            <div class="fr-arrow-line" style="animation-delay:3s"></div>
+            <div class="fr-arrow-label" style="color:#0d9488">F</div>
+            <div class="fr-arrow-sub">列满秩·嵌入</div>
+          </div>
+          <div class="fr-space fr-m">
+            <div class="fr-ellipse fr-rotated" style="animation-delay:4s"></div>
+            <div class="fr-label">ℝᵐ</div>
+            <div class="fr-sub">(m维空间)</div>
+          </div>
+          <div class="fr-eq" style="animation-delay:5s">A = FG</div>
+        </div>
       </AnimationBox>
     </Section>
 
@@ -358,8 +325,79 @@
       </ExampleBox>
     </Section>
 
-    <!-- 8. 小结 -->
-    <Section title="知识点小结" :num="8">
+    <!-- 7. SVD解题流程图（auto模式） -->
+    <Section title="SVD求解步骤流程" :num="7">
+      <AnimationBox
+        mode="auto"
+        title="SVD分解计算流程"
+        description="自动循环高亮SVD求解的五个步骤"
+      >
+        <div class="svd-flow">
+          <div class="sf-step sf-1" style="animation-delay:0s">
+            <div class="sf-num">1</div>
+            <div class="sf-text">计算 <span class="formula-inline">A\T A</span></div>
+          </div>
+          <div class="sf-arrow">→</div>
+          <div class="sf-step sf-2" style="animation-delay:1.2s">
+            <div class="sf-num">2</div>
+            <div class="sf-text">求特征值 <span class="formula-inline">\lambda_i</span><br/>奇异值 <span class="formula-inline">\sigma_i=\sqrt{\lambda_i}</span></div>
+          </div>
+          <div class="sf-arrow">→</div>
+          <div class="sf-step sf-3" style="animation-delay:2.4s">
+            <div class="sf-num">3</div>
+            <div class="sf-text">求特征向量<br/>正交化得 <span class="formula-inline">V</span></div>
+          </div>
+          <div class="sf-arrow">→</div>
+          <div class="sf-step sf-4" style="animation-delay:3.6s">
+            <div class="sf-num">4</div>
+            <div class="sf-text"><span class="formula-inline">u_i = Av_i/\sigma_i</span><br/>扩充得 <span class="formula-inline">U</span></div>
+          </div>
+          <div class="sf-arrow">→</div>
+          <div class="sf-step sf-5" style="animation-delay:4.8s">
+            <div class="sf-num">5</div>
+            <div class="sf-text">写出 <span class="formula-inline">A=U\Sigma V\T</span></div>
+          </div>
+        </div>
+      </AnimationBox>
+    </Section>
+
+    <!-- 8. 例题2：低秩逼近 -->
+    <Section title="真题精讲（续）" :num="8">
+      <ExampleBox source="经典习题" badge="📝 最佳秩k逼近">
+        <template #problem>
+          <p>设 <span class="formula-inline">A = \begin{pmatrix} 2 & 0 & 0 \\ 0 & 1 & 0 \end{pmatrix}</span>，求 <span class="formula-inline">\|A\|_F</span> 和最佳秩1逼近 <span class="formula-inline">A_1</span>，并计算逼近误差。</p>
+        </template>
+        <template #solution>
+          <div class="step">
+            <span class="step-num">1</span>
+            <div>
+              <p><strong>Frobenius范数：</strong></p>
+              <p><span class="formula-inline">\|A\|_F^2 = 2^2 + 0^2 + 0^2 + 0^2 + 1^2 + 0^2 = 5</span>，故 <span class="formula-inline">\|A\|_F = \sqrt{5}</span>。</p>
+              <p>或用奇异值：<span class="formula-inline">A</span> 的奇异值 <span class="formula-inline">\sigma_1=2,\sigma_2=1</span>，<span class="formula-inline">\|A\|_F^2 = \sigma_1^2 + \sigma_2^2 = 4+1=5</span>。</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <div>
+              <p><strong>最佳秩1逼近：</strong></p>
+              <p><span class="formula-inline">A</span> 已是对角矩阵，其SVD为 <span class="formula-inline">A = U\Sigma V\T</span>，其中 <span class="formula-inline">U=I_2</span>，<span class="formula-inline">V=I_3</span>，<span class="formula-inline">\Sigma = \begin{pmatrix}2&0&0\\0&1&0\end{pmatrix}</span>。</p>
+              <p>取最大奇异值 <span class="formula-inline">\sigma_1=2</span>：<span class="formula-inline">A_1 = \sigma_1 u_1 v_1\T = 2 \cdot (1,0)\T \cdot (1,0,0) = \begin{pmatrix}2&0&0\\0&0&0\end{pmatrix}</span></p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <div>
+              <p><strong>逼近误差：</strong></p>
+              <p><span class="formula-inline">\|A - A_1\|_F = \sigma_2 = 1</span>，相对误差 <span class="formula-inline">1/\sqrt{5} \approx 44.7\%</span>。</p>
+              <p>由Eckart-Young定理，这是所有秩1矩阵中能达到的最小误差。</p>
+            </div>
+          </div>
+        </template>
+      </ExampleBox>
+    </Section>
+
+    <!-- 9. 小结 -->
+    <Section title="知识点小结" :num="9">
       <Steps :steps="[
         '满秩分解 A=FG：F列满秩、G行满秩，可通过行标准形构造（取主元列为F，非零行为G）。',
         '奇异值 σᵢ=√λᵢ(AᵀA)，是非负实数，衡量矩阵在各正交方向上的“拉伸强度”。',
@@ -368,6 +406,11 @@
         'Frobenius范数 ||A||_F² = Σσᵢ²，奇异值平方和等于矩阵所有元素平方和。',
         'Eckart-Young定理：最佳秩k逼近 A_k=UΣ_kVᵀ 取前k个大奇异值，误差||A-A_k||_F²=Σ_{i>k}σᵢ²，是PCA/图像压缩的核心。'
       ]"/>
+    </Section>
+
+    <!-- 10. 真题与习题汇总 -->
+    <Section title="🗂️ 真题与习题汇总">
+      <WeekQuizBank :quizzes="quizzes" weekLabel="第2周" />
     </Section>
 
   </LessonLayout>
@@ -381,81 +424,20 @@ import Theorem from '../../components/ui/Theorem.vue'
 import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
+import QuizProblem from '../../components/quiz/QuizProblem.vue'
+import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
+import { quizBank } from '../../data/quizBank'
 import { useKatex } from '../../composables/useKatex'
 import { ref, onUnmounted, computed } from 'vue'
+
+const quizzes = quizBank[6]
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)
 
-// ========== 满秩分解动画 ==========
-const frPlaying = ref(false)
-let frAnimId = null
-const frSvgWidth = ref(700)
-const frStep = ref(0)
-const frNball = ref({x:0, y:0})
-const frRellipse = ref({rx: 5, ry: 5})
-const frMellipse = ref({cx:0, cy:0, rx:5, ry:5, rot:''})
-const frGarrow = ref(false)
-const frFarrow = ref(false)
-const frStepText = ref('点击播放观察满秩分解的空间映射')
-
-function frAnimate() {
-  const dur = 2500
-  const start = performance.now()
-  function tick(now) {
-    if (!frPlaying.value) return
-    const t = Math.min((now - start) / dur, 1)
-    if (t < 0.33) {
-      const p = t / 0.33
-      frNball.value = {x:0, y:0}
-      frRellipse.value = {rx: 5 + 25*p, ry: 5 + 20*p}
-      frMellipse.value = {cx:0, cy:0, rx:5, ry:5, rot:''}
-      frGarrow.value = p > 0.5
-      frFarrow.value = false
-      frStepText.value = 'G：行满秩映射，将ℝⁿ投影到ℝʳ（降维）'
-    } else if (t < 0.66) {
-      const p = (t - 0.33) / 0.33
-      frNball.value = {x:0, y:0}
-      frRellipse.value = {rx: 30, ry: 25}
-      frMellipse.value = {cx:0, cy:0, rx:5+25*p, ry:5+10*p, rot:`rotate(${20*p})`}
-      frGarrow.value = true
-      frFarrow.value = p > 0.5
-      frStepText.value = 'F：列满秩映射，将ℝʳ嵌入ℝᵐ（不增维）'
-    } else {
-      const p = (t - 0.66) / 0.34
-      frRellipse.value = {rx: 30, ry: 25}
-      frMellipse.value = {cx:0, cy:0, rx:30, ry:15, rot:'rotate(20)'}
-      frGarrow.value = true
-      frFarrow.value = true
-      frStepText.value = '完成！A=FG：n维→r维→m维，像空间维数=rank(A)=r'
-    }
-    renderTrigger.value++
-    if (t < 1) {
-      requestAnimationFrame(tick)
-    } else {
-      frPlaying.value = false
-    }
-  }
-  requestAnimationFrame(tick)
-}
-
-function frPlay() { frPlaying.value = true; frAnimate() }
-function frPause() { frPlaying.value = false; if (frAnimId) cancelAnimationFrame(frAnimId) }
-function frReset() {
-  frPlaying.value = false
-  frStep.value = 0
-  frNball.value = {x:0, y:0}
-  frRellipse.value = {rx:5, ry:5}
-  frMellipse.value = {cx:0, cy:0, rx:5, ry:5, rot:''}
-  frGarrow.value = false
-  frFarrow.value = false
-  frStepText.value = '点击播放观察满秩分解的空间映射'
-  renderTrigger.value++
-}
-
 // ========== SVD几何动画 ==========
 const svdPlaying = ref(false)
-let svdAnimId = null
+let svdRafId = null
 const svdSvgWidth = ref(700)
 const svdPhase = ref(0)
 const sigma1 = ref(1.8)
@@ -501,18 +483,19 @@ function svdAnimate() {
     }
     renderTrigger.value++
     if (t < 1) {
-      requestAnimationFrame(tick)
+      svdRafId = requestAnimationFrame(tick)
     } else {
       svdPlaying.value = false
     }
   }
-  requestAnimationFrame(tick)
+  svdRafId = requestAnimationFrame(tick)
 }
 
 function svdPlay() { svdPlaying.value = true; svdAnimate() }
-function svdPause() { svdPlaying.value = false }
+function svdPause() { svdPlaying.value = false; if (svdRafId) cancelAnimationFrame(svdRafId) }
 function svdReset() {
   svdPlaying.value = false
+  if (svdRafId) cancelAnimationFrame(svdRafId)
   svdPhase.value = 0
   svdVangle.value = 0
   svdUangle.value = 0
@@ -525,6 +508,7 @@ function svdReset() {
 
 // ========== 误差条形图动画 ==========
 const svdErrPlaying = ref(false)
+let svdErrRafId = null
 const svdErrSvgWidth = ref(700)
 const svdErrT = ref(0)
 const svdErrStepText = ref('点击播放：观察奇异值衰减与低秩逼近误差')
@@ -570,27 +554,27 @@ function svdErrAnimate() {
       if (t < 0.5) svdErrStepText.value = '条形图逐渐升高：k=0误差100%，k越大误差越小'
       else svdErrStepText.value = '奇异值快速衰减时，仅需少量k即可获得高精度逼近'
       renderTrigger.value++
-      requestAnimationFrame(tick)
+      svdErrRafId = requestAnimationFrame(tick)
     } else {
       svdErrPlaying.value = false
       svdErrStepText.value = '完成！绿色虚线为累计能量比例，k=3时已捕获绝大部分信息'
       renderTrigger.value++
     }
   }
-  requestAnimationFrame(tick)
+  svdErrRafId = requestAnimationFrame(tick)
 }
 
 function svdErrPlay() { svdErrPlaying.value = true; svdErrAnimate() }
-function svdErrPause() { svdErrPlaying.value = false }
+function svdErrPause() { svdErrPlaying.value = false; if (svdErrRafId) cancelAnimationFrame(svdErrRafId) }
 function svdErrReset() {
   svdErrPlaying.value = false
+  if (svdErrRafId) cancelAnimationFrame(svdErrRafId)
   svdErrT.value = 0
   svdErrStepText.value = '点击播放：观察奇异值衰减与低秩逼近误差'
   renderTrigger.value++
 }
 
 onUnmounted(() => {
-  frPause()
   svdPause()
   svdErrPause()
 })
@@ -605,4 +589,163 @@ onUnmounted(() => {
 }
 .svd-sliders label { display: flex; align-items: center; gap: 4px; }
 .svd-sliders input[type="range"] { width: 80px; }
+
+/* 满秩分解流程（auto模式CSS动画） */
+.fr-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 30px 16px;
+  flex-wrap: wrap;
+  min-height: 200px;
+}
+.fr-space {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 2px dashed #94a3b8;
+  min-width: 90px;
+  background: #fff;
+}
+.fr-n { border-color: #f59e0b; background: #fffbeb; }
+.fr-r { border-color: #059669; background: #ecfdf5; }
+.fr-m { border-color: #3b82f6; background: #eff6ff; }
+.fr-ball {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fde68a, #f59e0b);
+  opacity: 0;
+  animation: fr-pulse 6s ease-in-out infinite;
+}
+.fr-ellipse {
+  width: 60px; height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #6ee7b7, #059669);
+  opacity: 0;
+  animation: fr-pulse 6s ease-in-out infinite;
+}
+.fr-rotated {
+  background: radial-gradient(circle, #93c5fd, #3b82f6);
+  transform: rotate(20deg);
+}
+.fr-label { font-size: 18px; font-weight: 700; color: #1e293b; }
+.fr-sub { font-size: 11px; color: #64748b; }
+.fr-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 50px;
+}
+.fr-arrow-line {
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #0d9488, #14b8a6);
+  border-radius: 2px;
+  position: relative;
+  opacity: 0;
+  animation: fr-arrow 6s ease-in-out infinite;
+}
+.fr-arrow-line::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: -4px;
+  border: 6px solid transparent;
+  border-left-color: #0d9488;
+}
+.fr-arrow-label { font-size: 16px; font-weight: 700; opacity: 0; animation: fr-fade 6s ease-in-out infinite; }
+.fr-arrow-sub { font-size: 10px; color: #64748b; opacity: 0; animation: fr-fade 6s ease-in-out infinite; }
+.fr-eq {
+  margin-left: 12px;
+  padding: 8px 20px;
+  background: linear-gradient(135deg,#0d9488,#14b8a6);
+  color: #fff;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  opacity: 0;
+  animation: fr-pulse 6s ease-in-out infinite;
+}
+@keyframes fr-pulse {
+  0% { opacity: 0; transform: scale(0.6); }
+  10% { opacity: 1; transform: scale(1.1); }
+  15% { transform: scale(1); }
+  80% { opacity: 1; transform: scale(1); }
+  90%,100% { opacity: 0.3; transform: scale(0.95); }
+}
+@keyframes fr-arrow {
+  0% { opacity: 0; width: 0; }
+  10% { opacity: 1; width: 40px; }
+  80% { opacity: 1; width: 40px; }
+  90%,100% { opacity: 0.3; width: 40px; }
+}
+@keyframes fr-fade {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  80% { opacity: 1; }
+  90%,100% { opacity: 0.3; }
+}
+
+/* SVD解题流程图（auto模式） */
+.svd-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 24px 12px;
+  flex-wrap: wrap;
+  min-height: 150px;
+}
+.sf-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  opacity: 0;
+  animation: sf-light 6s ease-in-out infinite;
+}
+.sf-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#4f46e5,#7c3aed);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.sf-text { font-size: 13px; color: #334155; line-height: 1.4; }
+.sf-arrow { font-size: 20px; color: #94a3b8; opacity: 0; animation: sf-arrow-anim 6s ease-in-out infinite; }
+.sf-1 { animation-delay: 0s; }
+.sf-2 { animation-delay: 1.2s; }
+.sf-3 { animation-delay: 2.4s; }
+.sf-4 { animation-delay: 3.6s; }
+.sf-5 { animation-delay: 4.8s; }
+.svd-flow .sf-arrow:nth-of-type(1) { animation-delay: 0.6s; }
+.svd-flow .sf-arrow:nth-of-type(2) { animation-delay: 1.8s; }
+.svd-flow .sf-arrow:nth-of-type(3) { animation-delay: 3.0s; }
+.svd-flow .sf-arrow:nth-of-type(4) { animation-delay: 4.2s; }
+@keyframes sf-light {
+  0% { opacity: 0; transform: scale(0.8); border-color: #e2e8f0; }
+  8% { opacity: 1; transform: scale(1.05); border-color: #6366f1; box-shadow: 0 0 12px rgba(99,102,241,.3); }
+  15% { transform: scale(1); border-color: #6366f1; }
+  80% { opacity: 1; transform: scale(1); border-color: #6366f1; box-shadow: 0 0 12px rgba(99,102,241,.3); }
+  95%,100% { opacity: 0.3; transform: scale(0.95); border-color: #e2e8f0; box-shadow: none; }
+}
+@keyframes sf-arrow-anim {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  90%,100% { opacity: 0.3; }
+}
 </style>

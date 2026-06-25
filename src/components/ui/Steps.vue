@@ -4,7 +4,7 @@
     <div class="steps-list">
       <div v-for="(step, i) in steps" :key="i" class="step-item">
         <div class="step-num">{{ i + 1 }}</div>
-        <div class="step-text">{{ step }}</div>
+        <div class="step-text" v-html="step"></div>
       </div>
     </div>
   </div>
@@ -42,5 +42,6 @@ defineProps({
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 13px; flex-shrink: 0;
 }
-.step-text { font-size: 14px; color: #14532d; line-height: 1.6; padding-top: 2px; }
+.step-text { font-size: 14px; color: #14532d; line-height: 1.6; padding-top: 2px; overflow-x: auto; }
+.step-text :deep(.formula-inline) { white-space: nowrap; }
 </style>

@@ -43,7 +43,7 @@
       </Theorem>
 
       <AnimationBox title="R³ 中过原点的平面/直线是子空间" mode="auto"
-        description="自动旋转观察：过原点的平面（二维子空间）对向量加法和数乘封闭——两向量之和 α+β 仍在平面内（平行四边形法则）。">
+        description="用真实3D投影观察：平面过原点，α、β 以及 α+β 始终落在同一个二维子空间内。">
         <svg viewBox="0 0 600 400" ref="svg1Ref" style="width:100%;max-width:600px;">
           <defs>
             <linearGradient id="planeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -51,24 +51,24 @@
               <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.15"/>
             </linearGradient>
           </defs>
-          <g :transform="`rotate(${rot1}, 300, 250)`">
+          <g>
             <polygon :points="planePoints1" fill="url(#planeGrad1)" stroke="#6366f1" stroke-width="1.5" stroke-opacity="0.7"/>
-            <line x1="300" y1="250" x2="520" y2="340" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
-            <line x1="300" y1="250" x2="80" y2="340" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
-            <line x1="300" y1="250" x2="300" y2="60" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
-            <text x="530" y="345" fill="#64748b" font-size="13">x</text>
-            <text x="65" y="350" fill="#64748b" font-size="13">y</text>
-            <text x="305" y="55" fill="#64748b" font-size="13">z</text>
-            <line x1="300" y1="250" :x2="300+v1x" :y2="250+v1y" stroke="#4338ca" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
-            <line x1="300" y1="250" :x2="300+v2x" :y2="250+v2y" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arrowPurple)"/>
-            <line x1="300" y1="250" :x2="300+v1x+v2x" :y2="250+v1y+v2y" stroke="#ec4899" stroke-width="2.5" marker-end="url(#arrowPink)" stroke-dasharray="6,3"/>
-            <line :x1="300+v1x" :y1="250+v1y" :x2="300+v1x+v2x" :y2="250+v1y+v2y" stroke="#ec4899" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
-            <line :x1="300+v2x" :y1="250+v2y" :x2="300+v1x+v2x" :y2="250+v1y+v2y" stroke="#ec4899" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
-            <text :x="300+v1x+10" :y="250+v1y-5" fill="#4338ca" font-size="13" font-weight="bold">α</text>
-            <text :x="300+v2x-20" :y="250+v2y-5" fill="#7c3aed" font-size="13" font-weight="bold">β</text>
-            <text :x="300+v1x+v2x+8" :y="250+v1y+v2y+5" fill="#ec4899" font-size="13" font-weight="bold">α+β</text>
-            <circle cx="300" cy="250" r="4" fill="#1e293b"/>
-            <text x="285" y="270" fill="#1e293b" font-size="12">0</text>
+            <line :x1="origin1.x" :y1="origin1.y" :x2="axis1X.x" :y2="axis1X.y" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+            <line :x1="origin1.x" :y1="origin1.y" :x2="axis1Y.x" :y2="axis1Y.y" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+            <line :x1="origin1.x" :y1="origin1.y" :x2="axis1Z.x" :y2="axis1Z.y" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+            <text :x="axis1X.x + 8" :y="axis1X.y" fill="#64748b" font-size="13">x</text>
+            <text :x="axis1Y.x - 18" :y="axis1Y.y + 8" fill="#64748b" font-size="13">y</text>
+            <text :x="axis1Z.x + 6" :y="axis1Z.y - 6" fill="#64748b" font-size="13">z</text>
+            <line :x1="origin1.x" :y1="origin1.y" :x2="vec1A.x" :y2="vec1A.y" stroke="#4338ca" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+            <line :x1="origin1.x" :y1="origin1.y" :x2="vec1B.x" :y2="vec1B.y" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arrowPurple)"/>
+            <line :x1="origin1.x" :y1="origin1.y" :x2="vec1Sum.x" :y2="vec1Sum.y" stroke="#ec4899" stroke-width="2.5" marker-end="url(#arrowPink)" stroke-dasharray="6,3"/>
+            <line :x1="vec1A.x" :y1="vec1A.y" :x2="vec1Sum.x" :y2="vec1Sum.y" stroke="#ec4899" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+            <line :x1="vec1B.x" :y1="vec1B.y" :x2="vec1Sum.x" :y2="vec1Sum.y" stroke="#ec4899" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+            <text :x="vec1A.x + 10" :y="vec1A.y - 5" fill="#4338ca" font-size="13" font-weight="bold">α</text>
+            <text :x="vec1B.x - 20" :y="vec1B.y - 5" fill="#7c3aed" font-size="13" font-weight="bold">β</text>
+            <text :x="vec1Sum.x + 8" :y="vec1Sum.y + 5" fill="#ec4899" font-size="13" font-weight="bold">α+β</text>
+            <circle :cx="origin1.x" :cy="origin1.y" r="4" fill="#1e293b"/>
+            <text :x="origin1.x - 15" :y="origin1.y + 20" fill="#1e293b" font-size="12">0</text>
           </g>
           <defs>
             <marker id="arrowGray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
@@ -122,7 +122,7 @@
       </Theorem>
 
       <AnimationBox title="子空间的和与交（平面 + 平面）" mode="auto"
-        description="自动旋转观察 R³ 中两个过原点的平面 W₁ 和 W₂：它们的交是一条直线（橙色），它们的和可能是整个 R³。">
+        description="用真实3D投影观察两个过原点平面：它们都包含同一条橙色交线，两个平面的和张成整个 R³。">
         <svg viewBox="0 0 600 400" ref="svg2Ref" style="width:100%;max-width:600px;">
           <defs>
             <linearGradient id="planeW1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -134,20 +134,20 @@
               <stop offset="100%" stop-color="#ec4899" stop-opacity="0.1"/>
             </linearGradient>
           </defs>
-          <g :transform="`rotate(${rot2}, 300, 220)`">
+          <g>
             <polygon :points="w1Points" fill="url(#planeW1)" stroke="#6366f1" stroke-width="1.5"/>
             <polygon :points="w2Points" fill="url(#planeW2)" stroke="#ec4899" stroke-width="1.5"/>
-            <line x1="80" y1="220" x2="520" y2="220" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrowOrange)" marker-start="url(#arrowOrange)"/>
-            <line x1="300" y1="220" x2="500" y2="310" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
-            <line x1="300" y1="220" x2="100" y2="310" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
-            <line x1="300" y1="220" x2="300" y2="50" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
-            <text x="510" y="315" fill="#64748b" font-size="12">x</text>
-            <text x="80" y="320" fill="#64748b" font-size="12">y</text>
-            <text x="305" y="45" fill="#64748b" font-size="12">z</text>
-            <text x="440" y="140" fill="#4338ca" font-size="14" font-weight="bold">W₁</text>
-            <text x="440" y="300" fill="#be185d" font-size="14" font-weight="bold">W₂</text>
-            <text x="525" y="215" fill="#d97706" font-size="13" font-weight="bold">W₁∩W₂</text>
-            <circle cx="300" cy="220" r="4" fill="#1e293b"/>
+            <line :x1="line2A.x" :y1="line2A.y" :x2="line2B.x" :y2="line2B.y" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrowOrange)" marker-start="url(#arrowOrange)"/>
+            <line :x1="origin2.x" :y1="origin2.y" :x2="axis2X.x" :y2="axis2X.y" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
+            <line :x1="origin2.x" :y1="origin2.y" :x2="axis2Y.x" :y2="axis2Y.y" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
+            <line :x1="origin2.x" :y1="origin2.y" :x2="axis2Z.x" :y2="axis2Z.y" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowGray2)"/>
+            <text :x="axis2X.x + 8" :y="axis2X.y" fill="#64748b" font-size="12">x</text>
+            <text :x="axis2Y.x - 18" :y="axis2Y.y + 8" fill="#64748b" font-size="12">y</text>
+            <text :x="axis2Z.x + 6" :y="axis2Z.y - 6" fill="#64748b" font-size="12">z</text>
+            <text :x="labelW1.x" :y="labelW1.y" fill="#4338ca" font-size="14" font-weight="bold">W₁</text>
+            <text :x="labelW2.x" :y="labelW2.y" fill="#be185d" font-size="14" font-weight="bold">W₂</text>
+            <text :x="line2B.x + 8" :y="line2B.y" fill="#d97706" font-size="13" font-weight="bold">W₁∩W₂</text>
+            <circle :cx="origin2.x" :cy="origin2.y" r="4" fill="#1e293b"/>
           </g>
           <defs>
             <marker id="arrowGray2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
@@ -367,27 +367,73 @@ const hwQuizzes = computed(() => (homeworkBank[1] || []).map(q => ({ ...q })))
 // ===== Animation 1: Plane subspace in R3 (auto-rotate) =====
 const rot1 = ref(0)
 let rafId1 = null
-const v1x = 120, v1y = -30
-const v2x = -60, v2y = -60
-const planePoints1 = "100,270 500,220 480,170 120,220"
+
+function project3(v, angle, cx = 300, cy = 230, scale = 62) {
+  const c = Math.cos(angle), sn = Math.sin(angle)
+  const x = v[0] * c - v[1] * sn
+  const y = v[0] * sn + v[1] * c
+  return { x: cx + (x - y) * 0.72 * scale, y: cy - (v[2] - (x + y) * 0.36) * scale }
+}
+function pointsToString(points) { return points.map(p => `${p.x},${p.y}`).join(' ') }
+function add3(a, b) { return a.map((v, i) => v + b[i]) }
+function scale3(a, k) { return a.map(v => v * k) }
+
+const angle1 = computed(() => rot1.value * Math.PI / 180)
+const origin1 = computed(() => project3([0, 0, 0], angle1.value, 300, 240))
+const axis1X = computed(() => project3([3, 0, 0], angle1.value, 300, 240))
+const axis1Y = computed(() => project3([0, 3, 0], angle1.value, 300, 240))
+const axis1Z = computed(() => project3([0, 0, 3], angle1.value, 300, 240))
+const planeBasisA = [2.2, 0.2, 0.6]
+const planeBasisB = [0.2, 2.0, 0.9]
+const vecAlpha = [1.25, 0.15, 0.34]
+const vecBeta = [0.15, 1.15, 0.52]
+const vec1A = computed(() => project3(vecAlpha, angle1.value, 300, 240))
+const vec1B = computed(() => project3(vecBeta, angle1.value, 300, 240))
+const vec1Sum = computed(() => project3(add3(vecAlpha, vecBeta), angle1.value, 300, 240))
+const planePoints1 = computed(() => {
+  const corners = [
+    add3(scale3(planeBasisA, -1.15), scale3(planeBasisB, -1.0)),
+    add3(scale3(planeBasisA, 1.15), scale3(planeBasisB, -1.0)),
+    add3(scale3(planeBasisA, 1.15), scale3(planeBasisB, 1.0)),
+    add3(scale3(planeBasisA, -1.15), scale3(planeBasisB, 1.0))
+  ]
+  return pointsToString(corners.map(v => project3(v, angle1.value, 300, 240)))
+})
 
 function animate1() {
-  rot1.value = (rot1.value + 0.3) % 360
+  rot1.value = (rot1.value + 0.35) % 360
   rafId1 = requestAnimationFrame(animate1)
 }
 
 // ===== Animation 2: Sum and intersection of two planes (auto-rotate) =====
 const rot2 = ref(0)
 let rafId2 = null
-const w1Points = "80,230 520,200 520,230 80,260"
-const w2Points = computed(() => {
-  const cx = 300, cy = 220
-  const tilt = Math.sin(rot2.value * Math.PI / 180) * 40
-  return `${cx-200},${cy-tilt} ${cx+200},${cy+tilt} ${cx+200},${cy+120+tilt} ${cx-200},${cy+120-tilt}`
-})
+const angle2 = computed(() => rot2.value * Math.PI / 180)
+const origin2 = computed(() => project3([0, 0, 0], angle2.value, 300, 230))
+const axis2X = computed(() => project3([3, 0, 0], angle2.value, 300, 230))
+const axis2Y = computed(() => project3([0, 3, 0], angle2.value, 300, 230))
+const axis2Z = computed(() => project3([0, 0, 3], angle2.value, 300, 230))
+const wCommon = [1, 1, 0]
+const w1Extra = [0, 0, 1.15]
+const w2Extra = [1, -1, 0.9]
+function planeFromBasis(a, b, angle) {
+  const corners = [
+    add3(scale3(a, -2.0), scale3(b, -1.25)),
+    add3(scale3(a, 2.0), scale3(b, -1.25)),
+    add3(scale3(a, 2.0), scale3(b, 1.25)),
+    add3(scale3(a, -2.0), scale3(b, 1.25))
+  ]
+  return pointsToString(corners.map(v => project3(v, angle, 300, 230)))
+}
+const w1Points = computed(() => planeFromBasis(wCommon, w1Extra, angle2.value))
+const w2Points = computed(() => planeFromBasis(wCommon, w2Extra, angle2.value))
+const line2A = computed(() => project3(scale3(wCommon, -2.4), angle2.value, 300, 230))
+const line2B = computed(() => project3(scale3(wCommon, 2.4), angle2.value, 300, 230))
+const labelW1 = computed(() => project3(add3(wCommon, w1Extra), angle2.value, 300, 230))
+const labelW2 = computed(() => project3(add3(wCommon, w2Extra), angle2.value, 300, 230))
 
 function animate2() {
-  rot2.value = (rot2.value + 0.4) % 360
+  rot2.value = (rot2.value + 0.35) % 360
   rafId2 = requestAnimationFrame(animate2)
 }
 

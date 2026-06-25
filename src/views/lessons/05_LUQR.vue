@@ -193,6 +193,13 @@
               <text :x="gsProject(gsB[0], gsScale).x + 8" :y="gsProject(gsB[0], gsScale).y" font-size="13" fill="#059669" font-weight="700">b₁</text>
             </template>
 
+            <!-- 当前正在形成的正交向量 -->
+            <template v-if="gsStep >= 2 && gsCurrentB">
+              <line x1="0" y1="0" :x2="gsProject(gsCurrentB, gsScale).x" :y2="gsProject(gsCurrentB, gsScale).y"
+                stroke="#10b981" stroke-width="3" opacity="0.75"/>
+              <circle :cx="gsProject(gsCurrentB, gsScale).x" :cy="gsProject(gsCurrentB, gsScale).y" r="4" fill="#10b981" opacity="0.75"/>
+            </template>
+
             <!-- b2的投影分量（橙色虚线） -->
             <template v-if="gsStep >= 2">
               <!-- proj_b1(a2) 橙色虚线 -->
@@ -656,6 +663,7 @@ const gsScale = ref(1)
 const gsProj1 = ref(null)
 const gsProj2a = ref(null)
 const gsProj2b = ref(null)
+const gsCurrentB = ref(null)
 const gsStepText = ref('点击播放开始Gram-Schmidt正交化')
 
 // 原始向量
@@ -679,8 +687,25 @@ function vecSub(a, b) { return a.map((v,i) => v - b[i]) }
 function vecScale(a, s) { return a.map(v => v * s) }
 function vecDot(a, b) { return a.reduce((s,v,i) => s + v*b[i], 0) }
 function vecNorm(a) { return Math.sqrt(vecDot(a,a)) }
+function vecAdd(a, b) { return a.map((v,i) => v + b[i]) }
+function vecLerp(a, b, t) { return a.map((v,i) => v + (b[i] - v) * t) }
 
-function gsAdvance() {
+function gsAnimateVector(from, to, duration = 900) {
+  return new Promise(resolve => {
+    const start = performance.now()
+    function tick(now) {
+      if (!gsPlaying.value) { resolve(false); return }
+      gsT.value = Math.min((now - start) / duration, 1)
+      gsCurrentB.value = vecLerp(from, to, gsT.value)
+      renderTrigger.value++
+      if (gsT.value < 1) requestAnimationFrame(tick)
+      else resolve(true)
+    }
+    requestAnimationFrame(tick)
+  })
+}
+
+async function gsAdvance() {
   if (gsStep.value >= 3) {
     gsPlaying.value = false
     return
@@ -693,24 +718,32 @@ function gsAdvance() {
     const a2 = gsA[1], b1 = gsB.value[0]
     const c1 = vecDot(a2, b1) / vecDot(b1, b1)
     gsProj1.value = vecScale(b1, c1)
-    gsB.value[1] = vecSub(a2, gsProj1.value)
-    gsStepText.value = 'b₂ = a₂ - proj_{b₁}(a₂)，减去在b₁上的投影'
+    const b2 = vecSub(a2, gsProj1.value)
+    gsStepText.value = 'b₂ = a₂ - proj_{b₁}(a₂)，橙色部分是被减去的投影'
+    if (gsPlaying.value) await gsAnimateVector(a2, b2)
+    gsB.value[1] = b2
+    gsCurrentB.value = null
   } else if (gsStep.value === 3) {
     const a3 = gsA[2], b1 = gsB.value[0], b2 = gsB.value[1]
     const c1 = vecDot(a3, b1) / vecDot(b1, b1)
     const c2 = vecDot(a3, b2) / vecDot(b2, b2)
     gsProj2a.value = vecScale(b1, c1)
     gsProj2b.value = vecScale(b2, c2)
-    gsB.value[2] = vecSub(vecSub(a3, gsProj2a.value), gsProj2b.value)
-    gsStepText.value = 'b₃ = a₃ - proj_{b₁}(a₃) - proj_{b₂}(a₃)，得到正交基{b₁,b₂,b₃}'
+    const removed = vecAdd(gsProj2a.value, gsProj2b.value)
+    const b3 = vecSub(a3, removed)
+    gsStepText.value = 'b₃ = a₃ - proj_{b₁}(a₃) - proj_{b₂}(a₃)，连续减去两个投影'
+    if (gsPlaying.value) await gsAnimateVector(a3, b3)
+    gsB.value[2] = b3
+    gsCurrentB.value = null
+    gsStepText.value = '得到两两正交的向量组 {b₁,b₂,b₃}'
   }
   renderTrigger.value++
 }
 
-function gsLoop() {
+async function gsLoop() {
   if (!gsPlaying.value) return
-  gsAdvance()
-  gsAnimId = setTimeout(gsLoop, 2000)
+  await gsAdvance()
+  gsAnimId = setTimeout(gsLoop, 1400)
 }
 function gsPlay() {
   if (gsStep.value >= 3) gsReset()
@@ -729,6 +762,8 @@ function gsReset() {
   gsProj1.value = null
   gsProj2a.value = null
   gsProj2b.value = null
+  gsCurrentB.value = null
+  gsT.value = 0
   gsStepText.value = '点击播放开始Gram-Schmidt正交化'
   renderTrigger.value++
 }
@@ -747,9 +782,9 @@ const hhSigma = ref(0)
 const hhU = ref([0, 0])
 const hhHx = ref([0, 0])
 const hhReflected = computed(() => {
-  // 中间插值
+  // Show the vector moving toward the actual Householder result Hx.
   const angle = Math.atan2(hhX.value[1], hhX.value[0])
-  const targetAngle = 0
+  const targetAngle = Math.atan2(hhHx.value[1], hhHx.value[0])
   const a = angle + (targetAngle - angle) * hhT.value
   const r = vecNorm(hhX.value)
   return [Math.cos(a) * r, Math.sin(a) * r]
@@ -773,8 +808,9 @@ const hhArc = computed(() => {
   const x1 = Math.cos(a1)*r, y1 = Math.sin(a1)*r
   const x2 = Math.cos(a1 + (a2-a1)*hhT.value)*r
   const y2 = Math.sin(a1 + (a2-a1)*hhT.value)*r
-  const sweep = Math.abs(a2-a1) > Math.PI ? 1 : 0
-  return `M ${x1} ${y1} A ${r} ${r} 0 0 ${sweep} ${x2} ${y2}`
+  const largeArc = Math.abs(a2 - a1) > Math.PI ? 1 : 0
+  const sweep = a2 >= a1 ? 1 : 0
+  return `M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} ${sweep} ${x2} ${y2}`
 })
 
 function hhAdvance() {
@@ -807,7 +843,7 @@ function hhAdvance() {
 }
 
 function animateHHReflect() {
-  hhStepText.value = '反射进行中：x经镜面映射到e₁方向...'
+  hhStepText.value = '反射进行中：x经镜面映射到-σe₁方向...'
   const start = performance.now()
   const dur = 1500
   function tick(now) {

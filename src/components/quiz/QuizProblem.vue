@@ -1,5 +1,5 @@
 <template>
-  <div class="quiz-card">
+  <div class="quiz-card" ref="rootEl">
     <div class="quiz-header">
       <span class="quiz-badge">{{ badge || '📝 题目' }}</span>
       <span class="quiz-source" v-if="quiz.source">{{ quiz.source }}</span>
@@ -45,8 +45,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick, watch } from 'vue'
-import katex from 'katex'
+import { ref } from 'vue'
+import { useKatex } from '../../composables/useKatex'
 
 const props = defineProps({
   quiz: { type: Object, required: true },
@@ -55,43 +55,9 @@ const props = defineProps({
 })
 
 const show = ref(props.defaultOpen)
+const rootEl = ref(null)
 
-function renderMathIn(el) {
-  if (!el) return
-  el.querySelectorAll('.formula-inline, .formula-block').forEach(node => {
-    if (node.dataset.katexRendered) return
-    try {
-      katex.render(node.textContent.trim(), node, {
-        throwOnError: false,
-        displayMode: node.classList.contains('formula-block'),
-        macros: {
-          "\\R": "\\mathbb{R}",
-          "\\C": "\\mathbb{C}",
-          "\\diag": "\\operatorname{diag}",
-          "\\rank": "\\operatorname{rank}",
-          "\\Ker": "\\operatorname{Ker}",
-          "\\Im": "\\operatorname{Im}",
-          "\\tr": "\\operatorname{tr}",
-          "\\sign": "\\operatorname{sign}",
-          "\\T": "^\\mathsf{T}",
-          "\\Span": "\\operatorname{span}",
-          "\\det": "\\operatorname{det}"
-        }
-      })
-      node.dataset.katexRendered = 'true'
-    } catch(e) {
-      console.warn('Quiz KaTeX error:', e.message)
-    }
-  })
-}
-
-onMounted(() => {
-  nextTick(() => renderMathIn(document.querySelector('.quiz-card')))
-})
-
-watch(show, () => {
-  nextTick(() => setTimeout(() => renderMathIn(document.querySelector('.quiz-card')), 50))
-})
+const { renderMath } = useKatex(show)
 </script>
 
 <style scoped>

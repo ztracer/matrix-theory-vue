@@ -100,9 +100,13 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { quizBank, lessonMeta } from '../data/quizBank'
 import QuizProblem from '../components/quiz/QuizProblem.vue'
+import { useKatex } from '../composables/useKatex'
+
+const { renderMath } = useKatex()
+onMounted(() => { setTimeout(renderMath, 100) })
 
 // Week color configuration
 const weekConfig = {

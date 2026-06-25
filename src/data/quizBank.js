@@ -268,6 +268,29 @@ export const quizBank = {
         { title: '求A⁺', content: 'A⁺=Aᵀ(AAᵀ)⁻¹=(1/3)((2,-1),(-1,2),(1,1))。' },
         { title: '极小范数最小二乘解', content: 'x⁺=A⁺b=(1/3)(0,3,3)^T=(0,1,1)^T。' }
       ]
+    },
+    {
+      id: '07-4',
+      source: '2025年期末真题',
+      problem: `证明：对任意 m \\times n 实矩阵 A，Moore-Penrose 广义逆 A^+ 存在唯一。`,
+      steps: [
+        { title: '用SVD证明存在性', content: '设 A = U\\Sigma V^T 为 A 的奇异值分解，其中 \\Sigma = \\operatorname{diag}(\\sigma_1,\\dots,\\sigma_r,0,\\dots,0)，r = \\rank(A)。定义 \\Sigma^+ = \\operatorname{diag}(1/\\sigma_1,\\dots,1/\\sigma_r,0,\\dots,0)_{n\\times m}。令 A^+ = V\\Sigma^+ U^T，验证四个Penrose方程。' },
+        { title: '验证(1) AA⁺A = A', content: 'AA^+A = U\\Sigma V^T V\\Sigma^+ U^T U\\Sigma V^T = U\\Sigma\\Sigma^+\\Sigma V^T = U\\Sigma V^T = A。其中用到 \\Sigma\\Sigma^+\\Sigma = \\Sigma。' },
+        { title: '验证(2) A⁺AA⁺ = A⁺', content: 'A^+AA^+ = V\\Sigma^+U^T U\\Sigma V^T V\\Sigma^+U^T = V\\Sigma^+\\Sigma\\Sigma^+ U^T = V\\Sigma^+ U^T = A^+。' },
+        { title: '验证(3)(4) 对称性', content: '(AA^+)^T = (U\\Sigma\\Sigma^+U^T)^T = U(\\Sigma\\Sigma^+)^T U^T = U\\Sigma\\Sigma^+U^T = AA^+（因 \\Sigma\\Sigma^+ 是对角矩阵）。同理 (A^+A)^T = A^+A。' },
+        { title: '唯一性', content: '设 X_1,X_2 均满足四个Penrose方程。则 X_1 = X_1AX_1 = X_1(AX_2A)X_1 = \\cdots = X_2（利用对称性和幂等性可证）。故唯一。' }
+      ]
+    },
+    {
+      id: '07-5',
+      source: '2025年期末真题',
+      problem: `写出矩阵方程 AXB = D 相容的充要条件。`,
+      steps: [
+        { title: '充要条件', content: 'AXB = D 相容（有解）\\iff AA^+DB^+B = D。' },
+        { title: '必要性证明', content: '若 X 为解，则 D = AXB。右乘 B^+B，又由 AX = D B^+（当 B 列满秩时）的广义逆关系，可得 AA^+DB^+B = AA^+AXBB^+B = AXB = D。' },
+        { title: '充分性证明', content: '若 AA^+DB^+B = D，则取 X = A^+DB^+，有 AXB = AA^+DB^+B = D。故 X = A^+DB^+ 是一个特解。' },
+        { title: '通解', content: '方程 AXB = D 相容时，通解为 X = A^+DB^+ + Y - A^+AYBB^+，其中 Y 为任意 m \\times n 矩阵。' }
+      ]
     }
   ],
 

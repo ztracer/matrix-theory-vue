@@ -17,8 +17,8 @@
           <div class="stat"><div class="stat-num">{{ totalQuizzes }}</div><div class="stat-label">道真题</div></div>
         </div>
         <div class="hero-btns">
-          <a href="#mindmap" class="btn btn-primary">🗺️ 知识地图</a>
-          <a href="#lessons" class="btn btn-secondary">📚 开始学习</a>
+          <a href="#mindmap" class="btn btn-primary" @click.prevent="scrollTo('mindmap')">🗺️ 知识地图</a>
+          <a href="#lessons" class="btn btn-secondary" @click.prevent="scrollTo('lessons')">📚 开始学习</a>
           <router-link to="/exam" class="btn btn-exam">📋 真题汇总</router-link>
         </div>
       </div>
@@ -282,6 +282,9 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { quizBank, lessonMeta } from '@/data/quizBank'
+import { useKatex } from '../composables/useKatex'
+
+useKatex()
 
 const router = useRouter()
 const tip = ref(null)
@@ -362,6 +365,13 @@ const path = [
 ]
 
 const go = (p) => { if(p) router.push(p) }
+
+const scrollTo = (id) => {
+  const el = document.getElementById(id)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
 
 const showTip = (e, info) => {
   if(!info || !info.tip) return

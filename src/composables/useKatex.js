@@ -19,8 +19,10 @@ export function useKatex(renderTrigger) {
               "\\Ker": "\\operatorname{Ker}",
               "\\Im": "\\operatorname{Im}",
               "\\tr": "\\operatorname{tr}",
+              "\\det": "\\operatorname{det}",
               "\\sign": "\\operatorname{sign}",
-              "\\T": "^\\mathsf{T}"
+              "\\T": "^\\mathsf{T}",
+              "\\H": "^\\mathsf{H}"
             }
           })
           el.dataset.katexRendered = 'true'

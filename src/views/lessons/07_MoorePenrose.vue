@@ -284,13 +284,12 @@ import Theorem from '../../components/ui/Theorem.vue'
 import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
-import QuizProblem from '../../components/quiz/QuizProblem.vue'
 import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
 import { quizBank } from '../../data/quizBank'
 import { useKatex } from '../../composables/useKatex'
 import { ref, onUnmounted, computed } from 'vue'
 
-const quizzes = quizBank[7]
+const quizzes = (quizBank[7] || []).map(q => ({ ...q, lessonNum: '07', lessonTitle: 'Moore-Penrose广义逆' }))
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)

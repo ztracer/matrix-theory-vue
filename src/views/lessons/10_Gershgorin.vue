@@ -381,7 +381,7 @@ import { quizBank } from '../../data/quizBank'
 import { useKatex } from '../../composables/useKatex'
 import { ref, computed, onUnmounted } from 'vue'
 
-const quizzes = quizBank[10]
+const quizzes = (quizBank[10] || []).map(q => ({ ...q, lessonNum: '10', lessonTitle: '特征值估计与极大极小原理' }))
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)

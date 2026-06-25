@@ -11,10 +11,10 @@
           <br>11 个核心知识点，33+ 交互动画，让抽象概念一目了然。
         </p>
         <div class="hero-stats">
-          <div class="stat"><div class="stat-num">11</div><div class="stat-label">知识模块</div></div>
-          <div class="stat"><div class="stat-num">33+</div><div class="stat-label">交互动画</div></div>
-          <div class="stat"><div class="stat-num">3</div><div class="stat-label">周复习规划</div></div>
-          <div class="stat"><div class="stat-num">∞</div><div class="stat-label">真题详解</div></div>
+          <div class="stat"><div class="stat-num">{{ totalLessons }}</div><div class="stat-label">知识模块</div></div>
+          <div class="stat"><div class="stat-num">{{ totalAnims }}+</div><div class="stat-label">交互动画</div></div>
+          <div class="stat"><div class="stat-num">{{ totalWeeks }}</div><div class="stat-label">周复习规划</div></div>
+          <div class="stat"><div class="stat-num">{{ totalQuizzes }}</div><div class="stat-label">道真题</div></div>
         </div>
         <div class="hero-btns">
           <a href="#mindmap" class="btn btn-primary">🗺️ 知识地图</a>
@@ -60,27 +60,29 @@
               <path d="M500,330 C500,240 500,180 500,150" stroke="#99f6e4" stroke-width="2.5" fill="none"/>
               <path d="M500,330 C600,260 720,200 800,170" stroke="#fed7aa" stroke-width="2.5" fill="none"/>
 
-              <!-- Week 1 chain -->
+              <!-- Week 1 chain: w1→01→02→03→04→root -->
               <path d="M200,170 C160,220 130,270 110,320" stroke="#a5b4fc" stroke-width="2" fill="none"/>
-              <path d="M110,320 C130,380 160,420 200,450" stroke="#a5b4fc" stroke-width="2" fill="none"/>
-              <path d="M200,450 C280,460 340,430 380,390" stroke="#a5b4fc" stroke-width="2" fill="none"/>
-              <path d="M380,390 C420,360 460,340 480,330" stroke="#a5b4fc" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+              <path d="M110,320 C140,370 170,420 200,450" stroke="#a5b4fc" stroke-width="2" fill="none"/>
+              <path d="M200,450 C260,440 320,410 380,390" stroke="#a5b4fc" stroke-width="2" fill="none"/>
+              <path d="M380,390 C400,395 410,398 420,400" stroke="#a5b4fc" stroke-width="2" fill="none"/>
+              <path d="M420,400 C440,380 470,350 500,330" stroke="#a5b4fc" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
 
-              <!-- Week 2 chain -->
-              <path d="M500,150 C440,200 410,250 400,290" stroke="#5eead4" stroke-width="2" fill="none"/>
-              <path d="M400,290 C440,310 470,320 490,325" stroke="#5eead4" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
-              <path d="M500,150 C560,200 590,250 600,290" stroke="#5eead4" stroke-width="2" fill="none"/>
-              <path d="M600,290 C560,310 530,320 510,325" stroke="#5eead4" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+              <!-- Week 2 chain: w2→05→root, w2→06→07, w2→07, 07→root -->
+              <path d="M500,150 C450,200 420,250 400,290" stroke="#5eead4" stroke-width="2" fill="none"/>
+              <path d="M400,290 C430,305 465,320 500,330" stroke="#5eead4" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+              <path d="M500,150 C550,200 580,250 600,290" stroke="#5eead4" stroke-width="2" fill="none"/>
+              <path d="M600,290 C570,350 530,410 500,460" stroke="#5eead4" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+              <path d="M500,150 C500,250 500,360 500,460" stroke="#5eead4" stroke-width="2" fill="none"/>
+              <path d="M500,460 C500,420 500,370 500,330" stroke="#5eead4" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
 
-              <!-- Week 3 chain -->
+              <!-- Week 3 chain: w3→08→root, w3→09→08, w3→10→11, 11→w3 -->
               <path d="M800,170 C740,220 700,270 680,320" stroke="#fdba74" stroke-width="2" fill="none"/>
-              <path d="M680,320 C640,340 580,340 530,335" stroke="#fdba74" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+              <path d="M680,320 C630,325 570,328 500,330" stroke="#fdba74" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
               <path d="M800,170 C820,230 830,290 820,350" stroke="#fdba74" stroke-width="2" fill="none"/>
-              <path d="M820,350 C760,350 700,340 680,320" stroke="#fdba74" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+              <path d="M820,350 C770,345 720,335 680,320" stroke="#fdba74" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
               <path d="M800,170 C860,240 900,310 910,380" stroke="#fdba74" stroke-width="2" fill="none"/>
-              <path d="M910,380 C850,400 770,420 680,440" stroke="#fdba74" stroke-width="2" fill="none"/>
-              <path d="M910,380 C930,430 900,480 830,500" stroke="#fdba74" stroke-width="2" fill="none"/>
-              <path d="M830,500 C740,490 680,460 680,440" stroke="#fdba74" stroke-width="2" fill="none"/>
+              <path d="M910,380 C880,420 850,470 830,500" stroke="#fdba74" stroke-width="2" fill="none"/>
+              <path d="M830,500 C820,400 810,280 800,170" stroke="#f9a8d4" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
             </g>
 
             <!-- Root node -->
@@ -288,6 +290,12 @@ const tipText = ref('')
 // 动态获取某课的真题数量
 const getQuizCount = (id) => quizBank[id]?.length || 0
 
+// Hero区动态统计
+const totalLessons = lessonMeta.length
+const totalAnims = lessonMeta.reduce((s, l) => s + l.anims, 0)
+const totalQuizzes = Object.values(quizBank).reduce((s, q) => s + q.length, 0)
+const totalWeeks = new Set(lessonMeta.map(l => l.week)).size
+
 const mathSymbols = [
   { sym: 'A=UΣVᵀ', style: 'top:8%;left:5%;font-size:42px;animation-delay:0s' },
   { sym: 'eᴬᵗ', style: 'top:15%;right:8%;font-size:56px;animation-delay:-5s' },
@@ -309,7 +317,7 @@ const w1Nodes = [
     tip:'02 线性变换及其矩阵\n矩阵表示、相似变换、核与像、Gram-Schmidt正交化、Householder反射。' },
   { id:'03', x:380, y:390, color:'#7c3aed', label1:'Jordan', label2:'标准形', path:'/lesson/03',
     tip:'03 对角化与Jordan标准形\n特征值特征向量、代数与几何重数、Jordan块、Jordan链。' },
-  { id:'04', x:480, y:380, color:'#8b5cf6', label1:'矩阵', label2:'函数', path:'/lesson/04',
+  { id:'04', x:420, y:400, color:'#8b5cf6', label1:'矩阵', label2:'函数', path:'/lesson/04',
     tip:'04 矩阵函数与微分方程\n矩阵指数、相图分析、线性微分方程组求解。' },
 ]
 
@@ -318,7 +326,7 @@ const w2Nodes = [
     tip:'05 三角分解与QR分解\nLU分解（Gauss消元）、QR分解、Gram-Schmidt、Householder反射。' },
   { id:'06', x:600, y:290, color:'#14b8a6', label1:'SVD', label2:'分解', path:'/lesson/06',
     tip:'06 满秩分解与SVD\n奇异值分解、几何意义（旋转-拉伸-旋转）、最佳低秩逼近。' },
-  { id:'07', x:500, y:420, color:'#06b6d4', label1:'M-P', label2:'广义逆', path:'/lesson/07',
+  { id:'07', x:500, y:460, color:'#10b981', label1:'M-P', label2:'广义逆', path:'/lesson/07',
     tip:'07 Moore-Penrose广义逆\n四个Penrose方程、广义逆的SVD构造、极小范数最小二乘解。' },
 ]
 

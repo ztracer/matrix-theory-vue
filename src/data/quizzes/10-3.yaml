@@ -1,0 +1,18 @@
+id: "10-3"
+source: "教材习题"
+lesson: 10
+knowledge:
+  - Rayleigh商
+  - 特征值估计
+problem: |
+  设$A$是实对称矩阵，证明Rayleigh商 $R(x)=\frac{x^TAx}{x^Tx}$ 的极值恰为$A$的特征值：$\max_{x\neq 0}R(x)=\lambda_{\max}, \min_{x\neq 0}R(x)=\lambda_{\min}$。
+steps:
+  - title: "正交对角化"
+    content: |
+      $A=Q\Lambda Q^T$，令$y=Q^Tx$，则$R(x)=\frac{y^T\Lambda y}{y^Ty}=\frac{\sum\lambda_i y_i^2}{\sum y_i^2}$。
+  - title: "上下界"
+    content: |
+      $\lambda_{\min}\cdot\sum y_i^2 \leq \sum\lambda_i y_i^2 \leq \lambda_{\max}\cdot\sum y_i^2$，故$\lambda_{\min} \leq R(x) \leq \lambda_{\max}$。
+  - title: "等号可达"
+    content: |
+      $x$为对应特征向量时取等号。

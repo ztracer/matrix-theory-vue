@@ -1,0 +1,26 @@
+id: "03-2"
+source: "2023年期末真题"
+lesson: 3
+knowledge:
+  - Jordan标准形
+  - 特征值
+  - 几何重数
+  - Jordan链
+problem: |
+  求矩阵 $A=\begin{pmatrix}2&-1&1\\2&2&-1\\1&2&-1\end{pmatrix}$ 的Jordan标准形。（注意：此题有重根且几何重数<代数重数）
+steps:
+  - title: "求特征多项式"
+    content: |
+      $\det(A-\lambda I)=-(\lambda-1)^3$（三重根$\lambda=1$）。
+  - title: "求几何重数"
+    content: |
+      $A-I=\begin{pmatrix}1&-1&1\\2&1&-1\\1&2&-2\end{pmatrix}$，$r(A-I)=2$，$g(1)=3-2=1<3$，故有Jordan链。
+  - title: "求特征向量"
+    content: |
+      $(A-I)x=0$，解为$x_1=0,x_2=x_3$，$\eta_1=(0,1,1)^T$。
+  - title: "求广义特征向量(Jordan链)"
+    content: |
+      $(A-I)\eta_2=\eta_1$，解之得$\eta_2=(1,1,0)^T$；再解$(A-I)\eta_3=\eta_2$，得$\eta_3$。
+  - title: "Jordan标准形"
+    content: |
+      $J=J_3(1)=\begin{pmatrix}1&1&0\\0&1&1\\0&0&1\end{pmatrix}$，$P=(\eta_1,\eta_2,\eta_3)$。

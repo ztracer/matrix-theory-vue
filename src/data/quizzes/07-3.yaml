@@ -1,0 +1,22 @@
+id: "07-3"
+source: "2022年期末真题"
+lesson: 7
+knowledge:
+  - Moore-Penrose
+  - 广义逆
+  - 满秩分解
+problem: |
+  设 $A=\begin{pmatrix}1&0&1\\0&1&1\end{pmatrix}$，用满秩分解求$A^+$，并求$Ax=b$的极小范数最小二乘解，其中 $b=(1,2)^T$。
+steps:
+  - title: "满秩分解"
+    content: |
+      $A$行满秩，直接$A^+=A^T(AA^T)^{-1}$。
+  - title: "计算AAᵀ"
+    content: |
+      $AA^T=\begin{pmatrix}2&1\\1&2\end{pmatrix}$，$(AA^T)^{-1}=\frac{1}{3}\begin{pmatrix}2&-1\\-1&2\end{pmatrix}$。
+  - title: "求A⁺"
+    content: |
+      $A^+=A^T(AA^T)^{-1}=\frac{1}{3}\begin{pmatrix}2&-1\\-1&2\\1&1\end{pmatrix}$。
+  - title: "极小范数最小二乘解"
+    content: |
+      $x^+=A^+b=\frac{1}{3}(0,3,3)^T=(0,1,1)^T$。

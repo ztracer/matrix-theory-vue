@@ -1,0 +1,26 @@
+id: "07-4"
+source: "2025年期末真题"
+lesson: 7
+knowledge:
+  - Moore-Penrose
+  - 广义逆
+  - Penrose方程
+  - 唯一性
+problem: |
+  证明：对任意 $m \times n$ 实矩阵 $A$，Moore-Penrose 广义逆 $A^+$ 存在唯一。
+steps:
+  - title: "用SVD证明存在性"
+    content: |
+      设 $A = U\Sigma V^T$ 为 $A$ 的奇异值分解，其中 $\Sigma = \operatorname{diag}(\sigma_1,\dots,\sigma_r,0,\dots,0)$，$r = \rank(A)$。定义 $\Sigma^+ = \operatorname{diag}(1/\sigma_1,\dots,1/\sigma_r,0,\dots,0)_{n\times m}$。令 $A^+ = V\Sigma^+ U^T$，验证四个Penrose方程。
+  - title: "验证(1) AA⁺A = A"
+    content: |
+      $AA^+A = U\Sigma V^T V\Sigma^+ U^T U\Sigma V^T = U\Sigma\Sigma^+\Sigma V^T = U\Sigma V^T = A$。其中用到 $\Sigma\Sigma^+\Sigma = \Sigma$。
+  - title: "验证(2) A⁺AA⁺ = A⁺"
+    content: |
+      $A^+AA^+ = V\Sigma^+U^T U\Sigma V^T V\Sigma^+U^T = V\Sigma^+\Sigma\Sigma^+ U^T = V\Sigma^+ U^T = A^+$。
+  - title: "验证(3)(4) 对称性"
+    content: |
+      $(AA^+)^T = (U\Sigma\Sigma^+U^T)^T = U(\Sigma\Sigma^+)^T U^T = U\Sigma\Sigma^+U^T = AA^+$（因 $\Sigma\Sigma^+$ 是对角矩阵）。同理 $(A^+A)^T = A^+A$。
+  - title: "唯一性"
+    content: |
+      设 $X_1,X_2$ 均满足四个Penrose方程。则 $X_1 = X_1AX_1 = X_1(AX_2A)X_1 = \cdots = X_2$（利用对称性和幂等性可证）。故唯一。

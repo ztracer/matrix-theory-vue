@@ -1,0 +1,19 @@
+id: "04-2"
+source: "2021年期末真题"
+lesson: 4
+knowledge:
+  - 矩阵指数
+  - 微分方程
+  - Jordan块
+problem: |
+  设 $A=\begin{pmatrix}1&1\\0&1\end{pmatrix}$（Jordan块），求 $e^{At}$ 并解 $x'=Ax, x(0)=(1,1)^T$。
+steps:
+  - title: "分解A=I+N"
+    content: |
+      $N=\begin{pmatrix}0&1\\0&0\end{pmatrix}$是幂零矩阵，$N^2=0$，$I$与$N$可交换。
+  - title: "计算e^{At}"
+    content: |
+      $e^{At}=e^{It}e^{Nt}=e^t(I+tN)=e^t\begin{pmatrix}1&t\\0&1\end{pmatrix}$（注意共振项$te^t$）。
+  - title: "求解x(t)"
+    content: |
+      $x(t)=e^{At}x(0)=e^t\begin{pmatrix}1&t\\0&1\end{pmatrix}\begin{pmatrix}1\\1\end{pmatrix}=e^t\begin{pmatrix}1+t\\1\end{pmatrix}$。

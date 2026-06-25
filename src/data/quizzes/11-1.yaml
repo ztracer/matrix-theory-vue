@@ -1,0 +1,29 @@
+id: "11-1"
+source: "综合模拟题"
+lesson: 11
+knowledge:
+  - 综合复习
+  - Jordan标准形
+  - 矩阵指数
+  - 微分方程
+problem: |
+  设 $A=\begin{pmatrix}1&1&0\\0&1&1\\0&0&2\end{pmatrix}$，求：(1)$A$的Jordan标准形$J$；(2)变换矩阵$P$；(3)$e^{At}$；(4)解$x'=Ax, x(0)=(1,0,0)^T$。
+steps:
+  - title: "特征值"
+    content: |
+      $\det(A-\lambda I)=(1-\lambda)^2(2-\lambda)$，$\lambda_1=\lambda_2=1, \lambda_3=2$。
+  - title: "λ=1几何重数"
+    content: |
+      $A-I=\begin{pmatrix}0&1&0\\0&0&1\\0&0&1\end{pmatrix}, r(A-I)=2, g(1)=1<2$，Jordan块$J_2(1)$。
+  - title: "Jordan链"
+    content: |
+      $(A-I)\eta_1=0\to\eta_1=(1,0,0)^T$; $(A-I)\eta_2=\eta_1\to\eta_2=(0,1,0)^T$; $\lambda=2$特征向量$\eta_3=(1,1,1)^T$。
+  - title: "J和P"
+    content: |
+      $J=\operatorname{diag}(J_2(1),(2)), P=(\eta_1,\eta_2,\eta_3)$。
+  - title: "e^{At}"
+    content: |
+      $e^{Jt}=\operatorname{diag}\left(\begin{pmatrix}e^t&te^t\\0&e^t\end{pmatrix},e^{2t}\right)$，$e^{At}=Pe^{Jt}P^{-1}$。
+  - title: "解x(t)"
+    content: |
+      $x(t)=e^{At}x(0)=Pe^{Jt}P^{-1}\begin{pmatrix}1\\0\\0\end{pmatrix}$。

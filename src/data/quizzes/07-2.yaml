@@ -1,0 +1,16 @@
+id: "07-2"
+source: "经典习题"
+lesson: 7
+knowledge:
+  - Moore-Penrose
+  - 广义逆
+  - Penrose方程
+problem: |
+  验证 M-P 广义逆的四个Penrose方程：(1)$AXA=A$; (2)$XAX=X$; (3)$(AX)^T=AX$; (4)$(XA)^T=XA$。其中$A^+=V\Sigma^+U^T$是$A$的SVD构造。
+steps:
+  - title: "验证(1)"
+    content: |
+      $AA^+A = U\Sigma V^T\cdot V\Sigma^+U^T\cdot U\Sigma V^T = U\Sigma\Sigma^+\Sigma V^T = U\Sigma V^T = A$（因为$\Sigma\Sigma^+\Sigma=\Sigma$）。
+  - title: "验证(2)(3)(4)"
+    content: |
+      类似利用$\Sigma^+\Sigma\Sigma^+=\Sigma^+, (\Sigma\Sigma^+)^T=\Sigma\Sigma^+, (\Sigma^+\Sigma)^T=\Sigma^+\Sigma$（均为对角矩阵）。

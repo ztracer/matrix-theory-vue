@@ -1,0 +1,21 @@
+id: "05-1"
+source: "经典习题"
+lesson: 5
+knowledge:
+  - LU分解
+  - Gauss消元
+problem: |
+  对矩阵 $A=\begin{pmatrix}2&1&1\\4&3&3\\2&2&1\end{pmatrix}$ 做LU分解。
+steps:
+  - title: "第一步消元"
+    content: |
+      $l_{21}=4/2=2, l_{31}=2/2=1$。消元后$U$第一行不变，$A^{(1)}=\begin{pmatrix}2&1&1\\0&1&1\\0&1&0\end{pmatrix}$。
+  - title: "第二步消元"
+    content: |
+      $l_{32}=1/1=1$。$A^{(2)}=\begin{pmatrix}2&1&1\\0&1&1\\0&0&-1\end{pmatrix}=U$。
+  - title: "写出L和U"
+    content: |
+      $L=\begin{pmatrix}1&0&0\\2&1&0\\1&1&1\end{pmatrix}$（单位下三角），$U=\begin{pmatrix}2&1&1\\0&1&1\\0&0&-1\end{pmatrix}$。
+  - title: "验证"
+    content: |
+      $LU=\begin{pmatrix}2&1&1\\4&3&3\\2&2&1\end{pmatrix}=A$ ✓

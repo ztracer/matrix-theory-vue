@@ -1,0 +1,22 @@
+id: "04-3"
+source: "教材习题"
+lesson: 4
+knowledge:
+  - 微分方程
+  - 常数变易
+  - 矩阵指数
+problem: |
+  用常数变易公式求解非齐次方程组 $x'=Ax+f(t)$，其中 $A=\begin{pmatrix}0&1\\-1&0\end{pmatrix}, f(t)=\begin{pmatrix}0\\1\end{pmatrix}, x(0)=\begin{pmatrix}0\\0\end{pmatrix}$。
+steps:
+  - title: "常数变易公式"
+    content: |
+      $x(t)=e^{At}x(0)+\int_0^t e^{A(t-s)}f(s)ds$。
+  - title: "代入e^{A(t-s)}"
+    content: |
+      $e^{A(t-s)}=\begin{pmatrix}\cos(t-s)&\sin(t-s)\\-\sin(t-s)&\cos(t-s)\end{pmatrix}$。
+  - title: "计算积分"
+    content: |
+      $\int_0^t \begin{pmatrix}\sin(t-s)\\\cos(t-s)\end{pmatrix} ds = \begin{pmatrix}1-\cos t\\\sin t\end{pmatrix}$。
+  - title: "解"
+    content: |
+      $x(t)=\begin{pmatrix}1-\cos t\\\sin t\end{pmatrix}$。

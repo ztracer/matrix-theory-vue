@@ -1,0 +1,16 @@
+id: "01-3"
+source: "教材习题"
+lesson: 1
+knowledge:
+  - 线性空间
+  - 子空间判定
+  - 基与维数
+problem: |
+  设 $V=\R^{2\times 2}$（二阶实矩阵空间），$W=\left\{\begin{pmatrix}a&b\\0&c\end{pmatrix}\;\middle|\;a,b,c\in\R\right\}$。证明$W$是$V$的子空间，并求$W$的维数和一组基。
+steps:
+  - title: "证明子空间"
+    content: |
+      零矩阵$\in W$；对$\forall A,B\in W,k,l\in\mathbb{R}$，$kA+lB$的$(2,1)$元$=k\cdot 0+l\cdot 0=0$，仍为上三角矩阵，故$kA+lB\in W$。
+  - title: "求基与维数"
+    content: |
+      $E_{11}=\begin{pmatrix}1&0\\0&0\end{pmatrix}, E_{12}=\begin{pmatrix}0&1\\0&0\end{pmatrix}, E_{22}=\begin{pmatrix}0&0\\0&1\end{pmatrix}$是$W$的一组基（线性无关且张成$W$），故$\dim W=3$。

@@ -1,0 +1,28 @@
+type: object
+required: [id, lesson, problem]
+properties:
+  id:
+    type: string
+    pattern: '^\d{2}-\d+$'
+  source:
+    type: string
+  lesson:
+    type: integer
+    minimum: 1
+    maximum: 11
+  knowledge:
+    type: array
+    items:
+      type: string
+  problem:
+    type: string
+  steps:
+    type: array
+    items:
+      type: object
+      required: [title, content]
+      properties:
+        title:
+          type: string
+        content:
+          type: string

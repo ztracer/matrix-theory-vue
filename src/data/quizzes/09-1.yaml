@@ -1,0 +1,18 @@
+id: "09-1"
+source: "2022年期末真题"
+lesson: 9
+knowledge:
+  - 最小二乘
+  - 正规方程
+problem: |
+  给定数据点 $(0,1),(1,2),(2,2),(3,4)$，用最小二乘法求最佳拟合直线 $y=ax+b$。
+steps:
+  - title: "建立矛盾方程组"
+    content: |
+      $Ax=b$，$A=\begin{pmatrix}0&1\\1&1\\2&1\\3&1\end{pmatrix}$，$x=\begin{pmatrix}a\\b\end{pmatrix}$，$b=\begin{pmatrix}1\\2\\2\\4\end{pmatrix}$。
+  - title: "正规方程"
+    content: |
+      $A^TAx=A^Tb$，$A^TA=\begin{pmatrix}14&6\\6&4\end{pmatrix}, A^Tb=\begin{pmatrix}18\\9\end{pmatrix}$。
+  - title: "求解"
+    content: |
+      $x=(A^TA)^{-1}A^Tb$，$a=9/10=0.9, b=9/10=0.9$。最佳直线$y=0.9x+0.9$。

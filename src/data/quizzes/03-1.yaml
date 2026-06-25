@@ -1,0 +1,25 @@
+id: "03-1"
+source: "2022年期末真题"
+lesson: 3
+knowledge:
+  - Jordan标准形
+  - 特征值
+  - 几何重数
+problem: |
+  求矩阵 $A=\begin{pmatrix}3&-1&-2\\2&0&-2\\2&-1&-1\end{pmatrix}$ 的Jordan标准形$J$及可逆矩阵$P$使$P^{-1}AP=J$。
+steps:
+  - title: "求特征值"
+    content: |
+      $\det(A-\lambda I)=-(\lambda-1)(\lambda^2-\lambda)=-\lambda(\lambda-1)^2$，特征值$\lambda_1=0, \lambda_2=\lambda_3=1$。
+  - title: "λ=0的特征向量"
+    content: |
+      $Ax=0$，解得$\eta_1=(1,1,1)^T$。
+  - title: "λ=1的几何重数"
+    content: |
+      $A-I=\begin{pmatrix}2&-1&-2\\2&-1&-2\\2&-1&-2\end{pmatrix}$，$r(A-I)=1$，$g(1)=3-1=2=m(1)=2$，可对角化！
+  - title: "λ=1的特征向量"
+    content: |
+      $(A-I)x=0$即$2x_1-x_2-2x_3=0$，取$\eta_2=(1,2,0)^T,\eta_3=(1,0,1)^T$。
+  - title: "结论"
+    content: |
+      $J=\operatorname{diag}(0,1,1)$，$P=(\eta_1,\eta_2,\eta_3)$。

@@ -14,7 +14,7 @@ steps:
     content: |
       已知 \{x_i\} 是标准正交基，内积 (x_i,x_j)=\delta_{ij}。
       
-      **第一步**：z_1 = y_1 = x_1+x_5
+      \textbf{第一步}：z_1 = y_1 = x_1+x_5
       \|z_1\|^2 = (x_1+x_5,x_1+x_5) = 1+1 = 2
       e_1 = \frac{x_1+x_5}{\sqrt{2}}
   - title: '第二步'

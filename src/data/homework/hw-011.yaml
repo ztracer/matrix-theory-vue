@@ -13,10 +13,10 @@ steps:
     content: |
       对 T_1：设 x=(\xi_1,\xi_2)^T, y=(\eta_1,\eta_2)^T。
       
-      **可加性**：
+      \textbf{可加性}：
       T_1(x+y) = (\xi_2+\eta_2,\,-(\xi_1+\eta_1))^T = (\xi_2,-\xi_1)^T + (\eta_2,-\eta_1)^T = T_1x + T_1y
       
-      **齐次性**：
+      \textbf{齐次性}：
       T_1(kx) = (k\xi_2,\,-k\xi_1)^T = k(\xi_2,-\xi_1)^T = kT_1x
       
       同理可证 T_2 也是线性变换。

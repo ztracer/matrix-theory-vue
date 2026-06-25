@@ -14,7 +14,7 @@ problem: |
 steps:
   - title: '(1) Tx=(\xi_1^2,\xi_1+\xi_2,\xi_3)^T'
     content: |
-      **不是线性变换。**
+      \textbf{不是线性变换。}
       
       取 x=(1,0,0)^T, y=(1,0,0)^T，则 x+y=(2,0,0)^T。
       
@@ -26,27 +26,27 @@ steps:
       关键原因：\xi_1^2 不是 \xi_1 的一次齐次函数。
   - title: '(2) TX=BXC'
     content: |
-      **是线性变换。**
+      \textbf{是线性变换。}
       
       验证两条性质：
       
-      **可加性**：
+      \textbf{可加性}：
       T(X+Y) = B(X+Y)C = BXC + BYC = TX + TY
       
-      **齐次性**：
+      \textbf{齐次性}：
       T(kX) = B(kX)C = k(BXC) = k\cdot TX
       
       因此 T 是 \mathbb{R}^{n\times n} 上的线性变换。
   - title: '(3) Tf(t)=f(t+1)'
     content: |
-      **是线性变换。**
+      \textbf{是线性变换。}
       
       验证两条性质：
       
-      **可加性**：
+      \textbf{可加性}：
       T(f+g)(t) = (f+g)(t+1) = f(t+1)+g(t+1) = Tf(t)+Tg(t)
       
-      **齐次性**：
+      \textbf{齐次性}：
       T(kf)(t) = (kf)(t+1) = k\cdot f(t+1) = k\cdot Tf(t)
       
       因此 T 是 P_n 上的线性变换（平移算子）。

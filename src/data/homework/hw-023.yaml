@@ -22,9 +22,9 @@ steps:
       因此该公式一般不成立。
   - title: '成立条件'
     content: |
-      **当且仅当 A(t) 与 \dfrac{dA}{dt} 可交换时**，即 A\cdot A' = A'\cdot A 时，公式成立。
+      \textbf{当且仅当 A(t) 与 \dfrac{dA}{dt} 可交换时}，即 A\cdot A' = A'\cdot A 时，公式成立。
       
-      **证明**：由归纳法，
+      \textbf{证明}：由归纳法，
       \frac{d}{dt}(A^m) = \sum_{k=0}^{m-1} A^k \cdot A' \cdot A^{m-1-k}
       
       当 A 与 A' 可交换时，每一项均可写成 A^{m-1}\cdot A'，共 m 项，故：

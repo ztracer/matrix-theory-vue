@@ -14,7 +14,7 @@ steps:
       设 S=\{A\in\mathbb{R}^{2\times 2}\mid A^T=A\}（对称矩阵空间），
       K=\{A\in\mathbb{R}^{2\times 2}\mid A^T=-A\}（反对称矩阵空间）。
       
-      **第一步：证明 \mathbb{R}^{2\times 2}=S+K**
+      \textbf{第一步：证明 \mathbb{R}^{2\times 2}=S+K}
       
       任取 A\in\mathbb{R}^{2\times 2}，构造：
       A = \frac{A+A^T}{2} + \frac{A-A^T}{2}
@@ -26,11 +26,11 @@ steps:
       因此任意二阶矩阵可分解为对称阵与反对称阵之和，即 \mathbb{R}^{2\times 2}=S+K。
   - title: '证明直和'
     content: |
-      **第二步：证明 S\cap K = \{0\}**
+      \textbf{第二步：证明 S\cap K = \{0\}}
       
       设 B\in S\cap K，则 B 同时满足：
       B^T = B \quad\text{且}\quad B^T = -B
       
       于是 B=-B，即 2B=O，故 B=O。
       
-      **结论**：\mathbb{R}^{2\times 2} = S \oplus K。
+      \textbf{结论}：\mathbb{R}^{2\times 2} = S \oplus K。

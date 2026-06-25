@@ -33,5 +33,5 @@ steps:
       进一步计算 \text{rank}(A-I)^2=2，\text{rank}(A-I)^3=1，\text{rank}(A-I)^4=0，符合单个 4 阶 Jordan 块的秩下降规律。
   - title: '结论'
     content: |
-      **Jordan 标准形为**：
+      \textbf{Jordan 标准形为}：
       J = \begin{pmatrix} 1 & 1 & 0 & 0 \\ 0 & 1 & 1 & 0 \\ 0 & 0 & 1 & 1 \\ 0 & 0 & 0 & 1 \end{pmatrix} = J_4(1)

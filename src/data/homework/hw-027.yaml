@@ -13,7 +13,7 @@ steps:
       矩阵 A 为分块对角矩阵 A=\mathrm{diag}(A_1,A_2)，其中 A_1=\begin{pmatrix}2&1\\0&2\end{pmatrix}，A_2=\begin{pmatrix}1&1\\0&1\end{pmatrix}，因此 f(A)=\mathrm{diag}(f(A_1),f(A_2))。
   - title: 'Jordan 块的矩阵函数公式'
     content: |
-      对 Jordan 块 J=\lambda I+N（N 为幂零指数 2 的移位矩阵），有 f(J)=\begin{pmatrix}f(\lambda)&f'(\\lambda)\\0&f(\lambda)\end{pmatrix}。这里 f'(z)=1/z。
+      对 Jordan 块 J=\lambda I+N（N 为幂零指数 2 的移位矩阵），有 f(J)=\begin{pmatrix}f(\lambda)&f'(\lambda)\\0&f(\lambda)\end{pmatrix}。这里 f'(z)=1/z。
   - title: '计算 f(A_1)'
     content: |
       A_1 的特征值 \lambda=2，f(2)=\ln 2，f'(2)=1/2，故 f(A_1)=\begin{pmatrix}\ln 2&\frac12\\0&\ln 2\end{pmatrix}。

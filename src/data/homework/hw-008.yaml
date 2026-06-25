@@ -13,15 +13,15 @@ problem: |
 steps:
   - title: '(1) 证明 V 是子空间'
     content: |
-      **验证子空间判定条件：**
+      \textbf{验证子空间判定条件：}
       
-      1. **零元**：零矩阵 O 满足 0+0=0，故 O\in V。
+      1. \textbf{零元}：零矩阵 O 满足 0+0=0，故 O\in V。
       
-      2. **加法封闭性**：设 A=(a_{ij}), B=(b_{ij})\in V，则 a_{11}+a_{22}=0，b_{11}+b_{22}=0。
+      2. \textbf{加法封闭性}：设 A=(a_{ij}), B=(b_{ij})\in V，则 a_{11}+a_{22}=0，b_{11}+b_{22}=0。
          (A+B)_{11}+(A+B)_{22} = (a_{11}+b_{11})+(a_{22}+b_{22}) = 0+0=0
          故 A+B\in V。
       
-      3. **数乘封闭性**：设 k\in\mathbb{R}, A\in V，则
+      3. \textbf{数乘封闭性}：设 k\in\mathbb{R}, A\in V，则
          (kA)_{11}+(kA)_{22} = k(a_{11}+a_{22}) = k\cdot 0 = 0
          故 kA\in V。
       
@@ -33,7 +33,7 @@ steps:
       
       三个矩阵线性无关且张成 V，故：
       
-      **维数** \dim V = 3。
+      \textbf{维数} \dim V = 3。
       
-      **一个基为**：
+      \textbf{一个基为}：
       E_1=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\quad E_2=\begin{pmatrix}0&1\\0&0\end{pmatrix},\quad E_3=\begin{pmatrix}0&0\\1&0\end{pmatrix}

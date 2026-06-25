@@ -22,4 +22,4 @@ steps:
       左乘 A^{-1}：
       \frac{d}{dt}(A^{-1}) = -A^{-1}\cdot\frac{dA}{dt}\cdot A^{-1}
       
-      **证毕。**
+      \textbf{证毕。}

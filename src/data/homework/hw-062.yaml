@@ -14,10 +14,10 @@ steps:
   - title: '识别矩阵结构'
     content: |
       观察矩阵 A：对角元为 2,4,\dots,2n；非对角元均为 \frac1n。
-      显然 A 是实矩阵，且 A^T = A，即 A 为**实对称矩阵**。
+      显然 A 是实矩阵，且 A^T = A，即 A 为\textbf{实对称矩阵}。
   - title: '利用实对称矩阵性质'
     content: |
-      实对称矩阵必可**正交相似**于对角矩阵，即存在正交矩阵 Q 使
+      实对称矩阵必可\textbf{正交相似}于对角矩阵，即存在正交矩阵 Q 使
       Q^TAQ = \operatorname{diag}(\lambda_1,\lambda_2,\dots,\lambda_n),
       其中 \lambda_i 为实数。
       

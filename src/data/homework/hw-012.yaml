@@ -12,19 +12,19 @@ steps:
     content: |
       需要验证以下四条内积公理：
       
-      **1. 对称性**：
+      \textbf{1. 对称性}：
       (x,y) = \sum_{i=1}^n i\xi_i\eta_i = \sum_{i=1}^n i\eta_i\xi_i = (y,x)
       满足。
       
-      **2. 对第一个变元的线性性**：
+      \textbf{2. 对第一个变元的线性性}：
       (x+y,z) = \sum i(\xi_i+\eta_i)\zeta_i = \sum i\xi_i\zeta_i + \sum i\eta_i\zeta_i = (x,z)+(y,z)
       (kx,y) = \sum i(k\xi_i)\eta_i = k\sum i\xi_i\eta_i = k(x,y)
       满足。
       
-      **3. 正定性**：
+      \textbf{3. 正定性}：
       (x,x) = \sum_{i=1}^n i\xi_i^2
       因为系数 i>0，且 \xi_i^2\ge 0，所以 (x,x)\ge 0。
       
       若 (x,x)=0，则 \sum i\xi_i^2=0，由于每一项非负，必有 \xi_i=0（对所有 i），即 x=0。
       
-      **结论**：V^n **是欧氏空间**（这是一种加权的内积）。
+      \textbf{结论}：V^n \textbf{是欧氏空间}（这是一种加权的内积）。

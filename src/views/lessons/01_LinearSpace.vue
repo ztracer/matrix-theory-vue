@@ -359,10 +359,7 @@ const rot1 = ref(0)
 let rafId1 = null
 const v1x = 120, v1y = -30
 const v2x = -60, v2y = -60
-const planePoints1 = computed(() => {
-  const cx = 300, cy = 250
-  return `${cx-200},${cy+20} ${cx+200},${cy-30} ${cx+180},${cy-80} ${cx-180},${cy-30}`
-})
+const planePoints1 = "100,270 500,220 480,170 120,220"
 
 function animate1() {
   rot1.value = (rot1.value + 0.3) % 360
@@ -372,10 +369,7 @@ function animate1() {
 // ===== Animation 2: Sum and intersection of two planes (auto-rotate) =====
 const rot2 = ref(0)
 let rafId2 = null
-const w1Points = computed(() => {
-  const cx = 300, cy = 220
-  return `${cx-220},${cy+10} ${cx+220},${cy-20} ${cx+220},${cy+10} ${cx-220},${cy+40}`
-})
+const w1Points = "80,230 520,200 520,230 80,260"
 const w2Points = computed(() => {
   const cx = 300, cy = 220
   const tilt = Math.sin(rot2.value * Math.PI / 180) * 40
@@ -392,6 +386,7 @@ const playing3 = ref(false)
 const vx3 = ref(0), vy3 = ref(0)
 const projAlpha = ref(0)
 let rafId3 = null
+let timer3 = null
 const targetX = 280, targetY = 200
 let phase3 = 0
 
@@ -404,7 +399,8 @@ function animate3() {
     projAlpha.value = Math.min(projAlpha.value + 0.02, 1)
     if (projAlpha.value >= 1) phase3 = 2
   } else {
-    setTimeout(() => {
+    playing3.value = false
+    timer3 = setTimeout(() => {
       phase3 = 0
       vx3.value = 0; vy3.value = 0; projAlpha.value = 0
     }, 1500)
@@ -413,8 +409,8 @@ function animate3() {
   rafId3 = requestAnimationFrame(animate3)
 }
 function play3() { if (!playing3.value) { playing3.value = true; animate3() } }
-function pause3() { playing3.value = false; if (rafId3) cancelAnimationFrame(rafId3) }
-function reset3() { pause3(); vx3.value = 0; vy3.value = 0; projAlpha.value = 0; phase3 = 0 }
+function pause3() { playing3.value = false; if (rafId3) cancelAnimationFrame(rafId3); if (timer3) clearTimeout(timer3) }
+function reset3() { pause3(); phase3 = 0; vx3.value = 0; vy3.value = 0; projAlpha.value = 0 }
 
 onMounted(() => {
   renderTrigger.value++
@@ -426,5 +422,6 @@ onUnmounted(() => {
   if (rafId1) cancelAnimationFrame(rafId1)
   if (rafId2) cancelAnimationFrame(rafId2)
   if (rafId3) cancelAnimationFrame(rafId3)
+  if (timer3) clearTimeout(timer3)
 })
 </script>

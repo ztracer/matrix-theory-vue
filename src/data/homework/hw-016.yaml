@@ -16,7 +16,7 @@ steps:
       特征多项式：
       \det(\lambda I-A) = \begin{vmatrix} \lambda & -j & -1 \\ j & \lambda & 0 \\ -1 & 0 & \lambda \end{vmatrix} = \lambda^3 - 2\lambda = \lambda(\lambda^2-2)
       
-      **特征值**：\lambda_1=0,\; \lambda_2=\sqrt{2},\; \lambda_3=-\sqrt{2}。
+      \textbf{特征值}：\lambda_1=0,\; \lambda_2=\sqrt{2},\; \lambda_3=-\sqrt{2}。
   - title: '求特征向量'
     content: |
       对 \lambda_1=0：解 Ax=0，得 v_1=(0,1,-j)^T。

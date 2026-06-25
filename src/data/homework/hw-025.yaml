@@ -22,7 +22,7 @@ steps:
       两边同乘 t-a，得：
       \frac{dX}{du} = AX
       
-      **化简得证。**
+      \textbf{化简得证。}
   - title: '求通解'
     content: |
       方程 \dfrac{dX}{du}=AX 是常系数线性微分方程组，其通解为：
@@ -35,4 +35,4 @@ steps:
       
       这里用到矩阵幂的定义 (t-a)^A = e^{A\ln(t-a)}。
       
-      **通解得证。**
+      \textbf{通解得证。}

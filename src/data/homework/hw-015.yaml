@@ -15,7 +15,7 @@ steps:
       将第 2 行加到第 3 行提取公因子，再化简得：
       \det(\lambda I-A) = (\lambda-1)^2(\lambda-10)
       
-      **特征值**：\lambda_1=\lambda_2=1，\lambda_3=10。
+      \textbf{特征值}：\lambda_1=\lambda_2=1，\lambda_3=10。
   - title: '求 \lambda=1 的特征向量并正交化'
     content: |
       解 (A-I)x=0：

@@ -39,10 +39,10 @@ steps:
     content: |
       \xi(t) = \begin{pmatrix}1-t\\1-2t\\t-e^t\end{pmatrix} + \begin{pmatrix}t\\2t\\t(e^t-1)\end{pmatrix} = \begin{pmatrix}1\\1\\(t-1)e^t\end{pmatrix}
       
-      **验证**：
+      \textbf{验证}：
       - \xi_1=1, \xi_1'=0，右边 -2+1+1=0 ✓
       - \xi_2=1, \xi_2'=0，右边 -4+2+2=0 ✓
       - \xi_3=(t-1)e^t, \xi_3'=te^t，右边 1+(t-1)e^t+e^t-1=te^t ✓
       - 初始条件：\xi(0)=(1,1,-1)^T ✓
       
-      **解为** \boxed{\xi_1(t)=1,\; \xi_2(t)=1,\; \xi_3(t)=(t-1)e^t}。
+      \textbf{解为} \boxed{\xi_1(t)=1,\; \xi_2(t)=1,\; \xi_3(t)=(t-1)e^t}。

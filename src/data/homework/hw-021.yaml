@@ -14,9 +14,9 @@ steps:
       特征多项式：
       \det(\lambda I-A) = (\lambda-2)\begin{vmatrix}\lambda&-1\\-1&\lambda\end{vmatrix} = (\lambda-2)(\lambda^2-1)
       
-      **特征值**：\lambda_1=2,\; \lambda_2=1,\; \lambda_3=-1，互异，故 A 可对角化。
+      \textbf{特征值}：\lambda_1=2,\; \lambda_2=1,\; \lambda_3=-1，互异，故 A 可对角化。
       
-      **特征向量**：
+      \textbf{特征向量}：
       - \lambda_1=2：v_1=(1,0,0)^T
       - \lambda_2=1：v_2=(-1,1,1)^T
       - \lambda_3=-1：v_3=(1,-3,3)^T

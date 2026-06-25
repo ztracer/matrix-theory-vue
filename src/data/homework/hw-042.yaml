@@ -16,13 +16,13 @@ steps:
       &(1)\; AXA = A, \\(2)\; XAX = X, \\
       &(3)\; (AX)^H = AX, \\(4)\; (XA)^H = XA,
       \end{aligned}
-      则称 X 为 A 的 **Penrose 广义逆**（或 Moore-Penrose 广义逆），记作 A^+。
+      则称 X 为 A 的 \textbf{Penrose 广义逆}（或 Moore-Penrose 广义逆），记作 A^+。
   - title: 'Moore 广义逆定义'
     content: |
       设 A\in\mathbb C^{m\times n}。若矩阵 X\in\mathbb C^{n\times m} 满足：
       (i) AX 是到 A 的值域 R(A) 上的正交投影矩阵；
       (ii) XA 是到 X 的值域 R(X) 上的正交投影矩阵；
-      则称 X 为 A 的 **Moore 广义逆**。
+      则称 X 为 A 的 \textbf{Moore 广义逆}。
   - title: 'Moore 定义的等价表述'
     content: |
       Moore 定义等价于：

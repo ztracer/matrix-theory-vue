@@ -36,14 +36,14 @@ jobs:
         run: npm ci
 
       - name: Build
-        # GITHUB_REPOSITORY 环境变量会自动设置为 "owner/repo-name"
-        # vite.config.js 会从中提取仓库名作为 base 路径
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

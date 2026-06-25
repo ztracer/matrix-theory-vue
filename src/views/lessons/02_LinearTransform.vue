@@ -235,6 +235,13 @@
         'Householder：H = I − 2uuᵀ（||u||=1），对称正交矩阵，实现超平面镜像反射'
       ]" />
     </Section>
+
+    <Section title="📝 课后作业" :num="8">
+      <div v-if="hwQuizzes.length === 0" class="empty-state">暂无课后作业</div>
+      <template v-for="hw in hwQuizzes" :key="hw.id">
+        <QuizProblem :quiz="hw" badge="📝 课后作业" />
+      </template>
+    </Section>
   </LessonLayout>
 </template>
 
@@ -247,14 +254,17 @@ import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
 import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
+import QuizProblem from '../../components/quiz/QuizProblem.vue'
 import { useKatex } from '../../composables/useKatex'
 import { quizBank } from '../../data/quizBank'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { homeworkBank } from '../../data/homeworkBank'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 const renderTrigger = ref(0)
 useKatex(renderTrigger)
 
 const quizzes = (quizBank[2] || []).map(q => ({ ...q, lessonNum: '02', lessonTitle: '线性变换及其矩阵' }))
+const hwQuizzes = computed(() => (homeworkBank[2] || []).map(q => ({ ...q })))
 
 // ===== Animation 1: Matrix transforms on unit square (Canvas) =====
 const canvas1Ref = ref(null)

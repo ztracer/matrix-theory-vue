@@ -333,6 +333,13 @@
         '直和 ⟺ 零向量分解唯一 ⟺ W₁∩W₂ = {0} ⟺ dim(W₁+W₂) = dim W₁ + dim W₂'
       ]" />
     </Section>
+
+    <Section title="📝 课后作业" :num="7">
+      <div v-if="hwQuizzes.length === 0" class="empty-state">暂无课后作业</div>
+      <template v-for="hw in hwQuizzes" :key="hw.id">
+        <QuizProblem :quiz="hw" badge="📝 课后作业" />
+      </template>
+    </Section>
   </LessonLayout>
 </template>
 
@@ -345,14 +352,17 @@ import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
 import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
+import QuizProblem from '../../components/quiz/QuizProblem.vue'
 import { useKatex } from '../../composables/useKatex'
 import { quizBank } from '../../data/quizBank'
+import { homeworkBank } from '../../data/homeworkBank'
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)
 
 const quizzes = (quizBank[1] || []).map(q => ({ ...q, lessonNum: '01', lessonTitle: '线性空间与线性子空间' }))
+const hwQuizzes = computed(() => (homeworkBank[1] || []).map(q => ({ ...q })))
 
 // ===== Animation 1: Plane subspace in R3 (auto-rotate) =====
 const rot1 = ref(0)

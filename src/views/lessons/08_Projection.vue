@@ -466,6 +466,13 @@
     <Section title="🗂️ 真题与习题汇总">
       <WeekQuizBank :quizzes="quizzes" weekLabel="第3周" />
     </Section>
+
+    <Section title="📝 课后作业" :num="9">
+      <div v-if="hwQuizzes.length === 0" class="empty-state">暂无课后作业</div>
+      <template v-for="hw in hwQuizzes" :key="hw.id">
+        <QuizProblem :quiz="hw" badge="📝 课后作业" />
+      </template>
+    </Section>
   </LessonLayout>
 </template>
 
@@ -478,11 +485,14 @@ import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
 import Steps from '../../components/ui/Steps.vue'
 import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
+import QuizProblem from '../../components/quiz/QuizProblem.vue'
 import { quizBank } from '../../data/quizBank'
+import { homeworkBank } from '../../data/homeworkBank'
 import { useKatex } from '../../composables/useKatex'
 import { ref, onUnmounted, computed } from 'vue'
 
 const quizzes = (quizBank[8] || []).map(q => ({ ...q, lessonNum: '08', lessonTitle: '投影矩阵与广义逆应用' }))
+const hwQuizzes = computed(() => (homeworkBank[8] || []).map(q => ({ ...q })))
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)

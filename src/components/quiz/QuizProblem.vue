@@ -24,7 +24,7 @@
         <div v-for="(step, i) in quiz.steps" :key="i" class="solution-step">
           <div class="step-num-circle">{{ i + 1 }}</div>
           <div class="step-body">
-            <div class="step-title">{{ step.title }}</div>
+            <div class="step-title"><span class="formula-inline">{{ step.title }}</span></div>
             <div class="step-content">
               <span class="formula-inline">{{ step.content }}</span>
             </div>

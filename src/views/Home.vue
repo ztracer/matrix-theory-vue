@@ -176,7 +176,7 @@
                 <span v-for="t in l.tags" :key="t" class="tag">{{ t }}</span>
               </div>
               <div class="card-footer">
-                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 道真题</span>
+                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 真题{{ getHwCount(l.id) ? ' + ' + getHwCount(l.id) + ' 作业' : '' }}</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -205,7 +205,7 @@
                 <span v-for="t in l.tags" :key="t" class="tag">{{ t }}</span>
               </div>
               <div class="card-footer">
-                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 道真题</span>
+                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 真题{{ getHwCount(l.id) ? ' + ' + getHwCount(l.id) + ' 作业' : '' }}</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -234,7 +234,7 @@
                 <span v-for="t in l.tags" :key="t" class="tag">{{ t }}</span>
               </div>
               <div class="card-footer">
-                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 道真题</span>
+                <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 真题{{ getHwCount(l.id) ? ' + ' + getHwCount(l.id) + ' 作业' : '' }}</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -304,6 +304,7 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { quizBank, lessonMeta } from '@/data/quizBank'
+import { homeworkBank } from '../data/homeworkBank'
 import { useKatex } from '../composables/useKatex'
 
 useKatex()
@@ -315,12 +316,15 @@ const tipText = ref('')
 
 // 动态获取某课的真题数量
 const getQuizCount = (id) => quizBank[id]?.length || 0
+function getHwCount(lessonId) {
+  return (homeworkBank[lessonId] || []).length
+}
 
 // Hero区动态统计
 const totalLessons = lessonMeta.length
 const totalAnims = lessonMeta.reduce((s, l) => s + l.anims, 0)
 const totalQuizzes = Object.values(quizBank).reduce((s, q) => s + q.length, 0)
-const totalWeeks = new Set(lessonMeta.map(l => l.week)).size
+const totalWeeks = computed(() => new Set([...lessonMeta.map(l => l.week), 4]).size)
 
 const mathSymbols = [
   { sym: 'A=UΣVᵀ', style: 'top:8%;left:5%;font-size:42px;animation-delay:0s' },

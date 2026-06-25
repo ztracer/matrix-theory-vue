@@ -141,11 +141,18 @@
     <Section title="🗂️ 真题与习题汇总">
       <WeekQuizBank :quizzes="quizzes" weekLabel="第1周" />
     </Section>
+
+    <Section title="📝 课后作业" :num="4">
+      <div v-if="hwQuizzes.length === 0" class="empty-state">暂无课后作业</div>
+      <template v-for="hw in hwQuizzes" :key="hw.id">
+        <QuizProblem :quiz="hw" badge="📝 课后作业" />
+      </template>
+    </Section>
   </LessonLayout>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import LessonLayout from '../../components/LessonLayout.vue'
 import Section from '../../components/ui/Section.vue'
 import Theorem from '../../components/ui/Theorem.vue'
@@ -155,9 +162,11 @@ import ExampleBox from '../../components/ui/ExampleBox.vue'
 import QuizProblem from '../../components/quiz/QuizProblem.vue'
 import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
 import { quizBank } from '../../data/quizBank'
+import { homeworkBank } from '../../data/homeworkBank'
 import { useKatex } from '../../composables/useKatex'
 
 const quizzes = (quizBank[4] || []).map(q => ({ ...q, lessonNum: '04', lessonTitle: '矩阵函数' }))
+const hwQuizzes = computed(() => (homeworkBank[4] || []).map(q => ({ ...q })))
 
 // 插值点脉冲动画
 const ipActive = ref(-1)

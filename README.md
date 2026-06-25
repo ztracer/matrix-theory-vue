@@ -20,7 +20,7 @@
 
 - **11个核心知识模块**：覆盖线性空间到考前复习的完整知识体系
 - **33+交互动画**：每个知识点配备3个以上可交互的可视化动画
-- **真题例题详解**：精选考试真题，配合动画步骤逐步拆解
+- **真题例题详解**：精选考试真题，配合动画步骤逐步拆解；独立真题汇总页按知识点分类
 - **响应式设计**：适配桌面端与移动端，随时随地学习
 - **知识体系架构图**：SVG 交互式知识地图，清晰展示章节依赖关系
 - **推荐学习路径**：从基础到应用的11步渐进式学习路线
@@ -92,6 +92,7 @@ matrix-theory-vue/
 │   │   └── index.js                # Vue Router 路由配置
 │   ├── views/
 │   │   ├── Home.vue                # 首页（知识地图+课程目录）
+│   │   ├── ExamBank.vue            # 真题汇总页（按知识点分类）
 │   │   └── lessons/                # 11个课程页面
 │   │       ├── 01_LinearSpace.vue
 │   │       ├── 02_LinearTransform.vue
@@ -166,20 +167,20 @@ npm run preview
 
 2. **推送代码到 GitHub**：
    ```bash
-   git remote add origin https://github.com/<your-username>/matrix-theory-vue.git
+   git remote add origin https://github.com/ztracer/matrix-theory-vue.git
    git push -u origin main
    ```
 
 3. **启用 GitHub Pages**：
    - 进入仓库页面 → Settings → Pages
    - 在 "Build and deployment" → "Source" 中选择 **GitHub Actions**
-   - 保存设置
+   - 保存设置（或在 workflow 中使用 `enablement: true` 参数自动启用）
 
 4. **触发部署**：推送代码到 `main` 分支后，GitHub Actions 将自动执行以下流程：
    - 检出代码 → 安装 Node.js → 安装依赖 → 构建项目 → 部署到 GitHub Pages
-   - 部署完成后，可在 `https://<your-username>.github.io/matrix-theory-vue/` 访问
+   - 部署完成后，可访问 [https://ztracer.github.io/matrix-theory-vue/](https://ztracer.github.io/matrix-theory-vue/)
 
-5. **查看部署状态**：在仓库的 Actions 标签页可查看工作流运行状态和日志。
+5. **查看部署状态**：在仓库的 [Actions](https://github.com/ztracer/matrix-theory-vue/actions) 标签页可查看工作流运行状态和日志。
 
 ### 手动部署（备选）
 
@@ -187,7 +188,7 @@ npm run preview
 
 ```bash
 # 构建（指定仓库名作为 base 路径）
-GITHUB_REPOSITORY="your-username/matrix-theory-vue" npm run build
+GITHUB_REPOSITORY="ztracer/matrix-theory-vue" npm run build
 
 # 使用 peaceiris/actions-gh-pages 或手动 push dist 目录到 gh-pages 分支
 # 例如使用 gh-pages 工具：

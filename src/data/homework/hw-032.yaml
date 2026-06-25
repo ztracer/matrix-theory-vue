@@ -1,0 +1,26 @@
+id: "hw-032"
+source: "教材习题p77 第8题"
+lesson: 5
+type: "homework"
+knowledge:
+  - QR分解
+  - Householder
+problem: |
+  用 Householder 变换求矩阵 A=\begin{pmatrix}0&4&1\\1&1&1\\0&3&2\end{pmatrix} 的 QR 分解。
+steps:
+  - title: '第一步：消去第1列下方元素'
+    content: |
+      取第 1 列 x=(0,1,0)^{\mathrm T}，\|x\|=1。构造 Householder 向量 v=x+\mathrm{sgn}(x_1)\|x\|e_1=(1,1,0)^{\mathrm T}，v^{\mathrm T}v=2。
+      H_1=I-\frac{2}{v^{\mathrm T}v}vv^{\mathrm T}=\begin{pmatrix}0&-1&0\\-1&0&0\\0&0&1\end{pmatrix}。
+      H_1A=\begin{pmatrix}-1&-1&-1\\0&-4&-1\\0&3&2\end{pmatrix}。
+  - title: '第二步：消去子矩阵第1列下方元素'
+    content: |
+      取子矩阵第 1 列 y=(-4,3)^{\mathrm T}，\|y\|=5。构造 w=y-5e_1=(-9,3)^{\mathrm T}（取负号使数值稳定，也可 w=y+5e_1，这里用 w=y-\|y\|e_1 亦可，只要 H_2 正确），w^{\mathrm T}w=90。
+      \widetilde H_2=I_2-\frac{2}{90}ww^{\mathrm T}=\begin{pmatrix}-\frac45&\frac35\\\frac35&\frac45\end{pmatrix}，H_2=\begin{pmatrix}1&0&0\\0&-\frac45&\frac35\\0&\frac35&\frac45\end{pmatrix}。
+      R=H_2H_1A=\begin{pmatrix}-1&-1&-1\\0&5&2\\0&0&1\end{pmatrix}。
+  - title: '求 Q'
+    content: |
+      Q=H_1H_2=\begin{pmatrix}0&-1&0\\-1&0&0\\0&0&1\end{pmatrix}\begin{pmatrix}1&0&0\\0&-\frac45&\frac35\\0&\frac35&\frac45\end{pmatrix}=\begin{pmatrix}0&\frac45&-\frac35\\-1&0&0\\0&\frac35&\frac45\end{pmatrix}。
+  - title: '验证'
+    content: |
+      直接验证 Q^{\mathrm T}Q=I 且 QR=A，故 QR 分解为 A=QR。

@@ -1,0 +1,30 @@
+id: "hw-053"
+source: "教材习题p141"
+lesson: 8
+type: "homework"
+knowledge:
+  - 投影矩阵
+  - 斜投影
+problem: |
+  设 \mathbb R^3 的子空间 L 由向量 (1,0,0)^T 张成，若子空间 M 由向量 (1,1,0)^T 和向量 (0,1,1)^T 张成，求投影矩阵 P_{L,M}，以及向量 (2,2,1)^T 沿着 M 到 L 的投影。
+steps:
+  - title: '验证直和分解'
+    content: |
+      记 e_1=(1,0,0)^T，v_1=(1,1,0)^T，v_2=(0,1,1)^T。
+      \dim L = 1，\dim M = 2，且 L\cap M = \{0\}（若 a e_1 = b v_1 + c v_2，则 (a,0,0)=(b,b+c,c)，解得 a=b=c=0）。
+      故 \mathbb R^3 = L \oplus M。
+  - title: '构造投影矩阵 P_{L,M}'
+    content: |
+      令 X=[e_1]，Y=[v_1\;v_2]，则
+      [X\;Y] = \begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix}.
+      其逆矩阵为
+      [X\;Y]^{-1} = \begin{pmatrix} 1 & -1 & 1 \\ 0 & 1 & -1 \\ 0 & 0 & 1 \end{pmatrix}.
+      
+      投影矩阵
+      P_{L,M} = [X\;O]\,[X\;Y]^{-1} = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}\begin{pmatrix} 1 & -1 & 1 \\ 0 & 1 & -1 \\ 0 & 0 & 1 \end{pmatrix} = \begin{pmatrix} 1 & -1 & 1 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}.
+      
+      验证：P_{L,M}e_1=e_1，P_{L,M}v_1=0，P_{L,M}v_2=0，满足投影性质。
+  - title: '计算向量投影'
+    content: |
+      向量 u=(2,2,1)^T 沿着 M 到 L 的投影为
+      P_{L,M}u = \begin{pmatrix} 1 & -1 & 1 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}\begin{pmatrix} 2 \\ 2 \\ 1 \end{pmatrix} = \begin{pmatrix} 2-2+1 \\ 0 \\ 0 \end{pmatrix} = \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix}.

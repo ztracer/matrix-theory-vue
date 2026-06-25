@@ -1,0 +1,24 @@
+id: "hw-038"
+source: "教材习题p90 第9题"
+lesson: 7
+type: "homework"
+knowledge:
+  - Moore-Penrose
+  - Penrose方程
+problem: |
+  设 A\in\mathbb C^{m\times n}，又设 U\in\mathbb C^{m\times m} 和 V\in\mathbb C^{n\times n} 均为酉矩阵，证明 (UAV)^+=V^{\mathrm H}A^+U^{\mathrm H}。
+steps:
+  - title: 'Moore-Penrose 条件'
+    content: |
+      记 B=UAV，需验证 X=V^{\mathrm H}A^+U^{\mathrm H} 满足 B 的四个 Penrose 方程。
+  - title: '验证 (1)(2)'
+    content: |
+      BXB=(UAV)(V^{\mathrm H}A^+U^{\mathrm H})(UAV)=U(AVV^{\mathrm H})A^+(U^{\mathrm H}U)AV=UAA^+AV=UAV=B,
+      XBX=(V^{\mathrm H}A^+U^{\mathrm H})(UAV)(V^{\mathrm H}A^+U^{\mathrm H})=V^{\mathrm H}A^+(U^{\mathrm H}U)A(VV^{\mathrm H})A^+U^{\mathrm H}=V^{\mathrm H}A^+AA^+U^{\mathrm H}=V^{\mathrm H}A^+U^{\mathrm H}=X.
+  - title: '验证 (3)(4)'
+    content: |
+      (BX)^{\mathrm H}=(UAA^+U^{\mathrm H})^{\mathrm H}=U(AA^+)^{\mathrm H}U^{\mathrm H}=UAA^+U^{\mathrm H}=BX。
+      (XB)^{\mathrm H}=(V^{\mathrm H}A^+AV)^{\mathrm H}=V^{\mathrm H}(A^+A)^{\mathrm H}V=V^{\mathrm H}A^+AV=XB。
+  - title: '结论'
+    content: |
+      四个 Penrose 条件均满足，故 (UAV)^+=V^{\mathrm H}A^+U^{\mathrm H}。

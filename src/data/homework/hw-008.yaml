@@ -1,0 +1,39 @@
+id: "hw-008"
+source: "教材习题p6-12"
+lesson: 1
+type: "homework"
+knowledge:
+  - 线性空间
+  - 子空间判定
+  - 基与维数
+problem: |
+  给定 \mathbb{R}^{2\times 2} 的子集 V=\{A=(a_{ij})_{2\times 2}\mid a_{ij}\in\mathbb{R} \text{ 且 } a_{11}+a_{22}=0\}。
+  (1) 证明 V 是 \mathbb{R}^{2\times 2} 的子空间；
+  (2) 求 V 的维数和一个基。
+steps:
+  - title: '(1) 证明 V 是子空间'
+    content: |
+      **验证子空间判定条件：**
+      
+      1. **零元**：零矩阵 O 满足 0+0=0，故 O\in V。
+      
+      2. **加法封闭性**：设 A=(a_{ij}), B=(b_{ij})\in V，则 a_{11}+a_{22}=0，b_{11}+b_{22}=0。
+         (A+B)_{11}+(A+B)_{22} = (a_{11}+b_{11})+(a_{22}+b_{22}) = 0+0=0
+         故 A+B\in V。
+      
+      3. **数乘封闭性**：设 k\in\mathbb{R}, A\in V，则
+         (kA)_{11}+(kA)_{22} = k(a_{11}+a_{22}) = k\cdot 0 = 0
+         故 kA\in V。
+      
+      因此 V 是 \mathbb{R}^{2\times 2} 的线性子空间。
+  - title: '(2) 求维数与基'
+    content: |
+      V 中矩阵的一般形式为：
+      A = \begin{pmatrix} a & b \\ c & -a \end{pmatrix} = a\begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} + b\begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix} + c\begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix}
+      
+      三个矩阵线性无关且张成 V，故：
+      
+      **维数** \dim V = 3。
+      
+      **一个基为**：
+      E_1=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\quad E_2=\begin{pmatrix}0&1\\0&0\end{pmatrix},\quad E_3=\begin{pmatrix}0&0\\1&0\end{pmatrix}

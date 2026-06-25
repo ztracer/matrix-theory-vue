@@ -1,0 +1,18 @@
+id: "hw-054"
+source: "教材习题p141"
+lesson: 8
+type: "homework"
+knowledge:
+  - 投影矩阵
+  - 正交投影
+problem: |
+  设 \mathbb R^3 的子空间 L 由向量 (1,0,0)^T 张成，求正交投影矩阵 P_L 和向量 (2,2,1)^T 在 L 上的正交投影。
+steps:
+  - title: '求正交投影矩阵'
+    content: |
+      对一维子空间 L=\operatorname{span}\{e_1\}，正交投影矩阵为
+      P_L = e_1(e_1^Te_1)^{-1}e_1^T = e_1e_1^T = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}.
+  - title: '计算正交投影'
+    content: |
+      向量 u=(2,2,1)^T 在 L 上的正交投影为
+      P_Lu = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}\begin{pmatrix} 2 \\ 2 \\ 1 \end{pmatrix} = \begin{pmatrix} 2 \\ 0 \\ 0 \end{pmatrix}.

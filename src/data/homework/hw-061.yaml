@@ -1,0 +1,45 @@
+id: "hw-061"
+source: "教材习题p131"
+lesson: 10
+type: "homework"
+knowledge:
+  - Gershgorin
+  - 盖尔圆盘
+problem: |
+  应用 Gerschgorin 定理，隔离矩阵
+  A = \begin{pmatrix} 20 & 3 & 1 \\ 2 & 10 & 2 \\ 8 & 1 & 0 \end{pmatrix}
+  的特征值；再应用实矩阵特征值的性质，改进得出的结果。
+steps:
+  - title: 'Gerschgorin 行圆盘'
+    content: |
+      三个行盖尔圆盘为
+      \begin{aligned}
+      D_1:&\; |\lambda-20| \le 3+1 = 4, \quad\text{即}\quad [16,24], \\
+      D_2:&\; |\lambda-10| \le 2+2 = 4, \quad\text{即}\quad [6,14], \\
+      D_3:&\; |\lambda-0| \le 8+1 = 9, \quad\text{即}\quad [-9,9].
+      \end{aligned}
+      D_1 与 D_2 不相交，D_2 与 D_3 相交。故 D_1 中恰有一个特征值，D_2\cup D_3 中含有两个特征值。
+  - title: '结合列圆盘改进'
+    content: |
+      对 A^T 应用 Gerschgorin 定理得到列圆盘（与 A 有相同特征值）：
+      \begin{aligned}
+      C_1:&\; |\lambda-20| \le 2+8 = 10, \quad [10,30], \
+      C_2:&\; |\lambda-10| \le 3+1 = 4, \quad [6,14], \
+      C_3:&\; |\lambda-0| \le 1+2 = 3, \quad [-3,3].
+      \end{aligned}
+      特征值必须同时在行圆盘与列圆盘中。因此：
+      \begin{aligned}
+      \lambda_1 &\in D_1\cap C_1 = [16,24], \
+      \lambda_2 &\in D_2\cap(C_1\cup C_2) = [6,14], \
+      \lambda_3 &\in D_3\cap C_3 = [-3,3].
+      \end{aligned}
+      （C_3 与 C_1,C_2 均不相交，故 \lambda_3 只能落在 C_3 中，从而被隔离在 [-3,3]。）
+  - title: '实矩阵特征值性质'
+    content: |
+      经上述改进，三个特征值分别被隔离在互不相交的区间 [16,24]、[6,14]、[-3,3] 中，每个区间恰含一个特征值。
+      
+      由于 A 是实矩阵，若特征值为复数则必成共轭对出现。单个孤立区间无法容纳一对共轭复特征值，故三个特征值均为**实数**。
+      
+      综上，改进后的隔离结果为：
+      \lambda_1\in[16,24],\quad \lambda_2\in[6,14],\quad \lambda_3\in[-3,3],
+      且 \lambda_1,\lambda_2,\lambda_3 全部为实数。

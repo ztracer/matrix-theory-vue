@@ -1,0 +1,33 @@
+id: "hw-023"
+source: "教材习题p47-9"
+lesson: 4
+type: "homework"
+knowledge:
+  - 导数
+  - 矩阵函数
+  - 矩阵指数
+problem: |
+  举例说明关系式 \dfrac{d}{dt}(A(t))^m = m(A(t))^{m-1}\dfrac{dA}{dt} 一般不成立，此处 A(t)=(a_{ij}(t))_{n\times n}，又在什么条件下，它才能够成立？
+steps:
+  - title: '反例'
+    content: |
+      取 A(t)=\begin{pmatrix}0&t\\1&0\end{pmatrix}，则：
+      A(t)^2 = \begin{pmatrix}t&0\\0&t\end{pmatrix}
+      \frac{d}{dt}(A^2) = \begin{pmatrix}1&0\\0&1\end{pmatrix} = I
+      
+      而 A\cdot\frac{dA}{dt} = \begin{pmatrix}0&t\\1&0\end{pmatrix}\begin{pmatrix}0&1\\0&0\end{pmatrix} = \begin{pmatrix}0&0\\0&1\end{pmatrix}
+      
+      于是 2A\cdot\frac{dA}{dt} = \begin{pmatrix}0&0\\0&2\end{pmatrix} \ne I。
+      
+      因此该公式一般不成立。
+  - title: '成立条件'
+    content: |
+      **当且仅当 A(t) 与 \dfrac{dA}{dt} 可交换时**，即 A\cdot A' = A'\cdot A 时，公式成立。
+      
+      **证明**：由归纳法，
+      \frac{d}{dt}(A^m) = \sum_{k=0}^{m-1} A^k \cdot A' \cdot A^{m-1-k}
+      
+      当 A 与 A' 可交换时，每一项均可写成 A^{m-1}\cdot A'，共 m 项，故：
+      \frac{d}{dt}(A^m) = m A^{m-1} \frac{dA}{dt}
+      
+      特别地，若 A(t) 为数量矩阵（单位矩阵的常数倍），则公式显然成立。

@@ -1,0 +1,43 @@
+id: "hw-016"
+source: "教材习题p28-11(2)"
+lesson: 3
+type: "homework"
+knowledge:
+  - 对角化
+  - 酉矩阵
+  - Hermite
+problem: |
+  对于矩阵 A=\begin{pmatrix}0&j&1\\-j&0&0\\1&0&0\end{pmatrix}，求酉矩阵 P，使 P^{-1}AP 为对角矩阵。
+steps:
+  - title: '验证 Hermite 性并求特征值'
+    content: |
+      首先 A^H = \begin{pmatrix}0&j&1\\-j&0&0\\1&0&0\end{pmatrix} = A，故 A 是 Hermite 矩阵，特征值均为实数。
+      
+      特征多项式：
+      \det(\lambda I-A) = \begin{vmatrix} \lambda & -j & -1 \\ j & \lambda & 0 \\ -1 & 0 & \lambda \end{vmatrix} = \lambda^3 - 2\lambda = \lambda(\lambda^2-2)
+      
+      **特征值**：\lambda_1=0,\; \lambda_2=\sqrt{2},\; \lambda_3=-\sqrt{2}。
+  - title: '求特征向量'
+    content: |
+      对 \lambda_1=0：解 Ax=0，得 v_1=(0,1,-j)^T。
+      
+      对 \lambda_2=\sqrt{2}：解 (A-\sqrt{2}I)x=0，得 v_2=(j\sqrt{2},1,j)^T。
+      
+      对 \lambda_3=-\sqrt{2}：解 (A+\sqrt{2}I)x=0，得 v_3=(-\sqrt{2},-j,1)^T。
+      
+      （注：v_3 也可取 (-j\sqrt{2},1,-j)^T 等形式，只要与 v_1,v_2 关于标准 Hermite 内积正交即可。）
+  - title: '单位化并构造酉矩阵'
+    content: |
+      复内积 (x,y)=x^H y = \sum \overline{x_i}y_i：
+      
+      \|v_1\|^2 = (0,1,-j)^H(0,1,-j) = 0+1+1 = 2, \quad e_1 = \frac{1}{\sqrt{2}}(0,1,-j)^T
+      
+      \|v_2\|^2 = (-j\sqrt{2},1,-j)^H(j\sqrt{2},1,j) = 2+1+1 = 4, \quad e_2 = \frac{1}{2}(j\sqrt{2},1,j)^T
+      
+      \|v_3\|^2 = (-\sqrt{2},j,1)^H(-\sqrt{2},-j,1) = 2+1+1 = 4, \quad e_3 = \frac{1}{2}(-\sqrt{2},-j,1)^T
+      
+      验证正交性均满足。
+      
+      P = \begin{pmatrix} 0 & \frac{j\sqrt{2}}{2} & -\frac{\sqrt{2}}{2} \\ \frac{1}{\sqrt{2}} & \frac{1}{2} & -\frac{j}{2} \\ -\frac{j}{\sqrt{2}} & \frac{j}{2} & \frac{1}{2} \end{pmatrix}
+      
+      则 P^{-1}AP = P^HAP = \text{diag}(0,\sqrt{2},-\sqrt{2})。

@@ -1,0 +1,33 @@
+id: "hw-056"
+source: "教材习题p122"
+lesson: 9
+type: "homework"
+knowledge:
+  - 最小二乘
+  - 正规方程
+problem: |
+  证明向量 x 是方程组 Ax=b 的最小二乘解的充要条件是，存在向量 y 使得向量 \begin{pmatrix} y \\ x \end{pmatrix} 为
+  \begin{pmatrix} I & A \\ A^H & O \end{pmatrix}\begin{pmatrix} y \\ x \end{pmatrix} = \begin{pmatrix} b \\ 0 \end{pmatrix}
+  的解。
+steps:
+  - title: '展开增广方程组'
+    content: |
+      将分块方程展开得
+      \begin{cases}
+      y + Ax = b, \\
+      A^Hy = 0.
+      \end{cases}
+      由第一式，y = b - Ax。代入第二式得
+      A^H(b - Ax) = 0 \quad\Longrightarrow\quad A^HAx = A^Hb.
+      这正是最小二乘问题的正规方程。
+  - title: '充分性'
+    content: |
+      若存在 y 使 \begin{pmatrix}y\\x\end{pmatrix} 满足方程组，则 y=b-Ax 且 A^Hy=0，从而 A^HAx=A^Hb。
+      由最小二乘理论，正规方程的解即为最小二乘解，故 x 是 Ax=b 的最小二乘解。
+  - title: '必要性'
+    content: |
+      若 x 是 Ax=b 的最小二乘解，则 A^HAx = A^Hb。
+      令 y = b - Ax，则
+      A^Hy = A^H(b-Ax) = A^Hb - A^HAx = 0,
+      且 y+Ax = (b-Ax)+Ax = b。
+      故 \begin{pmatrix}y\\x\end{pmatrix} 满足增广方程组。

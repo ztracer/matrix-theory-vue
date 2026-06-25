@@ -1,0 +1,37 @@
+id: "hw-018"
+source: "教材习题p31-19(3)"
+lesson: 3
+type: "homework"
+knowledge:
+  - Jordan标准形
+  - 对角化
+  - 正交矩阵
+problem: |
+  求矩阵 A=\begin{pmatrix}3&1&0&0\\-4&-1&0&0\\7&1&2&1\\-7&-6&-1&0\end{pmatrix} 的 Jordan 标准形。
+steps:
+  - title: '求特征多项式'
+    content: |
+      利用分块结构（上三角分块），设：
+      B=\begin{pmatrix}3&1\\-4&-1\end{pmatrix},\quad C=\begin{pmatrix}2&1\\-1&0\end{pmatrix}
+      
+      \det(\lambda I-A) = \det(\lambda I-B)\cdot\det(\lambda I-C)
+      
+      计算：
+      \det(\lambda I-B) = (\lambda-3)(\lambda+1)+4 = \lambda^2-2\lambda+1 = (\lambda-1)^2
+      \det(\lambda I-C) = \lambda(\lambda-2)+1 = \lambda^2-2\lambda+1 = (\lambda-1)^2
+      
+      因此 \det(\lambda I-A) = (\lambda-1)^4。
+  - title: '分析 Jordan 块结构'
+    content: |
+      特征值 \lambda=1 的代数重数为 4。考察 A-I 的秩：
+      A-I = \begin{pmatrix}2&1&0&0\\-4&-2&0&0\\7&1&1&1\\-7&-6&-1&-1\end{pmatrix}
+      
+      经行变换（R_2+2R_1=0，R_4+R_3 得 (0,-5,0,0)），可判断 \text{rank}(A-I)=3，故几何重数 =4-3=1。
+      
+      这意味着只有一个线性无关的特征向量，即 Jordan 标准形中只有一个 Jordan 块。
+      
+      进一步计算 \text{rank}(A-I)^2=2，\text{rank}(A-I)^3=1，\text{rank}(A-I)^4=0，符合单个 4 阶 Jordan 块的秩下降规律。
+  - title: '结论'
+    content: |
+      **Jordan 标准形为**：
+      J = \begin{pmatrix} 1 & 1 & 0 & 0 \\ 0 & 1 & 1 & 0 \\ 0 & 0 & 1 & 1 \\ 0 & 0 & 0 & 1 \end{pmatrix} = J_4(1)

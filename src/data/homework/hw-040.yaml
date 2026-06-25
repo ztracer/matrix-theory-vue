@@ -1,0 +1,27 @@
+id: "hw-040"
+source: "教材习题p91 第12题"
+lesson: 7
+type: "homework"
+knowledge:
+  - Penrose方程
+  - 幂等矩阵
+problem: |
+  证明：H^+=H 的充要条件是 H^2 为幂等 Hermite 矩阵且 \mathrm{rank}H^2=\mathrm{rank}H。
+steps:
+  - title: '必要性'
+    content: |
+      若 H^+=H，则由 Penrose 条件：
+      H^3=H（条件 1,2），(H^2)^{\mathrm H}=H^2（条件 3,4）。
+      于是 (H^2)^2=H^4=H\cdot H^3=H^2，故 H^2 幂等且 Hermite。
+      又 H^2H=H^3=H，故 R(H)=R(H^2H)\subseteq R(H^2)\subseteq R(H)，得 \mathrm{rank}H^2=\mathrm{rank}H。
+  - title: '充分性'
+    content: |
+      设 H^2 幂等 Hermite 且 \mathrm{rank}H^2=\mathrm{rank}H。由秩相等知 R(H)=R(H^2)，故存在矩阵 X 使 H=H^2X。
+      于是 HH^2=H^2XH^2=H^2(H^2X)=H^2H=H^2H^2X=H^2X=H，同理 H^2H=H。
+      从而 H^3=HH^2=H。
+  - title: '验证 H^+=H'
+    content: |
+      检验 Penrose 条件：
+      (1)(2) H^3=H；
+      (3)(4) (H^2)^{\mathrm H}=H^2，即 (HH)^{\mathrm H}=HH 且 (HH)^{\mathrm H}=HH。
+      故 H^+=H。

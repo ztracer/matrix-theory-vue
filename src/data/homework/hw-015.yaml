@@ -1,0 +1,48 @@
+id: "hw-015"
+source: "教材习题p28-11(1)"
+lesson: 3
+type: "homework"
+knowledge:
+  - 对角化
+  - 正交矩阵
+problem: |
+  对于矩阵 A=\begin{pmatrix}2&2&-2\\2&5&-4\\-2&-4&5\end{pmatrix}，求正交矩阵 P，使 P^{-1}AP 为对角矩阵。
+steps:
+  - title: '求特征多项式'
+    content: |
+      \det(\lambda I-A) = \begin{vmatrix} \lambda-2 & -2 & 2 \\ -2 & \lambda-5 & 4 \\ 2 & 4 & \lambda-5 \end{vmatrix}
+      
+      将第 2 行加到第 3 行提取公因子，再化简得：
+      \det(\lambda I-A) = (\lambda-1)^2(\lambda-10)
+      
+      **特征值**：\lambda_1=\lambda_2=1，\lambda_3=10。
+  - title: '求 \lambda=1 的特征向量并正交化'
+    content: |
+      解 (A-I)x=0：
+      A-I = \begin{pmatrix}1&2&-2\\2&4&-4\\-2&-4&4\end{pmatrix} \rightarrow \begin{pmatrix}1&2&-2\\0&0&0\\0&0&0\end{pmatrix}
+      
+      基础解系：\alpha_1=(-2,1,0)^T，\alpha_2=(2,0,1)^T。
+      
+      用 Schmidt 正交化：
+      \beta_1 = \alpha_1 = (-2,1,0)^T
+      \beta_2 = \alpha_2 - \frac{(\alpha_2,\beta_1)}{(\beta_1,\beta_1)}\beta_1 = (2,0,1)^T - \frac{-4}{5}(-2,1,0)^T = \left(\frac{2}{5},\frac{4}{5},1\right)^T
+      
+      取 \beta_2'=(2,4,5)^T。
+  - title: '单位化'
+    content: |
+      e_1 = \frac{\beta_1}{\|\beta_1\|} = \frac{1}{\sqrt{5}}(-2,1,0)^T
+      e_2 = \frac{\beta_2'}{\|\beta_2'\|} = \frac{1}{3\sqrt{5}}(2,4,5)^T
+  - title: '求 \lambda=10 的特征向量'
+    content: |
+      解 (A-10I)x=0：
+      A-10I = \begin{pmatrix}-8&2&-2\\2&-5&-4\\-2&-4&-5\end{pmatrix}
+      
+      经行变换得基础解系 \alpha_3=(1,2,-2)^T。
+      
+      单位化：
+      e_3 = \frac{1}{3}(1,2,-2)^T
+  - title: '构造正交矩阵'
+    content: |
+      P = \begin{pmatrix} -\frac{2}{\sqrt{5}} & \frac{2}{3\sqrt{5}} & \frac{1}{3} \\ \frac{1}{\sqrt{5}} & \frac{4}{3\sqrt{5}} & \frac{2}{3} \\ 0 & \frac{5}{3\sqrt{5}} & -\frac{2}{3} \end{pmatrix}
+      
+      则 P^{-1}AP = P^TAP = \text{diag}(1,1,10)。

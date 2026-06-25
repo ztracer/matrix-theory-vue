@@ -1,0 +1,25 @@
+id: "hw-030"
+source: "教材习题p75 第1题"
+lesson: 5
+type: "homework"
+knowledge:
+  - QR分解
+  - Schmidt
+problem: |
+  用 Schmidt 正交化方法求矩阵 A=\begin{pmatrix}0&1&1\\1&1&0\\1&0&1\end{pmatrix} 的 QR 分解。
+steps:
+  - title: 'Schmidt 正交化'
+    content: |
+      记 A 的列向量为 a_1=(0,1,1)^{\mathrm T}，a_2=(1,1,0)^{\mathrm T}，a_3=(1,0,1)^{\mathrm T}。
+      
+      u_1=a_1，\|u_1\|=\sqrt2，q_1=\frac{1}{\sqrt2}(0,1,1)^{\mathrm T}。
+      
+      u_2=a_2-\frac{a_2\cdot u_1}{u_1\cdot u_1}u_1=(1,1,0)^{\mathrm T}-\frac12(0,1,1)^{\mathrm T}=(1,\frac12,-\frac12)^{\mathrm T}，\|u_2\|=\sqrt{3/2}，q_2=\frac{1}{\sqrt6}(2,1,-1)^{\mathrm T}。
+      
+      u_3=a_3-\frac{a_3\cdot u_1}{u_1\cdot u_1}u_1-\frac{a_3\cdot u_2}{u_2\cdot u_2}u_2=(1,0,1)^{\mathrm T}-\frac12(0,1,1)^{\mathrm T}-\frac13(1,\frac12,-\frac12)^{\mathrm T}=\frac23(1,-1,1)^{\mathrm T}，\|u_3\|=\frac{2}{\sqrt3}，q_3=\frac{1}{\sqrt3}(1,-1,1)^{\mathrm T}。
+  - title: '构造 Q 与 R'
+    content: |
+      取 Q=[q_1\;q_2\;q_3]，R 为上三角矩阵且 r_{ij}=q_i^{\mathrm T}a_j（i\le j）：Q=\begin{pmatrix}0&\frac{2}{\sqrt6}&\frac{1}{\sqrt3}\\\frac{1}{\sqrt2}&\frac{1}{\sqrt6}&-\frac{1}{\sqrt3}\\\frac{1}{\sqrt2}&-\frac{1}{\sqrt6}&\frac{1}{\sqrt3}\end{pmatrix},\quad R=\begin{pmatrix}\sqrt2&\frac{1}{\sqrt2}&\frac{1}{\sqrt2}\\0&\frac{\sqrt6}{2}&\frac{1}{\sqrt6}\\0&0&\frac{2}{\sqrt3}\end{pmatrix}.
+  - title: '验证'
+    content: |
+      直接计算可得 QR=A，且 Q^{\mathrm T}Q=I，故分解正确。

@@ -1,0 +1,30 @@
+id: "hw-003"
+source: "教材习题p1-5"
+lesson: 1
+type: "homework"
+knowledge:
+  - 线性空间
+  - 基与维数
+problem: |
+  求习题 3 之 (2) 中线性空间的维数与基。
+steps:
+  - title: '确定空间结构'
+    content: |
+      习题 3 之 (2) 中的线性空间为 n 阶实对称矩阵全体构成的空间，记为 S_n。
+      
+      **一般形式：** 任取 A\in S_n，有 A=A^T，即 a_{ij}=a_{ji}。
+  - title: '计算维数并给出一组基'
+    content: |
+      **维数分析：**
+      
+      在 n 阶矩阵中，对角线上有 n 个独立元素，对角线上方（或下方）有 \frac{n(n-1)}{2} 个独立元素。
+      因此 S_n 的维数为：
+      \dim S_n = n + \frac{n(n-1)}{2} = \frac{n(n+1)}{2}
+      
+      **一组标准基：** 对 i=1,\dots,n，定义 E_{ii} 为 (i,i) 位置为 1 的对角矩阵；
+      对 1\le i < j \le n，定义 E_{ij}+E_{ji} 为 (i,j) 和 (j,i) 位置均为 1 的对称矩阵。
+      
+      这 \frac{n(n+1)}{2} 个矩阵线性无关且张成 S_n，构成一组基。
+      
+      **例如 n=2 时：** 维数为 3，一组基为：
+      E_1=\begin{pmatrix}1&0\\0&0\end{pmatrix},\quad E_2=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad E_3=\begin{pmatrix}0&0\\0&1\end{pmatrix}

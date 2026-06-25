@@ -1,0 +1,23 @@
+id: "hw-039"
+source: "教材习题p91 第11题"
+lesson: 7
+type: "homework"
+knowledge:
+  - Moore-Penrose
+  - Penrose方程
+  - 幂等矩阵
+problem: |
+  设 H 是幂等 Hermite 矩阵，证明 H^+=H。
+steps:
+  - title: '已知条件'
+    content: |
+      幂等：H^2=H；Hermite：H^{\mathrm H}=H。需验证 X=H 满足 H 的四个 Penrose 方程。
+  - title: '验证四个条件'
+    content: |
+      (1) HXH=H^3=H^2=H；
+      (2) XHX=H^3=H；
+      (3) (HX)^{\mathrm H}=(H^2)^{\mathrm H}=H^{\mathrm H}=H=HX；
+      (4) (XH)^{\mathrm H}=(H^2)^{\mathrm H}=H^{\mathrm H}=H=XH。
+  - title: '结论'
+    content: |
+      因此 H 满足自身的 Moore-Penrose 逆定义，即 H^+=H。

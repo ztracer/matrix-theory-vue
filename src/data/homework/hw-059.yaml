@@ -1,0 +1,23 @@
+id: "hw-059"
+source: "教材习题p125"
+lesson: 10
+type: "homework"
+knowledge:
+  - 谱半径
+  - Gershgorin
+  - 盖尔圆盘
+problem: |
+  设矩阵 A 非奇异，\lambda 是它的任意一个特征值，证明
+  |\lambda| \ge \frac{1}{\|A^{-1}\|}.
+steps:
+  - title: '特征值与逆矩阵的关系'
+    content: |
+      设 Ax = \lambda x，x\ne 0。因 A 非奇异，\lambda\ne 0。
+      两边左乘 A^{-1} 得 x = \lambda A^{-1}x，即
+      A^{-1}x = \frac{1}{\lambda}x.
+      故 \frac{1}{\lambda} 是 A^{-1} 的特征值。
+  - title: '利用谱半径不超过范数'
+    content: |
+      对任意矩阵范数，谱半径 \rho(A^{-1}) \le \|A^{-1}\|。
+      而 |\frac{1}{\lambda}| \le \rho(A^{-1})（因 \frac{1}{\lambda} 是 A^{-1} 的特征值），故
+      \frac{1}{|\lambda|} \le \|A^{-1}\| \quad\Longrightarrow\quad |\lambda| \ge \frac{1}{\|A^{-1}\|}.

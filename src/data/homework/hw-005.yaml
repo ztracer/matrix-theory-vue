@@ -1,0 +1,28 @@
+id: "hw-005"
+source: "教材习题p1-7"
+lesson: 1
+type: "homework"
+knowledge:
+  - 基与维数
+  - 坐标
+problem: |
+  求 P_2 中向量 1+t+t^2 对基 1,\; t-1,\; (t-2)(t-1) 的坐标。
+steps:
+  - title: '设线性组合并展开'
+    content: |
+      设 1+t+t^2 = a\cdot 1 + b(t-1) + c(t-2)(t-1)。
+      
+      展开右边：
+      a + b(t-1) + c(t^2-3t+2) = (a-b+2c) + (b-3c)t + ct^2
+  - title: '比较系数求解'
+    content: |
+      比较 t^2, t, 1 的系数：
+      
+      \begin{cases} t^2: & c = 1 \\ t: & b - 3c = 1 \\ \text{常数}: & a - b + 2c = 1 \end{cases}
+      
+      解得：
+      c = 1, \quad b = 1+3 = 4, \quad a = 1+b-2c = 1+4-2 = 3
+  - title: '结论'
+    content: |
+      **坐标为** \boxed{(3,\,4,\,1)^T}，即：
+      1+t+t^2 = 3\cdot 1 + 4(t-1) + (t-2)(t-1)

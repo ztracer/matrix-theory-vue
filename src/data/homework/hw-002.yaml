@@ -1,0 +1,23 @@
+id: "hw-002"
+source: "教材习题p1-4"
+lesson: 1
+type: "homework"
+knowledge:
+  - 线性空间
+  - 子空间判定
+  - 公理
+problem: |
+  证明：在实函数空间中，1, \cos^2 t, \cos 2t 是线性相关的。
+steps:
+  - title: '利用三角恒等式'
+    content: |
+      由二倍角公式可知：
+      \cos 2t = 2\cos^2 t - 1
+      
+      整理得：
+      1 \cdot 1 + (-2) \cdot \cos^2 t + 1 \cdot \cos 2t = 0
+      
+      即存在不全为零的实数 c_1=1, c_2=-2, c_3=1，使得：
+      c_1 \cdot 1 + c_2 \cdot \cos^2 t + c_3 \cdot \cos 2t \equiv 0
+      
+      根据线性相关的定义，1, \cos^2 t, \cos 2t 在实函数空间中**线性相关**。

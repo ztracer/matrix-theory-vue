@@ -1,0 +1,27 @@
+id: "hw-028"
+source: "教材习题p71 第1题"
+lesson: 5
+type: "homework"
+knowledge:
+  - LU分解
+  - Doolittle
+problem: |
+  求矩阵 A=\begin{pmatrix}5&2&-4&0\\2&1&-2&1\\-4&-2&5&0\\0&1&0&2\end{pmatrix} 的 LDU 分解和 Doolittle 分解。
+steps:
+  - title: 'Doolittle 分解 A=LU'
+    content: |
+      对 A 做高斯消元，L 为单位下三角矩阵，U 为上三角矩阵。
+      
+      第一步：以 a_{11}=5 为主元，乘数 l_{21}=2/5，l_{31}=-4/5，l_{41}=0。消去后得中间矩阵 U^{(1)}。
+      
+      第二步：以 u_{22}=1/5 为主元，乘数 l_{32}=(-2/5)/(1/5)=-2，l_{42}=1/(1/5)=5。
+      
+      第三步：以 u_{33}=1 为主元，乘数 l_{43}=2/1=2。消去后得到上三角矩阵 U。
+  - title: '写出 L 与 U'
+    content: |
+      L=\begin{pmatrix}1&0&0&0\\\frac25&1&0&0\\-\frac45&-2&1&0\\0&5&2&1\end{pmatrix},\quad U=\begin{pmatrix}5&2&-4&0\\0&\frac15&-\frac25&1\\0&0&1&2\\0&0&0&-7\end{pmatrix}.
+      验证 LU=A 可知分解正确。
+  - title: 'LDU 分解'
+    content: |
+      将 U 提取对角矩阵 D=\mathrm{diag}(5,\frac15,1,-7)，使得 U=DU_0，其中 U_0 为单位上三角矩阵：U_0=\begin{pmatrix}1&\frac25&-\frac45&0\\0&1&-2&5\\0&0&1&2\\0&0&0&1\end{pmatrix}.
+      于是 A=LDU_0 即为 LDU 分解。

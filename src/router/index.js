@@ -66,6 +66,11 @@ const routes = [
     path: '/exam',
     name: 'ExamBank',
     component: () => import('../views/ExamBank.vue')
+  },
+  {
+    path: '/homework',
+    name: 'Homework',
+    component: () => import('../views/Week4Homework.vue')
   }
 ]
 

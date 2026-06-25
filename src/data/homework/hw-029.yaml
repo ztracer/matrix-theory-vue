@@ -1,0 +1,25 @@
+id: "hw-029"
+source: "教材习题p72 第4题"
+lesson: 5
+type: "homework"
+knowledge:
+  - QR分解
+  - Cholesky
+problem: |
+  求对称正定矩阵 A=\begin{pmatrix}5&2&-4\\2&1&-2\\-4&-2&5\end{pmatrix} 的 Cholesky 分解。
+steps:
+  - title: 'Cholesky 分解形式'
+    content: |
+      对称正定矩阵 A 可唯一分解为 A=LL^{\mathrm T}，其中 L 为对角元为正的下三角矩阵。设 L=\begin{pmatrix}l_{11}&0&0\\l_{21}&l_{22}&0\\l_{31}&l_{32}&l_{33}\end{pmatrix}。
+  - title: '逐列求解 L'
+    content: |
+      由 l_{11}^2=5 得 l_{11}=\sqrt5。
+      由 l_{21}l_{11}=2 得 l_{21}=2/\sqrt5。
+      由 l_{31}l_{11}=-4 得 l_{31}=-4/\sqrt5。
+      由 l_{21}^2+l_{22}^2=1 得 l_{22}=\sqrt{1-4/5}=1/\sqrt5。
+      由 l_{31}l_{21}+l_{32}l_{22}=-2 得 l_{32}=(-2+8/5)\sqrt5=-2/\sqrt5。
+      由 l_{31}^2+l_{32}^2+l_{33}^2=5 得 l_{33}=\sqrt{5-16/5-4/5}=1。
+  - title: '结果'
+    content: |
+      L=\begin{pmatrix}\sqrt5&0&0\\\frac{2}{\sqrt5}&\frac{1}{\sqrt5}&0\\-\frac{4}{\sqrt5}&-\frac{2}{\sqrt5}&1\end{pmatrix}=\begin{pmatrix}\sqrt5&0&0\\\frac{2\sqrt5}{5}&\frac{\sqrt5}{5}&0\\-\frac{4\sqrt5}{5}&-\frac{2\sqrt5}{5}&1\end{pmatrix}.
+      验证 LL^{\mathrm T}=A 成立。

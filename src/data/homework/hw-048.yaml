@@ -1,0 +1,18 @@
+id: "hw-048"
+source: "教材习题p87 定理3"
+lesson: 8
+type: "homework"
+knowledge:
+  - 投影矩阵
+  - 斜投影
+  - 幂等性
+problem: |
+  证明：n 阶方阵 P 成为投影矩阵的充要条件是 P 为幂等矩阵。
+steps:
+  - title: '充分性'
+    content: |
+      设 P^2=P。对任意 x\in\mathbb C^n，令 y=Px\in R(P)，z=(I-P)x\in R(I-P)=N(P)。
+      若 x\in R(P)\cap N(P)，则存在 u 使 x=Pu，且 Px=0。但 Px=P^2u=Pu=x，故 x=0。因此 R(P)\cap N(P)=\{0\}，从而 \mathbb C^n=R(P)\oplus N(P)，P 为沿 N(P) 向 R(P) 的投影矩阵。
+  - title: '必要性'
+    content: |
+      设 P=P_{L,M} 为投影算子，即对任意 x=y+z（y\in L,z\in M）有 Px=y。则 P^2x=P(Px)=Py=y=Px。由 x 任意性得 P^2=P。

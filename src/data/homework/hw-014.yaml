@@ -1,0 +1,37 @@
+id: "hw-014"
+source: "教材习题p22-10"
+lesson: 2
+type: "homework"
+knowledge:
+  - 线性变换
+  - 欧氏空间
+  - 内积
+  - Gram-Schmidt
+problem: |
+  设 T 是欧氏空间 V 中的线性变换，且对 x,y\in V，有 (Tx,y)=-(x,Ty)，则称 T 为反对称变换。证明 T 为反对称变换的充要条件是，T 在 V 的标准正交基下的矩阵 A 为反对称矩阵，即有 A^T=-A。
+steps:
+  - title: '必要性：T 反对称 \Rightarrow A^T=-A'
+    content: |
+      设 \{e_1,\dots,e_n\} 是 V 的标准正交基，A=(a_{ij}) 是 T 在该基下的矩阵，即：
+      Te_j = \sum_{i=1}^n a_{ij}e_i
+      
+      由反对称变换的定义 (Tx,y)=-(x,Ty)，取 x=e_j, y=e_i：
+      (Te_j,e_i) = -(e_j,Te_i)
+      
+      左边：(Te_j,e_i) = \left(\sum_k a_{kj}e_k, e_i\right) = a_{ij}
+      
+      右边：-(e_j,Te_i) = -(e_j, \sum_k a_{ki}e_k) = -a_{ji}
+      
+      因此 a_{ij} = -a_{ji}，即 A^T = -A。
+  - title: '充分性：A^T=-A \Rightarrow T 反对称'
+    content: |
+      设 A^T=-A，x=\sum\xi_ie_i，y=\sum\eta_je_j。
+      
+      由内积的线性性和标准正交基的性质：
+      (Tx,y) = \left(\sum_i \xi_i Te_i,\; \sum_j \eta_j e_j\right) = \sum_{i,j} \xi_i \eta_j (Te_i,e_j) = \sum_{i,j} \xi_i \eta_j a_{ji}
+      
+      (x,Ty) = \sum_{i,j} \xi_i \eta_j (e_i,Te_j) = \sum_{i,j} \xi_i \eta_j a_{ij} = \sum_{i,j} \xi_i \eta_j (-a_{ji}) = -(Tx,y)
+      
+      因此 (Tx,y)=-(x,Ty)，T 为反对称变换。
+      
+      **证毕。**

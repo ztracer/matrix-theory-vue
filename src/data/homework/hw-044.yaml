@@ -1,0 +1,31 @@
+id: "hw-044"
+source: "教材习题p140"
+lesson: 7
+type: "homework"
+knowledge:
+  - 广义逆
+  - Penrose方程
+  - 幂等矩阵
+problem: |
+  (2B) 请证明 Penrose 广义逆和 Moore 广义逆的等价性。
+steps:
+  - title: 'Penrose ⇒ Moore'
+    content: |
+      设 X 满足四个 Penrose 方程。
+      由 (1)(3)：AXA=A 且 (AX)^H=AX，故 AX 是 Hermite 幂等矩阵，即 AX 为正交投影矩阵。
+      对任意 y\in\mathbb C^m，Ay\in R(A)；反之对任意 z\in R(A)，存在 x 使 z=Ax，则
+      AXz = AXAx = Ax = z.
+      故 AX 在 R(A) 上作用为恒等，从而 AX = P_{R(A)}。
+      
+      由 (2)(4)：XAX=X 且 (XA)^H=XA，同理可得 XA = P_{R(X)}。
+      所以 X 满足 Moore 定义。
+  - title: 'Moore ⇒ Penrose'
+    content: |
+      设 X 满足 Moore 定义，即 AX=P_{R(A)}，XA=P_{R(X)}。
+      正交投影矩阵是 Hermite 幂等的，故 (AX)^H=AX，(XA)^H=XA，即得 (3)(4)。
+      
+      因为 P_{R(A)} 在 R(A) 上为恒等，而 A 的列均属于 R(A)，所以
+      AXA = P_{R(A)}A = A,
+      即得 (1)。同理 XAX = XP_{R(X)} = X，即得 (2)。
+      
+      因此 X 满足四个 Penrose 方程。

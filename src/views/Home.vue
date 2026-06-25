@@ -20,6 +20,7 @@
           <a href="#mindmap" class="btn btn-primary" @click.prevent="scrollTo('mindmap')">🗺️ 知识地图</a>
           <a href="#lessons" class="btn btn-secondary" @click.prevent="scrollTo('lessons')">📚 开始学习</a>
           <router-link to="/exam" class="btn btn-exam">📋 真题汇总</router-link>
+          <router-link to="/homework" class="btn btn-homework">📝 课后作业</router-link>
         </div>
       </div>
       <div class="scroll-hint">
@@ -239,6 +240,27 @@
             </router-link>
           </div>
         </div>
+
+        <!-- Week 4 -->
+        <section id="week4" class="week-section week4">
+          <h2 class="week-title">
+            <span class="week-num">WEEK 4</span>
+            课后作业与真题
+          </h2>
+          <p class="week-desc">教材课后习题详解与历年真题汇总，支持按知识点检索</p>
+          <div class="week4-links">
+            <router-link to="/homework" class="week4-card homework">
+              <span class="card-icon">📝</span>
+              <span class="card-title">课后作业</span>
+              <span class="card-desc">教材习题精解（62道）</span>
+            </router-link>
+            <router-link to="/exam" class="week4-card exam">
+              <span class="card-icon">📋</span>
+              <span class="card-title">真题汇总</span>
+              <span class="card-desc">历年考试真题（34道）</span>
+            </router-link>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -480,6 +502,11 @@ const hideTip = () => { tipShow.value = false }
   0%,100% { box-shadow:0 8px 32px rgba(236,72,153,.35); }
   50% { box-shadow:0 12px 48px rgba(236,72,153,.55); }
 }
+.btn-homework {
+  background:linear-gradient(135deg,#059669,#10b981); color:#fff;
+  box-shadow:0 8px 32px rgba(5,150,105,.35); transition:all .3s;
+}
+.btn-homework:hover { transform:translateY(-2px); box-shadow:0 12px 40px rgba(5,150,105,.5); text-decoration:none; }
 .scroll-hint {
   position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
   animation:bounce 2s infinite; opacity:.5; color:#fff;
@@ -624,6 +651,80 @@ const hideTip = () => { tipShow.value = false }
 .path-dot.w1 { background:linear-gradient(135deg,#4338ca,#6366f1); }
 .path-dot.w2 { background:linear-gradient(135deg,#0d9488,#14b8a6); }
 .path-dot.w3 { background:linear-gradient(135deg,#ea580c,#f97316); }
+
+/* Week 4 */
+.week-section.week4 {
+  text-align: center;
+  padding: 48px 0;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #f0fdfa 100%);
+  border-radius: 20px;
+  border: 2px solid #a7f3d0;
+  margin-bottom: 24px;
+}
+.week-section.week4 .week-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #065f46;
+  margin-bottom: 10px;
+}
+.week-num {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #059669, #10b981);
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.week-desc {
+  font-size: 15px;
+  color: #047857;
+  margin-bottom: 28px;
+}
+.week4-links {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.week4-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 28px 36px;
+  border-radius: 16px;
+  text-decoration: none;
+  color: #1e293b;
+  transition: all .3s cubic-bezier(.4,0,.2,1);
+  min-width: 200px;
+}
+.week4-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.1);
+  text-decoration: none;
+}
+.week4-card.homework {
+  background: linear-gradient(135deg, #fff, #ecfdf5);
+  border: 2px solid #6ee7b7;
+}
+.week4-card.homework:hover {
+  border-color: #34d399;
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+}
+.week4-card.exam {
+  background: linear-gradient(135deg, #fff, #fce7f3);
+  border: 2px solid #f9a8d4;
+}
+.week4-card.exam:hover {
+  border-color: #f472b6;
+  background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+}
+.week4-card .card-icon { font-size: 36px; }
+.week4-card .card-title { font-size: 20px; font-weight: 700; }
+.week4-card .card-desc { font-size: 13px; color: var(--text-light); }
 .path-content {
   background:#fff; border-radius:12px; padding:16px 20px;
   border:1px solid var(--border); flex:1; transition:all .2s;

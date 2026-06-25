@@ -1,0 +1,20 @@
+id: "hw-036"
+source: "教材习题p79 第2题"
+lesson: 7
+type: "homework"
+knowledge:
+  - Moore-Penrose
+  - 广义逆
+  - Penrose方程
+problem: |
+  设 B\in\mathbb R_r^{m\times r} (r>0)，证明 B^{\mathrm T}B 非奇异。
+steps:
+  - title: '反证/核空间分析'
+    content: |
+      设 B^{\mathrm T}Bx=0 对某个 x\in\mathbb R^r 成立。左乘 x^{\mathrm T} 得 x^{\mathrm T}B^{\mathrm T}Bx=(Bx)^{\mathrm T}(Bx)=\|Bx\|^2=0，故 Bx=0。
+  - title: '利用列满秩'
+    content: |
+      B\in\mathbb R_r^{m\times r} 表示 B 为列满秩矩阵，即 \mathrm{rank}(B)=r，因此 B 的零空间 N(B)=\{0\}。由 Bx=0 得 x=0。
+  - title: '结论'
+    content: |
+      齐次线性方程组 B^{\mathrm T}Bx=0 只有零解，故 B^{\mathrm T}B 为 r 阶非奇异（可逆）矩阵。

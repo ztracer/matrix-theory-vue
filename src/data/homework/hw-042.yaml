@@ -1,0 +1,37 @@
+id: "hw-042"
+source: "教材习题p140"
+lesson: 7
+type: "homework"
+knowledge:
+  - Moore-Penrose
+  - 广义逆
+  - Penrose方程
+problem: |
+  (1) 请分别给出 Penrose 广义逆和 Moore 广义逆的定义。
+steps:
+  - title: 'Penrose 广义逆定义'
+    content: |
+      设 A\in\mathbb C^{m\times n}。若矩阵 X\in\mathbb C^{n\times m} 满足以下四个方程（Penrose 方程）：
+      \begin{aligned}
+      &(1)\; AXA = A, \\(2)\; XAX = X, \\
+      &(3)\; (AX)^H = AX, \\(4)\; (XA)^H = XA,
+      \end{aligned}
+      则称 X 为 A 的 **Penrose 广义逆**（或 Moore-Penrose 广义逆），记作 A^+。
+  - title: 'Moore 广义逆定义'
+    content: |
+      设 A\in\mathbb C^{m\times n}。若矩阵 X\in\mathbb C^{n\times m} 满足：
+      (i) AX 是到 A 的值域 R(A) 上的正交投影矩阵；
+      (ii) XA 是到 X 的值域 R(X) 上的正交投影矩阵；
+      则称 X 为 A 的 **Moore 广义逆**。
+  - title: 'Moore 定义的等价表述'
+    content: |
+      Moore 定义等价于：
+      AX = P_{R(A)}, \qquad XA = P_{R(X)},
+      其中 P_{R(A)} 与 P_{R(X)} 分别为到 R(A) 与 R(X) 的正交投影矩阵。
+      
+      进一步，利用正交投影的刻画，可写成：
+      \begin{cases}
+      AXA = A, & (AX)^H = AX, \\
+      XAX = X, & (XA)^H = XA.
+      \end{cases}
+      这与 Penrose 的四个方程完全一致。

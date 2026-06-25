@@ -1,0 +1,25 @@
+id: "hw-022"
+source: "教材习题p47-5"
+lesson: 4
+type: "homework"
+knowledge:
+  - 导数
+  - 矩阵函数
+  - 矩阵指数
+problem: |
+  若 A=A(t)=(a_{ij}(t))_{n\times n} 非奇异，证明 \dfrac{d}{dt}A^{-1} = -A^{-1}\dfrac{dA}{dt}A^{-1}。
+steps:
+  - title: '证明'
+    content: |
+      由逆矩阵定义，A(t)\cdot A^{-1}(t) = I。
+      
+      两边对 t 求导（利用乘积法则）：
+      \frac{dA}{dt}\cdot A^{-1} + A\cdot\frac{d}{dt}(A^{-1}) = O
+      
+      移项得：
+      A\cdot\frac{d}{dt}(A^{-1}) = -\frac{dA}{dt}\cdot A^{-1}
+      
+      左乘 A^{-1}：
+      \frac{d}{dt}(A^{-1}) = -A^{-1}\cdot\frac{dA}{dt}\cdot A^{-1}
+      
+      **证毕。**

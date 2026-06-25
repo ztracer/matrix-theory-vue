@@ -1,0 +1,32 @@
+id: "hw-043"
+source: "教材习题p140"
+lesson: 7
+type: "homework"
+knowledge:
+  - 广义逆
+  - Penrose方程
+problem: |
+  (2A) 请证明 Penrose 广义逆的存在性和唯一性。
+steps:
+  - title: '存在性证明'
+    content: |
+      设 A\in\mathbb C^{m\times n}，\operatorname{rank}(A)=r。由奇异值分解，存在酉矩阵 U\in\mathbb C^{m\times m}、V\in\mathbb C^{n\times n}，使得
+      A = U\begin{pmatrix} \Sigma & O \\ O & O \end{pmatrix}V^H,
+      其中 \Sigma = \operatorname{diag}(\sigma_1,\dots,\sigma_r)，\sigma_i>0。
+      
+      构造
+      X = V\begin{pmatrix} \Sigma^{-1} & O \\ O & O \end{pmatrix}U^H.
+      直接验证四个 Penrose 方程：
+      AXA = U\begin{pmatrix} \Sigma & O \\ O & O \end{pmatrix}V^H \cdot V\begin{pmatrix} \Sigma^{-1} & O \\ O & O \end{pmatrix}U^H \cdot U\begin{pmatrix} \Sigma & O \\ O & O \end{pmatrix}V^H = U\begin{pmatrix} \Sigma & O \\ O & O \end{pmatrix}V^H = A.
+      同理可验证其余三式均成立。故 A^+ 总是存在。
+  - title: '唯一性证明'
+    content: |
+      设 X 与 Y 均满足四个 Penrose 方程。则
+      \begin{aligned}
+      X &= XAX = X(AYA)X = (XA)(YA)X \\
+      &= (XA)^H(YA)^HX = A^HX^HA^HY^HX \\
+      &= (AXA)^HY^HX = A^HY^HX = (YA)^HX = YAX.
+      \end{aligned}
+      同理，
+      Y = YAY = Y(AXA)Y = Y(AX)(AY) = Y(AX)^H(AY)^H = YX^HA^HY^HA^H = YX^H(AXA)^H = YX^HA^H = Y(AX)^H = YAX.
+      因此 X = YAX = Y，唯一性得证。

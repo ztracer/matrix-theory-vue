@@ -1,0 +1,22 @@
+id: "hw-046"
+source: "教材习题p136"
+lesson: 7
+type: "homework"
+knowledge:
+  - Moore-Penrose
+  - Penrose方程
+  - 幂等矩阵
+problem: |
+  设 H 是幂等 Hermite 矩阵，证明 H^+ = H。
+steps:
+  - title: '利用幂等性与 Hermite 性'
+    content: |
+      幂等：H^2 = H；Hermite：H^H = H。
+      
+      验证 H 作为 H 的 Moore-Penrose 逆的四个 Penrose 方程：
+      (1) HHH = H^2H = HH = H^2 = H；
+      (2) HHH = H；
+      (3) (HH)^H = (H^2)^H = H^H = H = H^2 = HH；
+      (4) (HH)^H = HH。
+      
+      四式均成立，故 H^+ = H。

@@ -1,0 +1,69 @@
+id: "hw-041"
+source: "教材习题p119"
+lesson: 7
+type: "homework"
+knowledge:
+  - Moore-Penrose
+  - 广义逆
+  - Penrose方程
+  - 满秩分解
+problem: |
+  已知矩阵
+  A = \begin{pmatrix} 1 & 0 & 0 & 1 \\ 1 & 1 & 0 & 0 \\ 0 & 1 & 1 & 0 \\ 0 & 0 & 1 & 1 \end{pmatrix}
+  (1) 求 A 的 Hermite 标准形，利用式 (6.3.3) 求 A 的 1-逆和 2-逆；
+  (2) 构造 A 的满秩分解，利用定理 6.15 之 (5) 求 A^+。
+steps:
+  - title: '求 Hermite 标准形'
+    content: |
+      对 A 施行初等行变换化为 Hermite 标准形：
+      A = \begin{pmatrix} 1 & 0 & 0 & 1 \\ 1 & 1 & 0 & 0 \\ 0 & 1 & 1 & 0 \\ 0 & 0 & 1 & 1 \end{pmatrix}
+      \xrightarrow{r_2-r_1}
+      \begin{pmatrix} 1 & 0 & 0 & 1 \\ 0 & 1 & 0 & -1 \\ 0 & 1 & 1 & 0 \\ 0 & 0 & 1 & 1 \end{pmatrix}
+      \xrightarrow{r_3-r_2}
+      \begin{pmatrix} 1 & 0 & 0 & 1 \\ 0 & 1 & 0 & -1 \\ 0 & 0 & 1 & 1 \\ 0 & 0 & 1 & 1 \end{pmatrix}
+      \xrightarrow{r_4-r_3}
+      \begin{pmatrix} 1 & 0 & 0 & 1 \\ 0 & 1 & 0 & -1 \\ 0 & 0 & 1 & 1 \\ 0 & 0 & 0 & 0 \end{pmatrix} = H
+      故 A 的 Hermite 标准形为 H，且 \operatorname{rank}(A)=3。
+      
+      记录行变换对应的初等矩阵乘积得到可逆矩阵 P：
+      P = E_{43}(-1)E_{32}(-1)E_{21}(-1) = \begin{pmatrix} 1 & 0 & 0 & 0 \\ -1 & 1 & 0 & 0 \\ 1 & -1 & 1 & 0 \\ -1 & 1 & -1 & 1 \end{pmatrix}
+      满足 PA=H。
+  - title: '求 {1}-逆'
+    content: |
+      设 H = \begin{pmatrix} I_3 & K \\ O & O \end{pmatrix}，其中 K=\begin{pmatrix}1 \\ -1 \\ 1\end{pmatrix}。
+      由公式，A 的一个 1$-逆为
+      A^{(1)} = P\begin{pmatrix} I_3 & O \\ O & O \end{pmatrix} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ -1 & 1 & 0 & 0 \\ 1 & -1 & 1 & 0 \\ -1 & 1 & -1 & 0 \end{pmatrix}.
+      验证：AA^{(1)}A = A（因 A^{(1)} 由标准公式构造）。
+  - title: '求 {1,2}-逆'
+    content: |
+      利用 1-逆构造 2-逆。取 A^{(1)} 如上，令
+      X = A^{(1)}AA^{(1)}.
+      由 2-逆的构造定理，X满足AXA=A且XAX=X，故X为A的一个 2-逆。
+      
+      计算得
+      X = A^{(1)}AA^{(1)} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ -1 & 1 & 0 & 0 \\ 1 & -1 & 1 & 0 \\ -1 & 1 & -1 & 0 \end{pmatrix}.
+      （因 A^{(1)} 的第四列为零，直接计算即可。）
+  - title: '满秩分解'
+    content: |
+      取 A 中线性无关的前 3 列构成列满秩矩阵 F，再求行满秩矩阵 G 使 A=FG：
+      F = \begin{pmatrix} 1 & 0 & 0 \\ 1 & 1 & 0 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix}, \quad
+      G = \begin{pmatrix} 1 & 0 & 0 & 1 \\ 0 & 1 & 0 & -1 \\ 0 & 0 & 1 & 1 \end{pmatrix}.
+      验证 FG=A 成立，且 \operatorname{rank}(F)=\operatorname{rank}(G)=3。
+  - title: '求 Moore-Penrose 逆 A⁺'
+    content: |
+      利用满秩分解公式 A^+ = G^+F^+ = G^H(GG^H)^{-1}(F^HF)^{-1}F^H。
+      
+      先算
+      F^HF = \begin{pmatrix} 2 & 1 & 0 \\ 1 & 2 & 1 \\ 0 & 1 & 2 \end{pmatrix}, \quad
+      (F^HF)^{-1} = \frac14\begin{pmatrix} 3 & -2 & 1 \\ -2 & 4 & -2 \\ 1 & -2 & 3 \end{pmatrix}.
+      
+      GG^H = \begin{pmatrix} 2 & -1 & 1 \\ -1 & 2 & -1 \\ 1 & -1 & 2 \end{pmatrix}, \quad
+      (GG^H)^{-1} = \frac14\begin{pmatrix} 3 & 1 & -1 \\ 1 & 3 & 1 \\ -1 & 1 & 3 \end{pmatrix}.
+      
+      于是
+      F^+ = (F^HF)^{-1}F^H = \frac14\begin{pmatrix} 3 & 1 & -1 & 1 \\ -2 & 2 & 2 & -2 \\ 1 & -1 & 1 & 3 \end{pmatrix},
+      G^+ = G^H(GG^H)^{-1} = \frac14\begin{pmatrix} 3 & 1 & -1 \\ 1 & 3 & 1 \\ -1 & 1 & 3 \\ 1 & -1 & 1 \end{pmatrix}.
+      
+      最后
+      A^+ = G^+F^+ = \frac{1}{16}\begin{pmatrix} 6 & 6 & -2 & -2 \\ -2 & 6 & 6 & -2 \\ -2 & -2 & 6 & 6 \\ 6 & -2 & -2 & 6 \end{pmatrix} = \frac18\begin{pmatrix} 3 & 3 & -1 & -1 \\ -1 & 3 & 3 & -1 \\ -1 & -1 & 3 & 3 \\ 3 & -1 & -1 & 3 \end{pmatrix}.
+      可验证其满足四个 Penrose 方程。

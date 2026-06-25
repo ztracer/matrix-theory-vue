@@ -1,0 +1,22 @@
+id: "hw-049"
+source: "教材习题p94 第1题"
+lesson: 8
+type: "homework"
+knowledge:
+  - 投影矩阵
+  - 斜投影
+problem: |
+  设 L,M 是 \mathbb C^n 的子空间，且 L\oplus M=\mathbb C^n。证明投影算子 P_{L,M} 是线性算子。
+steps:
+  - title: '利用直和分解'
+    content: |
+      因 L\oplus M=\mathbb C^n，任意 x_1,x_2\in\mathbb C^n 可唯一分解为 x_1=y_1+z_1，x_2=y_2+z_2，其中 y_i\in L，z_i\in M。由投影定义 P_{L,M}x_i=y_i。
+  - title: '验证可加性'
+    content: |
+      x_1+x_2=(y_1+y_2)+(z_1+z_2)，且 y_1+y_2\in L，z_1+z_2\in M。由唯一性，P_{L,M}(x_1+x_2)=y_1+y_2=P_{L,M}x_1+P_{L,M}x_2。
+  - title: '验证齐次性'
+    content: |
+      对任意标量 \alpha，\alpha x_1=\alpha y_1+\alpha z_1，\alpha y_1\in L，\alpha z_1\in M。故 P_{L,M}(\alpha x_1)=\alpha y_1=\alpha P_{L,M}x_1。
+  - title: '结论'
+    content: |
+      综上，P_{L,M} 满足可加性与齐次性，是线性算子。

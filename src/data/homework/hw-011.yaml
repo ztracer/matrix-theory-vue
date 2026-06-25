@@ -1,0 +1,43 @@
+id: "hw-011"
+source: "教材习题p8-2"
+lesson: 2
+type: "homework"
+knowledge:
+  - 线性变换
+  - 欧氏空间
+  - 内积
+problem: |
+  在 \mathbb{R}^2 中，设 x=(\xi_1,\xi_2)^T，证明 T_1x=(\xi_2,-\xi_1)^T 与 T_2x=(\xi_1,-\xi_2)^T 是 \mathbb{R}^2 的两个线性变换，并求 T_1+T_2、T_1T_2 及 T_2T_1。
+steps:
+  - title: '证明 T_1,T_2 是线性变换'
+    content: |
+      对 T_1：设 x=(\xi_1,\xi_2)^T, y=(\eta_1,\eta_2)^T。
+      
+      **可加性**：
+      T_1(x+y) = (\xi_2+\eta_2,\,-(\xi_1+\eta_1))^T = (\xi_2,-\xi_1)^T + (\eta_2,-\eta_1)^T = T_1x + T_1y
+      
+      **齐次性**：
+      T_1(kx) = (k\xi_2,\,-k\xi_1)^T = k(\xi_2,-\xi_1)^T = kT_1x
+      
+      同理可证 T_2 也是线性变换。
+  - title: '求 T_1+T_2'
+    content: |
+      (T_1+T_2)x = T_1x + T_2x = (\xi_2,-\xi_1)^T + (\xi_1,-\xi_2)^T = (\xi_1+\xi_2,\,-\xi_1-\xi_2)^T
+      
+      即 (T_1+T_2)(\xi_1,\xi_2) = (\xi_1+\xi_2,\,-\xi_1-\xi_2)。
+  - title: '求 T_1T_2'
+    content: |
+      先作用 T_2，再作用 T_1：
+      T_2x = (\xi_1,-\xi_2)^T
+      T_1(T_2x) = T_1(\xi_1,-\xi_2)^T = (-\xi_2,\,-\xi_1)^T
+      
+      即 (T_1T_2)(\xi_1,\xi_2) = (-\xi_2,\,-\xi_1)。
+  - title: '求 T_2T_1'
+    content: |
+      先作用 T_1，再作用 T_2：
+      T_1x = (\xi_2,-\xi_1)^T
+      T_2(T_1x) = T_2(\xi_2,-\xi_1)^T = (\xi_2,\,\xi_1)^T
+      
+      即 (T_2T_1)(\xi_1,\xi_2) = (\xi_2,\,\xi_1)。
+      
+      注意 T_1T_2 \ne T_2T_1，说明线性变换的乘法一般不交换。

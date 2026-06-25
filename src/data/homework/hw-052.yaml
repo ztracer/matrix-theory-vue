@@ -1,0 +1,16 @@
+id: "hw-052"
+source: "教材习题p95 第4题(3)"
+lesson: 8
+type: "homework"
+knowledge:
+  - 投影矩阵
+  - 幂等性
+problem: |
+  设 P_1,P_2 均为投影矩阵，若 P_1P_2=P_2P_1，证明 P=P_1P_2 是投影矩阵。
+steps:
+  - title: '验证幂等性'
+    content: |
+      由条件 P_1P_2=P_2P_1，有P^2=(P_1P_2)(P_1P_2)=P_1(P_2P_1)P_2=P_1(P_1P_2)P_2=P_1^2P_2^2=P_1P_2=P.
+  - title: '结论'
+    content: |
+      P 为幂等矩阵，因此 P=P_1P_2 是投影矩阵。

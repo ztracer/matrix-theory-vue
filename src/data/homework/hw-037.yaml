@@ -1,0 +1,23 @@
+id: "hw-037"
+source: "教材习题p89 第4题"
+lesson: 7
+type: "homework"
+knowledge:
+  - 广义逆
+  - Moore-Penrose
+  - Penrose方程
+problem: |
+  已知 A=\begin{pmatrix}0&-a_3&a_2\\a_3&0&-a_1\\-a_2&a_1&0\end{pmatrix}，证明 X=-(a_1^2+a_2^2+a_3^2)^{-1}A 是 A 的\{1\}-逆。
+steps:
+  - title: '\{1\}-逆的定义'
+    content: |
+      矩阵 X 是 A 的 \{1\}-逆当且仅当 AXA=A。
+  - title: '计算 A^2'
+    content: |
+      直接计算可得A^2=\begin{pmatrix}-(a_2^2+a_3^2)&a_1a_2&a_1a_3\\a_1a_2&-(a_1^2+a_3^2)&a_2a_3\\a_1a_3&a_2a_3&-(a_1^2+a_2^2)\end{pmatrix}.
+  - title: '计算 A^3'
+    content: |
+      利用 A 的反对称结构，可验证 A^3=-(a_1^2+a_2^2+a_3^2)A。（也可直接做矩阵乘法逐项验证。）
+  - title: '验证 AXA=A'
+    content: |
+      AXA=A\left[-(a_1^2+a_2^2+a_3^2)^{-1}A\right]A=-(a_1^2+a_2^2+a_3^2)^{-1}A^3=-(a_1^2+a_2^2+a_3^2)^{-1}\left[-(a_1^2+a_2^2+a_3^2)A\right]=A.故 X 满足 \{1\}-逆条件。

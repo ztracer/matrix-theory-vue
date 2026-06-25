@@ -1,0 +1,24 @@
+id: "hw-031"
+source: "教材习题p76 第7题"
+lesson: 5
+type: "homework"
+knowledge:
+  - QR分解
+  - Givens
+problem: |
+  用 Givens 变换求矩阵 A=\begin{pmatrix}2&2&1\\0&2&2\\2&1&2\end{pmatrix} 的 QR 分解。
+steps:
+  - title: '第一步：消去 (3,1) 元'
+    content: |
+      对第 1 列的 (1,3) 平面做 Givens 旋转。向量 (2,2)^{\mathrm T}，r=\sqrt{8}=2\sqrt2，取 c=\frac{2}{2\sqrt2}=\frac{1}{\sqrt2}，s=\frac{1}{\sqrt2}。
+      旋转矩阵 G_1=\begin{pmatrix}c&0&s\\0&1&0\\-s&0&c\end{pmatrix}，左乘 A 得 G_1A=\begin{pmatrix}2\sqrt2&\frac{3}{\sqrt2}&\frac{3}{\sqrt2}\\0&2&2\\0&-\frac{1}{\sqrt2}&\frac{1}{\sqrt2}\end{pmatrix}。
+  - title: '第二步：消去 (3,2) 元'
+    content: |
+      对第 2 列的 (2,3) 平面做旋转。向量 (2,-\frac{1}{\sqrt2})^{\mathrm T}，r=\sqrt{4+\frac12}=\frac{3}{\sqrt2}，取 c=\frac{2\sqrt2}{3}，s=-\frac13。
+      G_2=\begin{pmatrix}1&0&0\\0&c&s\\0&-s&c\end{pmatrix}，左乘后得上三角矩阵 R=G_2G_1A=\begin{pmatrix}2\sqrt2&\frac{3}{\sqrt2}&\frac{3}{\sqrt2}\\0&\frac{3}{\sqrt2}&\frac{7}{3\sqrt2}\\0&0&\frac{4}{3}\end{pmatrix}。
+  - title: '求正交矩阵 Q'
+    content: |
+      因为 R=G_2G_1A，所以 A=(G_2G_1)^{-1}R=G_1^{\mathrm T}G_2^{\mathrm T}R，故 Q=G_1^{\mathrm T}G_2^{\mathrm T}。计算得Q=\begin{pmatrix}\frac{1}{\sqrt2}&\frac{1}{3\sqrt2}&-\frac{2}{3}\\0&\frac{2\sqrt2}{3}&\frac{1}{3}\\\frac{1}{\sqrt2}&-\frac{1}{3\sqrt2}&\frac{2}{3}\end{pmatrix}.
+  - title: '验证'
+    content: |
+      计算 Q^{\mathrm T}Q=I 且 QR=A，分解正确。

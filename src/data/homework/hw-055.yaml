@@ -1,0 +1,22 @@
+id: "hw-055"
+source: "教材习题p144"
+lesson: 8
+type: "homework"
+knowledge:
+  - 投影矩阵
+  - 斜投影
+problem: |
+  设 L 是由向量 (1,0)^T 张成的子空间，M 是由向量 (1,-1)^T 张成的子空间。求 \mathbb R^2 上沿着 M 到 L 的投影矩阵。
+steps:
+  - title: '验证直和分解'
+    content: |
+      记 e_1=(1,0)^T，v=(1,-1)^T。二者线性无关，故 \mathbb R^2 = L \oplus M。
+  - title: '构造投影矩阵'
+    content: |
+      令 X=[e_1]，Y=[v]，则
+      [X\;Y] = \begin{pmatrix} 1 & 1 \\ 0 & -1 \end{pmatrix}, \quad [X\;Y]^{-1} = \begin{pmatrix} 1 & 1 \\ 0 & -1 \end{pmatrix}.
+      
+      投影矩阵
+      P_{L,M} = [X\;O]\,[X\;Y]^{-1} = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}\begin{pmatrix} 1 & 1 \\ 0 & -1 \end{pmatrix} = \begin{pmatrix} 1 & 1 \\ 0 & 0 \end{pmatrix}.
+      
+      验证：P_{L,M}e_1=e_1，P_{L,M}v=(1-1,0)^T=0，满足斜投影定义。

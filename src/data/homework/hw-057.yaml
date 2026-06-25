@@ -1,0 +1,26 @@
+id: "hw-057"
+source: "教材习题p123"
+lesson: 9
+type: "homework"
+knowledge:
+  - 最小二乘
+  - 正规方程
+problem: |
+  设 A\in\mathbb C^{m\times n}，列向量 b_1,b_2,\dots,b_k\in\mathbb C^m。证明向量 x 使得
+  \min_{x\in\mathbb C^n} \sum_{i=1}^k \|Ax - b_i\|^2
+  成立的充要条件是，x 为方程
+  Ax = \frac1k\sum_{i=1}^k b_i
+  的最小二乘解。
+steps:
+  - title: '展开目标函数'
+    content: |
+      记 f(x) = \sum_{i=1}^k \|Ax-b_i\|^2。展开得
+      f(x) = \sum_{i=1}^k (Ax-b_i)^H(Ax-b_i) = k\,x^HA^HAx - x^HA^H\Bigl(\sum b_i\Bigr) - \Bigl(\sum b_i\Bigr)^HAx + \sum_{i=1}^k\|b_i\|^2.
+  - title: '求导得正规方程'
+    content: |
+      对 x 求梯度并令其为零：
+      \nabla f = 2kA^HAx - 2A^H\Bigl(\sum_{i=1}^k b_i\Bigr) = 0,
+      即
+      A^HAx = A^H\Bigl(\frac1k\sum_{i=1}^k b_i\Bigr).
+      这恰为方程 Ax = \bar b（其中 \bar b = \frac1k\sum b_i）的正规方程。
+      因此 x 使 f(x) 最小当且仅当 x 是 Ax=\bar b 的最小二乘解。

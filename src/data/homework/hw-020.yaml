@@ -1,0 +1,26 @@
+id: "hw-020"
+source: "教材习题p38-4"
+lesson: 4
+type: "homework"
+knowledge:
+  - 矩阵指数
+  - 矩阵函数
+  - 导数
+problem: |
+  若 A 是 Hermite 矩阵，则 e^{jA} 是酉矩阵。
+steps:
+  - title: '证明'
+    content: |
+      要证 e^{jA} 为酉矩阵，即证 (e^{jA})^H = (e^{jA})^{-1}。
+      
+      利用矩阵指数的性质 (e^{jA})^H = e^{(jA)^H}：
+      (e^{jA})^H = e^{(jA)^H} = e^{-jA^H} = e^{-jA}
+      
+      （因为 A^H=A）
+      
+      又因为 (-jA) 与 (jA) 可交换：
+      e^{-jA} = (e^{jA})^{-1}
+      
+      因此 (e^{jA})^H = (e^{jA})^{-1}，即 e^{jA} 是酉矩阵。
+      
+      **证毕。**

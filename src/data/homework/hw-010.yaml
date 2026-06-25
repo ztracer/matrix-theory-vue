@@ -1,0 +1,52 @@
+id: "hw-010"
+source: "教材习题p8-1"
+lesson: 2
+type: "homework"
+knowledge:
+  - 线性变换
+  - 欧氏空间
+  - 内积
+problem: |
+  判别下列变换中哪些是线性变换：
+  (1) 在 \mathbb{R}^3 中，设 x=(\xi_1,\xi_2,\xi_3)^T，Tx=(\xi_1^2,\xi_1+\xi_2,\xi_3)^T；
+  (2) 在矩阵空间 \mathbb{R}^{n\times n} 中，TX=BXC，这里 B,C 是固定矩阵；
+  (3) 在线性空间 P_n 中，Tf(t)=f(t+1)。
+steps:
+  - title: '(1) Tx=(\xi_1^2,\xi_1+\xi_2,\xi_3)^T'
+    content: |
+      **不是线性变换。**
+      
+      取 x=(1,0,0)^T, y=(1,0,0)^T，则 x+y=(2,0,0)^T。
+      
+      T(x+y) = (4,2,0)^T
+      Tx+Ty = (1,1,0)^T+(1,1,0)^T = (2,2,0)^T
+      
+      因为 T(x+y) \ne Tx+Ty（第一分量 4\ne 2），不满足可加性。
+      
+      关键原因：\xi_1^2 不是 \xi_1 的一次齐次函数。
+  - title: '(2) TX=BXC'
+    content: |
+      **是线性变换。**
+      
+      验证两条性质：
+      
+      **可加性**：
+      T(X+Y) = B(X+Y)C = BXC + BYC = TX + TY
+      
+      **齐次性**：
+      T(kX) = B(kX)C = k(BXC) = k\cdot TX
+      
+      因此 T 是 \mathbb{R}^{n\times n} 上的线性变换。
+  - title: '(3) Tf(t)=f(t+1)'
+    content: |
+      **是线性变换。**
+      
+      验证两条性质：
+      
+      **可加性**：
+      T(f+g)(t) = (f+g)(t+1) = f(t+1)+g(t+1) = Tf(t)+Tg(t)
+      
+      **齐次性**：
+      T(kf)(t) = (kf)(t+1) = k\cdot f(t+1) = k\cdot Tf(t)
+      
+      因此 T 是 P_n 上的线性变换（平移算子）。

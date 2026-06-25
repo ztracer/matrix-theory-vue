@@ -1,0 +1,24 @@
+id: "hw-019"
+source: "教材习题p38-3"
+lesson: 4
+type: "homework"
+knowledge:
+  - 矩阵指数
+  - 矩阵函数
+  - 导数
+problem: |
+  若 A 为实反对称矩阵 (A^T=-A)，则 e^A 为正交矩阵。
+steps:
+  - title: '证明'
+    content: |
+      要证 e^A 为正交矩阵，即证 (e^A)^T = (e^A)^{-1}。
+      
+      利用矩阵指数函数的性质 (e^A)^T = e^{A^T}：
+      (e^A)^T = e^{A^T} = e^{-A}
+      
+      又因为 (-A) 与 A 可交换，所以：
+      e^{-A} = (e^A)^{-1}
+      
+      因此 (e^A)^T = (e^A)^{-1}，即 e^A 为正交矩阵。
+      
+      **证毕。**

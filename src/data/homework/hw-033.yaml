@@ -1,0 +1,24 @@
+id: "hw-033"
+source: "教材习题p79 第4题"
+lesson: 6
+type: "homework"
+knowledge:
+  - SVD
+  - 奇异值分解
+problem: |
+  求 A=\begin{pmatrix}1&0\\0&1\\1&1\end{pmatrix} 的奇异值分解。
+steps:
+  - title: '计算 A^{\mathrm T}A 的特征值'
+    content: |
+      A^{\mathrm T}A=\begin{pmatrix}2&1\\1&2\end{pmatrix}。特征方程 \det(A^{\mathrm T}A-\lambda I)=(2-\lambda)^2-1=0，解得 \lambda_1=3，\lambda_2=1。
+  - title: '奇异值与右奇异向量'
+    content: |
+      奇异值 \sigma_1=\sqrt3，\sigma_2=1。对应特征向量归一化后得 V 的列：v_1=\frac{1}{\sqrt2}(1,1)^{\mathrm T}，v_2=\frac{1}{\sqrt2}(1,-1)^{\mathrm T}。
+      V=\frac{1}{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}.
+  - title: '左奇异向量'
+    content: |
+      u_1=\frac{1}{\sigma_1}Av_1=\frac{1}{\sqrt6}(1,1,2)^{\mathrm T}，u_2=\frac{1}{\sigma_2}Av_2=\frac{1}{\sqrt2}(1,-1,0)^{\mathrm T}。为得到标准正交基，补充 u_3 使与 u_1,u_2 正交，可取 u_3=\frac{1}{\sqrt3}(1,1,-1)^{\mathrm T}。
+  - title: '写出 SVD'
+    content: |
+      U=\begin{pmatrix}\frac{1}{\sqrt6}&\frac{1}{\sqrt2}&\frac{1}{\sqrt3}\\\frac{1}{\sqrt6}&-\frac{1}{\sqrt2}&\frac{1}{\sqrt3}\\\frac{2}{\sqrt6}&0&-\frac{1}{\sqrt3}\end{pmatrix},\quad \Sigma=\begin{pmatrix}\sqrt3&0\\0&1\\0&0\end{pmatrix},\quad V=\frac{1}{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}.
+      满足 A=U\Sigma V^{\mathrm T}。

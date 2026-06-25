@@ -1,0 +1,38 @@
+id: "hw-025"
+source: "教材习题p50-4"
+lesson: 4
+type: "homework"
+knowledge:
+  - 微分方程
+  - 对数函数
+problem: |
+  设 A=(a_{ij})_{n\times n} 为常数矩阵，X=(\xi_{ij}(t))_{n\times n}，a 为常数，试证明 Cauchy 微分方程组 \dfrac{dX}{dt}=\dfrac{A}{t-a}X 可简化为 \dfrac{dX}{du}=AX，其中 u=\ln(t-a)。并进而证明其通解为 X=(t-a)^A C，其中 C 为 n 阶常数矩阵。
+steps:
+  - title: '变量替换化简方程'
+    content: |
+      令 u=\ln(t-a)，则 t-a=e^u，且：
+      \frac{du}{dt} = \frac{1}{t-a}
+      
+      由链式法则：
+      \frac{dX}{dt} = \frac{dX}{du}\cdot\frac{du}{dt} = \frac{1}{t-a}\frac{dX}{du}
+      
+      代入原方程：
+      \frac{1}{t-a}\frac{dX}{du} = \frac{A}{t-a}X
+      
+      两边同乘 t-a，得：
+      \frac{dX}{du} = AX
+      
+      **化简得证。**
+  - title: '求通解'
+    content: |
+      方程 \dfrac{dX}{du}=AX 是常系数线性微分方程组，其通解为：
+      X(u) = e^{uA} C
+      
+      其中 C 为 n 阶常数矩阵。
+      
+      代回 u=\ln(t-a)：
+      X(t) = e^{A\ln(t-a)} = \left(e^{\ln(t-a)}\right)^A = (t-a)^A C
+      
+      这里用到矩阵幂的定义 (t-a)^A = e^{A\ln(t-a)}。
+      
+      **通解得证。**

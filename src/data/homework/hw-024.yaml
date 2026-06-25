@@ -1,0 +1,48 @@
+id: "hw-024"
+source: "教材习题p48-3"
+lesson: 4
+type: "homework"
+knowledge:
+  - 矩阵指数
+  - 导数
+  - 幂级数
+  - 微分方程
+problem: |
+  求微分方程组 \dfrac{d\xi_1}{dt}=-2\xi_1+\xi_2+1，\dfrac{d\xi_2}{dt}=-4\xi_1+2\xi_2+2，\dfrac{d\xi_3}{dt}=\xi_1+\xi_3+e^t-1，满足初始条件 \xi_1(0)=1,\xi_2(0)=1,\xi_3(0)=-1 的解。
+steps:
+  - title: '写成矩阵形式'
+    content: |
+      \frac{d\xi}{dt} = A\xi + f(t), \quad A=\begin{pmatrix}-2&1&0\\-4&2&0\\1&0&1\end{pmatrix}, \quad f(t)=\begin{pmatrix}1\\2\\e^t-1\end{pmatrix}
+      
+      初始条件 \xi(0)=(1,1,-1)^T。
+  - title: '求 e^{tA}'
+    content: |
+      特征多项式：
+      \det(\lambda I-A) = (\lambda-1)\begin{vmatrix}\lambda+2&-1\\4&\lambda-2\end{vmatrix} = (\lambda-1)\lambda^2
+      
+      特征值 \lambda_1=1, \lambda_2=\lambda_3=0。
+      
+      通过 Jordan 标准形或幂级数法求得：
+      e^{tA} = \begin{pmatrix} 1-2t & t & 0 \\ -4t & 2t+1 & 0 \\ 1+2t-e^t & e^t-t-1 & e^t \end{pmatrix}
+      
+      验证：e^{0A}=I，且 \left.\frac{d}{dt}e^{tA}\right|_{t=0}=A。
+  - title: '应用常数变易公式'
+    content: |
+      \xi(t) = e^{tA}\xi(0) + \int_0^t e^{(t-s)A} f(s)\,ds
+      
+      先计算 e^{tA}\xi(0)：
+      e^{tA}\begin{pmatrix}1\\1\\-1\end{pmatrix} = \begin{pmatrix}1-t\\1-2t\\t-e^t\end{pmatrix}
+      
+      再计算积分项。经计算，被积函数 e^{(t-s)A}f(s) 的三个分量恰为与 s 无关的常向量 (1,2,e^t-1)^T，因此：
+      \int_0^t e^{(t-s)A}f(s)\,ds = \begin{pmatrix}t\\2t\\t(e^t-1)\end{pmatrix}
+  - title: '合并得解并验证'
+    content: |
+      \xi(t) = \begin{pmatrix}1-t\\1-2t\\t-e^t\end{pmatrix} + \begin{pmatrix}t\\2t\\t(e^t-1)\end{pmatrix} = \begin{pmatrix}1\\1\\(t-1)e^t\end{pmatrix}
+      
+      **验证**：
+      - \xi_1=1, \xi_1'=0，右边 -2+1+1=0 ✓
+      - \xi_2=1, \xi_2'=0，右边 -4+2+2=0 ✓
+      - \xi_3=(t-1)e^t, \xi_3'=te^t，右边 1+(t-1)e^t+e^t-1=te^t ✓
+      - 初始条件：\xi(0)=(1,1,-1)^T ✓
+      
+      **解为** \boxed{\xi_1(t)=1,\; \xi_2(t)=1,\; \xi_3(t)=(t-1)e^t}。

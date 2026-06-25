@@ -77,19 +77,22 @@ const lessons = [
   { id: 8, path: '/lesson/08', title: '投影矩阵与应用' },
   { id: 9, path: '/lesson/09', title: '最小二乘与范数' },
   { id: 10, path: '/lesson/10', title: '特征值估计' },
-  { id: 11, path: '/lesson/11', title: '考前复习' }
+  { id: 11, path: '/lesson/11', title: '考前复习' },
+  { id: 12, path: '/homework', title: '课后作业' }
 ]
 
 const weekMap = {
   1: 'w1', 2: 'w1', 3: 'w1', 4: 'w1',
   5: 'w2', 6: 'w2', 7: 'w2',
-  8: 'w3', 9: 'w3', 10: 'w3', 11: 'w3'
+  8: 'w3', 9: 'w3', 10: 'w3', 11: 'w3',
+  12: 'w4'
 }
 
 const weekLabelMap = {
   w1: '第1周 · 空间变换与标准形',
   w2: '第2周 · 矩阵分解与广义逆',
-  w3: '第3周 · 应用专题与真题'
+  w3: '第3周 · 应用专题与真题',
+  w4: '课后作业与真题'
 }
 
 const weekClass = computed(() => weekMap[props.lessonId] || 'w1')
@@ -121,6 +124,7 @@ const nextLesson = computed(() => {
 .w1 .lesson-nav, .w1 { background: linear-gradient(135deg, #4338ca, #6366f1); }
 .w2 .lesson-nav, .w2 { background: linear-gradient(135deg, #0d9488, #14b8a6); }
 .w3 .lesson-nav, .w3 { background: linear-gradient(135deg, #ea580c, #f97316); }
+.w4 .lesson-nav, .w4 { background: linear-gradient(135deg, #059669, #10b981); }
 
 .nav-brand {
   display: flex; align-items: center; gap: 8px;
@@ -151,6 +155,7 @@ const nextLesson = computed(() => {
 .w1 .week-badge { background: linear-gradient(135deg,#4338ca,#6366f1); }
 .w2 .week-badge { background: linear-gradient(135deg,#0d9488,#14b8a6); }
 .w3 .week-badge { background: linear-gradient(135deg,#ea580c,#f97316); }
+.w4 .week-badge { background: linear-gradient(135deg,#059669,#10b981); }
 
 .lesson-header h1 {
   font-size: clamp(28px, 4vw, 40px);

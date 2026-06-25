@@ -1,0 +1,26 @@
+id: "hw-047"
+source: "教材习题p136"
+lesson: 7
+type: "homework"
+knowledge:
+  - Penrose方程
+  - 幂等矩阵
+problem: |
+  证明：H^+ = H 的充要条件是 H^2 为幂等 Hermite 矩阵且 \operatorname{rank}(H^2) = \operatorname{rank}(H)。
+steps:
+  - title: '必要性（⇒）'
+    content: |
+      设 H^+ = H。则 H 满足以 A=H 的四个 Penrose 方程：
+      (1) H^3 = H；
+      (2) H^3 = H；
+      (3) (H^2)^H = H^2；
+      (4) (H^2)^H = H^2。
+      
+      由 (1)：H^4 = H\cdot H^3 = H^2，即 (H^2)^2 = H^2，故 H^2 幂等。
+      由 (3)：H^2 Hermite。
+      由 H^3 = H：\operatorname{rank}(H) = \operatorname{rank}(H^3) \le \operatorname{rank}(H^2) \le \operatorname{rank}(H)，故 \operatorname{rank}(H^2) = \operatorname{rank}(H)。
+  - title: '充分性（⇐）'
+    content: |
+      这正是题 9 的条件。由题 9 的证明过程：
+      R(H^2)=R(H)、N(H^2)=N(H) 且 H^3=H。
+      于是 H 满足以 A=H 的全部四个 Penrose 方程，故 H^+ = H。

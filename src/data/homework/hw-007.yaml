@@ -1,0 +1,24 @@
+id: "hw-007"
+source: "教材习题p5-11"
+lesson: 1
+type: "homework"
+knowledge:
+  - 子空间判定
+  - 基与维数
+problem: |
+  求 \mathbb{R}^4 的子空间 V_1=\{(\xi_1,\xi_2,\xi_3,\xi_4)\mid \xi_1-\xi_2+\xi_3-\xi_4=0\} 与 V_2=\{(\xi_1,\xi_2,\xi_3,\xi_4)\mid \xi_1+\xi_2+\xi_3+\xi_4=0\} 的交 V_1\cap V_2 的基。
+steps:
+  - title: '联立方程组'
+    content: |
+      交空间 V_1\cap V_2 中的向量需同时满足：
+      \begin{cases} \xi_1 - \xi_2 + \xi_3 - \xi_4 = 0 \\ \xi_1 + \xi_2 + \xi_3 + \xi_4 = 0 \end{cases}
+  - title: '求解并确定基'
+    content: |
+      两式相加得 2\xi_1+2\xi_3=0，即 \xi_1=-\xi_3。
+      
+      两式相减得 -2\xi_2-2\xi_4=0，即 \xi_2=-\xi_4。
+      
+      因此交空间中的向量可表示为：
+      (-\xi_3,\,-\xi_4,\,\xi_3,\,\xi_4) = \xi_3(-1,0,1,0) + \xi_4(0,-1,0,1)
+      
+      **一组基为** \boxed{\{(-1,0,1,0)^T,\;(0,-1,0,1)^T\}}（或等价地取 (1,0,-1,0)^T,\;(0,1,0,-1)^T），维数为 2。

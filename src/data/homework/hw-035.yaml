@@ -1,0 +1,20 @@
+id: "hw-035"
+source: "教材习题p79 第1题(2)"
+lesson: 7
+type: "homework"
+knowledge:
+  - 满秩分解
+  - Moore-Penrose
+  - 广义逆
+problem: |
+  求矩阵 A=\begin{pmatrix}1&-1&1&1\\-1&1&-1&-1\\-1&-1&1&1\\1&1&-1&-1\end{pmatrix} 的满秩分解。
+steps:
+  - title: '求秩'
+    content: |
+      行变换：R_2\leftarrow R_2+R_1，R_3\leftarrow R_3+R_1，R_4\leftarrow R_4-R_1，得 \begin{pmatrix}1&-1&1&1\\0&0&0&0\\0&-2&2&2\\0&0&0&0\end{pmatrix}。秩为 2，主元列在第 1,2 列。
+  - title: '取 B 与 C'
+    content: |
+      取 B 为 A 的第 1,2 列：B=\begin{pmatrix}1&-1\\-1&1\\-1&-1\\1&1\end{pmatrix}。将非零行进一步化简：R_2\leftarrow R_2/(-2)，R_1\leftarrow R_1+R_2，得 C=\begin{pmatrix}1&0&0&0\\0&1&-1&-1\end{pmatrix}。
+  - title: '验证'
+    content: |
+      计算 BC=\begin{pmatrix}1&-1\\-1&1\\-1&-1\\1&1\end{pmatrix}\begin{pmatrix}1&0&0&0\\0&1&-1&-1\end{pmatrix}=A，分解正确。

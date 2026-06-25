@@ -19,6 +19,7 @@
         <div class="hero-btns">
           <a href="#mindmap" class="btn btn-primary">🗺️ 知识地图</a>
           <a href="#lessons" class="btn btn-secondary">📚 开始学习</a>
+          <router-link to="/exam" class="btn btn-exam">📋 真题汇总</router-link>
         </div>
       </div>
       <div class="scroll-hint">
@@ -460,6 +461,15 @@ const hideTip = () => { tipShow.value = false }
   border:1px solid rgba(255,255,255,.3); backdrop-filter:blur(10px);
 }
 .btn-secondary:hover { background:rgba(255,255,255,.2); transform:translateY(-2px); text-decoration:none; }
+.btn-exam {
+  background:linear-gradient(135deg,#ec4899,#f43f5e); color:#fff;
+  box-shadow:0 8px 32px rgba(236,72,153,.35); animation:pulse-exam 2.5s ease-in-out infinite;
+}
+.btn-exam:hover { transform:translateY(-2px); box-shadow:0 12px 40px rgba(236,72,153,.5); text-decoration:none; }
+@keyframes pulse-exam {
+  0%,100% { box-shadow:0 8px 32px rgba(236,72,153,.35); }
+  50% { box-shadow:0 12px 48px rgba(236,72,153,.55); }
+}
 .scroll-hint {
   position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
   animation:bounce 2s infinite; opacity:.5; color:#fff;

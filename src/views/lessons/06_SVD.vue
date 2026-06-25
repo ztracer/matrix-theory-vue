@@ -330,7 +330,7 @@
       <AnimationBox
         mode="auto"
         title="SVD分解计算流程"
-        description="自动循环高亮SVD求解的五个步骤"
+        description="SVD求解的五个步骤"
       >
         <div class="svd-flow">
           <div class="sf-step sf-1" style="animation-delay:0s">
@@ -478,7 +478,7 @@ function svdAnimate() {
       svdVangle.value = 30
       svdStretch.value = 1
       svdUangle.value = -45
-      svdStepText.value = '完成！单位圆→椭球，半轴=σ₁,σ₂（拖动滑块改变σ）'
+      svdStepText.value = '单位圆→椭球映射完成，半轴=σ₁,σ₂（拖动滑块改变σ）'
     }
     renderTrigger.value++
     if (t < 1) {
@@ -556,7 +556,7 @@ function svdErrAnimate() {
       svdErrRafId = requestAnimationFrame(tick)
     } else {
       svdErrPlaying.value = false
-      svdErrStepText.value = '完成！绿色虚线为累计能量比例，k=3时已捕获绝大部分信息'
+      svdErrStepText.value = '绿色虚线为累计能量比例，k=3时已捕获绝大部分信息'
       renderTrigger.value++
     }
   }
@@ -707,9 +707,8 @@ onUnmounted(() => {
   padding: 12px 16px;
   border-radius: 12px;
   background: #fff;
-  border: 2px solid #e2e8f0;
-  opacity: 0;
-  animation: sf-light 6s ease-in-out infinite;
+  border: 2px solid #6366f1;
+  opacity: 1;
 }
 .sf-num {
   width: 28px; height: 28px;
@@ -724,27 +723,5 @@ onUnmounted(() => {
   flex-shrink: 0;
 }
 .sf-text { font-size: 13px; color: #334155; line-height: 1.4; }
-.sf-arrow { font-size: 20px; color: #94a3b8; opacity: 0; animation: sf-arrow-anim 6s ease-in-out infinite; }
-.sf-1 { animation-delay: 0s; }
-.sf-2 { animation-delay: 1.2s; }
-.sf-3 { animation-delay: 2.4s; }
-.sf-4 { animation-delay: 3.6s; }
-.sf-5 { animation-delay: 4.8s; }
-.svd-flow .sf-arrow:nth-of-type(1) { animation-delay: 0.6s; }
-.svd-flow .sf-arrow:nth-of-type(2) { animation-delay: 1.8s; }
-.svd-flow .sf-arrow:nth-of-type(3) { animation-delay: 3.0s; }
-.svd-flow .sf-arrow:nth-of-type(4) { animation-delay: 4.2s; }
-@keyframes sf-light {
-  0% { opacity: 0; transform: scale(0.8); border-color: #e2e8f0; }
-  8% { opacity: 1; transform: scale(1.05); border-color: #6366f1; box-shadow: 0 0 12px rgba(99,102,241,.3); }
-  15% { transform: scale(1); border-color: #6366f1; }
-  80% { opacity: 1; transform: scale(1); border-color: #6366f1; box-shadow: 0 0 12px rgba(99,102,241,.3); }
-  95%,100% { opacity: 0.3; transform: scale(0.95); border-color: #e2e8f0; box-shadow: none; }
-}
-@keyframes sf-arrow-anim {
-  0% { opacity: 0; }
-  10% { opacity: 1; }
-  80% { opacity: 1; }
-  90%,100% { opacity: 0.3; }
-}
+.sf-arrow { font-size: 20px; color: #94a3b8; opacity: 1; }
 </style>

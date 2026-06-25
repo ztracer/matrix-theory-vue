@@ -179,10 +179,10 @@
 
             <!-- 原始向量 a1, a2, a3 (蓝色) -->
             <template v-for="(v, idx) in gsA" :key="'a'+idx">
-              <line v-if="gsStep >= idx" x1="0" y1="0" :x2="gsProject(v,0).x" :y2="gsProject(v,0).y"
+              <line v-if="gsStep >= idx" x1="0" y1="0" :x2="gsProject(v,1).x" :y2="gsProject(v,1).y"
                 stroke="#3b82f6" stroke-width="2.5" opacity="0.5"/>
-              <circle v-if="gsStep >= idx" :cx="gsProject(v,0).x" :cy="gsProject(v,0).y" r="4" fill="#3b82f6"/>
-              <text v-if="gsStep >= idx" :x="gsProject(v,0).x + 8" :y="gsProject(v,0).y" font-size="12" fill="#3b82f6" font-weight="600">a{{ idx+1 }}</text>
+              <circle v-if="gsStep >= idx" :cx="gsProject(v,1).x" :cy="gsProject(v,1).y" r="4" fill="#3b82f6"/>
+              <text v-if="gsStep >= idx" :x="gsProject(v,1).x + 8" :y="gsProject(v,1).y" font-size="12" fill="#3b82f6" font-weight="600">a{{ idx+1 }}</text>
             </template>
 
             <!-- 正交向量 b1 (绿色) -->
@@ -199,7 +199,7 @@
               <line v-if="gsProj1" x1="0" y1="0" :x2="gsProject(gsProj1, gsScale).x" :y2="gsProject(gsProj1, gsScale).y"
                 stroke="#f97316" stroke-width="2" stroke-dasharray="6,4"/>
               <line :x1="gsProject(gsProj1, gsScale).x" :y1="gsProject(gsProj1, gsScale).y"
-                :x2="gsProject(gsA[1],0).x" :y2="gsProject(gsA[1],0).y"
+                :x2="gsProject(gsA[1],1).x" :y2="gsProject(gsA[1],1).y"
                 stroke="#f97316" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
               <!-- b2 -->
               <line x1="0" y1="0" :x2="gsProject(gsB[1], gsScale).x" :y2="gsProject(gsB[1], gsScale).y"
@@ -218,7 +218,7 @@
                 stroke="#f97316" stroke-width="2" stroke-dasharray="6,4"/>
               <line :x1="gsProject([gsProj2a[0]+gsProj2b[0], gsProj2a[1]+gsProj2b[1], gsProj2a[2]+gsProj2b[2]], gsScale).x"
                 :y1="gsProject([gsProj2a[0]+gsProj2b[0], gsProj2a[1]+gsProj2b[1], gsProj2a[2]+gsProj2b[2]], gsScale).y"
-                :x2="gsProject(gsA[2],0).x" :y2="gsProject(gsA[2],0).y"
+                :x2="gsProject(gsA[2],1).x" :y2="gsProject(gsA[2],1).y"
                 stroke="#f97316" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
               <!-- b3 -->
               <line x1="0" y1="0" :x2="gsProject(gsB[2], gsScale).x" :y2="gsProject(gsB[2], gsScale).y"
@@ -404,7 +404,7 @@
 
     <!-- 8. 知识结构图（auto模式） -->
     <Section title="知识结构：矩阵三角分解方法谱系" :num="8">
-      <p>下图自动循环展示矩阵三角分解的各类方法及其关系：</p>
+      <p>下图展示矩阵三角分解的各类方法及其关系：</p>
       <AnimationBox
         mode="auto"
         title="矩阵分解方法关系图"
@@ -578,9 +578,9 @@ const luSteps_data = [
   { text: '初始状态：A为原始矩阵', detail: '准备对第1列消元，主元a₁₁=2' },
   { text: '消元第1列 → 第2行', detail: '乘数 l₂₁ = a₂₁/a₁₁ = 4/2 = 2，R₂ ← R₂ - 2R₁' },
   { text: '消元第1列 → 第3行', detail: '乘数 l₃₁ = a₃₁/a₁₁ = 8/2 = 4，R₃ ← R₃ - 4R₁' },
-  { text: '第1列消元完成', detail: '准备对第2列消元，主元a₂₂=1' },
+  { text: '第1列消元完毕', detail: '准备对第2列消元，主元a₂₂=1' },
   { text: '消元第2列 → 第3行', detail: '乘数 l₃₂ = a₃₂/a₂₂ = 3/1 = 3，R₃ ← R₃ - 3R₂' },
-  { text: 'LU分解完成！', detail: 'A = LU，L填好乘数，U为上三角' }
+  { text: 'LU分解完毕', detail: 'A = LU，L填好乘数，U为上三角' }
 ]
 
 function luAdvance() {
@@ -672,7 +672,7 @@ function vecDot(a, b) { return a.reduce((s,v,i) => s + v*b[i], 0) }
 function vecNorm(a) { return Math.sqrt(vecDot(a,a)) }
 
 function gsAdvance() {
-  if (gsStep.value >= 4) {
+  if (gsStep.value >= 3) {
     gsPlaying.value = false
     return
   }
@@ -792,7 +792,7 @@ function hhAdvance() {
     animateHHReflect()
     return
   } else if (hhStep.value === 3) {
-    hhStepText.value = '反射完成！Hx = -σe₁，第二分量被清零'
+    hhStepText.value = '反射结果：Hx = -σe₁，第二分量被清零'
   }
   renderTrigger.value++
 }
@@ -809,7 +809,7 @@ function animateHHReflect() {
     } else {
       hhT.value = 1
       hhStep.value = 3
-      hhStepText.value = '反射完成！Hx = -σe₁，第二分量被清零'
+      hhStepText.value = '反射结果：Hx = -σe₁，第二分量被清零'
       renderTrigger.value++
       if (hhPlaying.value) {
         hhAnimId = setTimeout(hhLoop, 1200)

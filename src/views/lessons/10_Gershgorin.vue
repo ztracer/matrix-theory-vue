@@ -85,12 +85,12 @@
                     :cx="toScreenX(d.center[0])" :cy="toScreenY(d.center[1])"
                     r="4" :fill="discColors[i]"/>
             <text v-if="drawProgress[i] > 0.5"
-                  :x="toScreenX(d.center[0]) + 8" :y="toScreenY(d.center[1]) - 8"
+                  :x="toScreenX(d.center[0]) + 8 + i * 6" :y="toScreenY(d.center[1]) - 8"
                   :fill="discColors[i]" font-size="11" font-weight="600">
               a{{ i+1 }}{{ i+1 }}={{ formatComplex(d.center) }}
             </text>
             <text v-if="drawProgress[i] > 0.8"
-                  :x="toScreenX(d.center[0]) + 8" :y="toScreenY(d.center[1]) + 14"
+                  :x="toScreenX(d.center[0]) + 8 + i * 6" :y="toScreenY(d.center[1]) + 14"
                   :fill="discColors[i]" font-size="10">
               R{{ i+1 }}={{ d.radius }}
             </text>
@@ -102,7 +102,7 @@
                     :cx="toScreenX(ev[0])" :cy="toScreenY(ev[1])"
                     r="6" fill="#dc2626" stroke="#fff" stroke-width="2"/>
             <text v-for="(ev, i) in currentEigenvalues" :key="'et'+i"
-                  :x="toScreenX(ev[0]) + 10" :y="toScreenY(ev[1]) - 10"
+                  :x="toScreenX(ev[0]) + 14" :y="toScreenY(ev[1]) - 22"
                   fill="#dc2626" font-size="11" font-weight="700">
               λ{{ i+1 }}={{ formatComplex(ev) }}
             </text>

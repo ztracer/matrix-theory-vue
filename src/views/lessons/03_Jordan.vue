@@ -74,7 +74,7 @@
       </Theorem>
 
       <AnimationBox title="Jordan 链构造 (A−λI)η = ξ" mode="auto"
-        description="自动演示：从特征向量 ξ 出发，广义特征向量 η 经 (A−λI) 映射到 ξ，构成 Jordan 链。绿色标记为 Ker(A−λI)（特征子空间）。">
+        description="演示：从特征向量 ξ 出发，广义特征向量 η 经 (A−λI) 映射到 ξ，构成 Jordan 链。绿色标记为 Ker(A−λI)（特征子空间）。">
         <svg viewBox="0 0 600 400" style="width:100%;max-width:600px;">
           <defs>
             <marker id="arrG3" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#94a3b8"/></marker>
@@ -445,6 +445,7 @@ function reset2() { pause2(); t2 = 0; drawCanvas2() }
 const xiX = ref(0), xiY = ref(0)
 const etaX = ref(0), etaY = ref(0)
 let rafId3 = null
+let timer3 = null
 const xiTarget = {x: 100, y: 70}
 const etaTarget = {x: 60, y: 160}
 let phase3 = 0
@@ -459,9 +460,10 @@ function loop3() {
     etaY.value = Math.min(etaY.value + 3, etaTarget.y)
     if (etaX.value >= etaTarget.x && etaY.value >= etaTarget.y) phase3 = 2
   } else {
-    setTimeout(() => {
+    timer3 = setTimeout(() => {
       phase3 = 0
       xiX.value = 0; xiY.value = 0; etaX.value = 0; etaY.value = 0
+      loop3()
     }, 2500)
     return
   }
@@ -481,5 +483,6 @@ onUnmounted(() => {
   if (rafId1) cancelAnimationFrame(rafId1)
   if (rafId2) cancelAnimationFrame(rafId2)
   if (rafId3) cancelAnimationFrame(rafId3)
+  if (timer3) clearTimeout(timer3)
 })
 </script>

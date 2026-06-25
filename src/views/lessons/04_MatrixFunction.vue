@@ -10,18 +10,15 @@
         <span class="formula-block">f(J_r(\lambda)) = \begin{pmatrix} f(\lambda) & f'(\lambda) & \dfrac{f''(\lambda)}{2!} & \cdots & \dfrac{f^{(r-1)}(\lambda)}{(r-1)!} \\ & f(\lambda) & f'(\lambda) & \cdots & \dfrac{f^{(r-2)}(\lambda)}{(r-2)!} \\ & & \ddots & \ddots & \vdots \\ & & & f(\lambda) & f'(\lambda) \\ & & & & f(\lambda) \end{pmatrix}</span>
       </Theorem>
 
-      <AnimationBox title="矩阵函数计算流程（Jordan法）" mode="auto"
-        description="自动演示：通过Jordan标准形计算矩阵函数的完整流程，各步骤依次高亮。">
         <div class="flow-diagram">
-          <div class="flow-node" :class="{ active: flowStep >= 0 }">① 求A的Jordan标准形 J = P⁻¹AP</div>
-          <div class="flow-arrow" :class="{ active: flowStep >= 1 }">↓</div>
-          <div class="flow-node" :class="{ active: flowStep >= 1 }">② 对每个Jordan块 J_r(λ) 计算 f(J_r(λ))</div>
-          <div class="flow-arrow" :class="{ active: flowStep >= 2 }">↓</div>
-          <div class="flow-node" :class="{ active: flowStep >= 2 }">③ 组装 f(J) = diag(f(J_{r₁}),…,f(J_{rk}))</div>
-          <div class="flow-arrow" :class="{ active: flowStep >= 3 }">↓</div>
-          <div class="flow-node" :class="{ active: flowStep >= 3 }">④ f(A) = P·f(J)·P⁻¹</div>
+          <div class="flow-node active">① 求A的Jordan标准形 J = P⁻¹AP</div>
+          <div class="flow-arrow active">↓</div>
+          <div class="flow-node active">② 对每个Jordan块 J_r(λ) 计算 f(J_r(λ))</div>
+          <div class="flow-arrow active">↓</div>
+          <div class="flow-node active">③ 组装 f(J) = diag(f(J_{r₁}),…,f(J_{rk}))</div>
+          <div class="flow-arrow active">↓</div>
+          <div class="flow-node active">④ f(A) = P·f(J)·P⁻¹</div>
         </div>
-      </AnimationBox>
 
       <div class="key-point">
         <strong>常用矩阵函数：</strong>
@@ -60,7 +57,7 @@
       <p>对于整函数（如 <span class="formula-inline">e^A</span>, sin A, cos A），可直接用幂级数展开计算。但对于低阶矩阵，插值法更高效。</p>
 
       <AnimationBox title="最小多项式与插值条件示意" mode="auto"
-        description="自动演示：特征值 λ₁,λ₂,λ₃ 处的各阶导数匹配条件，脉冲高亮循环。">
+        description="特征值 λ₁,λ₂,λ₃ 处的各阶导数匹配条件，脉冲高亮循环。">
         <svg viewBox="0 0 600 300" style="width:100%;max-width:600px;">
           <defs>
             <marker id="arrow4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
@@ -78,24 +75,23 @@
           <text x="480" y="50" font-size="14" fill="#3b82f6" font-weight="bold">f(λ)</text>
 
           <!-- Interpolation points with pulse animation -->
-          <g :class="{'pulse-dot': ipActive >= 0}">
+          <g :class="{'pulse-dot': ipActive === 0}">
             <circle cx="150" cy="190" r="6" fill="#ef4444"/>
             <text x="140" y="275" font-size="13" fill="#ef4444" font-weight="bold">λ₁</text>
             <text x="125" y="180" font-size="12" fill="#ef4444">f(λ₁)=p(λ₁)</text>
           </g>
-          <g :class="{'pulse-dot': ipActive >= 1}">
+          <g :class="{'pulse-dot': ipActive === 1}">
             <circle cx="320" cy="135" r="6" fill="#10b981"/>
             <text x="310" y="275" font-size="13" fill="#10b981" font-weight="bold">λ₂</text>
             <text x="295" y="125" font-size="12" fill="#10b981">f(λ₂)=p(λ₂)</text>
           </g>
-          <g :class="{'pulse-dot': ipActive >= 2}">
+          <g :class="{'pulse-dot': ipActive === 2}">
             <circle cx="470" cy="80" r="6" fill="#f59e0b"/>
             <text x="460" y="275" font-size="13" fill="#f59e0b" font-weight="bold">λ₃</text>
             <text x="445" y="70" font-size="12" fill="#f59e0b">f(λ₃)=p(λ₃)</text>
           </g>
-
           <!-- Tangent line at λ₁ -->
-          <g :class="{'pulse-line': ipActive >= 0}">
+          <g :class="{'pulse-line': ipActive === 0}">
             <line x1="100" y1="225" x2="200" y2="155" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="5,3"/>
             <text x="205" y="155" font-size="11" fill="#ef4444">f'(λ₁)=p'(λ₁)</text>
           </g>
@@ -163,23 +159,6 @@ import { useKatex } from '../../composables/useKatex'
 
 const quizzes = (quizBank[4] || []).map(q => ({ ...q, lessonNum: '04', lessonTitle: '矩阵函数' }))
 
-// 流程动画（auto模式）
-const flowStep = ref(-1)
-let flowTimer = null
-
-function startFlow() {
-  flowStep.value = -1
-  let step = 0
-  flowTimer = setInterval(() => {
-    flowStep.value = step
-    step++
-    if (step > 4) {
-      clearInterval(flowTimer)
-      setTimeout(() => { startFlow() }, 2000)
-    }
-  }, 1200)
-}
-
 // 插值点脉冲动画
 const ipActive = ref(-1)
 let ipTimer = null
@@ -189,7 +168,7 @@ function startIpPulse() {
   ipTimer = setInterval(() => {
     ipActive.value = i
     i++
-    if (i > 3) {
+    if (i > 2) {
       clearInterval(ipTimer)
       setTimeout(() => { startIpPulse() }, 2000)
     }
@@ -199,12 +178,10 @@ function startIpPulse() {
 useKatex()
 
 onMounted(() => {
-  startFlow()
   startIpPulse()
 })
 
 onUnmounted(() => {
-  if (flowTimer) clearInterval(flowTimer)
   if (ipTimer) clearInterval(ipTimer)
 })
 </script>

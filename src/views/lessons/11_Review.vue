@@ -67,12 +67,12 @@
       </div>
     </Section>
 
-    <!-- Animation 1: 解题流程全景动画 (auto模式 - CSS动画自动循环高亮) -->
+    <!-- Animation 1: 解题流程全景动画 -->
     <Section title="动画：考试解题流程" :num="3">
       <AnimationBox
         title="五步法解题流程全景"
         mode="auto"
-        description="从读题到验证的标准解题流程，自动循环高亮5个步骤，养成良好解题习惯。"
+        description="从读题到验证的标准解题流程（5个步骤）"
       >
         <svg viewBox="0 0 700 280" class="responsive-svg">
           <defs>
@@ -153,7 +153,7 @@
       <AnimationBox
         title="三周知识体系全景图"
         mode="auto"
-        description="中心为矩阵论核心，三周内容分别在左上(蓝紫色)、上方(青绿色)、右上(橙粉色)区域。节点自动脉冲高亮，展示知识关联。"
+        description="中心为矩阵论核心，三周内容分别在左上(蓝紫色)、上方(青绿色)、右上(橙粉色)区域，展示知识关联。"
       >
         <svg viewBox="0 0 1000 600" class="responsive-svg mindmap-svg">
           <defs>
@@ -606,68 +606,28 @@ h3 { color: #7c3aed; }
 .responsive-svg { max-width: 100%; height: auto; display: block; }
 :deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
 
-/* ====== 五步法流程图 auto模式 CSS动画 ====== */
-@keyframes flow-pulse {
-  0%, 100% {
-    opacity: 0.7;
-    transform: scale(1);
-    filter: none;
-  }
-  20% {
-    opacity: 1;
-    transform: scale(1.25);
-    filter: drop-shadow(0 0 12px currentColor);
-  }
-}
+/* ====== 五步法流程图 静态样式 ====== */
 .flow-node {
   transform-origin: center;
   transform-box: fill-box;
-  animation: flow-pulse 5s ease-in-out infinite;
 }
 
-/* ====== 思维导图 auto模式 CSS脉冲动画 ====== */
-@keyframes mindmap-pulse {
-  0%, 100% {
-    opacity: 0.75;
-    transform: scale(1);
-    filter: none;
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.12);
-    filter: drop-shadow(0 0 8px rgba(124,58,237,0.5));
-  }
-}
-@keyframes root-pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 15px rgba(236,72,153,0.6));
-  }
-}
+/* ====== 思维导图 静态样式 ====== */
 .mm-root circle {
   transform-origin: center;
   transform-box: fill-box;
-  animation: root-pulse 4s ease-in-out infinite;
 }
 .mm-week circle {
   transform-origin: center;
   transform-box: fill-box;
-  animation: mindmap-pulse 6s ease-in-out infinite;
 }
 .mm-topic circle {
   transform-origin: center;
   transform-box: fill-box;
-  animation: mindmap-pulse 6s ease-in-out infinite;
 }
 .mm-current circle {
   transform-origin: center;
   transform-box: fill-box;
-  animation: mindmap-pulse 3s ease-in-out infinite;
 }
 
 .review-banner {

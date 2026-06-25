@@ -329,7 +329,7 @@ function projAdvance() {
     projStepText.value = '投影中：b经正交投影映射到列空间R(A)'
     animateProj()
   } else if (projStep.value === 2) {
-    projStepText.value = '投影完成！绿色Ax⁺=AA⁺b是b在R(A)上的正交投影'
+    projStepText.value = '绿色Ax⁺=AA⁺b是b在R(A)上的正交投影'
   }
   renderTrigger.value++
 }
@@ -345,7 +345,7 @@ function animateProj() {
     } else {
       projT.value = 1
       projStep.value = 2
-      projStepText.value = '投影完成！绿色Ax⁺=AA⁺b是b在R(A)上的正交投影'
+      projStepText.value = '绿色Ax⁺=AA⁺b是b在R(A)上的正交投影'
       renderTrigger.value++
       if (projPlaying.value) {
         projAnimId = setTimeout(projLoop, 1500)

@@ -5,7 +5,7 @@
       <div class="nav-inner">
         <router-link to="/" class="nav-brand">
           <span class="brand-icon">📐</span>
-          <span>矩阵论可视化</span>
+          <span>{{ title }}</span>
         </router-link>
         <div class="nav-links">
           <router-link to="/" class="nav-link">← 返回首页</router-link>
@@ -127,6 +127,9 @@ const nextLesson = computed(() => {
   color: #fff; text-decoration: none; font-weight: 700; font-size: 16px;
 }
 .brand-icon { font-size: 20px; }
+.nav-brand span {
+  max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 .nav-links { display: flex; gap: 12px; margin-left: auto; flex-wrap: wrap; }
 .nav-link {
   color: rgba(255,255,255,.9); text-decoration: none;

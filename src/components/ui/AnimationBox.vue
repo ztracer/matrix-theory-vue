@@ -3,7 +3,6 @@
   <div v-if="mode === 'auto'" class="anim-box auto-mode">
     <div class="anim-header">
       <span class="anim-title">🔄 {{ title }}</span>
-      <span class="auto-badge">自动演示</span>
     </div>
     <div class="anim-canvas-wrap">
       <slot></slot>
@@ -70,15 +69,6 @@ defineEmits(['play', 'pause', 'reset', 'step'])
 }
 .anim-title { font-weight: 600; color: #4f46e5; font-size: 15px; }
 .auto-mode .anim-title { color: #4338ca; }
-.auto-badge {
-  font-size: 11px; padding: 3px 10px; border-radius: 12px;
-  background: linear-gradient(135deg,#4338ca,#6366f1); color: #fff;
-  animation: pulse-badge 2s ease-in-out infinite;
-}
-@keyframes pulse-badge {
-  0%,100% { opacity:1; }
-  50% { opacity:.7; }
-}
 .anim-controls { display: flex; gap: 6px; flex-wrap: wrap; }
 .ctrl-btn {
   padding: 6px 14px;

@@ -7,9 +7,15 @@
     </div>
     <div class="quiz-problem">
       <strong>【题目】</strong>
-      <span class="formula-inline">{{ quiz.problem }}</span>
+      <span class="formula-inline">{{ quiz.problem || quiz.question }}</span>
+      <div class="quiz-options" v-if="quiz.options">
+        <div class="quiz-option" v-for="(opt, idx) in quiz.options" :key="idx" :class="{ correct: show && idx === quiz.answer }">
+          <span class="option-label">{{ String.fromCharCode(65 + idx) }}.</span>
+          <span class="formula-inline">{{ opt }}</span>
+        </div>
+      </div>
     </div>
-    <button class="quiz-toggle" @click="show=!show">
+    <button class="quiz-toggle" @click="show=!show" v-if="quiz.steps || quiz.explanation">
       <span class="toggle-icon">{{ show ? '▼' : '▶' }}</span>
       {{ show ? '收起解答' : '点击查看详细解答' }}
     </button>
@@ -21,6 +27,15 @@
             <div class="step-title">{{ step.title }}</div>
             <div class="step-content">
               <span class="formula-inline">{{ step.content }}</span>
+            </div>
+          </div>
+        </div>
+        <div v-if="!quiz.steps && quiz.explanation" class="solution-step">
+          <div class="step-num-circle">1</div>
+          <div class="step-body">
+            <div class="step-title">解答</div>
+            <div class="step-content">
+              <span class="formula-inline">{{ quiz.explanation }}</span>
             </div>
           </div>
         </div>
@@ -104,6 +119,29 @@ watch(show, () => {
   overflow-x: auto;
 }
 .quiz-problem strong { color: #92400e; margin-right: 6px; }
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+.quiz-option {
+  padding: 6px 12px;
+  background: rgba(255,255,255,.5);
+  border-radius: 8px;
+  border: 1px solid rgba(245,158,11,.25);
+  font-size: 14px;
+  color: #78350f;
+  transition: all .3s;
+}
+.quiz-option.correct {
+  background: rgba(16,185,129,.12);
+  border-color: #10b981;
+  color: #065f46;
+  font-weight: 600;
+}
+.option-label { font-weight: 700; margin-right: 8px; color: #92400e; }
+.quiz-option.correct .option-label { color: #065f46; }
 .quiz-toggle {
   width: 100%;
   padding: 10px 16px;

@@ -564,7 +564,7 @@ function drawCanvas2() {
     '第 1 步：单位化 α₁ → u₁',
     '第 2 步：β₂ = α₂ − (α₂·u₁)u₁，单位化 → u₂',
     '第 3 步：β₃ = α₃ − (α₃·u₁)u₁ − (α₃·u₂)u₂，单位化 → u₃',
-    '完成！{u₁, u₂, u₃} 是单位正交基'
+    '第 4 步：单位正交基 {u₁, u₂, u₃} 构造完毕'
   ]
   ctx2.fillStyle = '#4f46e5'; ctx2.font = 'bold 13px sans-serif'; ctx2.textAlign = 'center'
   ctx2.fillText(statusText[Math.min(gsStep, 4)], W/2, H-10)
@@ -573,12 +573,15 @@ function drawCanvas2() {
 
 function loop2() {
   gsProgress += 0.008
-  let advance = false
-  if (gsStep === 1 && gsProgress >= 1) { gsStep = 2; gsProgress = 0; advance = true }
-  else if (gsStep === 2 && gsProgress >= 1) { gsStep = 3; gsProgress = 0; advance = true }
-  else if (gsStep === 3 && gsProgress >= 1) { gsStep = 4; gsProgress = 1 }
+  if (gsStep === 1 && gsProgress >= 1) {
+    gsStep = 2; gsProgress = 0
+  } else if (gsStep === 2 && gsProgress >= 1) {
+    gsStep = 3; gsProgress = 0
+  } else if (gsStep === 3 && gsProgress >= 1) {
+    gsStep = 4; gsProgress = 0
+  }
   drawCanvas2()
-  if (!advance || gsStep <= 4) {
+  if (gsStep < 4) {
     rafId2 = requestAnimationFrame(loop2)
   } else {
     playing2.value = false
@@ -598,10 +601,8 @@ function reset2() {
 }
 function step2() {
   if (gsStep < 4) {
-    if (gsStep === 0) gsStep = 1
-    gsProgress = 1
-    if (gsStep < 3) { gsStep++; gsProgress = 0 }
-    else if (gsStep === 3) { gsStep = 4; gsProgress = 1 }
+    gsStep++
+    gsProgress = (gsStep < 4) ? 1 : 0
   } else {
     gsStep = 0; gsProgress = 0; gsU = []; gsBeta = []
   }

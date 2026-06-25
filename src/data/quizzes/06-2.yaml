@@ -6,14 +6,14 @@ knowledge:
   - 低秩逼近
   - Frobenius范数
 problem: |
-  设 $A=\begin{pmatrix}2&0&0\\0&1&0\end{pmatrix}$，求$A$的Frobenius范数$\|A\|_F$ 和最佳秩1逼近$A_1$。
+  设 A=\begin{pmatrix}2&0&0\\0&1&0\end{pmatrix}，求A的Frobenius范数\|A\|_F 和最佳秩1逼近A_1。
 steps:
   - title: "F范数"
     content: |
-      $\|A\|_F=\sqrt{4+1}=\sqrt{5}$，或用奇异值$\sigma_1=2,\sigma_2=1$，$\|A\|_F=\sqrt{\sigma_1^2+\sigma_2^2}=\sqrt{5}$。
+      \|A\|_F=\sqrt{4+1}=\sqrt{5}，或用奇异值\sigma_1=2,\sigma_2=1，\|A\|_F=\sqrt{\sigma_1^2+\sigma_2^2}=\sqrt{5}。
   - title: "最佳秩1逼近"
     content: |
-      $A_1=\sigma_1u_1v_1^T=2\cdot(1,0)^T\cdot(1,0,0)=\begin{pmatrix}2&0&0\\0&0&0\end{pmatrix}$。
+      A_1=\sigma_1u_1v_1^T=2\cdot(1,0)^T\cdot(1,0,0)=\begin{pmatrix}2&0&0\\0&0&0\end{pmatrix}。
   - title: "逼近误差"
     content: |
-      $\|A-A_1\|_F=\sigma_2=1$。
+      \|A-A_1\|_F=\sigma_2=1。

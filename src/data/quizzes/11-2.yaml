@@ -6,14 +6,14 @@ knowledge:
   - Householder反射
   - 证明模板
 problem: |
-  设$H$是Householder矩阵$(H=I-\frac{2uu^T}{u^Tu})$，证明：(1)$H$是对称正交矩阵$(H^T=H, H^TH=I)$；(2)$H^2=I$（对合）；(3)$\det H=-1$。
+  设H是Householder矩阵(H=I-\frac{2uu^T}{u^Tu})，证明：(1)H是对称正交矩阵(H^T=H, H^TH=I)；(2)H^2=I（对合）；(3)\det H=-1。
 steps:
   - title: "对称性"
     content: |
-      $H^T=I^T-\frac{2(uu^T)^T}{u^Tu}=I-\frac{2uu^T}{u^Tu}=H$。
+      H^T=I^T-\frac{2(uu^T)^T}{u^Tu}=I-\frac{2uu^T}{u^Tu}=H。
   - title: "正交性"
     content: |
-      $H^TH=H^2=I-\frac{4uu^T}{u^Tu}+\frac{4uu^Tuu^T}{(u^Tu)^2}=I-\frac{4uu^T}{u^Tu}+\frac{4uu^T}{u^Tu}=I$。
+      H^TH=H^2=I-\frac{4uu^T}{u^Tu}+\frac{4uu^Tuu^T}{(u^Tu)^2}=I-\frac{4uu^T}{u^Tu}+\frac{4uu^T}{u^Tu}=I。
   - title: "行列式"
     content: |
-      $H$有$n-1$个特征值$1$（垂直于$u$的子空间上是恒等），$1$个特征值$-1$（$Hu=-u$），故$\det H=1^{n-1}\cdot(-1)=-1$。
+      H有n-1个特征值1（垂直于u的子空间上是恒等），1个特征值-1（Hu=-u），故\det H=1^{n-1}\cdot(-1)=-1。

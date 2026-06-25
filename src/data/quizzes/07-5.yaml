@@ -6,17 +6,17 @@ knowledge:
   - AXB=D
   - 相容性
 problem: |
-  写出矩阵方程 $AXB = D$ 相容的充要条件。
+  写出矩阵方程 AXB = D 相容的充要条件。
 steps:
   - title: "充要条件"
     content: |
-      $AXB = D$ 相容（有解）$\iff AA^+DB^+B = D$。
+      AXB = D 相容（有解）\iff AA^+DB^+B = D。
   - title: "必要性证明"
     content: |
-      若 $X$ 为解，则 $D = AXB$。右乘 $B^+B$，由广义逆关系，可得 $AA^+DB^+B = AA^+AXBB^+B = AXB = D$。
+      若 X 为解，则 D = AXB。右乘 B^+B，由广义逆关系，可得 AA^+DB^+B = AA^+AXBB^+B = AXB = D。
   - title: "充分性证明"
     content: |
-      若 $AA^+DB^+B = D$，则取 $X = A^+DB^+$，有 $AXB = AA^+DB^+B = D$。故 $X = A^+DB^+$ 是一个特解。
+      若 AA^+DB^+B = D，则取 X = A^+DB^+，有 AXB = AA^+DB^+B = D。故 X = A^+DB^+ 是一个特解。
   - title: "通解"
     content: |
-      方程 $AXB = D$ 相容时，通解为 $X = A^+DB^+ + Y - A^+AYBB^+$，其中 $Y$ 为任意 $m \times n$ 矩阵。
+      方程 AXB = D 相容时，通解为 X = A^+DB^+ + Y - A^+AYBB^+，其中 Y 为任意 m \times n 矩阵。

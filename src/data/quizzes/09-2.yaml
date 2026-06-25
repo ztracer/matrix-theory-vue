@@ -5,14 +5,14 @@ knowledge:
   - 范数
   - 谱半径
 problem: |
-  证明：对任意从属矩阵范数$\|\cdot\|$，谱半径 $\rho(A)\leq\|A\|$。
+  证明：对任意从属矩阵范数\|\cdot\|，谱半径 \rho(A)\leq\|A\|。
 steps:
   - title: "取模最大特征值"
     content: |
-      设$|\lambda|=\rho(A), Ax=\lambda x, x\neq 0$。不妨设$\|x\|=1$。
+      设|\lambda|=\rho(A), Ax=\lambda x, x\neq 0。不妨设\|x\|=1。
   - title: "利用范数定义"
     content: |
-      $|\lambda|=\|\lambda x\|=\|Ax\|\leq\|A\|\cdot\|x\|=\|A\|$。
+      |\lambda|=\|\lambda x\|=\|Ax\|\leq\|A\|\cdot\|x\|=\|A\|。
   - title: "结论"
     content: |
-      $\rho(A)\leq\|A\|$。
+      \rho(A)\leq\|A\|。

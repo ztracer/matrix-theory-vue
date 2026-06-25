@@ -7,17 +7,17 @@ knowledge:
   - 特征值估计
   - 对角相似变换
 problem: |
-  设 $A=\begin{pmatrix}8&1&0\\1&4&\varepsilon\\0&\varepsilon&2\end{pmatrix}$，其中 $|\varepsilon|\leq 1$。用盖尔圆盘定理证明$A$的所有特征值都是正实数，并给出特征值所在区间的最紧估计。
+  设 A=\begin{pmatrix}8&1&0\\1&4&\varepsilon\\0&\varepsilon&2\end{pmatrix}，其中 |\varepsilon|\leq 1。用盖尔圆盘定理证明A的所有特征值都是正实数，并给出特征值所在区间的最紧估计。
 steps:
   - title: "行盖尔圆盘"
     content: |
-      $G_1:|z-8|\leq 1$（圆心8，半径1）。$G_2:|z-4|\leq 1+|\varepsilon|\leq 2$。$G_3:|z-2|\leq|\varepsilon|\leq 1$。所有圆盘圆心$>0$，圆盘半径$\leq$圆心到原点距离，故特征值$>0$。
+      G_1:|z-8|\leq 1（圆心8，半径1）。G_2:|z-4|\leq 1+|\varepsilon|\leq 2。G_3:|z-2|\leq|\varepsilon|\leq 1。所有圆盘圆心>0，圆盘半径\leq圆心到原点距离，故特征值>0。
   - title: "隔离分析"
     content: |
-      $G_1=[7,9]$，$G_2\subseteq[2,6]$，$G_3\subseteq[1,3]$。三个圆盘可能相交（$G_2$与$G_3$有交$[2,3]$），需用对角相似变换收紧。
+      G_1=[7,9]，G_2\subseteq[2,6]，G_3\subseteq[1,3]。三个圆盘可能相交（G_2与G_3有交[2,3]），需用对角相似变换收紧。
   - title: "对角相似变换收紧"
     content: |
-      取$D=\operatorname{diag}(1,\alpha,\alpha^2)$，$B=DAD^{-1}$，圆心不变但半径变为：适当取$\alpha$可分离圆盘。由于$A$对称，所有特征值均为实数。
+      取D=\operatorname{diag}(1,\alpha,\alpha^2)，B=DAD^{-1}，圆心不变但半径变为：适当取\alpha可分离圆盘。由于A对称，所有特征值均为实数。
   - title: "最终估计"
     content: |
-      $A$对称正定（所有顺序主子式$>0$），特征值区间：$\lambda_1\in[7,9], \lambda_2\in[3.5,4.5], \lambda_3\in[1.5,2.5]$（通过$\alpha=0.5$变换收紧）。
+      A对称正定（所有顺序主子式>0），特征值区间：\lambda_1\in[7,9], \lambda_2\in[3.5,4.5], \lambda_3\in[1.5,2.5]（通过\alpha=0.5变换收紧）。

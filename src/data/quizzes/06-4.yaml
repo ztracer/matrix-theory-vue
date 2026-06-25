@@ -5,17 +5,17 @@ knowledge:
   - SVD
   - 奇异值分解
 problem: |
-  设 $A=\begin{pmatrix}1&0\\0&1\\1&0\end{pmatrix}$，求$A$的奇异值分解$A=U\Sigma V^T$。
+  设 A=\begin{pmatrix}1&0\\0&1\\1&0\end{pmatrix}，求A的奇异值分解A=U\Sigma V^T。
 steps:
   - title: "计算AᵀA"
     content: |
-      $A^TA=\begin{pmatrix}2&0\\0&1\end{pmatrix}$，特征值$\lambda_1=2,\lambda_2=1$，奇异值$\sigma_1=\sqrt{2},\sigma_2=1$。
+      A^TA=\begin{pmatrix}2&0\\0&1\end{pmatrix}，特征值\lambda_1=2,\lambda_2=1，奇异值\sigma_1=\sqrt{2},\sigma_2=1。
   - title: "求V"
     content: |
-      $v_1=(1,0)^T, v_2=(0,1)^T$，$V=I_2$。
+      v_1=(1,0)^T, v_2=(0,1)^T，V=I_2。
   - title: "求U"
     content: |
-      $u_1=Av_1/\sigma_1=\frac{1}{\sqrt{2}}(1,0,1)^T, u_2=Av_2/\sigma_2=(0,1,0)^T$，扩充$u_3=\frac{1}{\sqrt{2}}(-1,0,1)^T$。
+      u_1=Av_1/\sigma_1=\frac{1}{\sqrt{2}}(1,0,1)^T, u_2=Av_2/\sigma_2=(0,1,0)^T，扩充u_3=\frac{1}{\sqrt{2}}(-1,0,1)^T。
   - title: "SVD"
     content: |
-      $U=\begin{pmatrix}1/\sqrt{2}&0&-1/\sqrt{2}\\0&1&0\\1/\sqrt{2}&0&1/\sqrt{2}\end{pmatrix}, \Sigma=\begin{pmatrix}\sqrt{2}&0\\0&1\\0&0\end{pmatrix}, V=I_2$。
+      U=\begin{pmatrix}1/\sqrt{2}&0&-1/\sqrt{2}\\0&1&0\\1/\sqrt{2}&0&1/\sqrt{2}\end{pmatrix}, \Sigma=\begin{pmatrix}\sqrt{2}&0\\0&1\\0&0\end{pmatrix}, V=I_2。

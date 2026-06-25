@@ -5,17 +5,17 @@ knowledge:
   - QR分解
   - Householder反射
 problem: |
-  用Householder变换求 $A=\begin{pmatrix}0&1&1\\1&0&-1\\1&-1&0\end{pmatrix}$ 的QR分解。（第一步：将第一列反射到$e_1$方向）
+  用Householder变换求 A=\begin{pmatrix}0&1&1\\1&0&-1\\1&-1&0\end{pmatrix} 的QR分解。（第一步：将第一列反射到e_1方向）
 steps:
   - title: "处理第一列"
     content: |
-      $x=(0,1,1)^T, \|x\|=\sqrt{2}$，$x_1=0$，取$\sigma=\operatorname{sign}(x_1)=1$（$x_1=0$时取$\sigma=1$）。$u=x+\sigma\|x\|e_1=(\sqrt{2},1,1)^T$。
+      x=(0,1,1)^T, \|x\|=\sqrt{2}，x_1=0，取\sigma=\operatorname{sign}(x_1)=1（x_1=0时取\sigma=1）。u=x+\sigma\|x\|e_1=(\sqrt{2},1,1)^T。
   - title: "构造H₁"
     content: |
-      $H_1=I-\frac{2uu^T}{u^Tu}$，$u^Tu=2+1+1=4$。$H_1$将第一列变为$(\sqrt{2},0,0)^T$。
+      H_1=I-\frac{2uu^T}{u^Tu}，u^Tu=2+1+1=4。H_1将第一列变为(\sqrt{2},0,0)^T。
   - title: "处理(2,3)子块"
     content: |
-      对$H_1A$的右下角$2\times 2$块做类似处理，得$H_2$，$Q=H_1H_2$。
+      对H_1A的右下角2\times 2块做类似处理，得H_2，Q=H_1H_2。
   - title: "得到R"
     content: |
-      $R=H_2H_1A$为上三角，$Q=H_1H_2$为正交矩阵。
+      R=H_2H_1A为上三角，Q=H_1H_2为正交矩阵。

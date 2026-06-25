@@ -5,14 +5,14 @@ knowledge:
   - 投影矩阵
   - 正交投影
 problem: |
-  求到 $\R^3$ 中平面 $W=\{(x,y,z)^T \mid x+y+z=0\}$ 的正交投影矩阵$P$。
+  求到 \R^3 中平面 W=\{(x,y,z)^T \mid x+y+z=0\} 的正交投影矩阵P。
 steps:
   - title: "取W的一组基"
     content: |
-      $\alpha_1=(1,-1,0)^T, \alpha_2=(1,0,-1)^T$（满足$x+y+z=0$），$A=(\alpha_1,\alpha_2)$。
+      \alpha_1=(1,-1,0)^T, \alpha_2=(1,0,-1)^T（满足x+y+z=0），A=(\alpha_1,\alpha_2)。
   - title: "计算投影矩阵"
     content: |
-      $P=A(A^TA)^{-1}A^T$。$A^TA=\begin{pmatrix}2&1\\1&2\end{pmatrix}$，$(A^TA)^{-1}=\frac{1}{3}\begin{pmatrix}2&-1\\-1&2\end{pmatrix}$。
+      P=A(A^TA)^{-1}A^T。A^TA=\begin{pmatrix}2&1\\1&2\end{pmatrix}，(A^TA)^{-1}=\frac{1}{3}\begin{pmatrix}2&-1\\-1&2\end{pmatrix}。
   - title: "结果"
     content: |
-      $P=\frac{1}{3}\begin{pmatrix}2&-1&-1\\-1&2&-1\\-1&-1&2\end{pmatrix}$，验证$P^2=P,P^T=P$。
+      P=\frac{1}{3}\begin{pmatrix}2&-1&-1\\-1&2&-1\\-1&-1&2\end{pmatrix}，验证P^2=P,P^T=P。

@@ -5,17 +5,17 @@ knowledge:
   - Householder反射
   - 线性变换
 problem: |
-  构造Householder矩阵$H$，使$Hx=\sigma\|x\|e_1$，其中 $x=(3,0,4)^T$。
+  构造Householder矩阵H，使Hx=\sigma\|x\|e_1，其中 x=(3,0,4)^T。
 steps:
   - title: "确定σ"
     content: |
-      $x_1=3>0$，取$\sigma=\operatorname{sign}(x_1)=1$。
+      x_1=3>0，取\sigma=\operatorname{sign}(x_1)=1。
   - title: "计算u = x + σ||x||e₁"
     content: |
-      $\|x\|=5$，$u=(3,0,4)^T+1\cdot 5\cdot(1,0,0)^T=(8,0,4)^T$。
+      \|x\|=5，u=(3,0,4)^T+1\cdot 5\cdot(1,0,0)^T=(8,0,4)^T。
   - title: "构造H"
     content: |
-      $H=I-\frac{2uu^T}{u^Tu}$，$u^Tu=64+0+16=80$，故$H=I-\frac{1}{40}uu^T$。
+      H=I-\frac{2uu^T}{u^Tu}，u^Tu=64+0+16=80，故H=I-\frac{1}{40}uu^T。
   - title: "验证"
     content: |
-      $Hx = x - \frac{2(u^Tx)}{u^Tu}\cdot u = x - \frac{2\cdot 80}{80}\cdot \frac{u}{2} = x - u = (-5,0,0)^T = -5e_1$，符合要求。
+      Hx = x - \frac{2(u^Tx)}{u^Tu}\cdot u = x - \frac{2\cdot 80}{80}\cdot \frac{u}{2} = x - u = (-5,0,0)^T = -5e_1，符合要求。

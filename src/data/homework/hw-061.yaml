@@ -23,14 +23,14 @@ steps:
     content: |
       对 A^T 应用 Gerschgorin 定理得到列圆盘（与 A 有相同特征值）：
       \begin{aligned}
-      C_1:&\; |\lambda-20| \le 2+8 = 10, \quad [10,30], \
-      C_2:&\; |\lambda-10| \le 3+1 = 4, \quad [6,14], \
+      C_1:&\; |\lambda-20| \le 2+8 = 10, \quad [10,30], \\
+      C_2:&\; |\lambda-10| \le 3+1 = 4, \quad [6,14], \\
       C_3:&\; |\lambda-0| \le 1+2 = 3, \quad [-3,3].
       \end{aligned}
       特征值必须同时在行圆盘与列圆盘中。因此：
       \begin{aligned}
-      \lambda_1 &\in D_1\cap C_1 = [16,24], \
-      \lambda_2 &\in D_2\cap(C_1\cup C_2) = [6,14], \
+      \lambda_1 &\in D_1\cap C_1 = [16,24], \\
+      \lambda_2 &\in D_2\cap(C_1\cup C_2) = [6,14], \\
       \lambda_3 &\in D_3\cap C_3 = [-3,3].
       \end{aligned}
       （C_3 与 C_1,C_2 均不相交，故 \lambda_3 只能落在 C_3 中，从而被隔离在 [-3,3]。）

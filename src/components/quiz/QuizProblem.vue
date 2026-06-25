@@ -45,8 +45,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useKatex } from '../../composables/useKatex'
+import { ref, onMounted, watch, nextTick } from 'vue'
+import katex from 'katex'
 
 const props = defineProps({
   quiz: { type: Object, required: true },
@@ -57,7 +57,45 @@ const props = defineProps({
 const show = ref(props.defaultOpen)
 const rootEl = ref(null)
 
-const { renderMath } = useKatex(show)
+function renderMathIn(el) {
+  if (!el) return
+  nextTick(() => {
+    el.querySelectorAll('.formula-block, .formula-inline, [data-katex]').forEach(node => {
+      if (node.dataset.katexRendered) return
+      const isBlock = node.classList.contains('formula-block') || node.dataset.katex === 'block'
+      try {
+        katex.render(node.textContent.trim(), node, {
+          throwOnError: false,
+          displayMode: isBlock,
+          macros: {
+            "\\R": "\\mathbb{R}",
+            "\\C": "\\mathbb{C}",
+            "\\diag": "\\operatorname{diag}",
+            "\\rank": "\\operatorname{rank}",
+            "\\Ker": "\\operatorname{Ker}",
+            "\\Im": "\\operatorname{Im}",
+            "\\tr": "\\operatorname{tr}",
+            "\\det": "\\operatorname{det}",
+            "\\sign": "\\operatorname{sign}",
+            "\\T": "^\\mathsf{T}",
+            "\\H": "^\\mathsf{H}"
+          }
+        })
+        node.dataset.katexRendered = 'true'
+      } catch (e) {
+        console.warn('KaTeX render error:', e.message)
+      }
+    })
+  })
+}
+
+onMounted(() => {
+  setTimeout(() => renderMathIn(rootEl.value), 50)
+})
+
+watch(show, () => {
+  setTimeout(() => renderMathIn(rootEl.value), 50)
+})
 </script>
 
 <style scoped>

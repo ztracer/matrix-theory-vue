@@ -6,11 +6,11 @@ knowledge:
   - 正交投影
   - 斜投影
 problem: |
-  设 $u=(1,0,0)^T$，求正交投影矩阵$P_u=\frac{uu^T}{u^Tu}$，并计算$P_v$（斜投影）。验证投影矩阵性质$P^2=P$。
+  设 u=(1,0,0)^T，求正交投影矩阵P_u=\frac{uu^T}{u^Tu}，并计算P_v（斜投影）。验证投影矩阵性质P^2=P。
 steps:
   - title: "P_u"
     content: |
-      $\frac{uu^T}{u^Tu}=\operatorname{diag}(1,0,0)$，$P_u^2=\operatorname{diag}(1,0,0)=P_u$ ✓。
+      \frac{uu^T}{u^Tu}=\operatorname{diag}(1,0,0)，P_u^2=\operatorname{diag}(1,0,0)=P_u ✓。
   - title: "几何意义"
     content: |
-      $P_u$将$(x,y,z)^T$投影到$(x,0,0)^T$，即投影到$x$轴上。
+      P_u将(x,y,z)^T投影到(x,0,0)^T，即投影到x轴上。

@@ -6,14 +6,14 @@ knowledge:
   - 可对角化
   - 特征值
 problem: |
-  设$A$为$n$阶幂等矩阵$(A^2=A)$。证明：$A$可对角化，且特征值只能是$0$或$1$。
+  设A为n阶幂等矩阵(A^2=A)。证明：A可对角化，且特征值只能是0或1。
 steps:
   - title: "特征值只能是0或1"
     content: |
-      若$Ax=\lambda x(x\neq 0)$，则$\lambda x=Ax=A^2x=\lambda^2 x$，故$(\lambda^2-\lambda)x=0$，$\lambda=0$或$1$。
+      若Ax=\lambda x(x\neq 0)，则\lambda x=Ax=A^2x=\lambda^2 x，故(\lambda^2-\lambda)x=0，\lambda=0或1。
   - title: "证明可对角化"
     content: |
-      需要证明$g(0)+g(1)=n$。即$\dim N(A)+\dim N(I-A)=n$。利用$A(I-A)=0$和$A+(I-A)=I$，可证$\mathbb{R}^n=N(A)\oplus N(I-A)$。
+      需要证明g(0)+g(1)=n。即\dim N(A)+\dim N(I-A)=n。利用A(I-A)=0和A+(I-A)=I，可证\mathbb{R}^n=N(A)\oplus N(I-A)。
   - title: "结论"
     content: |
-      $A\sim\operatorname{diag}(1,\dots,1,0,\dots,0)$（其中$r$个$1$，$r=r(A)$）。
+      A\sim\operatorname{diag}(1,\dots,1,0,\dots,0)（其中r个1，r=r(A)）。

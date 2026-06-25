@@ -5,17 +5,17 @@ knowledge:
   - Gram-Schmidt正交化
   - 标准正交基
 problem: |
-  用Gram-Schmidt正交化方法将向量组 $\alpha_1=(1,1,0,0)^T, \alpha_2=(1,0,1,0)^T, \alpha_3=(-1,0,0,1)^T$ 化为标准正交基。
+  用Gram-Schmidt正交化方法将向量组 \alpha_1=(1,1,0,0)^T, \alpha_2=(1,0,1,0)^T, \alpha_3=(-1,0,0,1)^T 化为标准正交基。
 steps:
   - title: "第一步正交化"
     content: |
-      $\beta_1=\alpha_1=(1,1,0,0)^T$
+      \beta_1=\alpha_1=(1,1,0,0)^T
   - title: "β₂ = α₂ - proj(α₂ onto β₁)"
     content: |
-      $(\alpha_2,\beta_1)=1, (\beta_1,\beta_1)=2$，故$\beta_2=(1,0,1,0)^T - \frac{1}{2}\cdot(1,1,0,0)^T = (\frac{1}{2},-\frac{1}{2},1,0)^T$
+      (\alpha_2,\beta_1)=1, (\beta_1,\beta_1)=2，故\beta_2=(1,0,1,0)^T - \frac{1}{2}\cdot(1,1,0,0)^T = (\frac{1}{2},-\frac{1}{2},1,0)^T
   - title: "β₃ = α₃ - proj(α₃ onto β₁) - proj(α₃ onto β₂)"
     content: |
-      $(\alpha_3,\beta_1)=-1, (\alpha_3,\beta_2)=-\frac{1}{2}, (\beta_2,\beta_2)=\frac{3}{2}$，故$\beta_3=(-1,0,0,1)^T-(-\frac{1}{2})(1,1,0,0)^T-\frac{-1/2}{3/2}\cdot(\frac{1}{2},-\frac{1}{2},1,0)^T=(-\frac{1}{3},\frac{1}{3},\frac{1}{3},1)^T$
+      (\alpha_3,\beta_1)=-1, (\alpha_3,\beta_2)=-\frac{1}{2}, (\beta_2,\beta_2)=\frac{3}{2}，故\beta_3=(-1,0,0,1)^T-(-\frac{1}{2})(1,1,0,0)^T-\frac{-1/2}{3/2}\cdot(\frac{1}{2},-\frac{1}{2},1,0)^T=(-\frac{1}{3},\frac{1}{3},\frac{1}{3},1)^T
   - title: "单位化"
     content: |
-      $\|\beta_1\|=\sqrt{2}, \|\beta_2\|=\frac{\sqrt{6}}{2}, \|\beta_3\|=\frac{2\sqrt{3}}{3}$。$\gamma_1=\frac{\beta_1}{\|\beta_1\|}=(\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}},0,0)^T$，同理$\gamma_2,\gamma_3$即为标准正交基。
+      \|\beta_1\|=\sqrt{2}, \|\beta_2\|=\frac{\sqrt{6}}{2}, \|\beta_3\|=\frac{2\sqrt{3}}{3}。\gamma_1=\frac{\beta_1}{\|\beta_1\|}=(\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}},0,0)^T，同理\gamma_2,\gamma_3即为标准正交基。

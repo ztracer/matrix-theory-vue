@@ -6,20 +6,20 @@ knowledge:
   - 奇异值分解
   - 满秩分解
 problem: |
-  求矩阵 $A=\begin{pmatrix}1&1&0\\0&0&1\end{pmatrix}$ 的奇异值分解$A=U\Sigma V^T$。
+  求矩阵 A=\begin{pmatrix}1&1&0\\0&0&1\end{pmatrix} 的奇异值分解A=U\Sigma V^T。
 steps:
   - title: "计算AᵀA"
     content: |
-      $A^TA=\begin{pmatrix}1&1&0\\1&1&0\\0&0&1\end{pmatrix}$，特征值$\lambda_1=2,\lambda_2=1,\lambda_3=0$。
+      A^TA=\begin{pmatrix}1&1&0\\1&1&0\\0&0&1\end{pmatrix}，特征值\lambda_1=2,\lambda_2=1,\lambda_3=0。
   - title: "奇异值"
     content: |
-      $\sigma_1=\sqrt{2}, \sigma_2=1$，$r=2$。
+      \sigma_1=\sqrt{2}, \sigma_2=1，r=2。
   - title: "求V"
     content: |
-      对应特征向量：$v_1=(\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}},0)^T, v_2=(0,0,1)^T, v_3=(\frac{1}{\sqrt{2}},-\frac{1}{\sqrt{2}},0)^T$。$V=(v_1,v_2,v_3)$。
+      对应特征向量：v_1=(\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}},0)^T, v_2=(0,0,1)^T, v_3=(\frac{1}{\sqrt{2}},-\frac{1}{\sqrt{2}},0)^T。V=(v_1,v_2,v_3)。
   - title: "求U"
     content: |
-      $u_1=Av_1/\sigma_1=(1,0)^T, u_2=Av_2/\sigma_2=(0,1)^T$。$U=(u_1,u_2)=I_2$。
+      u_1=Av_1/\sigma_1=(1,0)^T, u_2=Av_2/\sigma_2=(0,1)^T。U=(u_1,u_2)=I_2。
   - title: "SVD"
     content: |
-      $A=U\cdot\operatorname{diag}(\sqrt{2},1,0)\cdot V^T$。
+      A=U\cdot\operatorname{diag}(\sqrt{2},1,0)\cdot V^T。

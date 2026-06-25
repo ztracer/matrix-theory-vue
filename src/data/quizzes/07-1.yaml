@@ -6,17 +6,17 @@ knowledge:
   - 广义逆
   - 满秩分解
 problem: |
-  用满秩分解求 $A=\begin{pmatrix}1&1&2\\0&1&1\end{pmatrix}$ 的M-P广义逆$A^+$，并求$Ax=b$的极小范数最小二乘解，其中 $b=(1,0)^T$。
+  用满秩分解求 A=\begin{pmatrix}1&1&2\\0&1&1\end{pmatrix} 的M-P广义逆A^+，并求Ax=b的极小范数最小二乘解，其中 b=(1,0)^T。
 steps:
   - title: "满秩分解A=FG"
     content: |
-      $F=\begin{pmatrix}1&1\\0&1\end{pmatrix}$（列满秩），$G=\begin{pmatrix}1&0&1\\0&1&1\end{pmatrix}$（行满秩）。
+      F=\begin{pmatrix}1&1\\0&1\end{pmatrix}（列满秩），G=\begin{pmatrix}1&0&1\\0&1&1\end{pmatrix}（行满秩）。
   - title: "计算Gᵀ(GGᵀ)⁻¹和(FᵀF)⁻¹Fᵀ"
     content: |
-      $GG^T=\begin{pmatrix}2&1\\1&2\end{pmatrix},(GG^T)^{-1}=\dots$; $F^TF=\begin{pmatrix}1&1\\1&2\end{pmatrix},(F^TF)^{-1}=\dots$
+      GG^T=\begin{pmatrix}2&1\\1&2\end{pmatrix},(GG^T)^{-1}=\dots; F^TF=\begin{pmatrix}1&1\\1&2\end{pmatrix},(F^TF)^{-1}=\dots
   - title: "A⁺=Gᵀ(GGᵀ)⁻¹(FᵀF)⁻¹Fᵀ"
     content: |
       依次计算。
   - title: "极小范数最小二乘解"
     content: |
-      $x^+=A^+b=\dots$
+      x^+=A^+b=\dots

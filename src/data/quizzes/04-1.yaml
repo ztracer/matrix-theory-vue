@@ -6,17 +6,17 @@ knowledge:
   - 微分方程
   - 对角化
 problem: |
-  设 $A=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$，求 $e^{At}$，并求微分方程组 $x'=Ax$ 的通解。
+  设 A=\begin{pmatrix}0&1\\-1&0\end{pmatrix}，求 e^{At}，并求微分方程组 x'=Ax 的通解。
 steps:
   - title: "求特征值"
     content: |
-      $\det(A-\lambda I)=\lambda^2+1=0$，$\lambda_1=i, \lambda_2=-i$（共轭纯虚根）。
+      \det(A-\lambda I)=\lambda^2+1=0，\lambda_1=i, \lambda_2=-i（共轭纯虚根）。
   - title: "对角化"
     content: |
-      $A=PDP^{-1}$，$D=\operatorname{diag}(i,-i)$，$P=\begin{pmatrix}1&1\\i&-i\end{pmatrix}$。
+      A=PDP^{-1}，D=\operatorname{diag}(i,-i)，P=\begin{pmatrix}1&1\\i&-i\end{pmatrix}。
   - title: "计算e^{At}"
     content: |
-      $e^{At}=Pe^{Dt}P^{-1}=P\operatorname{diag}(e^{it},e^{-it})P^{-1}=\begin{pmatrix}\cos t&\sin t\\-\sin t&\cos t\end{pmatrix}$（旋转矩阵）。
+      e^{At}=Pe^{Dt}P^{-1}=P\operatorname{diag}(e^{it},e^{-it})P^{-1}=\begin{pmatrix}\cos t&\sin t\\-\sin t&\cos t\end{pmatrix}（旋转矩阵）。
   - title: "微分方程解"
     content: |
-      $x(t)=e^{At}x(0)$，即平面旋转。
+      x(t)=e^{At}x(0)，即平面旋转。

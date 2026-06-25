@@ -7,20 +7,20 @@ knowledge:
   - Jordan链
   - 矩阵指数
 problem: |
-  设 $A=\begin{pmatrix}1&-1&2\\0&1&-1\\0&0&2\end{pmatrix}$。求$A$的Jordan标准形$J$及变换矩阵$P$，并求 $e^{A}$ 的表达式。
+  设 A=\begin{pmatrix}1&-1&2\\0&1&-1\\0&0&2\end{pmatrix}。求A的Jordan标准形J及变换矩阵P，并求 e^{A} 的表达式。
 steps:
   - title: "特征值"
     content: |
-      $\det(A-\lambda I)=(1-\lambda)^2(2-\lambda)=0$，特征值$\lambda_1=\lambda_2=1, \lambda_3=2$。
+      \det(A-\lambda I)=(1-\lambda)^2(2-\lambda)=0，特征值\lambda_1=\lambda_2=1, \lambda_3=2。
   - title: "λ=2的特征向量"
     content: |
-      $A-2I=\begin{pmatrix}-1&-1&2\\0&-1&-1\\0&0&0\end{pmatrix}$，$r(A-2I)=2$，$\eta_3=(1,-1,1)^T$。
+      A-2I=\begin{pmatrix}-1&-1&2\\0&-1&-1\\0&0&0\end{pmatrix}，r(A-2I)=2，\eta_3=(1,-1,1)^T。
   - title: "λ=1的几何重数"
     content: |
-      $A-I=\begin{pmatrix}0&-1&2\\0&0&-1\\0&0&1\end{pmatrix}$，$r(A-I)=2$，$g(1)=3-2=1<2$，有一个2阶Jordan块。
+      A-I=\begin{pmatrix}0&-1&2\\0&0&-1\\0&0&1\end{pmatrix}，r(A-I)=2，g(1)=3-2=1<2，有一个2阶Jordan块。
   - title: "Jordan链"
     content: |
-      $(A-I)\eta_1=0\to\eta_1=(1,0,0)^T$；$(A-I)\eta_2=\eta_1\to\eta_2=(0,-1,0)^T$。
+      (A-I)\eta_1=0\to\eta_1=(1,0,0)^T；(A-I)\eta_2=\eta_1\to\eta_2=(0,-1,0)^T。
   - title: "Jordan标准形"
     content: |
-      $J=\operatorname{diag}(J_2(1),(2))$，$P=(\eta_1,\eta_2,\eta_3)$。$e^{A}=Pe^{J}P^{-1}$，$e^{J}=\operatorname{diag}\left(\begin{pmatrix}e&e\\0&e\end{pmatrix}, e^2\right)$。
+      J=\operatorname{diag}(J_2(1),(2))，P=(\eta_1,\eta_2,\eta_3)。e^{A}=Pe^{J}P^{-1}，e^{J}=\operatorname{diag}\left(\begin{pmatrix}e&e\\0&e\end{pmatrix}, e^2\right)。

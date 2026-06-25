@@ -39,7 +39,7 @@ steps:
     content: |
       \textbf{结论：不构成线性空间。}
       
-      线性空间要求数乘满足：\textbf{1\circ x = x}（单位元性质）。
+      线性空间要求数乘满足：1 \circ x = x（单位元性质）。
       
       但按题设定义，对任意向量 x，有 1\circ x = 0 \ne x（只要 x\ne 0）。
       

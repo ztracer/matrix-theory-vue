@@ -7,17 +7,17 @@ knowledge:
   - 基与维数
   - 维数公式
 problem: |
-  设 $\alpha_1=(1,1,0,0)^T, \alpha_2=(0,1,1,0)^T, \alpha_3=(0,0,1,1)^T$; $\beta_1=(1,0,1,0)^T, \beta_2=(0,2,1,1)^T, \beta_3=(1,2,1,2)^T$，求 $W_1=\operatorname{span}\{\alpha_1,\alpha_2,\alpha_3\}, W_2=\operatorname{span}\{\beta_1,\beta_2,\beta_3\}$ 的维数与一组基，并求 $W_1+W_2$ 和 $W_1\cap W_2$。
+  设 \alpha_1=(1,1,0,0)^T, \alpha_2=(0,1,1,0)^T, \alpha_3=(0,0,1,1)^T; \beta_1=(1,0,1,0)^T, \beta_2=(0,2,1,1)^T, \beta_3=(1,2,1,2)^T，求 W_1=\operatorname{span}\{\alpha_1,\alpha_2,\alpha_3\}, W_2=\operatorname{span}\{\beta_1,\beta_2,\beta_3\} 的维数与一组基，并求 W_1+W_2 和 W_1\cap W_2。
 steps:
   - title: "求W₁的基与维数"
     content: |
-      对$(\alpha_1,\alpha_2,\alpha_3)$做行变换：$r(A)=3$，故$\dim W_1=3$，基为$\{\alpha_1,\alpha_2,\alpha_3\}$。
+      对(\alpha_1,\alpha_2,\alpha_3)做行变换：r(A)=3，故\dim W_1=3，基为\{\alpha_1,\alpha_2,\alpha_3\}。
   - title: "求W₂的基与维数"
     content: |
-      $\beta_1,\beta_2$线性无关，$\beta_3=\beta_1+\beta_2$，故$\dim W_2=2$，基为$\{\beta_1,\beta_2\}$。
+      \beta_1,\beta_2线性无关，\beta_3=\beta_1+\beta_2，故\dim W_2=2，基为\{\beta_1,\beta_2\}。
   - title: "求W₁+W₂"
     content: |
-      $W_1+W_2=\operatorname{span}\{\alpha_1,\alpha_2,\alpha_3,\beta_1,\beta_2\}$，$r(\alpha_1,\alpha_2,\alpha_3,\beta_1,\beta_2)=4$，故$\dim(W_1+W_2)=4$。
+      W_1+W_2=\operatorname{span}\{\alpha_1,\alpha_2,\alpha_3,\beta_1,\beta_2\}，r(\alpha_1,\alpha_2,\alpha_3,\beta_1,\beta_2)=4，故\dim(W_1+W_2)=4。
   - title: "用维数公式求W₁∩W₂"
     content: |
-      $\dim(W_1\cap W_2)=\dim W_1+\dim W_2-\dim(W_1+W_2)=3+2-4=1$。取$\xi=\beta_1=\alpha_1-\alpha_2+\alpha_3\in W_1\cap W_2$，故$W_1\cap W_2=\operatorname{span}\{\xi\}$。
+      \dim(W_1\cap W_2)=\dim W_1+\dim W_2-\dim(W_1+W_2)=3+2-4=1。取\xi=\beta_1=\alpha_1-\alpha_2+\alpha_3\in W_1\cap W_2，故W_1\cap W_2=\operatorname{span}\{\xi\}。

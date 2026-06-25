@@ -108,7 +108,62 @@
       </p>
     </Section>
 
-    <Section num="4" title="子空间的和与交、维数公式">
+    <Section num="4" title="基扩定理 (Basis Extension Theorem)">
+      <Theorem title="基扩定理" type="theorem">
+        设 <span class="formula-inline">W</span> 为有限维线性空间 <span class="formula-inline">V</span> 的子空间，则
+        <span class="formula-inline">W</span> 的任意一组基都可以扩充为 <span class="formula-inline">V</span> 的基。
+      </Theorem>
+
+      <p><strong>直观理解：</strong>基扩定理是说，一个子空间里已有的线性无关向量组，可以通过"添人"的方式，把它扩充成整个大空间的一组基。这是一切维数论证的基石——当我们需要比较不同子空间的维数关系时，默认操作就是从交空间的基出发，向两边分别扩充。</p>
+
+      <p><strong>核心推论：</strong></p>
+      <ul style="margin:8px 0 0 20px;">
+        <li>若 <span class="formula-inline">W\subseteq V</span>，则 <span class="formula-inline">\dim W\leq\dim V</span>，且等号成立当且仅当 <span class="formula-inline">W=V</span>；</li>
+        <li>任意线性无关向量组都可扩充为一组基；</li>
+        <li>替换定理（Steinitz）：设 <span class="formula-inline">\alpha_1,\dots,\alpha_r</span> 线性无关，则可从一组基中选出 <span class="formula-inline">n-r</span> 个向量与之合并，仍是基。</li>
+      </ul>
+
+      <AnimationBox title="基扩定理：从子空间基扩充到全空间" mode="interactive" :playing="playingBasisExt" @play="playBasisExt" @pause="pauseBasisExt" @reset="resetBasisExt"
+        description="从 W 的一组基出发（蓝色），逐步添加 V\W 中的向量（紫色），最终扩充为 V 的完整基。">
+        <svg viewBox="0 0 600 280" ref="svgBasisExtRef" style="width:100%;max-width:600px;">
+          <defs>
+            <radialGradient id="basisVGlow" cx="50%" cy="45%" r="65%">
+              <stop offset="0%" stop-color="#faf5ff"/>
+              <stop offset="100%" stop-color="#ede9fe"/>
+            </radialGradient>
+            <linearGradient id="basisWGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#e0e7ff" stop-opacity="0.96"/>
+              <stop offset="100%" stop-color="#c7d2fe" stop-opacity="0.72"/>
+            </linearGradient>
+            <marker id="arrowBasisGamma" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f46e5"/></marker>
+            <marker id="arrowBasisAlpha" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#9333ea"/></marker>
+          </defs>
+
+          <ellipse cx="315" cy="140" rx="250" ry="104" fill="url(#basisVGlow)" stroke="#7c3aed" stroke-width="2.5"/>
+          <ellipse cx="210" cy="142" rx="116" ry="58" fill="url(#basisWGlow)" stroke="#6366f1" stroke-width="2"/>
+          <text x="498" y="72" fill="#6d28d9" font-size="16" font-weight="bold">V</text>
+          <text x="170" y="120" fill="#4338ca" font-size="15" font-weight="bold">W</text>
+          <text x="300" y="32" text-anchor="middle" fill="#475569" font-size="12">先守住 W 的基，再把新方向接入 V</text>
+
+          <g stroke="#e9d5ff" stroke-width="1" opacity="0.7">
+            <path d="M110 192 C205 92, 405 78, 515 154" fill="none" stroke-dasharray="5,5"/>
+            <path d="M126 98 C236 202, 420 212, 520 112" fill="none" stroke-dasharray="5,5"/>
+          </g>
+
+          <g v-for="v in basisVectors" :key="v.id" :opacity="v.opacity">
+            <line :x1="basisOrigin.x" :y1="basisOrigin.y" :x2="v.x" :y2="v.y" :stroke="v.kind === 'gamma' ? '#4f46e5' : '#9333ea'" stroke-width="3" stroke-linecap="round" :marker-end="v.kind === 'gamma' ? 'url(#arrowBasisGamma)' : 'url(#arrowBasisAlpha)'"/>
+            <circle :cx="v.x" :cy="v.y" r="5" :fill="v.kind === 'gamma' ? '#4f46e5' : '#9333ea'"/>
+            <text :x="v.x + v.labelDx" :y="v.y + v.labelDy" :fill="v.kind === 'gamma' ? '#3730a3' : '#7e22ce'" font-size="14" font-weight="bold">{{ v.id }}</text>
+          </g>
+
+          <circle :cx="basisOrigin.x" :cy="basisOrigin.y" r="4" fill="#1e293b"/>
+          <text x="300" y="238" text-anchor="middle" fill="#334155" font-size="13" font-weight="600">{{ basisExtCaption }}</text>
+          <text x="300" y="258" text-anchor="middle" fill="#64748b" font-size="12">{{ basisExtFormula }}</text>
+        </svg>
+      </AnimationBox>
+    </Section>
+
+    <Section num="5" title="子空间的和与交、维数公式">
       <Theorem title="交空间与和空间" type="definition" icon="🔗">
         设 <span class="formula-inline">W_1,W_2</span> 是 <span class="formula-inline">V</span> 的子空间，则：
         <ul style="margin:8px 0 0 20px;">
@@ -119,6 +174,48 @@
 
       <Theorem title="维数公式" type="theorem">
         <Formula display>\dim(W_1+W_2)=\dim W_1+\dim W_2-\dim(W_1\cap W_2)</Formula>
+      </Theorem>
+
+      <p style="margin-top:16px;"><strong>为什么维数公式成立？—— 一个基于"基扩定理"的严格证明：</strong></p>
+
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px; margin:12px 0;">
+        <p style="margin:0 0 12px 0; font-weight:600; color:#1e293b;">📐 证明思路：从交空间的基出发 → 向两边扩充 → 合并得到和空间的基 → 数向量个数</p>
+
+        <div style="margin-left:8px;">
+          <p style="margin:6px 0;"><strong>步骤 1：寻找交空间的基</strong></p>
+          <p style="margin:2px 0 8px 16px; color:#475569;">
+            设 <span class="formula-inline">\dim(W_1\cap W_2)=r</span>，取一组基：<span class="formula-inline">\gamma_1,\gamma_2,\dots,\gamma_r</span>
+          </p>
+
+          <p style="margin:6px 0;"><strong>步骤 2：扩充为 W₁ 的基（基扩定理）</strong></p>
+          <p style="margin:2px 0 8px 16px; color:#475569;">
+            设 <span class="formula-inline">\dim W_1=r+p</span>，扩充后 W₁ 的基为：<span class="formula-inline">\gamma_1,\dots,\gamma_r,\alpha_1,\dots,\alpha_p</span>
+          </p>
+
+          <p style="margin:6px 0;"><strong>步骤 3：扩充为 W₂ 的基（基扩定理）</strong></p>
+          <p style="margin:2px 0 8px 16px; color:#475569;">
+            设 <span class="formula-inline">\dim W_2=r+q</span>，扩充后 W₂ 的基为：<span class="formula-inline">\gamma_1,\dots,\gamma_r,\beta_1,\dots,\beta_q</span>
+          </p>
+
+          <p style="margin:6px 0;"><strong>步骤 4：合并，证明是 W₁+W₂ 的基</strong></p>
+          <p style="margin:2px 0 4px 16px; color:#475569;">
+            考虑向量组：<span class="formula-inline">\{\gamma_1,\dots,\gamma_r,\alpha_1,\dots,\alpha_p,\beta_1,\dots,\beta_q\}</span>
+          </p>
+          <p style="margin:2px 0 4px 16px; color:#475569;">可以证明：这组向量既能线性表出 W₁+W₂ 中的任意向量（张成性），又是线性无关的（独立性）。</p>
+
+          <p style="margin:6px 0;"><strong>步骤 5：数个数 = 代入公式验证</strong></p>
+          <p style="margin:2px 0 4px 16px; color:#475569;">
+            向量总数为 <span class="formula-inline">r+p+q</span>。代入公式：
+          </p>
+          <Formula display>\begin{aligned} \dim(W_1+W_2) &= r+p+q \\ \dim W_1+\dim W_2-\dim(W_1\cap W_2) &= (r+p)+(r+q)-r = r+p+q \end{aligned}</Formula>
+          <p style="margin:4px 0 0 16px; color:#475569;">两边相等，证毕 ✓</p>
+        </div>
+      </div>
+
+      <Theorem title="容斥原理类比" type="tip" icon="💡">
+        维数公式与集合论中的<strong>容斥原理</strong>形式完全一致：
+        <Formula display>|A\cup B| = |A|+|B|-|A\cap B|</Formula>
+        算维数（空间的"大小"）也是同样的道理：直接相加时，交空间 <span class="formula-inline">W_1\cap W_2</span> 被重复计算了两次，所以必须减去一次。这就是大自然里重叠部分永远要被扣除的数学本质。
       </Theorem>
 
       <AnimationBox title="子空间的和与交（平面 + 平面）" mode="auto"
@@ -159,9 +256,47 @@
           </defs>
         </svg>
       </AnimationBox>
+
+      <AnimationBox title="维数公式证明动画：基扩定理在行动" mode="interactive" :playing="playingDimProof" @play="playDimProof" @pause="pauseDimProof" @reset="resetDimProof"
+        description="可视化证明过程：γ 是交空间基（橙色），向 W₁ 扩充 α（蓝色），向 W₂ 扩充 β（粉色），合并后得到 W₁+W₂ 的基。">
+        <svg viewBox="0 0 600 400" ref="svgDimProofRef" style="width:100%;max-width:600px;">
+          <defs>
+            <marker id="arrowDimGamma" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#f59e0b"/></marker>
+            <marker id="arrowDimAlpha" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#6366f1"/></marker>
+            <marker id="arrowDimBeta" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#ec4899"/></marker>
+          </defs>
+
+          <ellipse cx="245" cy="148" rx="178" ry="72" fill="#eef2ff" stroke="#6366f1" stroke-width="2" transform="rotate(-13 245 148)"/>
+          <ellipse cx="355" cy="148" rx="178" ry="72" fill="#fdf2f8" stroke="#ec4899" stroke-width="2" transform="rotate(13 355 148)"/>
+          <ellipse cx="300" cy="150" rx="58" ry="44" fill="#fffbeb" stroke="#f59e0b" stroke-width="2.5"/>
+          <text x="134" y="78" fill="#4338ca" font-size="15" font-weight="bold">W₁</text>
+          <text x="452" y="78" fill="#be185d" font-size="15" font-weight="bold">W₂</text>
+          <text x="300" y="144" text-anchor="middle" fill="#b45309" font-size="13" font-weight="bold">W₁∩W₂</text>
+
+          <g v-for="v in dimProofVectors" :key="v.id" :opacity="v.opacity">
+            <line :x1="dimOrigin.x" :y1="dimOrigin.y" :x2="v.x" :y2="v.y" :stroke="v.color" stroke-width="3" stroke-linecap="round" :marker-end="v.marker"/>
+            <circle :cx="v.x" :cy="v.y" r="5" :fill="v.color"/>
+            <text :x="v.x + v.labelDx" :y="v.y + v.labelDy" :fill="v.text" font-size="14" font-weight="bold">{{ v.id }}</text>
+          </g>
+
+          <path d="M185 225 C230 260, 260 280, 300 302" fill="none" stroke="#6366f1" stroke-width="2" stroke-dasharray="6,5" :opacity="dimMergeOpacity"/>
+          <path d="M415 225 C370 260, 340 280, 300 302" fill="none" stroke="#ec4899" stroke-width="2" stroke-dasharray="6,5" :opacity="dimMergeOpacity"/>
+          <rect x="88" y="285" width="424" height="86" rx="14" fill="#f0fdf4" stroke="#10b981" stroke-width="2.5" :opacity="dimMergeOpacity"/>
+          <text x="300" y="312" text-anchor="middle" fill="#047857" font-size="15" font-weight="bold" :opacity="dimMergeOpacity">W₁ + W₂ 的基 = γ + α + β</text>
+          <text x="300" y="337" text-anchor="middle" fill="#0f766e" font-size="13" :opacity="dimMergeOpacity">{{ dimProofEquation }}</text>
+          <text x="300" y="360" text-anchor="middle" fill="#64748b" font-size="12" :opacity="dimMergeOpacity">{{ dimProofCaption }}</text>
+
+          <g transform="translate(32 312)">
+            <text x="0" y="0" fill="#475569" font-size="12" font-weight="bold">计数器</text>
+            <text x="0" y="24" fill="#f59e0b" font-size="14" font-weight="bold">γ: {{ dimCounterGamma }}</text>
+            <text x="68" y="24" fill="#6366f1" font-size="14" font-weight="bold">α: {{ dimCounterAlpha }}</text>
+            <text x="136" y="24" fill="#ec4899" font-size="14" font-weight="bold">β: {{ dimCounterBeta }}</text>
+          </g>
+        </svg>
+      </AnimationBox>
     </Section>
 
-    <Section num="5" title="直和分解">
+    <Section num="6" title="直和分解">
       <Theorem title="直和 (Direct Sum)" type="definition" icon="✨">
         若 <span class="formula-inline">W_1+W_2</span> 中每个向量 <span class="formula-inline">\alpha</span> 的分解式
         <span class="formula-inline">\alpha=\alpha_1+\alpha_2\ (\alpha_1\in W_1,\alpha_2\in W_2)</span> 是<strong>唯一</strong>的，
@@ -218,7 +353,168 @@
       </AnimationBox>
     </Section>
 
-    <Section num="6" title="真题例题详解">
+    <Section num="7" title="秩-零度定理 (Rank-Nullity Theorem)">
+      <p>
+        设 <span class="formula-inline">A\in\mathbb{R}^{m\times n}</span>，考虑齐次线性方程组 <span class="formula-inline">Ax=0</span> 的全部解构成的集合：
+      </p>
+      <Theorem title="零空间（核）" type="definition" icon="🎯">
+        <Formula display>N(A)=\{x\in\mathbb{R}^n\mid Ax=0\}</Formula>
+        <span class="formula-inline">N(A)</span> 称为矩阵 <span class="formula-inline">A</span> 的<strong>零空间（Null Space）</strong>或<strong>核（Kernel）</strong>。
+        它本质就是齐次线性方程组 <span class="formula-inline">Ax=0</span> 的<strong>全部解</strong>的集合。
+      </Theorem>
+
+      <p style="margin-top:16px;"><strong>证明 N(A) 是 Rⁿ 的子空间：</strong>只需验证加法和数乘的封闭性。</p>
+
+      <div style="background:#f0f9ff; border:1px solid #bae6fd; border-left:4px solid #0284c7; border-radius:6px; padding:14px 16px; margin:10px 0;">
+        <p style="margin:4px 0;"><strong>加法封闭：</strong>若 <span class="formula-inline">x_1,x_2\in N(A)</span>，则 <span class="formula-inline">Ax_1=0,\ Ax_2=0</span>。</p>
+        <p style="margin:4px 0 4px 16px; color:#475569;">
+          <span class="formula-inline">A(x_1+x_2)=Ax_1+Ax_2=0+0=0</span> → 所以 <span class="formula-inline">x_1+x_2\in N(A)</span> ✓
+        </p>
+        <p style="margin:4px 0;"><strong>数乘封闭：</strong><span class="formula-inline">A(kx_1)=k(Ax_1)=k\cdot0=0</span> → 所以 <span class="formula-inline">kx_1\in N(A)</span> ✓</p>
+        <p style="margin:8px 0 0 0; font-weight:600; color:#0369a1;">结论：N(A) 是 Rⁿ 的子空间 ✓</p>
+      </div>
+
+      <Theorem title="秩-零度定理 (Rank-Nullity Theorem)" type="theorem">
+        <Formula display>\dim N(A) = n - \operatorname{rank}(A)</Formula>
+        或等价地：<Formula display>\operatorname{rank}(A) + \dim N(A) = n</Formula>
+      </Theorem>
+
+      <p><strong>直观理解（分蛋糕游戏）：</strong></p>
+      <p>一个 <span class="formula-inline">m\times n</span> 的矩阵代表 <span class="formula-inline">n</span> 个未知数的方程组。矩阵的秩 <span class="formula-inline">\operatorname{rank}(A)</span> 是<strong>"真正起作用的独立约束方程个数"</strong>——这些约束把 <span class="formula-inline">\operatorname{rank}(A)</span> 个未知数"死死绑架"了（变成了主元变量）。剩下的 <span class="formula-inline">n-\operatorname{rank}(A)</span> 个未知数就是可以自由取值的<strong>自由变量</strong>。</p>
+      <p>而零空间的维数 <span class="formula-inline">\dim N(A)</span> = 自由变量的个数 = 基础解系中向量的个数。</p>
+
+      <div style="background:#fefce8; border:1px solid #fde68a; border-left:4px solid #ca8a04; border-radius:6px; padding:12px 16px; margin:12px 0;">
+        <p style="margin:0;"><strong>💡 一句话记牢：</strong>秩 = "被管死的维度"，零度 = "自由好动的维度"，两者加起来刚好等于总维度 <span class="formula-inline">n</span>。</p>
+      </div>
+
+      <AnimationBox title="秩-零度定理：空间被压扁，零空间接住消失的维度" mode="interactive" :playing="playingNullspace" @play="playNullspace" @pause="pauseNullspace" @reset="resetNullspace"
+        description="点击播放：从完整的 R³ 出发，矩阵变换逐步降低秩。空间被压扁的方向流入 N(A)，始终满足 rank(A) + dim N(A) = n。">
+        <svg viewBox="0 0 640 380" ref="svgNullspaceRef" style="width:100%;max-width:640px;">
+          <defs>
+            <radialGradient id="rankSphereGlow" cx="42%" cy="35%" r="68%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.96"/>
+              <stop offset="45%" stop-color="#c7d2fe" stop-opacity="0.78"/>
+              <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.82"/>
+            </radialGradient>
+            <linearGradient id="nullPoolGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fef3c7"/>
+              <stop offset="100%" stop-color="#fb923c" stop-opacity="0.78"/>
+            </linearGradient>
+            <marker id="arrowLostDim" markerWidth="9" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0,9 3.5,0 7" fill="#f97316"/>
+            </marker>
+          </defs>
+
+          <rect x="18" y="22" width="604" height="330" rx="22" fill="#f8fafc" stroke="#e2e8f0"/>
+          <text x="180" y="52" text-anchor="middle" fill="#4338ca" font-size="15" font-weight="bold">原空间 ℝ³ 经 A 变换后的形状</text>
+          <text x="500" y="52" text-anchor="middle" fill="#c2410c" font-size="15" font-weight="bold">零空间 N(A)</text>
+
+          <g opacity="0.55" stroke="#ddd6fe" stroke-width="1">
+            <ellipse cx="180" cy="184" rx="112" ry="20" fill="none"/>
+            <ellipse cx="180" cy="184" rx="78" ry="112" fill="none" transform="rotate(28 180 184)"/>
+            <ellipse cx="180" cy="184" rx="74" ry="110" fill="none" transform="rotate(-38 180 184)"/>
+          </g>
+
+          <ellipse cx="180" cy="184" :rx="nullspaceShape.rx" :ry="nullspaceShape.ry" fill="url(#rankSphereGlow)" stroke="#4f46e5" stroke-width="3"/>
+          <ellipse cx="180" cy="184" :rx="nullspaceShape.innerRx" :ry="nullspaceShape.innerRy" fill="none" stroke="#ede9fe" stroke-width="2" opacity="0.8"/>
+          <line :x1="180 - nullspaceShape.lineHalf" y1="184" :x2="180 + nullspaceShape.lineHalf" y2="184" stroke="#312e81" stroke-width="4" stroke-linecap="round" :opacity="nullspaceShape.lineOpacity"/>
+          <circle cx="180" cy="184" :r="nullspaceShape.pointR" fill="#312e81" :opacity="nullspaceShape.pointOpacity"/>
+
+          <text x="180" y="318" text-anchor="middle" fill="#475569" font-size="13" font-weight="600">{{ nullspaceShapeLabel }}</text>
+          <text x="180" y="338" text-anchor="middle" fill="#64748b" font-size="12">{{ nullspacePhaseText }}</text>
+
+          <g>
+            <path v-for="flow in nullspaceFlows" :key="flow.id" :d="flow.path" fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round" stroke-dasharray="7,6" marker-end="url(#arrowLostDim)" :opacity="flow.opacity"/>
+            <circle v-for="flow in nullspaceFlows" :key="flow.id + '-dot'" :cx="flow.dotX" :cy="flow.dotY" r="5" fill="#fb923c" :opacity="flow.opacity"/>
+          </g>
+
+          <ellipse cx="500" cy="184" :rx="nullspacePool.rx" :ry="nullspacePool.ry" fill="url(#nullPoolGlow)" stroke="#f97316" stroke-width="2.5"/>
+          <circle cx="500" cy="184" r="5" fill="#9a3412"/>
+          <line x1="458" y1="184" x2="542" y2="184" stroke="#c2410c" stroke-width="3" stroke-linecap="round" :opacity="nullspacePool.lineOpacity"/>
+          <line x1="500" y1="148" x2="500" y2="220" stroke="#c2410c" stroke-width="3" stroke-linecap="round" :opacity="nullspacePool.planeOpacity"/>
+          <ellipse cx="500" cy="184" rx="58" ry="26" fill="none" stroke="#fed7aa" stroke-width="2" :opacity="nullspacePool.volumeOpacity"/>
+          <text x="500" y="265" text-anchor="middle" fill="#9a3412" font-size="14" font-weight="bold">dim N(A) = {{ currentNullity }}</text>
+
+          <g transform="translate(350 292)">
+            <rect x="0" y="0" width="238" height="54" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+            <text x="119" y="23" text-anchor="middle" fill="#047857" font-size="14" font-weight="bold">rank(A) + dim N(A) = n</text>
+            <text x="119" y="43" text-anchor="middle" fill="#059669" font-size="16" font-weight="bold">{{ currentRank }} + {{ currentNullity }} = 3</text>
+          </g>
+
+          <g transform="translate(338 82)">
+            <rect x="0" y="0" width="182" height="92" rx="14" fill="#ffffff" stroke="#e2e8f0"/>
+            <text x="18" y="28" fill="#4338ca" font-size="13" font-weight="bold">当前秩 rank(A)</text>
+            <text x="148" y="31" text-anchor="middle" fill="#4338ca" font-size="22" font-weight="bold">{{ currentRank }}</text>
+            <text x="18" y="62" fill="#c2410c" font-size="13" font-weight="bold">零度 dim N(A)</text>
+            <text x="148" y="66" text-anchor="middle" fill="#c2410c" font-size="22" font-weight="bold">{{ currentNullity }}</text>
+          </g>
+        </svg>
+      </AnimationBox>
+    </Section>
+
+    <Section num="8" title="秩的深意：从代数到几何">
+      <p>秩（Rank）不仅是线性代数里最核心的概念之一，更是连接"代数（解方程）"和"几何（空间变形）"两重世界的桥梁。</p>
+
+      <h3 style="font-size:16px; color:#4338ca; margin:16px 0 6px 0;">一、代数深意：有效信息的"去重计数器"</h3>
+      <p>矩阵的<strong>初等行变换</strong>本质上就是一台"自动废话粉碎机"。无论你写了多少个方程，所有冗余的行（可由其他行线性表出的行）在消元过程中都会变成全零行。最后死活抹不掉的非零行数量，就是<strong>秩（Rank）</strong>——它告诉你这个系统里<strong>有效信息的绝对数量</strong>。</p>
+
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px; margin:10px 0;">
+        <p style="margin:0 0 6px 0; font-weight:600;">📋 例子：</p>
+        <p style="margin:2px 0; font-family:monospace; font-size:13px;">
+          x+y=5,  x−y=1,  2x=6  → 第三个方程 = 前两个相加，是<strong>废话</strong>！
+        </p>
+        <p style="margin:4px 0 0 0; color:#475569;">消元后只留下 2 个非零行 → rank = 2。100 个方程里可能只有 3 个真正管用的约束。</p>
+      </div>
+
+      <h3 style="font-size:16px; color:#7c3aed; margin:16px 0 6px 0;">二、几何深意：空间的"降维打击器"</h3>
+      <p>在线性代数的高级视角中，矩阵 <span class="formula-inline">A</span> 是一个<strong>线性变换（空间变形器）</strong>：<span class="formula-inline">Ax=b</span> 把一个 <span class="formula-inline">n</span> 维空间里的向量 <span class="formula-inline">x</span>，映射到另一个空间。</p>
+
+      <div style="background:#faf5ff; border:1px solid #e9d5ff; border-radius:8px; padding:16px; margin:10px 0;">
+        <p style="margin:0 0 8px 0; font-weight:600; color:#6d28d9;">🎨 以 R³（三维空间）为例：一块弹性橡皮泥球被矩阵 A 变形——</p>
+        <table style="width:100%; border-collapse:collapse; font-size:14px;">
+          <tr style="border-bottom:1px solid #e9d5ff;">
+            <td style="padding:6px 10px; font-weight:600;">rank(A)=3（满秩）</td>
+            <td style="padding:6px 10px; color:#475569;">球被揉捏拉伸，但<strong>仍是三维物体</strong>，维度完好无损</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e9d5ff;">
+            <td style="padding:6px 10px; font-weight:600;">rank(A)=2</td>
+            <td style="padding:6px 10px; color:#475569;"><strong>降维打击！</strong>三维球被一巴掌拍扁成<strong>二维平面</strong>，高度被压缩为 0</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e9d5ff;">
+            <td style="padding:6px 10px; font-weight:600;">rank(A)=1</td>
+            <td style="padding:6px 10px; color:#475569;">打击升级，被压缩成<strong>一根一维的直线</strong></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 10px; font-weight:600;">rank(A)=0</td>
+            <td style="padding:6px 10px; color:#475569;">宇宙塌陷！一切被压到<strong>原点（0 维的点）</strong></td>
+          </tr>
+        </table>
+      </div>
+
+      <Theorem title="秩与零空间的几何联结" type="tip" icon="🔗">
+        <p style="margin:0;">空间被压缩时，那些<strong>消失的维度去哪了？</strong></p>
+        <p style="margin:6px 0 0 0;">它们全部"死掉"、缩成原点了！这些在变形中被压缩到原点的向量集合，就是<strong>零空间 N(A)</strong>。</p>
+        <p style="margin:6px 0 0 0; font-weight:600; color:#4338ca;">
+          秩 rank(A) = 变形后存活的空间维度<br>
+          零度 dim N(A) = 在变形中消失（被压到原点）的维度<br>
+          rank(A) + dim N(A) = n —— 存活 + 死亡 = 全部
+        </p>
+      </Theorem>
+
+      <h3 style="font-size:16px; color:#059669; margin:16px 0 6px 0;">三、总结：秩的终极奥义</h3>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:14px;">
+          <p style="margin:0; font-weight:600; color:#0369a1;">🔢 在代数上</p>
+          <p style="margin:6px 0 0 0; color:#475569; font-size:14px;">秩是斩断废话后，真正说了算、能绑架未知数的<strong>独立判官的个数</strong>。</p>
+        </div>
+        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:14px;">
+          <p style="margin:0; font-weight:600; color:#047857;">📐 在几何上</p>
+          <p style="margin:6px 0 0 0; color:#475569; font-size:14px;">秩是矩阵变形空间后，新空间所能保持的<strong>最高维度</strong>。</p>
+        </div>
+      </div>
+    </Section>
+
+    <Section num="9" title="真题例题详解">
       <ExampleBox source="2022年期末考试" badge="📝 真题">
         <template #problem>
           设 <span class="formula-inline">W_1=\{(x_1,x_2,x_3,x_4)^T\mid x_1-x_2+x_3-x_4=0\}</span>，
@@ -320,21 +616,24 @@
       </ExampleBox>
     </Section>
 
-    <Section title="🗂️ 真题与习题汇总">
+    <Section title="🗂️ 真题与习题汇总" :num="10">
       <WeekQuizBank :quizzes="quizzes" weekLabel="第1周" />
     </Section>
 
-    <Section title="📌 知识点小结">
-      <Steps :steps="[
-        '线性空间：非空集合 + 数域 + 加法/数乘 = 满足8条公理的代数结构',
-        '子空间判定：非空 + 对线性组合封闭（kα + lβ ∈ W），零向量必在其中',
-        '基 = 线性无关 + 张成空间；维数 = 基中向量个数',
-        '维数公式：dim(W₁+W₂) = dim W₁ + dim W₂ − dim(W₁∩W₂)',
-        '直和 ⟺ 零向量分解唯一 ⟺ W₁∩W₂ = {0} ⟺ dim(W₁+W₂) = dim W₁ + dim W₂'
-      ]" />
-    </Section>
+     <Section title="📌 知识点小结" :num="11">
+       <Steps :steps="[
+         '线性空间：非空集合 + 数域 + 加法/数乘 = 满足8条公理的代数结构',
+         '子空间判定：非空 + 对线性组合封闭（kα + lβ ∈ W），零向量必在其中',
+         '基 = 线性无关 + 张成空间；维数 = 基中向量个数',
+         '基扩定理：子空间基 → 扩充为大空间基，一切维数证明的根',
+         '维数公式：dim(W₁+W₂) = dim W₁ + dim W₂ − dim(W₁∩W₂)；证明核心在于基扩定理 + 数向量个数',
+         '直和 ⟺ 零向量分解唯一 ⟺ W₁∩W₂ = {0} ⟺ dim(W₁+W₂) = dim W₁ + dim W₂',
+         '秩-零度定理：rank(A) + dim N(A) = n；秩=“管死的维度”，零度=“自由的维度”',
+         '秩的深意：代数上是有效约束个数，几何上是变换后保持的最高维度'
+       ]" />
+     </Section>
 
-    <Section title="📝 课后作业" :num="7">
+    <Section title="📝 课后作业" :num="12">
       <div v-if="hwQuizzes.length === 0" class="empty-state">暂无课后作业</div>
       <template v-for="hw in hwQuizzes" :key="hw.id">
         <QuizProblem :quiz="hw" badge="📝 课后作业" />
@@ -360,6 +659,240 @@ import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)
+
+// ===== New animation refs (placeholder — designer will add animation logic) =====
+const svgBasisExtRef = ref(null)
+const svgDimProofRef = ref(null)
+const svgNullspaceRef = ref(null)
+
+// ===== Animation A: Basis Extension Theorem (interactive) =====
+const playingBasisExt = ref(false)
+const phaseBasisExt = ref(0)
+const basisExtProgress = ref(0)
+let rafIdBasisExt = null
+let timerBasisExt = null
+const basisOrigin = { x: 210, y: 142 }
+const basisVectorSeed = [
+  { id: 'γ₁', x0: 210, y0: 142, x: 158, y: 116, kind: 'gamma', start: 0.02, labelDx: -24, labelDy: -8 },
+  { id: 'γ₂', x0: 210, y0: 142, x: 248, y: 178, kind: 'gamma', start: 0.18, labelDx: 8, labelDy: 18 },
+  { id: 'α₁', x0: 210, y0: 142, x: 344, y: 88, kind: 'alpha', start: 0.42, labelDx: 8, labelDy: -10 },
+  { id: 'α₂', x0: 210, y0: 142, x: 410, y: 160, kind: 'alpha', start: 0.62, labelDx: 8, labelDy: 4 },
+  { id: 'α₃', x0: 210, y0: 142, x: 486, y: 116, kind: 'alpha', start: 0.78, labelDx: 8, labelDy: -8 }
+]
+
+function revealAmount(progress, start, span = 0.16) {
+  return Math.max(0, Math.min((progress - start) / span, 1))
+}
+
+const basisVectors = computed(() => basisVectorSeed.map(v => {
+  const opacity = revealAmount(basisExtProgress.value, v.start)
+  return {
+    ...v,
+    x: v.x0 + (v.x - v.x0) * opacity,
+    y: v.y0 + (v.y - v.y0) * opacity,
+    opacity
+  }
+}))
+const basisExtCaption = computed(() => {
+  if (phaseBasisExt.value === 0) return 'Phase 0：W 的原有基 γ₁, γ₂ 先站稳'
+  if (phaseBasisExt.value === 1) return 'Phase 1：逐个添加不在 W 内的新方向 α'
+  return 'Phase 2：γ 与 α 合并，成为 V 的完整基'
+})
+const basisExtFormula = computed(() => {
+  if (basisExtProgress.value < 0.42) return 'W = span{γ₁, γ₂}'
+  if (basisExtProgress.value < 0.9) return '不断加入 α，使线性无关组继续扩大'
+  return 'V = span{γ₁, γ₂, α₁, α₂, α₃}'
+})
+
+function animateBasisExt() {
+  if (!playingBasisExt.value) return
+  if (phaseBasisExt.value === 0) {
+    basisExtProgress.value = Math.min(basisExtProgress.value + 0.012, 0.4)
+    if (basisExtProgress.value >= 0.4) phaseBasisExt.value = 1
+  } else if (phaseBasisExt.value === 1) {
+    basisExtProgress.value = Math.min(basisExtProgress.value + 0.01, 1)
+    if (basisExtProgress.value >= 1) phaseBasisExt.value = 2
+  } else {
+    playingBasisExt.value = false
+    timerBasisExt = setTimeout(() => {
+      phaseBasisExt.value = 0
+      basisExtProgress.value = 0
+    }, 1600)
+    return
+  }
+  rafIdBasisExt = requestAnimationFrame(animateBasisExt)
+}
+function playBasisExt() { if (!playingBasisExt.value) { playingBasisExt.value = true; animateBasisExt() } }
+function pauseBasisExt() { playingBasisExt.value = false; if (rafIdBasisExt) cancelAnimationFrame(rafIdBasisExt); if (timerBasisExt) clearTimeout(timerBasisExt) }
+function resetBasisExt() { pauseBasisExt(); phaseBasisExt.value = 0; basisExtProgress.value = 0 }
+
+// ===== Animation B: Dimension Formula Proof (interactive) =====
+const playingDimProof = ref(false)
+const phaseDimProof = ref(0)
+const dimProofProgress = ref(0)
+let rafIdDimProof = null
+let timerDimProof = null
+const dimOrigin = { x: 300, y: 172 }
+const dimProofSeed = [
+  { id: 'γ₁', x0: 300, y0: 172, x: 284, y: 132, color: '#f59e0b', text: '#b45309', marker: 'url(#arrowDimGamma)', start: 0.02, labelDx: -34, labelDy: -8 },
+  { id: 'γ₂', x0: 300, y0: 172, x: 326, y: 154, color: '#f59e0b', text: '#b45309', marker: 'url(#arrowDimGamma)', start: 0.14, labelDx: 10, labelDy: -6 },
+  { id: 'α₁', x0: 300, y0: 172, x: 178, y: 116, color: '#6366f1', text: '#4338ca', marker: 'url(#arrowDimAlpha)', start: 0.36, labelDx: -30, labelDy: -10 },
+  { id: 'α₂', x0: 300, y0: 172, x: 210, y: 206, color: '#6366f1', text: '#4338ca', marker: 'url(#arrowDimAlpha)', start: 0.48, labelDx: -30, labelDy: 18 },
+  { id: 'β₁', x0: 300, y0: 172, x: 426, y: 112, color: '#ec4899', text: '#be185d', marker: 'url(#arrowDimBeta)', start: 0.6, labelDx: 10, labelDy: -10 },
+  { id: 'β₂', x0: 300, y0: 172, x: 392, y: 212, color: '#ec4899', text: '#be185d', marker: 'url(#arrowDimBeta)', start: 0.72, labelDx: 10, labelDy: 18 }
+]
+const dimProofVectors = computed(() => dimProofSeed.map(v => {
+  const opacity = revealAmount(dimProofProgress.value, v.start, 0.14)
+  return {
+    ...v,
+    x: v.x0 + (v.x - v.x0) * opacity,
+    y: v.y0 + (v.y - v.y0) * opacity,
+    opacity
+  }
+}))
+const dimMergeOpacity = computed(() => revealAmount(dimProofProgress.value, 0.86, 0.12))
+const dimCounterGamma = computed(() => dimProofProgress.value >= 0.16 ? 2 : dimProofProgress.value >= 0.04 ? 1 : 0)
+const dimCounterAlpha = computed(() => dimProofProgress.value >= 0.5 ? 2 : dimProofProgress.value >= 0.38 ? 1 : 0)
+const dimCounterBeta = computed(() => dimProofProgress.value >= 0.74 ? 2 : dimProofProgress.value >= 0.62 ? 1 : 0)
+const dimProofEquation = computed(() => `dim(W₁+W₂) = ${dimCounterGamma.value} + ${dimCounterAlpha.value} + ${dimCounterBeta.value} = ${dimCounterGamma.value + dimCounterAlpha.value + dimCounterBeta.value}`)
+const dimProofCaption = computed(() => {
+  if (phaseDimProof.value === 0) return 'Phase 0：先取交空间基 γ，它会同时出现在 W₁ 和 W₂ 中'
+  if (phaseDimProof.value === 1) return 'Phase 1：向 W₁ 扩充 α，向 W₂ 扩充 β'
+  return 'Phase 2：合并时 γ 只保留一次，所以要减去 dim(W₁∩W₂)'
+})
+
+function animateDimProof() {
+  if (!playingDimProof.value) return
+  if (phaseDimProof.value === 0) {
+    dimProofProgress.value = Math.min(dimProofProgress.value + 0.011, 0.34)
+    if (dimProofProgress.value >= 0.34) phaseDimProof.value = 1
+  } else if (phaseDimProof.value === 1) {
+    dimProofProgress.value = Math.min(dimProofProgress.value + 0.009, 0.86)
+    if (dimProofProgress.value >= 0.86) phaseDimProof.value = 2
+  } else if (phaseDimProof.value === 2) {
+    dimProofProgress.value = Math.min(dimProofProgress.value + 0.012, 1)
+    if (dimProofProgress.value >= 1) phaseDimProof.value = 3
+  } else {
+    playingDimProof.value = false
+    timerDimProof = setTimeout(() => {
+      phaseDimProof.value = 0
+      dimProofProgress.value = 0
+    }, 1800)
+    return
+  }
+  rafIdDimProof = requestAnimationFrame(animateDimProof)
+}
+function playDimProof() { if (!playingDimProof.value) { playingDimProof.value = true; animateDimProof() } }
+function pauseDimProof() { playingDimProof.value = false; if (rafIdDimProof) cancelAnimationFrame(rafIdDimProof); if (timerDimProof) clearTimeout(timerDimProof) }
+function resetDimProof() { pauseDimProof(); phaseDimProof.value = 0; dimProofProgress.value = 0 }
+
+// ===== Animation C: Rank-Nullity flattening (interactive) =====
+const playingNullspace = ref(false)
+const phaseNullspace = ref(0)
+const nullspaceProgress = ref(0)
+let rafIdNullspace = null
+let timerNullspace = null
+
+function lerp(a, b, t) {
+  return a + (b - a) * Math.max(0, Math.min(t, 1))
+}
+
+const currentRank = computed(() => {
+  if (nullspaceProgress.value < 0.25) return 3
+  if (nullspaceProgress.value < 0.55) return 2
+  if (nullspaceProgress.value < 0.82) return 1
+  return 0
+})
+const currentNullity = computed(() => 3 - currentRank.value)
+const nullspaceShape = computed(() => {
+  const p = nullspaceProgress.value
+  const stage1 = revealAmount(p, 0.06, 0.22)
+  const stage2 = revealAmount(p, 0.36, 0.22)
+  const stage3 = revealAmount(p, 0.68, 0.22)
+  const rxAfterDisc = lerp(106, 116, stage1)
+  const ryAfterDisc = lerp(86, 24, stage1)
+  const rxAfterLine = lerp(rxAfterDisc, 92, stage2)
+  const ryAfterLine = lerp(ryAfterDisc, 5, stage2)
+  const rx = lerp(rxAfterLine, 8, stage3)
+  const ry = lerp(ryAfterLine, 8, stage3)
+  return {
+    rx,
+    ry,
+    innerRx: Math.max(rx * 0.62, 4),
+    innerRy: Math.max(ry * 0.42, 2),
+    lineHalf: lerp(0, 88, revealAmount(p, 0.48, 0.16)) * (1 - revealAmount(p, 0.78, 0.16)),
+    lineOpacity: revealAmount(p, 0.42, 0.12) * (1 - revealAmount(p, 0.82, 0.12)),
+    pointR: lerp(4, 11, revealAmount(p, 0.82, 0.12)),
+    pointOpacity: revealAmount(p, 0.76, 0.12)
+  }
+})
+const nullspacePool = computed(() => {
+  const p = nullspaceProgress.value
+  return {
+    rx: lerp(20, 78, revealAmount(p, 0.12, 0.72)),
+    ry: lerp(14, 58, revealAmount(p, 0.12, 0.72)),
+    lineOpacity: revealAmount(p, 0.2, 0.18),
+    planeOpacity: revealAmount(p, 0.54, 0.16),
+    volumeOpacity: revealAmount(p, 0.82, 0.14)
+  }
+})
+const nullspaceFlows = computed(() => {
+  const p = nullspaceProgress.value
+  const flows = [
+    { id: 'lost-z', path: 'M232 126 C300 94, 384 110, 462 155', start: 0.18 },
+    { id: 'lost-y', path: 'M252 184 C322 178, 386 182, 448 184', start: 0.52 },
+    { id: 'lost-x', path: 'M216 218 C302 274, 402 244, 462 204', start: 0.78 }
+  ]
+  return flows.map(flow => {
+    const opacity = revealAmount(p, flow.start, 0.16)
+    return {
+      ...flow,
+      opacity,
+      dotX: lerp(242, 492, opacity),
+      dotY: flow.id === 'lost-z' ? lerp(126, 160, opacity) : flow.id === 'lost-y' ? 184 : lerp(218, 204, opacity)
+    }
+  })
+})
+const nullspaceShapeLabel = computed(() => {
+  if (currentRank.value === 3) return 'rank = 3：完整三维空间，几乎没有方向被压没'
+  if (currentRank.value === 2) return 'rank = 2：球被压成二维圆盘，1 个方向进入零空间'
+  if (currentRank.value === 1) return 'rank = 1：圆盘继续压成直线，2 个方向进入零空间'
+  return 'rank = 0：所有方向坍缩到原点，整个空间都进入零空间'
+})
+const nullspacePhaseText = computed(() => {
+  if (phaseNullspace.value === 0) return 'Phase 0：满秩，N(A) = {0}'
+  if (phaseNullspace.value === 1) return 'Phase 1：丢失一个维度，零度变成 1'
+  if (phaseNullspace.value === 2) return 'Phase 2：只剩一条存活方向，零度变成 2'
+  return 'Phase 3：全部压到 0，零度变成 3'
+})
+
+function animateNullspace() {
+  if (!playingNullspace.value) return
+  if (phaseNullspace.value === 0) {
+    nullspaceProgress.value = Math.min(nullspaceProgress.value + 0.008, 0.3)
+    if (nullspaceProgress.value >= 0.3) phaseNullspace.value = 1
+  } else if (phaseNullspace.value === 1) {
+    nullspaceProgress.value = Math.min(nullspaceProgress.value + 0.008, 0.6)
+    if (nullspaceProgress.value >= 0.6) phaseNullspace.value = 2
+  } else if (phaseNullspace.value === 2) {
+    nullspaceProgress.value = Math.min(nullspaceProgress.value + 0.008, 0.88)
+    if (nullspaceProgress.value >= 0.88) phaseNullspace.value = 3
+  } else if (phaseNullspace.value === 3) {
+    nullspaceProgress.value = Math.min(nullspaceProgress.value + 0.006, 1)
+    if (nullspaceProgress.value >= 1) phaseNullspace.value = 4
+  } else {
+    playingNullspace.value = false
+    timerNullspace = setTimeout(() => {
+      phaseNullspace.value = 0
+      nullspaceProgress.value = 0
+    }, 1800)
+    return
+  }
+  rafIdNullspace = requestAnimationFrame(animateNullspace)
+}
+function playNullspace() { if (!playingNullspace.value) { playingNullspace.value = true; animateNullspace() } }
+function pauseNullspace() { playingNullspace.value = false; if (rafIdNullspace) cancelAnimationFrame(rafIdNullspace); if (timerNullspace) clearTimeout(timerNullspace) }
+function resetNullspace() { pauseNullspace(); phaseNullspace.value = 0; nullspaceProgress.value = 0 }
 
 const quizzes = (quizBank[1] || []).map(q => ({ ...q, lessonNum: '01', lessonTitle: '线性空间与线性子空间' }))
 const hwQuizzes = computed(() => (homeworkBank[1] || []).map(q => ({ ...q })))
@@ -479,5 +1012,11 @@ onUnmounted(() => {
   if (rafId2) cancelAnimationFrame(rafId2)
   if (rafId3) cancelAnimationFrame(rafId3)
   if (timer3) clearTimeout(timer3)
+  if (rafIdBasisExt) cancelAnimationFrame(rafIdBasisExt)
+  if (timerBasisExt) clearTimeout(timerBasisExt)
+  if (rafIdDimProof) cancelAnimationFrame(rafIdDimProof)
+  if (timerDimProof) clearTimeout(timerDimProof)
+  if (rafIdNullspace) cancelAnimationFrame(rafIdNullspace)
+  if (timerNullspace) clearTimeout(timerNullspace)
 })
 </script>

@@ -127,7 +127,7 @@
         description="从 W 的基出发，逐个测试 V 中的新方向；只有保持线性无关的向量会进入最终基。">
         <svg viewBox="0 0 720 360" ref="svgBasisExtRef" class="lesson1-board">
           <defs>
-            <marker id="arrowBasisLine" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#475569"/></marker>
+            <marker id="arrowBasisLine" markerWidth="5" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0,5 2,0 4" fill="#475569"/></marker>
           </defs>
 
           <rect x="36" y="28" width="648" height="304" rx="18" fill="#f8fafc" stroke="#e2e8f0"/>
@@ -139,14 +139,17 @@
             <text x="20" y="30" fill="#334155" font-size="13" font-weight="700">几何直觉</text>
             <polygon points="44,122 216,88 236,112 64,146" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
             <text x="68" y="132" fill="#1d4ed8" font-size="14" font-weight="800">W</text>
-            <line x1="84" y1="128" x2="152" y2="114" stroke="#2563eb" stroke-width="4" marker-end="url(#arrowBasisLine)"/>
-            <line x1="84" y1="128" x2="126" y2="94" stroke="#2563eb" stroke-width="4" marker-end="url(#arrowBasisLine)"/>
-            <line x1="84" y1="128" x2="210" y2="52" stroke="#7c3aed" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowBasisLine)" :opacity="revealAmount(basisExtProgress, 0.42, 0.2)"/>
-            <text x="214" y="48" fill="#6d28d9" font-size="13" font-weight="800" :opacity="revealAmount(basisExtProgress, 0.42, 0.2)">新方向</text>
+            <circle cx="84" cy="128" r="4" fill="#0f172a"/>
+            <g v-for="vector in basisSceneVectors" :key="vector.id">
+              <line x1="84" y1="128" :x2="vector.x" :y2="vector.y" :stroke="vector.color" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrowBasisLine)" :opacity="vector.opacity"/>
+              <text :x="vector.x + vector.labelDx" :y="vector.y + vector.labelDy" :fill="vector.text" font-size="13" font-weight="800" :opacity="vector.opacity">{{ vector.id }}</text>
+            </g>
+            <path d="M48 112 C96 80, 172 74, 224 92" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6,5" :opacity="basisTestOpacity"/>
+            <text x="154" y="76" fill="#6d28d9" font-size="12" font-weight="800" :opacity="basisTestOpacity">检验：是否带来新方向？</text>
           </g>
 
           <g transform="translate(352 118)">
-            <text x="0" y="16" fill="#334155" font-size="13" font-weight="700">最终基槽位</text>
+            <text x="0" y="16" fill="#334155" font-size="13" font-weight="700">当前基向量</text>
             <g v-for="(slot, idx) in basisSlots" :key="slot.id" :transform="`translate(${(idx % 3) * 104}, ${34 + Math.floor(idx / 3) * 76})`">
               <rect x="0" y="0" width="86" height="54" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
               <rect x="0" y="0" width="86" height="54" rx="12" :fill="slot.kind === 'gamma' ? '#eff6ff' : '#faf5ff'" :stroke="slot.kind === 'gamma' ? '#93c5fd' : '#c4b5fd'" stroke-width="1.5" :opacity="slot.opacity"/>
@@ -154,16 +157,16 @@
               <text x="43" y="70" text-anchor="middle" fill="#94a3b8" font-size="11">{{ idx + 1 }}</text>
             </g>
             <rect x="0" y="196" width="294" height="54" rx="14" fill="#ecfdf5" stroke="#10b981" stroke-width="2" :opacity="revealAmount(basisExtProgress, 0.9, 0.1)"/>
-            <text x="147" y="229" text-anchor="middle" fill="#047857" font-size="15" font-weight="800" :opacity="revealAmount(basisExtProgress, 0.9, 0.1)">V = span{γ₁, γ₂, α₁, α₂, α₃}</text>
+            <text x="147" y="229" text-anchor="middle" fill="#047857" font-size="15" font-weight="800" :opacity="revealAmount(basisExtProgress, 0.9, 0.1)">这些向量组成 V 的一组基</text>
           </g>
 
-          <g transform="translate(68 306)">
+          <g transform="translate(80 292)">
             <circle cx="0" cy="-4" r="4" fill="#2563eb"/>
             <text x="12" y="0" fill="#475569" font-size="12">γ：W 中已有基</text>
-            <circle cx="136" cy="-4" r="4" fill="#7c3aed"/>
-            <text x="148" y="0" fill="#475569" font-size="12">α：补进 V 的新方向</text>
+            <circle cx="0" cy="18" r="4" fill="#7c3aed"/>
+            <text x="12" y="22" fill="#475569" font-size="12">α：补进 V 的新方向</text>
           </g>
-          <text x="360" y="318" text-anchor="middle" fill="#334155" font-size="14" font-weight="700">{{ basisExtCaption }}</text>
+          <text x="360" y="322" text-anchor="middle" fill="#334155" font-size="13" font-weight="700">{{ basisExtCaption }}</text>
         </svg>
       </AnimationBox>
     </Section>
@@ -286,22 +289,22 @@
             <text x="222" y="52" text-anchor="middle" fill="#be185d" font-size="12" font-weight="700">W₂</text>
           </g>
 
-          <g transform="translate(382 114)">
+          <g transform="translate(382 104)">
             <text x="0" y="20" fill="#334155" font-size="13" font-weight="700">计数流水线</text>
-            <g v-for="(item, idx) in dimProofTiles" :key="item.id" :transform="`translate(0, ${42 + idx * 56})`">
-              <rect x="0" y="0" width="244" height="40" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
-              <rect x="0" y="0" width="244" height="40" rx="12" :fill="item.fill" :stroke="item.stroke" stroke-width="1.5" :opacity="item.opacity"/>
-              <text x="18" y="25" :fill="item.color" font-size="15" font-weight="800" :opacity="item.opacity">{{ item.id }}</text>
-              <text x="92" y="25" fill="#475569" font-size="13" :opacity="item.opacity">{{ item.note }}</text>
-              <text x="222" y="25" text-anchor="end" :fill="item.color" font-size="16" font-weight="800" :opacity="item.opacity">{{ item.count }}</text>
+            <g v-for="(item, idx) in dimProofTiles" :key="item.id" :transform="`translate(0, ${38 + idx * 46})`">
+              <rect x="0" y="0" width="244" height="36" rx="11" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+              <rect x="0" y="0" width="244" height="36" rx="11" :fill="item.fill" :stroke="item.stroke" stroke-width="1.5" :opacity="item.opacity"/>
+              <text x="18" y="23" :fill="item.color" font-size="15" font-weight="800" :opacity="item.opacity">{{ item.id }}</text>
+              <text x="92" y="23" fill="#475569" font-size="13" :opacity="item.opacity">{{ item.note }}</text>
+              <text x="222" y="23" text-anchor="end" :fill="item.color" font-size="16" font-weight="800" :opacity="item.opacity">{{ item.count }}</text>
             </g>
-            <path d="M122 256 L122 288" stroke="#64748b" stroke-width="2" marker-end="url(#arrowDimFlow)" :opacity="dimMergeOpacity"/>
-            <rect x="0" y="294" width="244" height="58" rx="14" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5" :opacity="dimMergeOpacity"/>
-            <text x="122" y="318" text-anchor="middle" fill="#047857" font-size="14" font-weight="800" :opacity="dimMergeOpacity">合并后的基</text>
-            <text x="122" y="341" text-anchor="middle" fill="#0f766e" font-size="15" font-weight="800" :opacity="dimMergeOpacity">{{ dimProofEquation }}</text>
+            <path d="M122 222 L122 242" stroke="#64748b" stroke-width="2" marker-end="url(#arrowDimFlow)" :opacity="dimMergeOpacity"/>
+            <rect x="0" y="250" width="244" height="50" rx="13" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5" :opacity="dimMergeOpacity"/>
+            <text x="122" y="271" text-anchor="middle" fill="#047857" font-size="13" font-weight="800" :opacity="dimMergeOpacity">合并后的基</text>
+            <text x="122" y="291" text-anchor="middle" fill="#0f766e" font-size="15" font-weight="800" :opacity="dimMergeOpacity">{{ dimProofEquation }}</text>
           </g>
 
-          <text x="360" y="365" text-anchor="middle" fill="#475569" font-size="13" font-weight="700">{{ dimProofCaption }}</text>
+          <text x="238" y="384" text-anchor="middle" fill="#475569" font-size="12" font-weight="700">{{ dimProofCaption }}</text>
         </svg>
       </AnimationBox>
     </Section>
@@ -417,9 +420,10 @@
               <line x1="-92" y1="52" x2="92" y2="-52" stroke="#cbd5e1" stroke-width="1.5"/>
               <line x1="-86" y1="-18" x2="86" y2="18" stroke="#cbd5e1" stroke-width="1.5"/>
               <line x1="0" y1="68" x2="0" y2="-84" stroke="#cbd5e1" stroke-width="1.5"/>
-              <polygon :points="imagePlanePoints" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5" :opacity="imagePlaneOpacity"/>
-              <line :x1="-imageLineHalf" y1="0" :x2="imageLineHalf" y2="0" stroke="#2563eb" stroke-width="5" stroke-linecap="round" :opacity="imageLineOpacity"/>
-              <circle cx="0" cy="0" :r="imagePointRadius" fill="#1d4ed8" :opacity="imagePointOpacity"/>
+              <ellipse cx="0" cy="0" :rx="nullspaceShape.rx" :ry="nullspaceShape.ry" fill="#dbeafe" stroke="#2563eb" stroke-width="3" :opacity="nullspaceShape.bodyOpacity"/>
+              <ellipse cx="0" cy="0" :rx="nullspaceShape.innerRx" :ry="nullspaceShape.innerRy" fill="none" stroke="#93c5fd" stroke-width="2" :opacity="nullspaceShape.bodyOpacity"/>
+              <line :x1="-nullspaceShape.lineHalf" y1="0" :x2="nullspaceShape.lineHalf" y2="0" stroke="#2563eb" stroke-width="5" stroke-linecap="round" :opacity="nullspaceShape.lineOpacity"/>
+              <circle cx="0" cy="0" :r="nullspaceShape.pointR" fill="#1d4ed8" :opacity="nullspaceShape.pointOpacity"/>
               <line v-for="axis in imageAxes" :key="axis.id" x1="0" y1="0" :x2="axis.x" :y2="axis.y" :stroke="axis.color" stroke-width="4" stroke-linecap="round" :opacity="axis.opacity"/>
             </g>
             <text x="148" y="188" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">{{ nullspaceShapeLabel }}</text>
@@ -680,8 +684,29 @@ const basisVectorSeed = [
   { id: 'α₃', x0: 210, y0: 142, x: 486, y: 116, kind: 'alpha', start: 0.78, labelDx: 8, labelDy: -8 }
 ]
 
+function clamp01(value) {
+  return Math.max(0, Math.min(value, 1))
+}
+
 function revealAmount(progress, start, span = 0.16) {
-  return Math.max(0, Math.min((progress - start) / span, 1))
+  return clamp01((progress - start) / span)
+}
+
+function easeInOut(t) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+}
+
+function timelineProgress(elapsed, frames) {
+  if (elapsed <= frames[0].ms) return frames[0].value
+  for (let i = 1; i < frames.length; i++) {
+    const prev = frames[i - 1]
+    const next = frames[i]
+    if (elapsed <= next.ms) {
+      const local = (elapsed - prev.ms) / (next.ms - prev.ms)
+      return prev.value + (next.value - prev.value) * easeInOut(local)
+    }
+  }
+  return frames[frames.length - 1].value
 }
 
 const basisVectors = computed(() => basisVectorSeed.map(v => {
@@ -693,15 +718,25 @@ const basisVectors = computed(() => basisVectorSeed.map(v => {
     opacity
   }
 }))
+const basisSceneVectors = computed(() => [
+  { id: 'γ₁', x: 152, y: 114, color: '#2563eb', text: '#1d4ed8', opacity: revealAmount(basisExtProgress.value, 0.02, 0.1), labelDx: 8, labelDy: -8 },
+  { id: 'γ₂', x: 126, y: 94, color: '#2563eb', text: '#1d4ed8', opacity: revealAmount(basisExtProgress.value, 0.18, 0.1), labelDx: -28, labelDy: -6 },
+  { id: basisExtProgress.value < 0.6 ? 'α₁' : basisExtProgress.value < 0.76 ? 'α₂' : 'α₃', x: 210, y: 52, color: '#7c3aed', text: '#6d28d9', opacity: revealAmount(basisExtProgress.value, 0.42, 0.18) * (1 - revealAmount(basisExtProgress.value, 0.9, 0.08)), labelDx: 8, labelDy: -8 }
+])
+const basisTestOpacity = computed(() => {
+  const entering = revealAmount(basisExtProgress.value, 0.36, 0.12)
+  const leaving = 1 - revealAmount(basisExtProgress.value, 0.88, 0.08)
+  return entering * leaving
+})
 const basisExtCaption = computed(() => {
-  if (phaseBasisExt.value === 0) return 'Phase 0：W 的原有基 γ₁, γ₂ 先站稳'
-  if (phaseBasisExt.value === 1) return 'Phase 1：逐个添加不在 W 内的新方向 α'
-  return 'Phase 2：γ 与 α 合并，成为 V 的完整基'
+  if (phaseBasisExt.value === 0) return '先固定 W 的基：γ₁、γ₂ 已经线性无关'
+  if (phaseBasisExt.value === 1) return '逐个测试候选向量：不能由已有基表示，才接纳为新方向'
+  return '保留原基，再补足新方向：合起来张成 V'
 })
 const basisExtFormula = computed(() => {
-  if (basisExtProgress.value < 0.42) return 'W = span{γ₁, γ₂}'
+  if (basisExtProgress.value < 0.42) return 'γ₁、γ₂ 是 W 的基'
   if (basisExtProgress.value < 0.9) return '不断加入 α，使线性无关组继续扩大'
-  return 'V = span{γ₁, γ₂, α₁, α₂, α₃}'
+  return '得到 V 的一组基'
 })
 const basisSlots = computed(() => basisVectorSeed.map(v => ({
   id: v.id,
@@ -709,27 +744,43 @@ const basisSlots = computed(() => basisVectorSeed.map(v => ({
   opacity: revealAmount(basisExtProgress.value, v.start)
 })))
 
-function animateBasisExt() {
+const basisTimeline = [
+  { ms: 0, value: 0 },
+  { ms: 1400, value: 0.2 },
+  { ms: 2600, value: 0.2 },
+  { ms: 4400, value: 0.48 },
+  { ms: 5600, value: 0.48 },
+  { ms: 7200, value: 0.66 },
+  { ms: 8200, value: 0.66 },
+  { ms: 9800, value: 0.82 },
+  { ms: 10800, value: 0.82 },
+  { ms: 12400, value: 1 },
+  { ms: 14600, value: 1 }
+]
+let basisExtStart = 0
+let basisExtElapsed = 0
+
+function animateBasisExt(timestamp = performance.now()) {
   if (!playingBasisExt.value) return
-  if (phaseBasisExt.value === 0) {
-    basisExtProgress.value = Math.min(basisExtProgress.value + 0.012, 0.4)
-    if (basisExtProgress.value >= 0.4) phaseBasisExt.value = 1
-  } else if (phaseBasisExt.value === 1) {
-    basisExtProgress.value = Math.min(basisExtProgress.value + 0.01, 1)
-    if (basisExtProgress.value >= 1) phaseBasisExt.value = 2
-  } else {
+  basisExtElapsed = timestamp - basisExtStart
+  basisExtProgress.value = timelineProgress(basisExtElapsed, basisTimeline)
+  if (basisExtProgress.value < 0.36) phaseBasisExt.value = 0
+  else if (basisExtProgress.value < 0.9) phaseBasisExt.value = 1
+  else phaseBasisExt.value = 2
+  if (basisExtElapsed >= basisTimeline[basisTimeline.length - 1].ms) {
     playingBasisExt.value = false
     timerBasisExt = setTimeout(() => {
       phaseBasisExt.value = 0
       basisExtProgress.value = 0
+      basisExtElapsed = 0
     }, 1600)
     return
   }
   rafIdBasisExt = requestAnimationFrame(animateBasisExt)
 }
-function playBasisExt() { if (!playingBasisExt.value) { playingBasisExt.value = true; animateBasisExt() } }
+function playBasisExt() { if (!playingBasisExt.value) { playingBasisExt.value = true; if (timerBasisExt) clearTimeout(timerBasisExt); basisExtStart = performance.now() - basisExtElapsed; animateBasisExt() } }
 function pauseBasisExt() { playingBasisExt.value = false; if (rafIdBasisExt) cancelAnimationFrame(rafIdBasisExt); if (timerBasisExt) clearTimeout(timerBasisExt) }
-function resetBasisExt() { pauseBasisExt(); phaseBasisExt.value = 0; basisExtProgress.value = 0 }
+function resetBasisExt() { pauseBasisExt(); phaseBasisExt.value = 0; basisExtProgress.value = 0; basisExtElapsed = 0 }
 
 // ===== Animation B: Dimension Formula Proof (interactive) =====
 const playingDimProof = ref(false)
@@ -759,11 +810,15 @@ const dimMergeOpacity = computed(() => revealAmount(dimProofProgress.value, 0.86
 const dimCounterGamma = computed(() => dimProofProgress.value >= 0.16 ? 2 : dimProofProgress.value >= 0.04 ? 1 : 0)
 const dimCounterAlpha = computed(() => dimProofProgress.value >= 0.5 ? 2 : dimProofProgress.value >= 0.38 ? 1 : 0)
 const dimCounterBeta = computed(() => dimProofProgress.value >= 0.74 ? 2 : dimProofProgress.value >= 0.62 ? 1 : 0)
-const dimProofEquation = computed(() => `dim(W₁+W₂) = ${dimCounterGamma.value} + ${dimCounterAlpha.value} + ${dimCounterBeta.value} = ${dimCounterGamma.value + dimCounterAlpha.value + dimCounterBeta.value}`)
+const dimProofEquation = computed(() => {
+  const totalBeforeMerge = dimCounterGamma.value + dimCounterAlpha.value + dimCounterBeta.value
+  if (dimMergeOpacity.value > 0) return `${totalBeforeMerge} - ${dimCounterGamma.value} = ${totalBeforeMerge - dimCounterGamma.value}`
+  return `${dimCounterGamma.value} + ${dimCounterAlpha.value} + ${dimCounterBeta.value} = ${totalBeforeMerge}`
+})
 const dimProofCaption = computed(() => {
-  if (phaseDimProof.value === 0) return 'Phase 0：先取交空间基 γ，它会同时出现在 W₁ 和 W₂ 中'
-  if (phaseDimProof.value === 1) return 'Phase 1：向 W₁ 扩充 α，向 W₂ 扩充 β'
-  return 'Phase 2：合并时 γ 只保留一次，所以要减去 dim(W₁∩W₂)'
+  if (phaseDimProof.value === 0) return '先取交空间基 γ：它属于 W₁，也属于 W₂'
+  if (phaseDimProof.value === 1) return '分别扩充：W₁ 需要 α，W₂ 需要 β'
+  return '合并时 γ 只保留一份'
 })
 const dimProofTiles = computed(() => [
   {
@@ -804,30 +859,41 @@ const dimProofTiles = computed(() => [
   }
 ])
 
-function animateDimProof() {
+const dimProofTimeline = [
+  { ms: 0, value: 0 },
+  { ms: 1600, value: 0.18 },
+  { ms: 3000, value: 0.18 },
+  { ms: 4700, value: 0.52 },
+  { ms: 6000, value: 0.52 },
+  { ms: 7800, value: 0.76 },
+  { ms: 9000, value: 0.76 },
+  { ms: 10800, value: 0.9 },
+  { ms: 13200, value: 1 }
+]
+let dimProofStart = 0
+let dimProofElapsed = 0
+
+function animateDimProof(timestamp = performance.now()) {
   if (!playingDimProof.value) return
-  if (phaseDimProof.value === 0) {
-    dimProofProgress.value = Math.min(dimProofProgress.value + 0.011, 0.34)
-    if (dimProofProgress.value >= 0.34) phaseDimProof.value = 1
-  } else if (phaseDimProof.value === 1) {
-    dimProofProgress.value = Math.min(dimProofProgress.value + 0.009, 0.86)
-    if (dimProofProgress.value >= 0.86) phaseDimProof.value = 2
-  } else if (phaseDimProof.value === 2) {
-    dimProofProgress.value = Math.min(dimProofProgress.value + 0.012, 1)
-    if (dimProofProgress.value >= 1) phaseDimProof.value = 3
-  } else {
+  dimProofElapsed = timestamp - dimProofStart
+  dimProofProgress.value = timelineProgress(dimProofElapsed, dimProofTimeline)
+  if (dimProofProgress.value < 0.34) phaseDimProof.value = 0
+  else if (dimProofProgress.value < 0.86) phaseDimProof.value = 1
+  else phaseDimProof.value = 2
+  if (dimProofElapsed >= dimProofTimeline[dimProofTimeline.length - 1].ms) {
     playingDimProof.value = false
     timerDimProof = setTimeout(() => {
       phaseDimProof.value = 0
       dimProofProgress.value = 0
+      dimProofElapsed = 0
     }, 1800)
     return
   }
   rafIdDimProof = requestAnimationFrame(animateDimProof)
 }
-function playDimProof() { if (!playingDimProof.value) { playingDimProof.value = true; animateDimProof() } }
+function playDimProof() { if (!playingDimProof.value) { playingDimProof.value = true; if (timerDimProof) clearTimeout(timerDimProof); dimProofStart = performance.now() - dimProofElapsed; animateDimProof() } }
 function pauseDimProof() { playingDimProof.value = false; if (rafIdDimProof) cancelAnimationFrame(rafIdDimProof); if (timerDimProof) clearTimeout(timerDimProof) }
-function resetDimProof() { pauseDimProof(); phaseDimProof.value = 0; dimProofProgress.value = 0 }
+function resetDimProof() { pauseDimProof(); phaseDimProof.value = 0; dimProofProgress.value = 0; dimProofElapsed = 0 }
 
 // ===== Animation C: Rank-Nullity flattening (interactive) =====
 const playingNullspace = ref(false)
@@ -863,6 +929,7 @@ const nullspaceShape = computed(() => {
     ry,
     innerRx: Math.max(rx * 0.62, 4),
     innerRy: Math.max(ry * 0.42, 2),
+    bodyOpacity: 0.92 * (1 - revealAmount(p, 0.82, 0.12)),
     lineHalf: lerp(0, 88, revealAmount(p, 0.48, 0.16)) * (1 - revealAmount(p, 0.78, 0.16)),
     lineOpacity: revealAmount(p, 0.42, 0.12) * (1 - revealAmount(p, 0.82, 0.12)),
     pointR: lerp(4, 11, revealAmount(p, 0.82, 0.12)),
@@ -891,10 +958,10 @@ const nullspaceShapeLabel = computed(() => {
   return 'rank = 0：所有方向坍缩到原点，整个空间都进入零空间'
 })
 const nullspacePhaseText = computed(() => {
-  if (phaseNullspace.value === 0) return 'Phase 0：满秩，N(A) = {0}'
-  if (phaseNullspace.value === 1) return 'Phase 1：丢失一个维度，零度变成 1'
-  if (phaseNullspace.value === 2) return 'Phase 2：只剩一条存活方向，零度变成 2'
-  return 'Phase 3：全部压到 0，零度变成 3'
+  if (phaseNullspace.value === 0) return '满秩：rank=3，N(A)={0}'
+  if (phaseNullspace.value === 1) return '压掉高度：rank=2，nullity=1'
+  if (phaseNullspace.value === 2) return '再压掉侧向：rank=1，nullity=2'
+  return '全部压到原点：rank=0，nullity=3'
 })
 const imageAxes = computed(() => [
   { id: 'x', x: 80, y: 0, color: '#2563eb', opacity: currentRank.value >= 1 ? 1 : 0.15 },
@@ -918,33 +985,42 @@ const kernelDirections = computed(() => [
 const rankBarWidth = computed(() => currentRank.value * 72)
 const nullityBarWidth = computed(() => currentNullity.value * 72)
 
-function animateNullspace() {
+const nullspaceTimeline = [
+  { ms: 0, value: 0 },
+  { ms: 1800, value: 0.28 },
+  { ms: 3400, value: 0.28 },
+  { ms: 5400, value: 0.58 },
+  { ms: 7000, value: 0.58 },
+  { ms: 9000, value: 0.88 },
+  { ms: 10600, value: 0.88 },
+  { ms: 12400, value: 1 },
+  { ms: 14600, value: 1 }
+]
+let nullspaceStart = 0
+let nullspaceElapsed = 0
+
+function animateNullspace(timestamp = performance.now()) {
   if (!playingNullspace.value) return
-  if (phaseNullspace.value === 0) {
-    nullspaceProgress.value = Math.min(nullspaceProgress.value + 0.008, 0.3)
-    if (nullspaceProgress.value >= 0.3) phaseNullspace.value = 1
-  } else if (phaseNullspace.value === 1) {
-    nullspaceProgress.value = Math.min(nullspaceProgress.value + 0.008, 0.6)
-    if (nullspaceProgress.value >= 0.6) phaseNullspace.value = 2
-  } else if (phaseNullspace.value === 2) {
-    nullspaceProgress.value = Math.min(nullspaceProgress.value + 0.008, 0.88)
-    if (nullspaceProgress.value >= 0.88) phaseNullspace.value = 3
-  } else if (phaseNullspace.value === 3) {
-    nullspaceProgress.value = Math.min(nullspaceProgress.value + 0.006, 1)
-    if (nullspaceProgress.value >= 1) phaseNullspace.value = 4
-  } else {
+  nullspaceElapsed = timestamp - nullspaceStart
+  nullspaceProgress.value = timelineProgress(nullspaceElapsed, nullspaceTimeline)
+  if (nullspaceProgress.value < 0.3) phaseNullspace.value = 0
+  else if (nullspaceProgress.value < 0.6) phaseNullspace.value = 1
+  else if (nullspaceProgress.value < 0.88) phaseNullspace.value = 2
+  else phaseNullspace.value = 3
+  if (nullspaceElapsed >= nullspaceTimeline[nullspaceTimeline.length - 1].ms) {
     playingNullspace.value = false
     timerNullspace = setTimeout(() => {
       phaseNullspace.value = 0
       nullspaceProgress.value = 0
+      nullspaceElapsed = 0
     }, 1800)
     return
   }
   rafIdNullspace = requestAnimationFrame(animateNullspace)
 }
-function playNullspace() { if (!playingNullspace.value) { playingNullspace.value = true; animateNullspace() } }
+function playNullspace() { if (!playingNullspace.value) { playingNullspace.value = true; if (timerNullspace) clearTimeout(timerNullspace); nullspaceStart = performance.now() - nullspaceElapsed; animateNullspace() } }
 function pauseNullspace() { playingNullspace.value = false; if (rafIdNullspace) cancelAnimationFrame(rafIdNullspace); if (timerNullspace) clearTimeout(timerNullspace) }
-function resetNullspace() { pauseNullspace(); phaseNullspace.value = 0; nullspaceProgress.value = 0 }
+function resetNullspace() { pauseNullspace(); phaseNullspace.value = 0; nullspaceProgress.value = 0; nullspaceElapsed = 0 }
 
 const quizzes = (quizBank[1] || []).map(q => ({ ...q, lessonNum: '01', lessonTitle: '线性空间与线性子空间' }))
 const hwQuizzes = computed(() => (homeworkBank[1] || []).map(q => ({ ...q })))

@@ -124,41 +124,46 @@
       </ul>
 
       <AnimationBox title="基扩定理：从子空间基扩充到全空间" mode="interactive" :playing="playingBasisExt" @play="playBasisExt" @pause="pauseBasisExt" @reset="resetBasisExt"
-        description="从 W 的一组基出发（蓝色），逐步添加 V\W 中的向量（紫色），最终扩充为 V 的完整基。">
-        <svg viewBox="0 0 600 280" ref="svgBasisExtRef" style="width:100%;max-width:600px;">
+        description="从 W 的基出发，逐个测试 V 中的新方向；只有保持线性无关的向量会进入最终基。">
+        <svg viewBox="0 0 720 360" ref="svgBasisExtRef" class="lesson1-board">
           <defs>
-            <radialGradient id="basisVGlow" cx="50%" cy="45%" r="65%">
-              <stop offset="0%" stop-color="#faf5ff"/>
-              <stop offset="100%" stop-color="#ede9fe"/>
-            </radialGradient>
-            <linearGradient id="basisWGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#e0e7ff" stop-opacity="0.96"/>
-              <stop offset="100%" stop-color="#c7d2fe" stop-opacity="0.72"/>
-            </linearGradient>
-            <marker id="arrowBasisGamma" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f46e5"/></marker>
-            <marker id="arrowBasisAlpha" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#9333ea"/></marker>
+            <marker id="arrowBasisLine" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#475569"/></marker>
           </defs>
 
-          <ellipse cx="315" cy="140" rx="250" ry="104" fill="url(#basisVGlow)" stroke="#7c3aed" stroke-width="2.5"/>
-          <ellipse cx="210" cy="142" rx="116" ry="58" fill="url(#basisWGlow)" stroke="#6366f1" stroke-width="2"/>
-          <text x="498" y="72" fill="#6d28d9" font-size="16" font-weight="bold">V</text>
-          <text x="170" y="120" fill="#4338ca" font-size="15" font-weight="bold">W</text>
-          <text x="300" y="32" text-anchor="middle" fill="#475569" font-size="12">先守住 W 的基，再把新方向接入 V</text>
+          <rect x="36" y="28" width="648" height="304" rx="18" fill="#f8fafc" stroke="#e2e8f0"/>
+          <text x="68" y="68" fill="#0f172a" font-size="18" font-weight="800">扩基不是“乱加向量”</text>
+          <text x="68" y="92" fill="#64748b" font-size="13">保持已有基不动，只接纳能提供新方向的向量。</text>
 
-          <g stroke="#e9d5ff" stroke-width="1" opacity="0.7">
-            <path d="M110 192 C205 92, 405 78, 515 154" fill="none" stroke-dasharray="5,5"/>
-            <path d="M126 98 C236 202, 420 212, 520 112" fill="none" stroke-dasharray="5,5"/>
+          <g transform="translate(58 122)">
+            <rect x="0" y="0" width="262" height="164" rx="14" fill="#ffffff" stroke="#dbe4f0"/>
+            <text x="20" y="30" fill="#334155" font-size="13" font-weight="700">几何直觉</text>
+            <polygon points="44,122 216,88 236,112 64,146" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="68" y="132" fill="#1d4ed8" font-size="14" font-weight="800">W</text>
+            <line x1="84" y1="128" x2="152" y2="114" stroke="#2563eb" stroke-width="4" marker-end="url(#arrowBasisLine)"/>
+            <line x1="84" y1="128" x2="126" y2="94" stroke="#2563eb" stroke-width="4" marker-end="url(#arrowBasisLine)"/>
+            <line x1="84" y1="128" x2="210" y2="52" stroke="#7c3aed" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowBasisLine)" :opacity="revealAmount(basisExtProgress, 0.42, 0.2)"/>
+            <text x="214" y="48" fill="#6d28d9" font-size="13" font-weight="800" :opacity="revealAmount(basisExtProgress, 0.42, 0.2)">新方向</text>
           </g>
 
-          <g v-for="v in basisVectors" :key="v.id" :opacity="v.opacity">
-            <line :x1="basisOrigin.x" :y1="basisOrigin.y" :x2="v.x" :y2="v.y" :stroke="v.kind === 'gamma' ? '#4f46e5' : '#9333ea'" stroke-width="3" stroke-linecap="round" :marker-end="v.kind === 'gamma' ? 'url(#arrowBasisGamma)' : 'url(#arrowBasisAlpha)'"/>
-            <circle :cx="v.x" :cy="v.y" r="5" :fill="v.kind === 'gamma' ? '#4f46e5' : '#9333ea'"/>
-            <text :x="v.x + v.labelDx" :y="v.y + v.labelDy" :fill="v.kind === 'gamma' ? '#3730a3' : '#7e22ce'" font-size="14" font-weight="bold">{{ v.id }}</text>
+          <g transform="translate(352 118)">
+            <text x="0" y="16" fill="#334155" font-size="13" font-weight="700">最终基槽位</text>
+            <g v-for="(slot, idx) in basisSlots" :key="slot.id" :transform="`translate(${(idx % 3) * 104}, ${34 + Math.floor(idx / 3) * 76})`">
+              <rect x="0" y="0" width="86" height="54" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+              <rect x="0" y="0" width="86" height="54" rx="12" :fill="slot.kind === 'gamma' ? '#eff6ff' : '#faf5ff'" :stroke="slot.kind === 'gamma' ? '#93c5fd' : '#c4b5fd'" stroke-width="1.5" :opacity="slot.opacity"/>
+              <text x="43" y="32" text-anchor="middle" :fill="slot.kind === 'gamma' ? '#1d4ed8' : '#6d28d9'" font-size="18" font-weight="800" :opacity="slot.opacity">{{ slot.id }}</text>
+              <text x="43" y="70" text-anchor="middle" fill="#94a3b8" font-size="11">{{ idx + 1 }}</text>
+            </g>
+            <rect x="0" y="196" width="294" height="54" rx="14" fill="#ecfdf5" stroke="#10b981" stroke-width="2" :opacity="revealAmount(basisExtProgress, 0.9, 0.1)"/>
+            <text x="147" y="229" text-anchor="middle" fill="#047857" font-size="15" font-weight="800" :opacity="revealAmount(basisExtProgress, 0.9, 0.1)">V = span{γ₁, γ₂, α₁, α₂, α₃}</text>
           </g>
 
-          <circle :cx="basisOrigin.x" :cy="basisOrigin.y" r="4" fill="#1e293b"/>
-          <text x="300" y="238" text-anchor="middle" fill="#334155" font-size="13" font-weight="600">{{ basisExtCaption }}</text>
-          <text x="300" y="258" text-anchor="middle" fill="#64748b" font-size="12">{{ basisExtFormula }}</text>
+          <g transform="translate(68 306)">
+            <circle cx="0" cy="-4" r="4" fill="#2563eb"/>
+            <text x="12" y="0" fill="#475569" font-size="12">γ：W 中已有基</text>
+            <circle cx="136" cy="-4" r="4" fill="#7c3aed"/>
+            <text x="148" y="0" fill="#475569" font-size="12">α：补进 V 的新方向</text>
+          </g>
+          <text x="360" y="318" text-anchor="middle" fill="#334155" font-size="14" font-weight="700">{{ basisExtCaption }}</text>
         </svg>
       </AnimationBox>
     </Section>
@@ -258,40 +263,45 @@
       </AnimationBox>
 
       <AnimationBox title="维数公式证明动画：基扩定理在行动" mode="interactive" :playing="playingDimProof" @play="playDimProof" @pause="pauseDimProof" @reset="resetDimProof"
-        description="可视化证明过程：γ 是交空间基（橙色），向 W₁ 扩充 α（蓝色），向 W₂ 扩充 β（粉色），合并后得到 W₁+W₂ 的基。">
-        <svg viewBox="0 0 600 400" ref="svgDimProofRef" style="width:100%;max-width:600px;">
+        description="先数 W₁，再数 W₂；交空间 γ 被数了两次，合并时只保留一次。">
+        <svg viewBox="0 0 720 420" ref="svgDimProofRef" class="lesson1-board">
           <defs>
-            <marker id="arrowDimGamma" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#f59e0b"/></marker>
-            <marker id="arrowDimAlpha" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#6366f1"/></marker>
-            <marker id="arrowDimBeta" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#ec4899"/></marker>
+            <marker id="arrowDimFlow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#64748b"/></marker>
           </defs>
 
-          <ellipse cx="245" cy="148" rx="178" ry="72" fill="#eef2ff" stroke="#6366f1" stroke-width="2" transform="rotate(-13 245 148)"/>
-          <ellipse cx="355" cy="148" rx="178" ry="72" fill="#fdf2f8" stroke="#ec4899" stroke-width="2" transform="rotate(13 355 148)"/>
-          <ellipse cx="300" cy="150" rx="58" ry="44" fill="#fffbeb" stroke="#f59e0b" stroke-width="2.5"/>
-          <text x="134" y="78" fill="#4338ca" font-size="15" font-weight="bold">W₁</text>
-          <text x="452" y="78" fill="#be185d" font-size="15" font-weight="bold">W₂</text>
-          <text x="300" y="144" text-anchor="middle" fill="#b45309" font-size="13" font-weight="bold">W₁∩W₂</text>
+          <rect x="34" y="28" width="652" height="360" rx="18" fill="#f8fafc" stroke="#e2e8f0"/>
+          <text x="62" y="66" fill="#0f172a" font-size="18" font-weight="800">维数公式其实是在去重</text>
+          <text x="62" y="91" fill="#64748b" font-size="13">γ 属于 W₁ 也属于 W₂，相加时会被重复计算。</text>
 
-          <g v-for="v in dimProofVectors" :key="v.id" :opacity="v.opacity">
-            <line :x1="dimOrigin.x" :y1="dimOrigin.y" :x2="v.x" :y2="v.y" :stroke="v.color" stroke-width="3" stroke-linecap="round" :marker-end="v.marker"/>
-            <circle :cx="v.x" :cy="v.y" r="5" :fill="v.color"/>
-            <text :x="v.x + v.labelDx" :y="v.y + v.labelDy" :fill="v.text" font-size="14" font-weight="bold">{{ v.id }}</text>
+          <g transform="translate(56 124)">
+            <rect x="0" y="0" width="284" height="198" rx="16" fill="#ffffff" stroke="#dbe4f0"/>
+            <text x="22" y="34" fill="#334155" font-size="13" font-weight="700">基的来源</text>
+            <rect x="26" y="58" width="122" height="86" rx="14" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+            <rect x="136" y="58" width="122" height="86" rx="14" fill="#fdf2f8" stroke="#f9a8d4" stroke-width="2"/>
+            <rect x="112" y="74" width="60" height="54" rx="14" fill="#fffbeb" stroke="#f59e0b" stroke-width="2.5"/>
+            <text x="72" y="160" text-anchor="middle" fill="#1d4ed8" font-size="15" font-weight="800">α</text>
+            <text x="142" y="108" text-anchor="middle" fill="#b45309" font-size="15" font-weight="800">γ</text>
+            <text x="222" y="160" text-anchor="middle" fill="#be185d" font-size="15" font-weight="800">β</text>
+            <text x="74" y="52" text-anchor="middle" fill="#1d4ed8" font-size="12" font-weight="700">W₁</text>
+            <text x="222" y="52" text-anchor="middle" fill="#be185d" font-size="12" font-weight="700">W₂</text>
           </g>
 
-          <path d="M185 225 C230 260, 260 280, 300 302" fill="none" stroke="#6366f1" stroke-width="2" stroke-dasharray="6,5" :opacity="dimMergeOpacity"/>
-          <path d="M415 225 C370 260, 340 280, 300 302" fill="none" stroke="#ec4899" stroke-width="2" stroke-dasharray="6,5" :opacity="dimMergeOpacity"/>
-          <rect x="88" y="285" width="424" height="86" rx="14" fill="#f0fdf4" stroke="#10b981" stroke-width="2.5" :opacity="dimMergeOpacity"/>
-          <text x="300" y="312" text-anchor="middle" fill="#047857" font-size="15" font-weight="bold" :opacity="dimMergeOpacity">W₁ + W₂ 的基 = γ + α + β</text>
-          <text x="300" y="337" text-anchor="middle" fill="#0f766e" font-size="13" :opacity="dimMergeOpacity">{{ dimProofEquation }}</text>
-          <text x="300" y="360" text-anchor="middle" fill="#64748b" font-size="12" :opacity="dimMergeOpacity">{{ dimProofCaption }}</text>
-
-          <g transform="translate(32 312)">
-            <text x="0" y="0" fill="#475569" font-size="12" font-weight="bold">计数器</text>
-            <text x="0" y="24" fill="#f59e0b" font-size="14" font-weight="bold">γ: {{ dimCounterGamma }}</text>
-            <text x="68" y="24" fill="#6366f1" font-size="14" font-weight="bold">α: {{ dimCounterAlpha }}</text>
-            <text x="136" y="24" fill="#ec4899" font-size="14" font-weight="bold">β: {{ dimCounterBeta }}</text>
+          <g transform="translate(382 114)">
+            <text x="0" y="20" fill="#334155" font-size="13" font-weight="700">计数流水线</text>
+            <g v-for="(item, idx) in dimProofTiles" :key="item.id" :transform="`translate(0, ${42 + idx * 56})`">
+              <rect x="0" y="0" width="244" height="40" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+              <rect x="0" y="0" width="244" height="40" rx="12" :fill="item.fill" :stroke="item.stroke" stroke-width="1.5" :opacity="item.opacity"/>
+              <text x="18" y="25" :fill="item.color" font-size="15" font-weight="800" :opacity="item.opacity">{{ item.id }}</text>
+              <text x="92" y="25" fill="#475569" font-size="13" :opacity="item.opacity">{{ item.note }}</text>
+              <text x="222" y="25" text-anchor="end" :fill="item.color" font-size="16" font-weight="800" :opacity="item.opacity">{{ item.count }}</text>
+            </g>
+            <path d="M122 256 L122 288" stroke="#64748b" stroke-width="2" marker-end="url(#arrowDimFlow)" :opacity="dimMergeOpacity"/>
+            <rect x="0" y="294" width="244" height="58" rx="14" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5" :opacity="dimMergeOpacity"/>
+            <text x="122" y="318" text-anchor="middle" fill="#047857" font-size="14" font-weight="800" :opacity="dimMergeOpacity">合并后的基</text>
+            <text x="122" y="341" text-anchor="middle" fill="#0f766e" font-size="15" font-weight="800" :opacity="dimMergeOpacity">{{ dimProofEquation }}</text>
           </g>
+
+          <text x="360" y="365" text-anchor="middle" fill="#475569" font-size="13" font-weight="700">{{ dimProofCaption }}</text>
         </svg>
       </AnimationBox>
     </Section>
@@ -388,66 +398,54 @@
       </div>
 
       <AnimationBox title="秩-零度定理：空间被压扁，零空间接住消失的维度" mode="interactive" :playing="playingNullspace" @play="playNullspace" @pause="pauseNullspace" @reset="resetNullspace"
-        description="点击播放：从完整的 R³ 出发，矩阵变换逐步降低秩。空间被压扁的方向流入 N(A)，始终满足 rank(A) + dim N(A) = n。">
-        <svg viewBox="0 0 640 380" ref="svgNullspaceRef" style="width:100%;max-width:640px;">
+        description="点击播放：矩阵 A 逐步杀掉一个方向；被送到 0 的方向进入 N(A)，存活维度与消失维度相加始终等于 3。">
+        <svg viewBox="0 0 720 420" ref="svgNullspaceRef" class="lesson1-board">
           <defs>
-            <radialGradient id="rankSphereGlow" cx="42%" cy="35%" r="68%">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.96"/>
-              <stop offset="45%" stop-color="#c7d2fe" stop-opacity="0.78"/>
-              <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.82"/>
-            </radialGradient>
-            <linearGradient id="nullPoolGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#fef3c7"/>
-              <stop offset="100%" stop-color="#fb923c" stop-opacity="0.78"/>
-            </linearGradient>
-            <marker id="arrowLostDim" markerWidth="9" markerHeight="7" refX="9" refY="3.5" orient="auto">
-              <polygon points="0 0,9 3.5,0 7" fill="#f97316"/>
+            <marker id="arrowKernel" markerWidth="9" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0,9 3.5,0 7" fill="#ea580c"/>
             </marker>
           </defs>
 
-          <rect x="18" y="22" width="604" height="330" rx="22" fill="#f8fafc" stroke="#e2e8f0"/>
-          <text x="180" y="52" text-anchor="middle" fill="#4338ca" font-size="15" font-weight="bold">原空间 ℝ³ 经 A 变换后的形状</text>
-          <text x="500" y="52" text-anchor="middle" fill="#c2410c" font-size="15" font-weight="bold">零空间 N(A)</text>
+          <rect x="34" y="28" width="652" height="360" rx="18" fill="#f8fafc" stroke="#e2e8f0"/>
+          <text x="64" y="66" fill="#0f172a" font-size="18" font-weight="800">A 把哪些方向压到 0？</text>
+          <text x="64" y="92" fill="#64748b" font-size="13">左边看变换后还剩什么，右边记录被压没的自由方向。</text>
 
-          <g opacity="0.55" stroke="#ddd6fe" stroke-width="1">
-            <ellipse cx="180" cy="184" rx="112" ry="20" fill="none"/>
-            <ellipse cx="180" cy="184" rx="78" ry="112" fill="none" transform="rotate(28 180 184)"/>
-            <ellipse cx="180" cy="184" rx="74" ry="110" fill="none" transform="rotate(-38 180 184)"/>
+          <g transform="translate(58 126)">
+            <rect x="0" y="0" width="296" height="202" rx="16" fill="#ffffff" stroke="#dbe4f0"/>
+            <text x="22" y="32" fill="#334155" font-size="13" font-weight="700">像空间：A(ℝ³)</text>
+            <g transform="translate(148 104)">
+              <line x1="-92" y1="52" x2="92" y2="-52" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="-86" y1="-18" x2="86" y2="18" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="0" y1="68" x2="0" y2="-84" stroke="#cbd5e1" stroke-width="1.5"/>
+              <polygon :points="imagePlanePoints" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5" :opacity="imagePlaneOpacity"/>
+              <line :x1="-imageLineHalf" y1="0" :x2="imageLineHalf" y2="0" stroke="#2563eb" stroke-width="5" stroke-linecap="round" :opacity="imageLineOpacity"/>
+              <circle cx="0" cy="0" :r="imagePointRadius" fill="#1d4ed8" :opacity="imagePointOpacity"/>
+              <line v-for="axis in imageAxes" :key="axis.id" x1="0" y1="0" :x2="axis.x" :y2="axis.y" :stroke="axis.color" stroke-width="4" stroke-linecap="round" :opacity="axis.opacity"/>
+            </g>
+            <text x="148" y="188" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">{{ nullspaceShapeLabel }}</text>
           </g>
 
-          <ellipse cx="180" cy="184" :rx="nullspaceShape.rx" :ry="nullspaceShape.ry" fill="url(#rankSphereGlow)" stroke="#4f46e5" stroke-width="3"/>
-          <ellipse cx="180" cy="184" :rx="nullspaceShape.innerRx" :ry="nullspaceShape.innerRy" fill="none" stroke="#ede9fe" stroke-width="2" opacity="0.8"/>
-          <line :x1="180 - nullspaceShape.lineHalf" y1="184" :x2="180 + nullspaceShape.lineHalf" y2="184" stroke="#312e81" stroke-width="4" stroke-linecap="round" :opacity="nullspaceShape.lineOpacity"/>
-          <circle cx="180" cy="184" :r="nullspaceShape.pointR" fill="#312e81" :opacity="nullspaceShape.pointOpacity"/>
-
-          <text x="180" y="318" text-anchor="middle" fill="#475569" font-size="13" font-weight="600">{{ nullspaceShapeLabel }}</text>
-          <text x="180" y="338" text-anchor="middle" fill="#64748b" font-size="12">{{ nullspacePhaseText }}</text>
-
-          <g>
-            <path v-for="flow in nullspaceFlows" :key="flow.id" :d="flow.path" fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round" stroke-dasharray="7,6" marker-end="url(#arrowLostDim)" :opacity="flow.opacity"/>
-            <circle v-for="flow in nullspaceFlows" :key="flow.id + '-dot'" :cx="flow.dotX" :cy="flow.dotY" r="5" fill="#fb923c" :opacity="flow.opacity"/>
+          <g transform="translate(390 118)">
+            <rect x="0" y="0" width="238" height="214" rx="16" fill="#fff7ed" stroke="#fed7aa"/>
+            <text x="22" y="34" fill="#9a3412" font-size="13" font-weight="800">零空间 N(A)</text>
+            <text x="22" y="58" fill="#64748b" font-size="12">被 A 送到 0 的方向</text>
+            <g v-for="(dir, idx) in kernelDirections" :key="dir.id" :transform="`translate(26, ${82 + idx * 38})`">
+              <rect x="0" y="0" width="184" height="26" rx="8" :fill="dir.active ? '#ffedd5' : '#ffffff'" :stroke="dir.active ? '#fb923c' : '#e2e8f0'"/>
+              <text x="14" y="18" :fill="dir.active ? '#c2410c' : '#94a3b8'" font-size="13" font-weight="800">{{ dir.id }}</text>
+              <text x="78" y="18" :fill="dir.active ? '#9a3412' : '#94a3b8'" font-size="12">{{ dir.label }}</text>
+            </g>
+            <path v-for="flow in nullspaceFlows" :key="flow.id" :d="flow.path" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-dasharray="6,5" marker-end="url(#arrowKernel)" :opacity="flow.opacity"/>
           </g>
 
-          <ellipse cx="500" cy="184" :rx="nullspacePool.rx" :ry="nullspacePool.ry" fill="url(#nullPoolGlow)" stroke="#f97316" stroke-width="2.5"/>
-          <circle cx="500" cy="184" r="5" fill="#9a3412"/>
-          <line x1="458" y1="184" x2="542" y2="184" stroke="#c2410c" stroke-width="3" stroke-linecap="round" :opacity="nullspacePool.lineOpacity"/>
-          <line x1="500" y1="148" x2="500" y2="220" stroke="#c2410c" stroke-width="3" stroke-linecap="round" :opacity="nullspacePool.planeOpacity"/>
-          <ellipse cx="500" cy="184" rx="58" ry="26" fill="none" stroke="#fed7aa" stroke-width="2" :opacity="nullspacePool.volumeOpacity"/>
-          <text x="500" y="265" text-anchor="middle" fill="#9a3412" font-size="14" font-weight="bold">dim N(A) = {{ currentNullity }}</text>
-
-          <g transform="translate(350 292)">
-            <rect x="0" y="0" width="238" height="54" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
-            <text x="119" y="23" text-anchor="middle" fill="#047857" font-size="14" font-weight="bold">rank(A) + dim N(A) = n</text>
-            <text x="119" y="43" text-anchor="middle" fill="#059669" font-size="16" font-weight="bold">{{ currentRank }} + {{ currentNullity }} = 3</text>
+          <g transform="translate(80 342)">
+            <rect x="0" y="0" width="560" height="36" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+            <rect x="18" y="11" :width="rankBarWidth" height="14" rx="7" fill="#2563eb" opacity="0.9"/>
+            <rect :x="18 + rankBarWidth + 4" y="11" :width="nullityBarWidth" height="14" rx="7" fill="#ea580c" opacity="0.9"/>
+            <text x="524" y="24" text-anchor="end" fill="#047857" font-size="14" font-weight="800">rank + nullity = {{ currentRank }} + {{ currentNullity }} = 3</text>
           </g>
 
-          <g transform="translate(338 82)">
-            <rect x="0" y="0" width="182" height="92" rx="14" fill="#ffffff" stroke="#e2e8f0"/>
-            <text x="18" y="28" fill="#4338ca" font-size="13" font-weight="bold">当前秩 rank(A)</text>
-            <text x="148" y="31" text-anchor="middle" fill="#4338ca" font-size="22" font-weight="bold">{{ currentRank }}</text>
-            <text x="18" y="62" fill="#c2410c" font-size="13" font-weight="bold">零度 dim N(A)</text>
-            <text x="148" y="66" text-anchor="middle" fill="#c2410c" font-size="22" font-weight="bold">{{ currentNullity }}</text>
-          </g>
+          <rect x="420" y="52" width="218" height="34" rx="11" fill="#ffffff" stroke="#e2e8f0"/>
+          <text x="529" y="74" text-anchor="middle" fill="#475569" font-size="13" font-weight="700">{{ nullspacePhaseText }}</text>
         </svg>
       </AnimationBox>
     </Section>
@@ -472,22 +470,24 @@
       <div style="background:#faf5ff; border:1px solid #e9d5ff; border-radius:8px; padding:16px; margin:10px 0;">
         <p style="margin:0 0 8px 0; font-weight:600; color:#6d28d9;">🎨 以 R³（三维空间）为例：一块弹性橡皮泥球被矩阵 A 变形——</p>
         <table style="width:100%; border-collapse:collapse; font-size:14px;">
-          <tr style="border-bottom:1px solid #e9d5ff;">
-            <td style="padding:6px 10px; font-weight:600;">rank(A)=3（满秩）</td>
-            <td style="padding:6px 10px; color:#475569;">球被揉捏拉伸，但<strong>仍是三维物体</strong>，维度完好无损</td>
-          </tr>
-          <tr style="border-bottom:1px solid #e9d5ff;">
-            <td style="padding:6px 10px; font-weight:600;">rank(A)=2</td>
-            <td style="padding:6px 10px; color:#475569;"><strong>降维打击！</strong>三维球被一巴掌拍扁成<strong>二维平面</strong>，高度被压缩为 0</td>
-          </tr>
-          <tr style="border-bottom:1px solid #e9d5ff;">
-            <td style="padding:6px 10px; font-weight:600;">rank(A)=1</td>
-            <td style="padding:6px 10px; color:#475569;">打击升级，被压缩成<strong>一根一维的直线</strong></td>
-          </tr>
-          <tr>
-            <td style="padding:6px 10px; font-weight:600;">rank(A)=0</td>
-            <td style="padding:6px 10px; color:#475569;">宇宙塌陷！一切被压到<strong>原点（0 维的点）</strong></td>
-          </tr>
+          <tbody>
+            <tr style="border-bottom:1px solid #e9d5ff;">
+              <td style="padding:6px 10px; font-weight:600;">rank(A)=3（满秩）</td>
+              <td style="padding:6px 10px; color:#475569;">球被揉捏拉伸，但<strong>仍是三维物体</strong>，维度完好无损</td>
+            </tr>
+            <tr style="border-bottom:1px solid #e9d5ff;">
+              <td style="padding:6px 10px; font-weight:600;">rank(A)=2</td>
+              <td style="padding:6px 10px; color:#475569;"><strong>降维打击！</strong>三维球被一巴掌拍扁成<strong>二维平面</strong>，高度被压缩为 0</td>
+            </tr>
+            <tr style="border-bottom:1px solid #e9d5ff;">
+              <td style="padding:6px 10px; font-weight:600;">rank(A)=1</td>
+              <td style="padding:6px 10px; color:#475569;">打击升级，被压缩成<strong>一根一维的直线</strong></td>
+            </tr>
+            <tr>
+              <td style="padding:6px 10px; font-weight:600;">rank(A)=0</td>
+              <td style="padding:6px 10px; color:#475569;">宇宙塌陷！一切被压到<strong>原点（0 维的点）</strong></td>
+            </tr>
+          </tbody>
         </table>
       </div>
 
@@ -703,6 +703,11 @@ const basisExtFormula = computed(() => {
   if (basisExtProgress.value < 0.9) return '不断加入 α，使线性无关组继续扩大'
   return 'V = span{γ₁, γ₂, α₁, α₂, α₃}'
 })
+const basisSlots = computed(() => basisVectorSeed.map(v => ({
+  id: v.id,
+  kind: v.kind,
+  opacity: revealAmount(basisExtProgress.value, v.start)
+})))
 
 function animateBasisExt() {
   if (!playingBasisExt.value) return
@@ -760,6 +765,44 @@ const dimProofCaption = computed(() => {
   if (phaseDimProof.value === 1) return 'Phase 1：向 W₁ 扩充 α，向 W₂ 扩充 β'
   return 'Phase 2：合并时 γ 只保留一次，所以要减去 dim(W₁∩W₂)'
 })
+const dimProofTiles = computed(() => [
+  {
+    id: 'γ',
+    note: '交空间基，只算一次',
+    count: dimCounterGamma.value,
+    opacity: revealAmount(dimProofProgress.value, 0.02, 0.18),
+    fill: '#fffbeb',
+    stroke: '#fcd34d',
+    color: '#b45309'
+  },
+  {
+    id: 'α',
+    note: '补足 W₁ 的方向',
+    count: dimCounterAlpha.value,
+    opacity: revealAmount(dimProofProgress.value, 0.36, 0.18),
+    fill: '#eff6ff',
+    stroke: '#93c5fd',
+    color: '#1d4ed8'
+  },
+  {
+    id: 'β',
+    note: '补足 W₂ 的方向',
+    count: dimCounterBeta.value,
+    opacity: revealAmount(dimProofProgress.value, 0.6, 0.18),
+    fill: '#fdf2f8',
+    stroke: '#f9a8d4',
+    color: '#be185d'
+  },
+  {
+    id: '-γ',
+    note: '扣掉重复计算',
+    count: dimMergeOpacity.value > 0 ? dimCounterGamma.value : 0,
+    opacity: dimMergeOpacity.value,
+    fill: '#f8fafc',
+    stroke: '#cbd5e1',
+    color: '#64748b'
+  }
+])
 
 function animateDimProof() {
   if (!playingDimProof.value) return
@@ -826,30 +869,18 @@ const nullspaceShape = computed(() => {
     pointOpacity: revealAmount(p, 0.76, 0.12)
   }
 })
-const nullspacePool = computed(() => {
-  const p = nullspaceProgress.value
-  return {
-    rx: lerp(20, 78, revealAmount(p, 0.12, 0.72)),
-    ry: lerp(14, 58, revealAmount(p, 0.12, 0.72)),
-    lineOpacity: revealAmount(p, 0.2, 0.18),
-    planeOpacity: revealAmount(p, 0.54, 0.16),
-    volumeOpacity: revealAmount(p, 0.82, 0.14)
-  }
-})
 const nullspaceFlows = computed(() => {
   const p = nullspaceProgress.value
   const flows = [
-    { id: 'lost-z', path: 'M232 126 C300 94, 384 110, 462 155', start: 0.18 },
-    { id: 'lost-y', path: 'M252 184 C322 178, 386 182, 448 184', start: 0.52 },
-    { id: 'lost-x', path: 'M216 218 C302 274, 402 244, 462 204', start: 0.78 }
+    { id: 'lost-z', path: 'M-86 84 C-24 58, -4 52, 26 94', start: 0.18 },
+    { id: 'lost-y', path: 'M-86 122 C-20 114, 0 104, 26 132', start: 0.52 },
+    { id: 'lost-x', path: 'M-86 160 C-24 168, -2 152, 26 170', start: 0.78 }
   ]
   return flows.map(flow => {
     const opacity = revealAmount(p, flow.start, 0.16)
     return {
       ...flow,
-      opacity,
-      dotX: lerp(242, 492, opacity),
-      dotY: flow.id === 'lost-z' ? lerp(126, 160, opacity) : flow.id === 'lost-y' ? 184 : lerp(218, 204, opacity)
+      opacity
     }
   })
 })
@@ -865,6 +896,27 @@ const nullspacePhaseText = computed(() => {
   if (phaseNullspace.value === 2) return 'Phase 2：只剩一条存活方向，零度变成 2'
   return 'Phase 3：全部压到 0，零度变成 3'
 })
+const imageAxes = computed(() => [
+  { id: 'x', x: 80, y: 0, color: '#2563eb', opacity: currentRank.value >= 1 ? 1 : 0.15 },
+  { id: 'y', x: -42, y: 34, color: '#7c3aed', opacity: currentRank.value >= 2 ? 1 : 0.15 },
+  { id: 'z', x: 0, y: -68, color: '#0f766e', opacity: currentRank.value >= 3 ? 1 : 0.15 }
+])
+const imagePlaneOpacity = computed(() => currentRank.value >= 2 ? 0.9 : 0.12)
+const imageLineOpacity = computed(() => currentRank.value === 1 ? 1 : 0.15)
+const imagePointOpacity = computed(() => currentRank.value === 0 ? 1 : 0)
+const imageLineHalf = computed(() => currentRank.value === 1 ? 78 : 0)
+const imagePointRadius = computed(() => currentRank.value === 0 ? 10 : 4)
+const imagePlanePoints = computed(() => {
+  if (currentRank.value >= 2) return '-88,48 72,16 102,44 -58,76'
+  return '-18,4 18,-4 22,4 -14,12'
+})
+const kernelDirections = computed(() => [
+  { id: 'z', label: '高度方向', active: currentNullity.value >= 1 },
+  { id: 'y', label: '侧向方向', active: currentNullity.value >= 2 },
+  { id: 'x', label: '最后方向', active: currentNullity.value >= 3 }
+])
+const rankBarWidth = computed(() => currentRank.value * 72)
+const nullityBarWidth = computed(() => currentNullity.value * 72)
 
 function animateNullspace() {
   if (!playingNullspace.value) return
@@ -1020,3 +1072,15 @@ onUnmounted(() => {
   if (timerNullspace) clearTimeout(timerNullspace)
 })
 </script>
+
+<style scoped>
+.lesson1-board {
+  width: 100%;
+  max-width: 760px;
+  background: #fbfdff;
+}
+
+.lesson1-board text {
+  letter-spacing: 0;
+}
+</style>

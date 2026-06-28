@@ -1,7 +1,6 @@
 <template>
   <LessonLayout :lesson-id="5" title="三角分解与QR分解" subtitle="LU & QR Decomposition">
-
-    <!-- 1. LU分解概念 -->
+    <!-- 1. LU分解（合并旧Section 1 + 2） -->
     <Section title="LU分解：Gauss消元的矩阵记录" :num="1">
       <p>
         LU分解是将矩阵 <span class="formula-inline">A</span> 分解为一个单位下三角矩阵 <span class="formula-inline">L</span>
@@ -28,11 +27,9 @@
         <span class="formula-inline">U</span> 为单位上三角。当 <span class="formula-inline">A</span> 对称正定时，
         <span class="formula-inline">U = L\T</span>，得到Cholesky分解 <span class="formula-inline">A = LL\T</span>。
       </Theorem>
-    </Section>
-
-    <!-- 2. LU消元动画 -->
-    <Section title="动画：LU消元过程可视化" :num="2">
+      <h3>可视化：LU消元过程</h3>
       <p>点击"播放"观察3×3矩阵Gauss消元过程：逐列将主元下方元素清零，乘数填入 <span class="formula-inline">L</span>，消元结果留在 <span class="formula-inline">U</span>。</p>
+
 
       <AnimationBox
         title="LU分解逐列消元动画"
@@ -119,9 +116,7 @@
         </svg>
       </AnimationBox>
     </Section>
-
-    <!-- 3. QR分解概念 -->
-    <Section title="QR分解：正交三角化" :num="3">
+    <Section title="QR分解：正交三角化" :num="2">
       <p>
         QR分解将矩阵 <span class="formula-inline">A</span> 分解为正交矩阵 <span class="formula-inline">Q</span>
         和上三角矩阵 <span class="formula-inline">R</span> 的乘积：
@@ -138,56 +133,183 @@
         其中 <span class="formula-inline">Q \in \R^{m \times n}</span> 满足 <span class="formula-inline">Q\T Q = I</span>，
         <span class="formula-inline">R \in \R^{n \times n}</span> 为对角元为正的上三角矩阵。
       </Theorem>
-
-      <h3>方法一：Gram-Schmidt 正交化</h3>
-      <p>对 <span class="formula-inline">A</span> 的列向量 <span class="formula-inline">a_1, a_2, \ldots, a_n</span> 依次做正交化：</p>
-      <div class="formula-block">
-        \begin{aligned}
-        b_1 &= a_1 \\
-        b_2 &= a_2 - \frac{(a_2, b_1)}{(b_1, b_1)} b_1 \\
-        b_3 &= a_3 - \frac{(a_3, b_1)}{(b_1, b_1)} b_1 - \frac{(a_3, b_2)}{(b_2, b_2)} b_2 \\
-        &\vdots \\
-        b_k &= a_k - \sum_{j=1}^{k-1} \frac{(a_k, b_j)}{(b_j, b_j)} b_j
-        \end{aligned}
-      </div>
-      <p>单位化 <span class="formula-inline">q_i = b_i / \|b_i\|</span>，则 <span class="formula-inline">Q = [q_1\ q_2\ \cdots\ q_n]</span>，
-      <span class="formula-inline">R</span> 的元素 <span class="formula-inline">r_{ij} = (a_j, q_i)\ (i \leq j)</span>。</p>
-    </Section>
-
-    <!-- 4. Gram-Schmidt动画 -->
-    <Section title="动画：Gram-Schmidt正交化过程" :num="4">
-      <p>在 <span class="formula-inline">\R^3</span> 中观察3个向量逐步正交化的过程：先取第一个向量，第二个向量减去在第一个上的投影，第三个向量减去在前两个正交方向上的投影。橙色虚线显示被减去的投影分量。</p>
-
-      <AnimationBox
-        title="Gram-Schmidt正交化 (R³)"
-        :playing="gsPlaying"
-        description="拖动画面旋转视角，滚轮缩放；蓝色为原始向量aᵢ，绿色为正交向量bᵢ，橙色虚线为被减去的投影分量"
-        step
-        @play="gsPlay"
-        @pause="gsPause"
-        @reset="gsReset"
-        @step="gsNextStep"
-      >
-        <template #controls>
-          <button class="ctrl-btn" @click="gsPreviousStep" :disabled="gsStep === 0 || gsPlaying">上一步</button>
-        </template>
-        <div class="gs-stage">
-          <div ref="gsViewport" class="gs-viewport" aria-label="Gram-Schmidt 3D interactive view"></div>
-          <div class="gs-legend">
-            <span><i class="gs-key gs-key-a"></i>原始向量 aᵢ</span>
-            <span><i class="gs-key gs-key-b"></i>正交向量 bᵢ</span>
-            <span><i class="gs-key gs-key-p"></i>投影分量(被减去)</span>
-            <strong>{{ gsStepText }}</strong>
-            <em>步骤 {{ gsStep }} / 3</em>
-          </div>
+      <div class="qr-method-comparison">
+        <div class="qr-comparison-heading">
+          <span class="qr-eyebrow">QR Decomposition Methods</span>
+          <h3>三种QR分解方法怎么选？</h3>
+          <p>三种方法都在构造正交矩阵 <span class="formula-inline">Q</span> 和上三角矩阵 <span class="formula-inline">R</span>，但它们的几何动作、数值稳定性和适用场景不同。</p>
         </div>
-      </AnimationBox>
+
+        <div class="qr-table-wrap">
+          <table class="qr-comparison-table">
+            <thead>
+              <tr>
+                <th>方法</th>
+                <th>核心思想</th>
+                <th>数值稳定性</th>
+                <th>计算量</th>
+                <th>适用场景</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="qr-row-gs">
+                <td data-label="方法">
+                  <div class="method-name"><span class="method-dot"></span> Gram-Schmidt</div>
+                </td>
+                <td data-label="核心思想">逐列减投影：从当前列中依次减去在已有正交方向上的投影</td>
+                <td data-label="数值稳定性">
+                  <span class="stability-pill stability-low">★★☆ 较弱</span>
+                  <small>舍入误差累积，经典版本稳定性差</small>
+                </td>
+                <td data-label="计算量"><span class="formula-inline">\sim 2mn^2</span></td>
+                <td data-label="适用场景">教学演示、小规模矩阵、几何直观理解</td>
+              </tr>
+              <tr class="qr-row-hh">
+                <td data-label="方法">
+                  <div class="method-name"><span class="method-dot"></span> Householder</div>
+                </td>
+                <td data-label="核心思想">镜面反射：构造 <span class="formula-inline">H = I - 2uu\T/(u\T u)</span> 将整列次对角元一次清零</td>
+                <td data-label="数值稳定性">
+                  <span class="stability-pill stability-high">★★★ 优秀</span>
+                  <small>实际计算中最常用的QR方法</small>
+                </td>
+                <td data-label="计算量"><span class="formula-inline">\sim 2mn^2 - \frac{2}{3}n^3</span></td>
+                <td data-label="适用场景">通用数值计算、工程实现、生产环境</td>
+              </tr>
+              <tr class="qr-row-givens">
+                <td data-label="方法">
+                  <div class="method-name"><span class="method-dot"></span> Givens旋转</div>
+                </td>
+                <td data-label="核心思想">平面旋转：构造 <span class="formula-inline">G(i,j,\theta)</span> 只旋转两个坐标轴方向，逐个清零指定元素</td>
+                <td data-label="数值稳定性">
+                  <span class="stability-pill stability-high">★★★ 优秀</span>
+                  <small>可局部操作，适合选择性清零</small>
+                </td>
+                <td data-label="计算量"><span class="formula-inline">\sim 3mn^2 - n^3</span></td>
+                <td data-label="适用场景">稀疏矩阵、只需清零少量元素、增量更新</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </Section>
 
-    <!-- 5. Householder -->
-    <Section title="方法二：Householder反射" :num="5">
-      <p>Gram-Schmidt数值稳定性较差，实际计算中常用Householder反射进行QR分解。</p>
+    <!-- 3. 方法一 Gram-Schmidt（新卡片 + 旧动画） -->
+    <Section title="方法一：Gram-Schmidt 正交化" :num="3">
+      <article class="qr-method-card qr-method-gs">
+        <header class="qr-method-header">
+          <div>
+            <span class="qr-method-kicker">Method 01</span>
+            <h3>Gram-Schmidt 正交化</h3>
+            <p>依次从每个列向量中减去它在已有正交方向上的投影，逐步构造出一组两两正交的向量，再单位化得到标准正交基。</p>
+          </div>
+          <div class="qr-stability-badge">
+            <span>数值稳定性</span>
+            <strong>★★☆</strong>
+          </div>
+        </header>
 
+        <div class="qr-method-body">
+          <div class="qr-method-explain">
+            <p>对 <span class="formula-inline">A = [a_1\ a_2\ \cdots\ a_n]</span> 的列向量依次正交化：</p>
+            <div class="formula-block">
+              \begin{aligned}
+              b_1 &= a_1 \\
+              b_2 &= a_2 - \frac{(a_2, b_1)}{(b_1, b_1)} b_1 \\
+              b_3 &= a_3 - \frac{(a_3, b_1)}{(b_1, b_1)} b_1 - \frac{(a_3, b_2)}{(b_2, b_2)} b_2 \\
+              &\ \vdots \\
+              b_k &= a_k - \sum_{j=1}^{k-1} \frac{(a_k, b_j)}{(b_j, b_j)} b_j
+              \end{aligned}
+            </div>
+            <p>单位化 <span class="formula-inline">q_i = b_i / \|b_i\|</span>，则 <span class="formula-inline">Q = [q_1\ q_2\ \cdots\ q_n]</span>，
+            上三角矩阵元素 <span class="formula-inline">r_{ij} = (a_j, q_i)\ (i \leq j)</span>。</p>
+          </div>
+
+          <div class="qr-embedded-animation">
+            <p class="qr-animation-intro">在 <span class="formula-inline">\R^3</span> 中观察三个向量逐步正交化的过程。拖动画面旋转视角，滚轮缩放；蓝色为原始向量 aᵢ，绿色为正交向量 bᵢ，橙色虚线为被减去的投影分量。</p>
+
+            <AnimationBox
+              title="Gram-Schmidt正交化 (R³)"
+              :playing="gsPlaying"
+              description="拖动画面旋转视角，滚轮缩放"
+              step
+              @play="gsPlay"
+              @pause="gsPause"
+              @reset="gsReset"
+              @step="gsNextStep"
+            >
+              <template #controls>
+                <button class="ctrl-btn" @click="gsPreviousStep" :disabled="gsStep === 0 || gsPlaying">上一步</button>
+              </template>
+              <div class="gs-stage">
+                <div ref="gsViewport" class="gs-viewport" aria-label="Gram-Schmidt 3D interactive view"></div>
+                <div class="gs-legend">
+                  <span><i class="gs-key gs-key-a"></i>原始向量 aᵢ</span>
+                  <span><i class="gs-key gs-key-b"></i>正交向量 bᵢ</span>
+                  <span><i class="gs-key gs-key-p"></i>投影分量(被减去)</span>
+                  <strong>{{ gsStepText }}</strong>
+                  <em>步骤 {{ gsStep }} / 3</em>
+                </div>
+              </div>
+            </AnimationBox>
+          </div>
+
+          <ExampleBox source="教材习题p75 第1题" badge="🧮 Gram-Schmidt 例题">
+            <template #problem>
+              <p>用Schmidt正交化方法求矩阵 <span class="formula-inline">A = \begin{pmatrix} 0 & 1 & 1 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}</span> 的QR分解。</p>
+            </template>
+            <template #solution>
+              <div class="step">
+                <span class="step-num">1</span>
+                <div>
+                  <p><strong>正交化：</strong>记列向量为 <span class="formula-inline">a_1 = (0,1,1)\T,\ a_2 = (1,1,0)\T,\ a_3 = (1,0,1)\T</span>。</p>
+                  <p><span class="formula-inline">b_1 = a_1 = (0,1,1)\T</span>，<span class="formula-inline">\|b_1\| = \sqrt{2}</span>。</p>
+                  <p><span class="formula-inline">b_2 = a_2 - \frac{(a_2,b_1)}{(b_1,b_1)} b_1 = (1,1,0)\T - \frac{1}{2}(0,1,1)\T = (1,\frac{1}{2},-\frac{1}{2})\T</span></p>
+                  <p><span class="formula-inline">\|b_2\| = \sqrt{3/2}</span></p>
+                  <p><span class="formula-inline">b_3 = a_3 - \frac{(a_3,b_1)}{(b_1,b_1)} b_1 - \frac{(a_3,b_2)}{(b_2,b_2)} b_2 = (1,0,1)\T - \frac{1}{2}(0,1,1)\T - \frac{1}{3}(1,\frac{1}{2},-\frac{1}{2})\T = \frac{2}{3}(1,-1,1)\T</span></p>
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-num">2</span>
+                <div>
+                  <p><strong>单位化得 Q：</strong></p>
+                  <p><span class="formula-inline">q_1 = \frac{1}{\sqrt{2}}(0,1,1)\T,\ q_2 = \frac{1}{\sqrt{6}}(2,1,-1)\T,\ q_3 = \frac{1}{\sqrt{3}}(1,-1,1)\T</span></p>
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-num">3</span>
+                <div>
+                  <p><strong>求R：</strong><span class="formula-inline">r_{ij} = (a_j, q_i)\ (i \leq j)</span></p>
+                  <div class="formula-block">
+                    Q = \begin{pmatrix} 0 & \frac{2}{\sqrt{6}} & \frac{1}{\sqrt{3}} \\ \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{6}} & -\frac{1}{\sqrt{3}} \\ \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{6}} & \frac{1}{\sqrt{3}} \end{pmatrix},\quad
+                    R = \begin{pmatrix} \sqrt{2} & \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\ 0 & \frac{\sqrt{6}}{2} & \frac{1}{\sqrt{6}} \\ 0 & 0 & \frac{2}{\sqrt{3}} \end{pmatrix}
+                  </div>
+                </div>
+              </div>
+            </template>
+          </ExampleBox>
+        </div>
+      </article>
+    </Section>
+
+    <!-- 4. 方法二 Householder（合并旧Section 5 + 6 + 7） -->
+    <Section title="方法二：Householder反射" :num="4">
+      <article class="qr-method-card qr-method-hh">
+        <header class="qr-method-header">
+          <div>
+            <span class="qr-method-kicker">Method 02</span>
+            <h3>Householder 镜面反射</h3>
+            <p>构造对称正交矩阵 <span class="formula-inline">H</span> 作为"镜子"，将列向量除第一个分量外全部反射清零，一次处理整列。</p>
+          </div>
+          <div class="qr-stability-badge">
+            <span>数值稳定性</span>
+            <strong>★★★</strong>
+          </div>
+        </header>
+
+        <div class="qr-method-body">
+          <div class="qr-method-explain">
       <Theorem title="Householder矩阵（初等反射矩阵）" type="definition" icon="📖">
         设单位向量 <span class="formula-inline">u \in \R^n</span>，则Householder矩阵定义为：
         <Formula>H = I - \frac{2uu\T}{u\T u} = I - 2uu\T</Formula>
@@ -198,25 +320,24 @@
 
       <p>
         <strong>核心思想：</strong>给定向量 <span class="formula-inline">x</span>，取
-        <span class="formula-inline">u = x + \sign(x_1)\|x\| e_1</span>，
-        则 <span class="formula-inline">Hx = -\sign(x_1)\|x\| e_1</span>，
+        <span class="formula-inline">u = x - \sign(x_1)\|x\| e_1</span>，
+        则 <span class="formula-inline">Hx = \sign(x_1)\|x\| e_1</span>，
         即通过一次镜面反射将 <span class="formula-inline">x</span> 映射到与 <span class="formula-inline">e_1</span> 平行的方向，
         从而将 <span class="formula-inline">x</span> 除第一个分量外全部清零。
       </p>
-    </Section>
+          </div>
 
-    <!-- 6. Householder动画 -->
-    <Section title="动画：Householder反射清零" :num="6">
-      <p>观察向量 <span class="formula-inline">x</span> 经Householder反射映射到 <span class="formula-inline">e_1</span> 方向的过程，镜面法向量 <span class="formula-inline">u</span> 以紫色显示。</p>
+          <div class="qr-embedded-animation">
+            <p class="qr-animation-intro">观察向量 <span class="formula-inline">x</span> 经Householder反射映射到 <span class="formula-inline">e_1</span> 方向的过程。镜面法向量 <span class="formula-inline">u</span> 以紫色显示，红色向量 x 经紫色镜面反射后映射到绿色的 -σe₁ 方向。</p>
 
-      <AnimationBox
-        title="Householder反射几何直观"
-        :playing="hhPlaying"
-        description="红色向量x经紫色镜面反射后映射到绿色的-σe₁方向，镜面垂直于u（紫色法向量）"
-        @play="hhPlay"
-        @pause="hhPause"
-        @reset="hhReset"
-      >
+            <AnimationBox
+              title="Householder反射几何直观"
+              :playing="hhPlaying"
+              description="红色向量x经紫色镜面反射后映射到绿色的-σe₁方向，镜面垂直于u（紫色法向量）"
+              @play="hhPlay"
+              @pause="hhPause"
+              @reset="hhReset"
+            >
         <svg :width="hhSvgWidth" height="380" viewBox="0 0 700 380">
           <g transform="translate(350, 200)">
             <!-- 坐标轴 -->
@@ -273,12 +394,9 @@
           <text x="350" y="330" text-anchor="middle" font-size="13" fill="#475569">x = ({{ hhX[0].toFixed(1) }}, {{ hhX[1].toFixed(1) }}),  σ = sign(x₁)‖x‖ = {{ hhSigma.toFixed(2) }},  u = x + σe₁</text>
           <text x="350" y="350" text-anchor="middle" font-size="12" fill="#94a3b8">步骤 {{ hhStep }} / 3</text>
         </svg>
-      </AnimationBox>
-    </Section>
-
-    <!-- 7. 例题 -->
-    <Section title="真题精讲" :num="7">
-      <ExampleBox source="研究生矩阵论考试真题" badge="📝 真题例题">
+            </AnimationBox>
+          </div>
+      <ExampleBox source="研究生矩阵论考试真题" badge="🧮 Householder 真题例题">
         <template #problem>
           <p>用Householder变换求矩阵
             <span class="formula-inline">A = \begin{pmatrix} 0 & 4 & 1 \\ 1 & 1 & 3 \\ 1 & 1 & -1 \end{pmatrix}</span>
@@ -305,7 +423,7 @@
             <div>
               <p><strong>计算 <span class="formula-inline">H_1 A</span>：</strong></p>
               <div class="formula-block">
-                H_1 A = \begin{pmatrix} \sqrt{2} & \sqrt{2} & \sqrt{2} \\ 0 & 3\sqrt{2}/2 & \sqrt{2} \\ 0 & 3\sqrt{2}/2 & -2\sqrt{2}/2 \end{pmatrix}
+                H_1 A = \begin{pmatrix} \sqrt{2} & \sqrt{2} & \sqrt{2} \\ 0 & 2\sqrt{2} & \frac{1}{\sqrt{2}}+2 \\ 0 & 2\sqrt{2} & \frac{1}{\sqrt{2}}-2 \end{pmatrix}
               </div>
             </div>
           </div>
@@ -313,9 +431,9 @@
             <span class="step-num">3</span>
             <div>
               <p><strong>第二步：对右下角2×2子块构造 <span class="formula-inline">H_2</span></strong></p>
-              <p>取 <span class="formula-inline">\tilde{x} = (3\sqrt{2}/2, 3\sqrt{2}/2)\T</span>，
-              <span class="formula-inline">\|\tilde{x}\| = 3</span>，<span class="formula-inline">\sigma_2 = 3</span></p>
-              <p><span class="formula-inline">\tilde{u}_2 = \tilde{x} + 3e_1 = (3\sqrt{2}/2+3, 3\sqrt{2}/2)\T</span></p>
+              <p>取 <span class="formula-inline">\tilde{x} = (2\sqrt{2}, 2\sqrt{2})\T</span>，
+              <span class="formula-inline">\|\tilde{x}\| = 4</span>，<span class="formula-inline">\sigma_2 = 4</span></p>
+              <p><span class="formula-inline">\tilde{u}_2 = \tilde{x} - 4e_1 = (2\sqrt{2}-4, 2\sqrt{2})\T</span></p>
               <p>构造 <span class="formula-inline">\tilde{H}_2</span>，嵌入3阶矩阵得 <span class="formula-inline">H_2 = \diag(1, \tilde{H}_2)</span></p>
             </div>
           </div>
@@ -333,10 +451,118 @@
           </div>
         </template>
       </ExampleBox>
+        </div>
+      </article>
     </Section>
 
-    <!-- 8. 知识结构图 -->
-    <Section title="知识结构：矩阵三角分解方法谱系" :num="8">
+    <!-- 5. 方法三 Givens旋转（全新） -->
+    <Section title="方法三：Givens旋转" :num="5">
+      <article class="qr-method-card qr-method-givens">
+        <header class="qr-method-header">
+          <div>
+            <span class="qr-method-kicker">Method 03</span>
+            <h3>Givens 平面旋转</h3>
+            <p>一次只旋转两个坐标轴方向，用局部操作把某个指定元素清零。Householder像"一整面镜子反射"，Givens更像"只在一个二维平面里转一下"。</p>
+          </div>
+          <div class="qr-stability-badge">
+            <span>数值稳定性</span>
+            <strong>★★★</strong>
+          </div>
+        </header>
+
+        <div class="qr-method-body">
+          <div class="qr-method-explain">
+            <Theorem title="Givens旋转矩阵" type="definition" icon="📖">
+              Givens旋转矩阵 <span class="formula-inline">G(i,j,\theta)</span> 是一个只在第 <span class="formula-inline">i</span> 行、第 <span class="formula-inline">j</span> 行作用的平面旋转矩阵，其余行保持不变。其非零元素为：
+              <Formula>
+                \begin{pmatrix} g_{ii} & g_{ij} \\ g_{ji} & g_{jj} \end{pmatrix}
+                = \begin{pmatrix} c & s \\ -s & c \end{pmatrix},\quad
+                c = \cos\theta,\ s = \sin\theta,\ c^2 + s^2 = 1
+              </Formula>
+            </Theorem>
+            <p>
+              <strong>清零原理：</strong>给定向量 <span class="formula-inline">(x_i, x_j)\T</span>，取
+              <span class="formula-inline">r = \sqrt{x_i^2 + x_j^2}</span>，
+              令 <span class="formula-inline">c = x_i/r,\ s = x_j/r</span>，则
+              <span class="formula-inline">\begin{pmatrix} c & s \\ -s & c \end{pmatrix} \begin{pmatrix} x_i \\ x_j \end{pmatrix} = \begin{pmatrix} r \\ 0 \end{pmatrix}</span>，
+              即把 <span class="formula-inline">x_j</span> 分量清零。
+            </p>
+          </div>
+
+          <div class="givens-diagram-panel">
+            <div class="givens-diagram-copy">
+              <span class="qr-eyebrow">2D rotation view</span>
+              <h4>用旋转把一个分量压到0</h4>
+              <p>向量 <span class="formula-inline">(x_i, x_j)</span> 旋转到水平轴上后，第二个分量就被清零。</p>
+            </div>
+            <svg class="givens-svg" viewBox="0 0 420 300" role="img" aria-label="Givens rotation diagram">
+              <defs>
+                <marker id="givensArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                  <path d="M0,0 L8,4 L0,8 Z" fill="#8b5cf6"/>
+                </marker>
+                <linearGradient id="givensArcGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#8b5cf6"/>
+                  <stop offset="100%" stop-color="#0d9488"/>
+                </linearGradient>
+              </defs>
+              <rect x="20" y="20" width="380" height="260" rx="22" fill="#faf5ff" stroke="#ddd6fe"/>
+              <line x1="70" y1="220" x2="350" y2="220" stroke="#cbd5e1" stroke-width="2"/>
+              <line x1="110" y1="250" x2="110" y2="55" stroke="#cbd5e1" stroke-width="2"/>
+              <text x="355" y="225" fill="#64748b" font-size="13">i</text>
+              <text x="100" y="50" fill="#64748b" font-size="13">j</text>
+              <line x1="110" y1="220" x2="245" y2="105" stroke="#ef4444" stroke-width="4" marker-end="url(#givensArrow)"/>
+              <circle cx="245" cy="105" r="5" fill="#ef4444"/>
+              <text x="252" y="100" fill="#ef4444" font-size="14" font-weight="700">x</text>
+              <line x1="110" y1="220" x2="290" y2="220" stroke="#059669" stroke-width="4" marker-end="url(#givensArrow)"/>
+              <circle cx="290" cy="220" r="5" fill="#059669"/>
+              <text x="276" y="205" fill="#059669" font-size="14" font-weight="700">Gx</text>
+              <line x1="245" y1="105" x2="245" y2="220" stroke="#f97316" stroke-width="2" stroke-dasharray="6 5"/>
+              <text x="252" y="168" fill="#f97316" font-size="13">要清零的分量</text>
+              <path d="M 185 220 A 75 75 0 0 0 168 169" fill="none" stroke="url(#givensArcGrad)" stroke-width="4" marker-end="url(#givensArrow)"/>
+              <text x="184" y="177" fill="#8b5cf6" font-size="14" font-weight="700">θ</text>
+              <foreignObject x="178" y="235" width="175" height="34">
+                <div xmlns="http://www.w3.org/1999/xhtml" class="givens-svg-badge">
+                  <span>x<sub>j</sub>' = -sx<sub>i</sub> + cx<sub>j</sub> = 0</span>
+                </div>
+              </foreignObject>
+            </svg>
+          </div>
+
+          <ExampleBox source="教材习题p76 第7题" badge="🧮 Givens 例题">
+            <template #problem>
+              <p>用Givens变换求矩阵 <span class="formula-inline">A = \begin{pmatrix} 2 & 2 & 1 \\ 0 & 2 & 2 \\ 2 & 1 & 2 \end{pmatrix}</span> 的QR分解。</p>
+            </template>
+            <template #solution>
+              <div class="step">
+                <span class="step-num">1</span>
+                <div>
+                  <p><strong>消去(3,1)元：</strong>取第1列的(1,3)平面旋转。向量 <span class="formula-inline">(2,2)\T</span>，<span class="formula-inline">r = 2\sqrt{2}</span>，<span class="formula-inline">c = 1/\sqrt{2},\ s = 1/\sqrt{2}</span>。</p>
+                  <div class="formula-block">G_1 = \begin{pmatrix} c & 0 & s \\ 0 & 1 & 0 \\ -s & 0 & c \end{pmatrix}, \quad G_1 A = \begin{pmatrix} 2\sqrt{2} & 3/\sqrt{2} & 3/\sqrt{2} \\ 0 & 2 & 2 \\ 0 & -1/\sqrt{2} & 1/\sqrt{2} \end{pmatrix}</div>
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-num">2</span>
+                <div>
+                  <p><strong>消去(3,2)元：</strong>取第2列的(2,3)平面旋转。<span class="formula-inline">(2, -1/\sqrt{2})\T</span>，<span class="formula-inline">r = 3/\sqrt{2}</span>。</p>
+                  <div class="formula-block">G_2 = \begin{pmatrix} 1 & 0 & 0 \\ 0 & c' & s' \\ 0 & -s' & c' \end{pmatrix}, \quad R = G_2 G_1 A = \begin{pmatrix} 2\sqrt{2} & 3/\sqrt{2} & 3/\sqrt{2} \\ 0 & 3/\sqrt{2} & 7/(3\sqrt{2}) \\ 0 & 0 & 4/3 \end{pmatrix}</div>
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-num">3</span>
+                <div>
+                  <p><strong>求 <span class="formula-inline">Q</span>：</strong><span class="formula-inline">Q = G_1\T G_2\T</span>（旋转矩阵的逆等于其转置）。</p>
+                  <div class="formula-block">
+                    Q = \begin{pmatrix} 1/\sqrt{2} & 1/(3\sqrt{2}) & -2/3 \\ 0 & 2\sqrt{2}/3 & 1/3 \\ 1/\sqrt{2} & -1/(3\sqrt{2}) & 2/3 \end{pmatrix}
+                  </div>
+                </div>
+              </div>
+            </template>
+          </ExampleBox>
+        </div>
+      </article>
+    </Section>
+    <!-- 6. 知识结构图（旧Section 8） -->
+    <Section title="知识结构：矩阵三角分解方法谱系" :num="6">
       <p>下图展示矩阵三角分解的各类方法及其关系：</p>
       <AnimationBox
         title="矩阵分解方法关系图"
@@ -374,8 +600,8 @@
       </AnimationBox>
     </Section>
 
-    <!-- 9. 例题2：LU分解 -->
-    <Section title="真题精讲（续）" :num="9">
+    <!-- 7. 真题精讲：LU分解（旧Section 9，改标题） -->
+    <Section title="真题精讲：LU分解" :num="7">
       <ExampleBox source="教材经典习题" badge="📝 LU分解例题">
         <template #problem>
           <p>用Gauss消元法对矩阵 <span class="formula-inline">A = \begin{pmatrix} 2 & 1 & 1 \\ 4 & 3 & 3 \\ 2 & 2 & 1 \end{pmatrix}</span> 做LU分解，并用结果解方程组 <span class="formula-inline">Ax = b</span>，其中 <span class="formula-inline">b = (1,2,1)\T</span>。</p>
@@ -420,24 +646,25 @@
       </ExampleBox>
     </Section>
 
-    <!-- 10. 小结 -->
-    <Section title="知识点小结" :num="10">
+    <!-- 8. 知识点小结（旧Section 10，新增Givens条目） -->
+    <Section title="知识点小结" :num="8">
       <Steps :steps="[
         'LU分解 A=LU：L单位下三角记录Gauss乘数，U上三角为消元结果；顺序主子式非零则存在唯一。',
         'LDU分解 A=LDU：D为对角阵，对称正定时得Cholesky分解 A=LLᵀ。',
         'QR分解 A=QR：Q正交，R上三角；列满秩矩阵存在QR分解。',
-        'Gram-Schmidt正交化：逐次减去投影分量得到正交基，再单位化；计算简单但数值稳定性差。',
-        'Householder反射 H=I-2uuᵀ/(uᵀu)：对称正交矩阵，取u=x+sign(x₁)‖x‖e₁可将x反射到-σe₁方向，一次清零多个元素。',
-        '用Householder方法做QR分解：依次对第1列到第n-1列构造反射矩阵，数值稳定性好，是实际计算的首选方法。'
+        'Gram-Schmidt正交化：逐次减去投影分量得到正交基，再单位化；计算简单但数值稳定性差，适合教学和小规模矩阵。',
+        'Householder反射 H=I-2uuᵀ/(uᵀu)：对称正交矩阵，取u=x+sign(x₁)‖x‖e₁可将x反射到e₁方向，一次清零多个元素，数值稳定性好，是实际计算的首选方法。',
+        'Givens旋转 G(i,j,θ)：平面旋转矩阵，只作用在两个坐标轴上，适合稀疏矩阵或只需选择性清零少数元素的场景。',
+        '方法选择原则：通用计算选Householder，教学理解用Gram-Schmidt，稀疏矩阵或局部操作选Givens旋转。'
       ]"/>
     </Section>
 
-    <!-- 11. 真题与习题汇总 -->
+    <!-- 9. 真题与习题汇总 + 课后作业（旧Section 11，重编号） -->
     <Section title="🗂️ 真题与习题汇总">
       <WeekQuizBank :quizzes="quizzes" weekLabel="第2周" />
     </Section>
 
-    <Section title="📝 课后作业" :num="11">
+    <Section title="📝 课后作业" :num="9">
       <div v-if="hwQuizzes.length === 0" class="empty-state">暂无课后作业</div>
       <template v-for="hw in hwQuizzes" :key="hw.id">
         <QuizProblem :quiz="hw" badge="📝 课后作业" />
@@ -1379,5 +1606,146 @@ onUnmounted(() => {
   .concept-map {
     padding: 16px 8px;
   }
+}
+
+/* ── QR method comparison ── */
+.qr-method-comparison {
+  margin: 28px 0 34px;
+  padding: 24px;
+  border: 1px solid #ccfbf1;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at top left, rgba(13,148,136,0.12), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(139,92,246,0.10), transparent 36%),
+    #fff;
+  box-shadow: 0 18px 45px rgba(15,23,42,0.08);
+}
+.qr-comparison-heading { max-width: 760px; margin-bottom: 18px; }
+.qr-eyebrow, .qr-method-kicker {
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px;
+  color: #0d9488; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.qr-comparison-heading h3 { margin: 0 0 8px; color: #0f172a; font-size: clamp(22px,3vw,30px); line-height: 1.18; }
+.qr-comparison-heading p { margin: 0; color: #475569; line-height: 1.75; }
+.qr-table-wrap {
+  overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 16px; background: rgba(255,255,255,0.86);
+}
+.qr-comparison-table { width: 100%; min-width: 840px; border-collapse: collapse; font-size: 14px; }
+.qr-comparison-table th {
+  padding: 15px 16px; color: #334155; font-size: 13px; font-weight: 800; text-align: left;
+  background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+}
+.qr-comparison-table td {
+  padding: 16px; color: #334155; vertical-align: top; border-bottom: 1px solid #edf2f7; line-height: 1.65;
+}
+.qr-comparison-table tbody tr:last-child td { border-bottom: 0; }
+.qr-comparison-table tbody tr { transition: background .18s, transform .18s; }
+.qr-comparison-table tbody tr:hover { background: #f8fafc; }
+.method-name {
+  display: inline-flex; align-items: center; gap: 9px; color: #0f172a; font-weight: 850; white-space: nowrap;
+}
+.method-dot {
+  width: 11px; height: 11px; border-radius: 999px; box-shadow: 0 0 0 5px rgba(13,148,136,0.10);
+}
+.qr-row-gs .method-dot { background: #0d9488; }
+.qr-row-hh .method-dot { background: #3b82f6; }
+.qr-row-givens .method-dot { background: #8b5cf6; }
+.stability-pill {
+  display: inline-flex; align-items: center; margin-bottom: 4px; padding: 4px 9px;
+  border-radius: 999px; font-size: 12px; font-weight: 800; white-space: nowrap;
+}
+.stability-low { color: #92400e; background: #fef3c7; }
+.stability-high { color: #047857; background: #d1fae5; }
+.qr-comparison-table small { display: block; color: #64748b; font-size: 12px; }
+
+/* ── QR method cards ── */
+.qr-method-card {
+  --method-color: #0d9488; --method-soft: #ccfbf1; --method-tint: #f0fdfa;
+  position: relative; margin: 8px 0 10px; padding: clamp(20px,3vw,30px); overflow: hidden;
+  border: 1px solid var(--method-soft); border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92)),
+              radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--method-color) 16%, transparent), transparent 32%);
+  box-shadow: 0 22px 55px rgba(15,23,42,0.09);
+}
+.qr-method-card::before {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: 6px;
+  background: linear-gradient(180deg, var(--method-color), transparent);
+}
+.qr-method-card::after {
+  content: ""; position: absolute; right: -80px; top: -80px; width: 190px; height: 190px;
+  border: 1px solid color-mix(in srgb, var(--method-color) 34%, transparent); border-radius: 999px;
+  background: color-mix(in srgb, var(--method-color) 8%, transparent); pointer-events: none;
+}
+.qr-method-gs { --method-color: #0d9488; --method-soft: #99f6e4; --method-tint: #f0fdfa; }
+.qr-method-hh { --method-color: #3b82f6; --method-soft: #bfdbfe; --method-tint: #eff6ff; }
+.qr-method-givens { --method-color: #8b5cf6; --method-soft: #ddd6fe; --method-tint: #faf5ff; }
+.qr-method-header {
+  position: relative; z-index: 1; display: grid;
+  grid-template-columns: minmax(0,1fr) auto; gap: 18px; align-items: start; margin-bottom: 22px;
+}
+.qr-method-header h3 { margin: 0 0 8px; color: #0f172a; font-size: clamp(24px,3.3vw,34px); line-height: 1.12; letter-spacing: -0.03em; }
+.qr-method-header p { max-width: 760px; margin: 0; color: #475569; font-size: 15px; line-height: 1.75; }
+.qr-method-kicker { color: var(--method-color); }
+.qr-stability-badge {
+  min-width: 132px; padding: 12px 14px; border: 1px solid var(--method-soft); border-radius: 16px;
+  background: rgba(255,255,255,0.76); text-align: center; box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+}
+.qr-stability-badge span { display: block; margin-bottom: 4px; color: #64748b; font-size: 12px; font-weight: 700; }
+.qr-stability-badge strong { color: var(--method-color); font-size: 18px; letter-spacing: 0.04em; }
+.qr-method-body { position: relative; z-index: 1; display: grid; gap: 18px; }
+.qr-method-explain {
+  padding: 18px 20px; border: 1px solid #e2e8f0; border-radius: 18px; background: rgba(255,255,255,0.82);
+}
+.qr-method-explain p { margin: 0 0 12px; color: #334155; line-height: 1.8; }
+.qr-method-explain p:last-child { margin-bottom: 0; }
+.qr-method-note {
+  display: grid; grid-template-columns: auto minmax(0,1fr); gap: 12px; align-items: start;
+  padding: 14px 16px; border: 1px solid var(--method-soft); border-radius: 16px;
+  background: var(--method-tint); color: #334155;
+}
+.qr-method-note strong { color: var(--method-color); white-space: nowrap; }
+.qr-method-note span { line-height: 1.65; }
+.qr-embedded-animation {
+  padding: 16px; border: 1px dashed var(--method-soft); border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(248,250,252,0.78));
+}
+.qr-animation-intro { margin: 0 0 14px; color: #475569; line-height: 1.75; }
+
+/* ── Givens diagram ── */
+.givens-diagram-panel {
+  display: grid; grid-template-columns: minmax(220px,0.8fr) minmax(320px,1.2fr);
+  gap: 20px; align-items: center; padding: 18px; border: 1px solid #ddd6fe; border-radius: 20px;
+  background: radial-gradient(circle at top right, rgba(139,92,246,0.12), transparent 34%), #fff;
+}
+.givens-diagram-copy h4 { margin: 0 0 8px; color: #312e81; font-size: 20px; }
+.givens-diagram-copy p { margin: 0; color: #475569; line-height: 1.75; }
+.givens-svg { width: 100%; height: auto; display: block; }
+.givens-svg-badge {
+  display: inline-flex; align-items: center; justify-content: center; height: 30px; padding: 0 10px;
+  border: 1px solid #ddd6fe; border-radius: 999px; background: rgba(255,255,255,0.88);
+  color: #6d28d9; font-size: 12px; font-weight: 800; white-space: nowrap;
+}
+
+/* ── Responsive ── */
+@media (max-width: 760px) {
+  .qr-method-comparison { padding: 18px; border-radius: 18px; }
+  .qr-table-wrap { overflow: visible; border: 0; background: transparent; }
+  .qr-comparison-table { min-width: 0; border-collapse: separate; border-spacing: 0 12px; }
+  .qr-comparison-table thead { display: none; }
+  .qr-comparison-table, .qr-comparison-table tbody, .qr-comparison-table tr, .qr-comparison-table td { display: block; width: 100%; }
+  .qr-comparison-table tr {
+    padding: 14px; border: 1px solid #e2e8f0; border-radius: 16px;
+    background: #fff; box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+  }
+  .qr-comparison-table td { display: grid; grid-template-columns: 104px minmax(0,1fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+  .qr-comparison-table td:last-child { border-bottom: 0; }
+  .qr-comparison-table td::before { content: attr(data-label); color: #64748b; font-size: 12px; font-weight: 800; }
+  .qr-method-card { padding: 18px; border-radius: 20px; }
+  .qr-method-header { grid-template-columns: 1fr; }
+  .qr-stability-badge { width: fit-content; min-width: 124px; text-align: left; }
+  .qr-method-note { grid-template-columns: 1fr; }
+  .qr-embedded-animation { padding: 12px; border-radius: 16px; }
+  .givens-diagram-panel { grid-template-columns: 1fr; padding: 14px; }
+  .givens-svg { min-height: 240px; }
 }
 </style>

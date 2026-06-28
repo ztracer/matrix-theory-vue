@@ -162,10 +162,15 @@
         title="Gram-Schmidt正交化 (R³)"
         :playing="gsPlaying"
         description="拖动画面旋转视角，滚轮缩放；蓝色为原始向量aᵢ，绿色为正交向量bᵢ，橙色虚线为被减去的投影分量"
+        step
         @play="gsPlay"
         @pause="gsPause"
         @reset="gsReset"
+        @step="gsNextStep"
       >
+        <template #controls>
+          <button class="ctrl-btn" @click="gsPreviousStep" :disabled="gsStep === 0 || gsPlaying">上一步</button>
+        </template>
         <div class="gs-stage">
           <div ref="gsViewport" class="gs-viewport" aria-label="Gram-Schmidt 3D interactive view"></div>
           <div class="gs-legend">
@@ -330,34 +335,41 @@
       </ExampleBox>
     </Section>
 
-    <!-- 8. 知识结构图（auto模式） -->
+    <!-- 8. 知识结构图 -->
     <Section title="知识结构：矩阵三角分解方法谱系" :num="8">
       <p>下图展示矩阵三角分解的各类方法及其关系：</p>
       <AnimationBox
-        mode="auto"
         title="矩阵分解方法关系图"
-        description="脉冲高亮依次展示：Gauss消元→LU→LDU→Cholesky；Gram-Schmidt/Householder→QR"
+        description="三角分解侧重消元与正定结构；QR分解侧重正交化、反射和旋转。"
+        hide-controls
       >
         <div class="concept-map">
-          <div class="cm-root">矩阵分解</div>
-          <div class="cm-branches">
-            <div class="cm-branch cm-branch-lu">
-              <div class="cm-node cm-n1" style="animation-delay:0s">LU分解</div>
-              <div class="cm-children">
-                <div class="cm-node cm-n2" style="animation-delay:1s">Gauss消元</div>
-                <div class="cm-node cm-n3" style="animation-delay:2s">LDU分解</div>
-                <div class="cm-node cm-n4" style="animation-delay:3s">Cholesky<br/><span class="cm-small">A=LLᵀ(正定)</span></div>
+          <div class="cm-root">矩阵分解方法</div>
+          <div class="cm-columns">
+            <div class="cm-family cm-family-lu">
+              <div class="cm-family-title">消元 / 三角分解</div>
+              <div class="cm-flow">
+                <div class="cm-node">Gauss消元<span>行变换清零</span></div>
+                <div class="cm-arrow">→</div>
+                <div class="cm-node">LU分解<span>A = LU</span></div>
+                <div class="cm-arrow">→</div>
+                <div class="cm-node">LDU分解<span>抽出对角尺度</span></div>
+                <div class="cm-arrow">→</div>
+                <div class="cm-node">Cholesky<span>A = LLᵀ，正定特例</span></div>
               </div>
             </div>
-            <div class="cm-branch cm-branch-qr">
-              <div class="cm-node cm-n5" style="animation-delay:4s">QR分解</div>
-              <div class="cm-children">
-                <div class="cm-node cm-n6" style="animation-delay:5s">Gram-Schmidt<br/><span class="cm-small">(正交化)</span></div>
-                <div class="cm-node cm-n7" style="animation-delay:6s">Householder<br/><span class="cm-small">(反射·数值稳定)</span></div>
-                <div class="cm-node cm-n8" style="animation-delay:7s">Givens旋转<br/><span class="cm-small">(平面旋转)</span></div>
+            <div class="cm-family cm-family-qr">
+              <div class="cm-family-title">正交 / QR分解</div>
+              <div class="cm-method-grid">
+                <div class="cm-node">Gram-Schmidt<span>逐次减投影</span></div>
+                <div class="cm-node">Householder<span>反射清零，数值稳定</span></div>
+                <div class="cm-node">Givens旋转<span>平面旋转逐个清零</span></div>
               </div>
+              <div class="cm-merge">↓</div>
+              <div class="cm-node cm-node-result">QR分解<span>A = QR，Q正交，R上三角</span></div>
             </div>
           </div>
+          <div class="cm-note">核心区分：LU 记录消元过程；QR 构造正交基并保留上三角结构。</div>
         </div>
       </AnimationBox>
     </Section>
@@ -581,6 +593,7 @@ function luReset() {
 const gsPlaying = ref(false)
 let gsAnimId = null
 let gsRafId = null
+let gsTweenRafId = null
 const gsStep = ref(0)
 const gsT = ref(0)
 const gsProj1 = ref(null)
@@ -604,6 +617,12 @@ const gsA = [
   [0.5, 0.5, 2]
 ]
 const gsB = ref([null, null, null])
+const GS_STEP_TEXT = [
+  '点击“步进”逐步观察，或拖动画面先选择视角',
+  'Step 1：b₁ = a₁，第一个向量直接进入正交组',
+  'Step 2：a₂ = proj_{b₁}(a₂) + b₂，橙色是被减去的投影',
+  'Step 3：a₃ = proj_{b₁}(a₃) + proj_{b₂}(a₃) + b₃，得到两两正交向量组'
+]
 
 function vecSub(a, b) { return a.map((v,i) => v - b[i]) }
 function vecScale(a, s) { return a.map(v => v * s) }
@@ -611,6 +630,19 @@ function vecDot(a, b) { return a.reduce((s,v,i) => s + v*b[i], 0) }
 function vecNorm(a) { return Math.sqrt(vecDot(a,a)) }
 function vecAdd(a, b) { return a.map((v,i) => v + b[i]) }
 function vecLerp(a, b, t) { return a.map((v,i) => v + (b[i] - v) * t) }
+function vecZero() { return [0, 0, 0] }
+
+function gsComputeData() {
+  const b1 = [...gsA[0]]
+  const proj1 = vecScale(b1, vecDot(gsA[1], b1) / vecDot(b1, b1))
+  const b2 = vecSub(gsA[1], proj1)
+  const proj2a = vecScale(b1, vecDot(gsA[2], b1) / vecDot(b1, b1))
+  const proj2b = vecScale(b2, vecDot(gsA[2], b2) / vecDot(b2, b2))
+  const b3 = vecSub(gsA[2], vecAdd(proj2a, proj2b))
+  return { b1, proj1, b2, proj2a, proj2b, b3 }
+}
+
+const gsData = gsComputeData()
 
 function gsToVector3(v) {
   return new THREE.Vector3(v[0], v[2], v[1])
@@ -655,7 +687,32 @@ function gsAddVector(v, color, label, options = {}) {
   return arrow
 }
 
-function gsAddDashedLine(from, to, color = 0xf97316, opacity = 0.88) {
+function gsAddSegment(from, to, color = 0xf97316, options = {}) {
+  const start = gsToVector3(from)
+  const end = gsToVector3(to)
+  const diff = end.clone().sub(start)
+  if (diff.length() < 0.0001) return null
+  const arrow = new THREE.ArrowHelper(
+    diff.clone().normalize(),
+    start,
+    diff.length(),
+    color,
+    options.headLength ?? 0.14,
+    options.headWidth ?? 0.08
+  )
+  arrow.line.material.transparent = true
+  arrow.line.material.opacity = options.opacity ?? 1
+  arrow.cone.material.transparent = true
+  arrow.cone.material.opacity = options.opacity ?? 1
+  gsSceneLayer.add(arrow)
+  if (options.label) {
+    const labelPos = start.clone().lerp(end, options.labelAt ?? 0.55).add(new THREE.Vector3(0.06, 0.08, 0.04))
+    gsAddLabel(options.label, labelPos, options.labelClass ?? '')
+  }
+  return arrow
+}
+
+function gsAddDashedLine(from, to, color = 0xf97316, opacity = 0.88, label = '') {
   const points = [gsToVector3(from), gsToVector3(to)]
   const geometry = new THREE.BufferGeometry().setFromPoints(points)
   const material = new THREE.LineDashedMaterial({
@@ -668,6 +725,10 @@ function gsAddDashedLine(from, to, color = 0xf97316, opacity = 0.88) {
   const line = new THREE.Line(geometry, material)
   line.computeLineDistances()
   gsSceneLayer.add(line)
+  if (label) {
+    const labelPos = points[0].clone().lerp(points[1], 0.55).add(new THREE.Vector3(0.05, 0.08, 0.05))
+    gsAddLabel(label, labelPos, 'gs-label-p')
+  }
   return line
 }
 
@@ -698,18 +759,18 @@ function gsRenderSceneLayer() {
 
   gsA.forEach((v, idx) => {
     if (gsStep.value >= idx) {
-      gsAddVector(v, 0x3b82f6, `a${idx + 1}`, { opacity: 0.42, headLength: 0.16, headWidth: 0.09, labelClass: 'gs-label-a' })
+      gsAddVector(v, 0x3b82f6, `a${idx + 1}`, { opacity: 0.34, headLength: 0.16, headWidth: 0.09, labelClass: 'gs-label-a' })
     }
   })
 
   if (gsStep.value >= 1 && gsB.value[0]) {
-    gsAddVector(gsB.value[0], 0x059669, 'b1', { labelClass: 'gs-label-b' })
+    gsAddVector(gsB.value[0], 0x059669, 'b1 = a1', { labelClass: 'gs-label-b' })
   }
 
   if (gsStep.value >= 2) {
     if (gsProj1.value) {
-      gsAddDashedLine([0, 0, 0], gsProj1.value)
-      gsAddDashedLine(gsProj1.value, gsA[1], 0xf97316, 0.58)
+      gsAddSegment(vecZero(), gsProj1.value, 0xf97316, { label: 'proj_b1(a2)', labelClass: 'gs-label-p' })
+      gsAddDashedLine(gsProj1.value, gsA[1], 0xf97316, 0.72, 'a2 - proj')
     }
     if (gsB.value[1]) {
       gsAddVector(gsB.value[1], 0x059669, 'b2', { labelClass: 'gs-label-b' })
@@ -722,9 +783,10 @@ function gsRenderSceneLayer() {
   if (gsStep.value >= 3) {
     if (gsProj2a.value && gsProj2b.value) {
       const removed = vecAdd(gsProj2a.value, gsProj2b.value)
-      gsAddDashedLine([0, 0, 0], gsProj2a.value)
-      gsAddDashedLine(gsProj2a.value, removed)
-      gsAddDashedLine(removed, gsA[2], 0xf97316, 0.58)
+      gsAddSegment(vecZero(), gsProj2a.value, 0xf97316, { label: 'proj_b1(a3)', labelClass: 'gs-label-p', opacity: 0.95 })
+      gsAddSegment(gsProj2a.value, removed, 0xfb923c, { label: 'proj_b2(a3)', labelClass: 'gs-label-p', opacity: 0.95 })
+      gsAddDashedLine(vecZero(), removed, 0xf97316, 0.5, 'projection sum')
+      gsAddDashedLine(removed, gsA[2], 0xf97316, 0.72, 'a3 - projection sum')
     }
     if (gsB.value[2]) {
       gsAddVector(gsB.value[2], 0x059669, 'b3', { labelClass: 'gs-label-b' })
@@ -761,8 +823,8 @@ function gsInitScene() {
   gsScene = new THREE.Scene()
   gsScene.background = new THREE.Color(0xf8fafc)
 
-  gsCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 100)
-  gsCamera.position.set(4.2, 3.5, 5.2)
+  gsCamera = new THREE.PerspectiveCamera(46, 1, 0.1, 100)
+  gsCamera.position.set(5.4, 4.2, 6.2)
 
   gsRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
   gsRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -773,12 +835,13 @@ function gsInitScene() {
   gsLabelRenderer.domElement.className = 'gs-label-layer'
   gsViewport.value.appendChild(gsLabelRenderer.domElement)
 
-  gsControls = new OrbitControls(gsCamera, gsLabelRenderer.domElement)
+  gsControls = new OrbitControls(gsCamera, gsRenderer.domElement)
   gsControls.enableDamping = true
   gsControls.dampingFactor = 0.08
   gsControls.target.set(0.75, 0.75, 0.75)
-  gsControls.minDistance = 3.2
-  gsControls.maxDistance = 10
+  gsControls.minDistance = 2.2
+  gsControls.maxDistance = 14
+  gsControls.enablePan = true
 
   gsScene.add(new THREE.HemisphereLight(0xffffff, 0xdbeafe, 2.4))
   const grid = new THREE.GridHelper(5, 10, 0xcbd5e1, 0xe2e8f0)
@@ -809,6 +872,7 @@ function gsInitScene() {
 
 function gsDisposeScene() {
   if (gsRafId) cancelAnimationFrame(gsRafId)
+  if (gsTweenRafId) cancelAnimationFrame(gsTweenRafId)
   gsResizeObserver?.disconnect()
   gsControls?.dispose()
   gsClearLayer()
@@ -829,7 +893,8 @@ function gsDisposeScene() {
   gsResizeObserver = null
 }
 
-function gsAnimateVector(from, to, duration = 900) {
+function gsAnimateVector(from, to, duration = 1600) {
+  if (gsTweenRafId) cancelAnimationFrame(gsTweenRafId)
   return new Promise(resolve => {
     const start = performance.now()
     function tick(now) {
@@ -838,53 +903,89 @@ function gsAnimateVector(from, to, duration = 900) {
       gsCurrentB.value = vecLerp(from, to, gsT.value)
       gsRenderSceneLayer()
       renderTrigger.value++
-      if (gsT.value < 1) requestAnimationFrame(tick)
-      else resolve(true)
+      if (gsT.value < 1) gsTweenRafId = requestAnimationFrame(tick)
+      else {
+        gsTweenRafId = null
+        resolve(true)
+      }
     }
-    requestAnimationFrame(tick)
+    gsTweenRafId = requestAnimationFrame(tick)
   })
+}
+
+function gsApplyStep(step) {
+  gsB.value = [null, null, null]
+  gsProj1.value = null
+  gsProj2a.value = null
+  gsProj2b.value = null
+  gsCurrentB.value = null
+  gsT.value = 0
+
+  if (step >= 1) gsB.value[0] = gsData.b1
+  if (step >= 2) {
+    gsProj1.value = gsData.proj1
+    gsB.value[1] = gsData.b2
+  }
+  if (step >= 3) {
+    gsProj2a.value = gsData.proj2a
+    gsProj2b.value = gsData.proj2b
+    gsB.value[2] = gsData.b3
+  }
+  gsStepText.value = GS_STEP_TEXT[step]
+  renderTrigger.value++
+  gsRenderSceneLayer()
+}
+
+function gsSetStep(step) {
+  gsPause()
+  gsStep.value = Math.max(0, Math.min(3, step))
+  gsApplyStep(gsStep.value)
+}
+
+function gsNextStep() {
+  gsSetStep(gsStep.value + 1)
+}
+
+function gsPreviousStep() {
+  gsSetStep(gsStep.value - 1)
 }
 
 async function gsAdvance() {
   if (gsStep.value >= 3) {
     gsPlaying.value = false
-    return
+    return false
   }
-  gsStep.value++
-  if (gsStep.value === 1) {
-    gsB.value[0] = [...gsA[0]]
-    gsStepText.value = 'b₁ = a₁（第一个向量直接作为正交基）'
-  } else if (gsStep.value === 2) {
-    const a2 = gsA[1], b1 = gsB.value[0]
-    const c1 = vecDot(a2, b1) / vecDot(b1, b1)
-    gsProj1.value = vecScale(b1, c1)
-    const b2 = vecSub(a2, gsProj1.value)
-    gsStepText.value = 'b₂ = a₂ - proj_{b₁}(a₂)，橙色部分是被减去的投影'
-    if (gsPlaying.value) await gsAnimateVector(a2, b2)
-    gsB.value[1] = b2
-    gsCurrentB.value = null
-  } else if (gsStep.value === 3) {
-    const a3 = gsA[2], b1 = gsB.value[0], b2 = gsB.value[1]
-    const c1 = vecDot(a3, b1) / vecDot(b1, b1)
-    const c2 = vecDot(a3, b2) / vecDot(b2, b2)
-    gsProj2a.value = vecScale(b1, c1)
-    gsProj2b.value = vecScale(b2, c2)
-    const removed = vecAdd(gsProj2a.value, gsProj2b.value)
-    const b3 = vecSub(a3, removed)
-    gsStepText.value = 'b₃ = a₃ - proj_{b₁}(a₃) - proj_{b₂}(a₃)，连续减去两个投影'
-    if (gsPlaying.value) await gsAnimateVector(a3, b3)
-    gsB.value[2] = b3
-    gsCurrentB.value = null
-    gsStepText.value = '得到两两正交的向量组 {b₁,b₂,b₃}'
+  const nextStep = gsStep.value + 1
+  gsStep.value = nextStep
+
+  if (nextStep === 1) {
+    gsApplyStep(nextStep)
+  } else if (nextStep === 2) {
+    gsApplyStep(nextStep)
+    gsB.value[1] = null
+    gsCurrentB.value = [...gsA[1]]
+    gsRenderSceneLayer()
+    await gsAnimateVector(gsA[1], gsData.b2)
+  } else if (nextStep === 3) {
+    gsApplyStep(nextStep)
+    gsB.value[2] = null
+    gsCurrentB.value = [...gsA[2]]
+    gsRenderSceneLayer()
+    await gsAnimateVector(gsA[2], gsData.b3)
   }
-  renderTrigger.value++
-  gsRenderSceneLayer()
+
+  gsApplyStep(nextStep)
+  return true
 }
 
 async function gsLoop() {
   if (!gsPlaying.value) return
-  await gsAdvance()
-  gsAnimId = setTimeout(gsLoop, 1400)
+  const advanced = await gsAdvance()
+  if (!advanced || gsStep.value >= 3) {
+    gsPlaying.value = false
+    return
+  }
+  gsAnimId = setTimeout(gsLoop, 3000)
 }
 function gsPlay() {
   if (gsStep.value >= 3) gsReset()
@@ -894,20 +995,16 @@ function gsPlay() {
 function gsPause() {
   gsPlaying.value = false
   if (gsAnimId) clearTimeout(gsAnimId)
+  if (gsTweenRafId) cancelAnimationFrame(gsTweenRafId)
+  gsTweenRafId = null
 }
 function gsReset() {
   gsPlaying.value = false
   if (gsAnimId) clearTimeout(gsAnimId)
+  if (gsTweenRafId) cancelAnimationFrame(gsTweenRafId)
+  gsTweenRafId = null
   gsStep.value = 0
-  gsB.value = [null, null, null]
-  gsProj1.value = null
-  gsProj2a.value = null
-  gsProj2b.value = null
-  gsCurrentB.value = null
-  gsT.value = 0
-  gsStepText.value = '点击播放开始Gram-Schmidt正交化'
-  renderTrigger.value++
-  gsRenderSceneLayer()
+  gsApplyStep(0)
 }
 
 // ========== Householder动画 ==========
@@ -1074,7 +1171,7 @@ onUnmounted(() => {
   display: block;
 }
 .gs-label-layer {
-  pointer-events: auto;
+  pointer-events: none;
 }
 :deep(.gs-label) {
   padding: 2px 6px;
@@ -1091,6 +1188,7 @@ onUnmounted(() => {
 :deep(.gs-label-a) { color: #2563eb; }
 :deep(.gs-label-b),
 :deep(.gs-label-ok) { color: #047857; }
+:deep(.gs-label-p) { color: #c2410c; }
 :deep(.gs-label-axis) {
   background: transparent;
   color: #64748b;
@@ -1143,83 +1241,123 @@ onUnmounted(() => {
   border-top: 3px dashed #f97316;
   background: transparent;
 }
+.ctrl-btn {
+  padding: 6px 14px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .15s;
+  color: #475569;
+  font-family: inherit;
+}
+.ctrl-btn:hover:not(:disabled) {
+  background: #4f46e5;
+  color: #fff;
+  border-color: #4f46e5;
+}
+.ctrl-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
 
-/* 概念关系图（auto模式） */
+/* 矩阵分解关系图 */
 .concept-map {
-  padding: 24px 16px;
+  width: min(100%, 980px);
+  padding: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  min-height: 280px;
+  gap: 22px;
 }
 .cm-root {
-  background: linear-gradient(135deg,#4f46e5,#7c3aed);
+  background: #312e81;
   color: #fff;
-  padding: 10px 28px;
-  border-radius: 24px;
+  padding: 12px 28px;
+  border-radius: 8px;
   font-size: 18px;
   font-weight: 700;
-  box-shadow: 0 4px 14px rgba(79,70,229,.3);
-  animation: cm-pulse 2s ease-in-out infinite;
+  box-shadow: 0 10px 24px rgba(49, 46, 129, .16);
 }
-.cm-branches {
-  display: flex;
-  gap: 32px;
-  flex-wrap: wrap;
-  justify-content: center;
+.cm-columns {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
 }
-.cm-branch {
+.cm-family {
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #fff;
+  padding: 18px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-  padding-top: 20px;
+  gap: 14px;
 }
-.cm-branch::before {
-  content: '';
-  position: absolute;
-  top: -16px;
-  left: 50%;
-  width: 2px;
-  height: 20px;
-  background: #94a3b8;
+.cm-family-lu { border-color: #bfdbfe; background: #f8fbff; }
+.cm-family-qr { border-color: #a7f3d0; background: #f7fffb; }
+.cm-family-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1e293b;
+  text-align: center;
 }
-.cm-children {
+.cm-flow {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
 }
 .cm-node {
-  padding: 8px 16px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 600;
+  min-height: 58px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 800;
   text-align: center;
   background: #fff;
-  border: 2px solid #e2e8f0;
-  color: #475569;
-  opacity: 0;
-  animation: cm-light 8s ease-in-out infinite;
+  border: 1px solid #dbe3ef;
+  color: #1e293b;
   line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
 }
-.cm-small { font-size: 11px; font-weight: 400; color: #94a3b8; }
-.cm-branch-lu .cm-node { border-color: #93c5fd; color: #1e40af; }
-.cm-branch-qr .cm-node { border-color: #6ee7b7; color: #065f46; }
-.cm-n1 { animation-delay: 0s !important; }
-.cm-n5 { animation-delay: 4s !important; }
-@keyframes cm-pulse {
-  0%,100% { box-shadow: 0 4px 14px rgba(79,70,229,.3); transform: scale(1); }
-  50% { box-shadow: 0 6px 24px rgba(79,70,229,.5); transform: scale(1.04); }
+.cm-node span {
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
 }
-@keyframes cm-light {
-  0% { opacity: 0; transform: scale(0.8); }
-  5% { opacity: 1; transform: scale(1.1); }
-  10% { transform: scale(1); }
-  85% { opacity: 1; transform: scale(1); }
-  95%,100% { opacity: 0.3; transform: scale(0.95); }
+.cm-family-lu .cm-node { border-color: #93c5fd; color: #1d4ed8; }
+.cm-family-qr .cm-node { border-color: #6ee7b7; color: #047857; }
+.cm-node-result {
+  border-color: #10b981;
+  background: #ecfdf5;
+}
+.cm-arrow,
+.cm-merge {
+  color: #94a3b8;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1;
+}
+.cm-method-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.cm-note {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 13px;
+  text-align: center;
 }
 
 @media (max-width: 760px) {
@@ -1233,6 +1371,13 @@ onUnmounted(() => {
   .gs-legend em {
     grid-column: 1 / -1;
     text-align: left;
+  }
+  .cm-columns,
+  .cm-method-grid {
+    grid-template-columns: 1fr;
+  }
+  .concept-map {
+    padding: 16px 8px;
   }
 }
 </style>

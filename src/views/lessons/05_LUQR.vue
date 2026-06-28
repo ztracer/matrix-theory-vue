@@ -161,100 +161,21 @@
       <AnimationBox
         title="Gram-Schmidt正交化 (R³)"
         :playing="gsPlaying"
-        description="蓝色为原始向量aᵢ，绿色为正交向量bᵢ，橙色虚线为被减去的投影分量"
+        description="拖动画面旋转视角，滚轮缩放；蓝色为原始向量aᵢ，绿色为正交向量bᵢ，橙色虚线为被减去的投影分量"
         @play="gsPlay"
         @pause="gsPause"
         @reset="gsReset"
       >
-        <svg :width="gsSvgWidth" height="380" viewBox="0 0 700 380">
-          <!-- 3D坐标系 -->
-          <g transform="translate(350, 200)">
-            <!-- 坐标轴 -->
-            <line x1="-180" y1="90" x2="180" y2="-90" stroke="#cbd5e1" stroke-width="1.5"/>
-            <line x1="-180" y1="-30" x2="180" y2="30" stroke="#cbd5e1" stroke-width="1.5"/>
-            <line x1="0" y1="-150" x2="0" y2="150" stroke="#cbd5e1" stroke-width="1.5"/>
-            <text x="190" y="-90" font-size="12" fill="#94a3b8">x</text>
-            <text x="190" y="35" font-size="12" fill="#94a3b8">y</text>
-            <text x="8" y="-155" font-size="12" fill="#94a3b8">z</text>
-
-            <!-- 原始向量 a1, a2, a3 (蓝色) -->
-            <template v-for="(v, idx) in gsA" :key="'a'+idx">
-              <line v-if="gsStep >= idx" x1="0" y1="0" :x2="gsProject(v,1).x" :y2="gsProject(v,1).y"
-                stroke="#3b82f6" stroke-width="2.5" opacity="0.5"/>
-              <circle v-if="gsStep >= idx" :cx="gsProject(v,1).x" :cy="gsProject(v,1).y" r="4" fill="#3b82f6"/>
-              <text v-if="gsStep >= idx" :x="gsProject(v,1).x + 8" :y="gsProject(v,1).y" font-size="12" fill="#3b82f6" font-weight="600">a{{ idx+1 }}</text>
-            </template>
-
-            <!-- 正交向量 b1 (绿色) -->
-            <template v-if="gsStep >= 1">
-              <line x1="0" y1="0" :x2="gsProject(gsB[0], gsScale).x" :y2="gsProject(gsB[0], gsScale).y"
-                stroke="#059669" stroke-width="3"/>
-              <circle :cx="gsProject(gsB[0], gsScale).x" :cy="gsProject(gsB[0], gsScale).y" r="5" fill="#059669"/>
-              <text :x="gsProject(gsB[0], gsScale).x + 8" :y="gsProject(gsB[0], gsScale).y" font-size="13" fill="#059669" font-weight="700">b₁</text>
-            </template>
-
-            <!-- 当前正在形成的正交向量 -->
-            <template v-if="gsStep >= 2 && gsCurrentB">
-              <line x1="0" y1="0" :x2="gsProject(gsCurrentB, gsScale).x" :y2="gsProject(gsCurrentB, gsScale).y"
-                stroke="#10b981" stroke-width="3" opacity="0.75"/>
-              <circle :cx="gsProject(gsCurrentB, gsScale).x" :cy="gsProject(gsCurrentB, gsScale).y" r="4" fill="#10b981" opacity="0.75"/>
-            </template>
-
-            <!-- b2的投影分量（橙色虚线） -->
-            <template v-if="gsStep >= 2">
-              <!-- proj_b1(a2) 橙色虚线 -->
-              <line v-if="gsProj1" x1="0" y1="0" :x2="gsProject(gsProj1, gsScale).x" :y2="gsProject(gsProj1, gsScale).y"
-                stroke="#f97316" stroke-width="2" stroke-dasharray="6,4"/>
-              <line :x1="gsProject(gsProj1, gsScale).x" :y1="gsProject(gsProj1, gsScale).y"
-                :x2="gsProject(gsA[1],1).x" :y2="gsProject(gsA[1],1).y"
-                stroke="#f97316" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
-              <!-- b2 -->
-              <line x1="0" y1="0" :x2="gsProject(gsB[1], gsScale).x" :y2="gsProject(gsB[1], gsScale).y"
-                stroke="#059669" stroke-width="3"/>
-              <circle :cx="gsProject(gsB[1], gsScale).x" :cy="gsProject(gsB[1], gsScale).y" r="5" fill="#059669"/>
-              <text :x="gsProject(gsB[1], gsScale).x + 8" :y="gsProject(gsB[1], gsScale).y" font-size="13" fill="#059669" font-weight="700">b₂</text>
-            </template>
-
-            <!-- b3的投影分量 -->
-            <template v-if="gsStep >= 3">
-              <line v-if="gsProj2a" x1="0" y1="0" :x2="gsProject(gsProj2a, gsScale).x" :y2="gsProject(gsProj2a, gsScale).y"
-                stroke="#f97316" stroke-width="2" stroke-dasharray="6,4"/>
-              <line v-if="gsProj2b" :x1="gsProject(gsProj2a, gsScale).x" :y1="gsProject(gsProj2a, gsScale).y"
-                :x2="gsProject([gsProj2a[0]+gsProj2b[0], gsProj2a[1]+gsProj2b[1], gsProj2a[2]+gsProj2b[2]], gsScale).x"
-                :y2="gsProject([gsProj2a[0]+gsProj2b[0], gsProj2a[1]+gsProj2b[1], gsProj2a[2]+gsProj2b[2]], gsScale).y"
-                stroke="#f97316" stroke-width="2" stroke-dasharray="6,4"/>
-              <line :x1="gsProject([gsProj2a[0]+gsProj2b[0], gsProj2a[1]+gsProj2b[1], gsProj2a[2]+gsProj2b[2]], gsScale).x"
-                :y1="gsProject([gsProj2a[0]+gsProj2b[0], gsProj2a[1]+gsProj2b[1], gsProj2a[2]+gsProj2b[2]], gsScale).y"
-                :x2="gsProject(gsA[2],1).x" :y2="gsProject(gsA[2],1).y"
-                stroke="#f97316" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
-              <!-- b3 -->
-              <line x1="0" y1="0" :x2="gsProject(gsB[2], gsScale).x" :y2="gsProject(gsB[2], gsScale).y"
-                stroke="#059669" stroke-width="3"/>
-              <circle :cx="gsProject(gsB[2], gsScale).x" :cy="gsProject(gsB[2], gsScale).y" r="5" fill="#059669"/>
-              <text :x="gsProject(gsB[2], gsScale).x + 8" :y="gsProject(gsB[2], gsScale).y" font-size="13" fill="#059669" font-weight="700">b₃</text>
-            </template>
-
-            <!-- 正交标记 -->
-            <template v-if="gsStep >= 2">
-              <text x="-160" y="-130" font-size="11" fill="#059669">✓ b₁ ⊥ b₂</text>
-            </template>
-            <template v-if="gsStep >= 3">
-              <text x="-160" y="-115" font-size="11" fill="#059669">✓ b₁ ⊥ b₃</text>
-              <text x="-160" y="-100" font-size="11" fill="#059669">✓ b₂ ⊥ b₃</text>
-            </template>
-          </g>
-
-          <!-- 图例 -->
-          <rect x="20" y="310" width="660" height="55" rx="8" fill="#f8fafc" stroke="#e2e8f0"/>
-          <line x1="40" y1="330" x2="70" y2="330" stroke="#3b82f6" stroke-width="2.5"/>
-          <text x="78" y="335" font-size="12" fill="#475569">原始向量 aᵢ</text>
-          <line x1="180" y1="330" x2="210" y2="330" stroke="#059669" stroke-width="3"/>
-          <text x="218" y="335" font-size="12" fill="#475569">正交向量 bᵢ</text>
-          <line x1="320" y1="330" x2="350" y2="330" stroke="#f97316" stroke-width="2" stroke-dasharray="6,4"/>
-          <text x="358" y="335" font-size="12" fill="#475569">投影分量(被减去)</text>
-          <text x="500" y="335" font-size="13" font-weight="600" fill="#0d9488">{{ gsStepText }}</text>
-          <text x="350" y="358" text-anchor="middle" font-size="12" fill="#94a3b8">步骤 {{ gsStep }} / 3</text>
-        </svg>
+        <div class="gs-stage">
+          <div ref="gsViewport" class="gs-viewport" aria-label="Gram-Schmidt 3D interactive view"></div>
+          <div class="gs-legend">
+            <span><i class="gs-key gs-key-a"></i>原始向量 aᵢ</span>
+            <span><i class="gs-key gs-key-b"></i>正交向量 bᵢ</span>
+            <span><i class="gs-key gs-key-p"></i>投影分量(被减去)</span>
+            <strong>{{ gsStepText }}</strong>
+            <em>步骤 {{ gsStep }} / 3</em>
+          </div>
+        </div>
       </AnimationBox>
     </Section>
 
@@ -526,7 +447,10 @@ import QuizProblem from '../../components/quiz/QuizProblem.vue'
 import { quizBank } from '../../data/quizBank'
 import { homeworkBank } from '../../data/homeworkBank'
 import { useKatex } from '../../composables/useKatex'
-import { ref, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { CSS2DObject, CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 
 const quizzes = (quizBank[5] || []).map(q => ({ ...q, lessonNum: '05', lessonTitle: '三角分解与QR分解' }))
 const hwQuizzes = computed(() => (homeworkBank[5] || []).map(q => ({ ...q })))
@@ -656,15 +580,22 @@ function luReset() {
 // ========== Gram-Schmidt动画 ==========
 const gsPlaying = ref(false)
 let gsAnimId = null
+let gsRafId = null
 const gsStep = ref(0)
-const gsSvgWidth = ref(700)
 const gsT = ref(0)
-const gsScale = ref(1)
 const gsProj1 = ref(null)
 const gsProj2a = ref(null)
 const gsProj2b = ref(null)
 const gsCurrentB = ref(null)
 const gsStepText = ref('点击播放开始Gram-Schmidt正交化')
+const gsViewport = ref(null)
+let gsScene = null
+let gsCamera = null
+let gsRenderer = null
+let gsLabelRenderer = null
+let gsControls = null
+let gsSceneLayer = null
+let gsResizeObserver = null
 
 // 原始向量
 const gsA = [
@@ -674,21 +605,229 @@ const gsA = [
 ]
 const gsB = ref([null, null, null])
 
-// 简单3D斜二测投影
-function gsProject(v, s) {
-  const scale = 60 * s
-  return {
-    x: (v[0] - v[1]) * 0.866 * scale,
-    y: (v[2] - (v[0] + v[1]) * 0.5) * scale
-  }
-}
-
 function vecSub(a, b) { return a.map((v,i) => v - b[i]) }
 function vecScale(a, s) { return a.map(v => v * s) }
 function vecDot(a, b) { return a.reduce((s,v,i) => s + v*b[i], 0) }
 function vecNorm(a) { return Math.sqrt(vecDot(a,a)) }
 function vecAdd(a, b) { return a.map((v,i) => v + b[i]) }
 function vecLerp(a, b, t) { return a.map((v,i) => v + (b[i] - v) * t) }
+
+function gsToVector3(v) {
+  return new THREE.Vector3(v[0], v[2], v[1])
+}
+
+function gsMakeLabel(text, className = '') {
+  const el = document.createElement('div')
+  el.className = `gs-label ${className}`
+  el.textContent = text
+  return new CSS2DObject(el)
+}
+
+function gsAddLabel(text, position, className = '') {
+  const label = gsMakeLabel(text, className)
+  label.position.copy(position)
+  gsSceneLayer.add(label)
+  return label
+}
+
+function gsAddVector(v, color, label, options = {}) {
+  if (!v || vecNorm(v) < 0.0001) return null
+  const end = gsToVector3(v)
+  const length = end.length()
+  const arrow = new THREE.ArrowHelper(
+    end.clone().normalize(),
+    new THREE.Vector3(0, 0, 0),
+    length,
+    color,
+    options.headLength ?? 0.18,
+    options.headWidth ?? 0.11
+  )
+  arrow.line.material.linewidth = options.lineWidth ?? 3
+  arrow.line.material.transparent = true
+  arrow.line.material.opacity = options.opacity ?? 1
+  arrow.cone.material.transparent = true
+  arrow.cone.material.opacity = options.opacity ?? 1
+  gsSceneLayer.add(arrow)
+  if (label) {
+    const labelPos = end.clone().multiplyScalar(1.05).add(new THREE.Vector3(0.05, 0.06, 0.05))
+    gsAddLabel(label, labelPos, options.labelClass ?? '')
+  }
+  return arrow
+}
+
+function gsAddDashedLine(from, to, color = 0xf97316, opacity = 0.88) {
+  const points = [gsToVector3(from), gsToVector3(to)]
+  const geometry = new THREE.BufferGeometry().setFromPoints(points)
+  const material = new THREE.LineDashedMaterial({
+    color,
+    dashSize: 0.12,
+    gapSize: 0.08,
+    transparent: true,
+    opacity
+  })
+  const line = new THREE.Line(geometry, material)
+  line.computeLineDistances()
+  gsSceneLayer.add(line)
+  return line
+}
+
+function gsAddOrthogonalNotes() {
+  if (gsStep.value < 2) return
+  const notes = gsStep.value >= 3 ? ['b1 ⊥ b2', 'b1 ⊥ b3', 'b2 ⊥ b3'] : ['b1 ⊥ b2']
+  notes.forEach((note, i) => {
+    gsAddLabel(note, new THREE.Vector3(-1.55, 2.6 - i * 0.2, -1.2), 'gs-label-ok')
+  })
+}
+
+function gsClearLayer() {
+  if (!gsSceneLayer) return
+  while (gsSceneLayer.children.length) {
+    const child = gsSceneLayer.children[0]
+    gsSceneLayer.remove(child)
+    child.traverse?.((obj) => {
+      obj.geometry?.dispose?.()
+      if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose?.())
+      else obj.material?.dispose?.()
+    })
+  }
+}
+
+function gsRenderSceneLayer() {
+  if (!gsSceneLayer) return
+  gsClearLayer()
+
+  gsA.forEach((v, idx) => {
+    if (gsStep.value >= idx) {
+      gsAddVector(v, 0x3b82f6, `a${idx + 1}`, { opacity: 0.42, headLength: 0.16, headWidth: 0.09, labelClass: 'gs-label-a' })
+    }
+  })
+
+  if (gsStep.value >= 1 && gsB.value[0]) {
+    gsAddVector(gsB.value[0], 0x059669, 'b1', { labelClass: 'gs-label-b' })
+  }
+
+  if (gsStep.value >= 2) {
+    if (gsProj1.value) {
+      gsAddDashedLine([0, 0, 0], gsProj1.value)
+      gsAddDashedLine(gsProj1.value, gsA[1], 0xf97316, 0.58)
+    }
+    if (gsB.value[1]) {
+      gsAddVector(gsB.value[1], 0x059669, 'b2', { labelClass: 'gs-label-b' })
+    } else if (gsCurrentB.value) {
+      gsAddVector(gsCurrentB.value, 0x10b981, '', { opacity: 0.78 })
+      gsAddDashedLine(gsCurrentB.value, gsA[1], 0x10b981, 0.32)
+    }
+  }
+
+  if (gsStep.value >= 3) {
+    if (gsProj2a.value && gsProj2b.value) {
+      const removed = vecAdd(gsProj2a.value, gsProj2b.value)
+      gsAddDashedLine([0, 0, 0], gsProj2a.value)
+      gsAddDashedLine(gsProj2a.value, removed)
+      gsAddDashedLine(removed, gsA[2], 0xf97316, 0.58)
+    }
+    if (gsB.value[2]) {
+      gsAddVector(gsB.value[2], 0x059669, 'b3', { labelClass: 'gs-label-b' })
+    } else if (gsCurrentB.value) {
+      gsAddVector(gsCurrentB.value, 0x10b981, '', { opacity: 0.78 })
+      gsAddDashedLine(gsCurrentB.value, gsA[2], 0x10b981, 0.32)
+    }
+  }
+
+  gsAddOrthogonalNotes()
+}
+
+function gsResizeScene() {
+  if (!gsViewport.value || !gsCamera || !gsRenderer || !gsLabelRenderer) return
+  const rect = gsViewport.value.getBoundingClientRect()
+  const width = Math.max(rect.width, 320)
+  const height = Math.max(rect.height, 320)
+  gsCamera.aspect = width / height
+  gsCamera.updateProjectionMatrix()
+  gsRenderer.setSize(width, height)
+  gsLabelRenderer.setSize(width, height)
+}
+
+function gsDrawFrame() {
+  if (!gsRenderer || !gsScene || !gsCamera) return
+  gsControls?.update()
+  gsRenderer.render(gsScene, gsCamera)
+  gsLabelRenderer?.render(gsScene, gsCamera)
+  gsRafId = requestAnimationFrame(gsDrawFrame)
+}
+
+function gsInitScene() {
+  if (!gsViewport.value || gsScene) return
+  gsScene = new THREE.Scene()
+  gsScene.background = new THREE.Color(0xf8fafc)
+
+  gsCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 100)
+  gsCamera.position.set(4.2, 3.5, 5.2)
+
+  gsRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
+  gsRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  gsRenderer.domElement.className = 'gs-canvas'
+  gsViewport.value.appendChild(gsRenderer.domElement)
+
+  gsLabelRenderer = new CSS2DRenderer()
+  gsLabelRenderer.domElement.className = 'gs-label-layer'
+  gsViewport.value.appendChild(gsLabelRenderer.domElement)
+
+  gsControls = new OrbitControls(gsCamera, gsLabelRenderer.domElement)
+  gsControls.enableDamping = true
+  gsControls.dampingFactor = 0.08
+  gsControls.target.set(0.75, 0.75, 0.75)
+  gsControls.minDistance = 3.2
+  gsControls.maxDistance = 10
+
+  gsScene.add(new THREE.HemisphereLight(0xffffff, 0xdbeafe, 2.4))
+  const grid = new THREE.GridHelper(5, 10, 0xcbd5e1, 0xe2e8f0)
+  grid.position.y = -0.02
+  gsScene.add(grid)
+
+  const axes = [
+    { v: [2.6, 0, 0], color: 0x94a3b8, label: 'x' },
+    { v: [0, 2.6, 0], color: 0x94a3b8, label: 'z' },
+    { v: [0, 0, 2.6], color: 0x94a3b8, label: 'y' }
+  ]
+  axes.forEach(axis => {
+    const end = new THREE.Vector3(...axis.v)
+    gsScene.add(new THREE.ArrowHelper(end.clone().normalize(), new THREE.Vector3(0, 0, 0), end.length(), axis.color, 0.12, 0.08))
+    const label = gsMakeLabel(axis.label, 'gs-label-axis')
+    label.position.copy(end.multiplyScalar(1.05))
+    gsScene.add(label)
+  })
+
+  gsSceneLayer = new THREE.Group()
+  gsScene.add(gsSceneLayer)
+  gsResizeObserver = new ResizeObserver(gsResizeScene)
+  gsResizeObserver.observe(gsViewport.value)
+  gsResizeScene()
+  gsRenderSceneLayer()
+  gsDrawFrame()
+}
+
+function gsDisposeScene() {
+  if (gsRafId) cancelAnimationFrame(gsRafId)
+  gsResizeObserver?.disconnect()
+  gsControls?.dispose()
+  gsClearLayer()
+  gsScene?.traverse((obj) => {
+    obj.geometry?.dispose?.()
+    if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose?.())
+    else obj.material?.dispose?.()
+  })
+  gsRenderer?.dispose()
+  gsRenderer?.domElement?.remove()
+  gsLabelRenderer?.domElement?.remove()
+  gsScene = null
+  gsCamera = null
+  gsRenderer = null
+  gsLabelRenderer = null
+  gsControls = null
+  gsSceneLayer = null
+  gsResizeObserver = null
+}
 
 function gsAnimateVector(from, to, duration = 900) {
   return new Promise(resolve => {
@@ -697,6 +836,7 @@ function gsAnimateVector(from, to, duration = 900) {
       if (!gsPlaying.value) { resolve(false); return }
       gsT.value = Math.min((now - start) / duration, 1)
       gsCurrentB.value = vecLerp(from, to, gsT.value)
+      gsRenderSceneLayer()
       renderTrigger.value++
       if (gsT.value < 1) requestAnimationFrame(tick)
       else resolve(true)
@@ -738,6 +878,7 @@ async function gsAdvance() {
     gsStepText.value = '得到两两正交的向量组 {b₁,b₂,b₃}'
   }
   renderTrigger.value++
+  gsRenderSceneLayer()
 }
 
 async function gsLoop() {
@@ -766,6 +907,7 @@ function gsReset() {
   gsT.value = 0
   gsStepText.value = '点击播放开始Gram-Schmidt正交化'
   renderTrigger.value++
+  gsRenderSceneLayer()
 }
 
 // ========== Householder动画 ==========
@@ -896,16 +1038,111 @@ function hhReset() {
   renderTrigger.value++
 }
 
+onMounted(() => {
+  nextTick(gsInitScene)
+})
+
 onUnmounted(() => {
   luPause()
   gsPause()
   hhPause()
+  gsDisposeScene()
 })
 </script>
 
 <style scoped>
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; margin: 12px 0; }
+
+.gs-stage {
+  width: min(100%, 920px);
+  margin: 0 auto;
+}
+.gs-viewport {
+  position: relative;
+  height: clamp(360px, 52vw, 520px);
+  overflow: hidden;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #f8fafc;
+  touch-action: none;
+}
+.gs-canvas,
+.gs-label-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.gs-label-layer {
+  pointer-events: auto;
+}
+:deep(.gs-label) {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(248, 250, 252, 0.86);
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+  user-select: none;
+}
+:deep(.gs-label-a) { color: #2563eb; }
+:deep(.gs-label-b),
+:deep(.gs-label-ok) { color: #047857; }
+:deep(.gs-label-axis) {
+  background: transparent;
+  color: #64748b;
+  box-shadow: none;
+  font-size: 14px;
+}
+.gs-legend {
+  display: grid;
+  grid-template-columns: auto auto auto minmax(180px, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin: 12px 0 0;
+  padding: 14px 18px;
+  position: relative;
+  z-index: 2;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: rgba(248, 250, 252, 0.93);
+  color: #475569;
+  font-size: 13px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+.gs-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.gs-legend strong {
+  color: #0d9488;
+  font-size: 14px;
+  text-align: right;
+}
+.gs-legend em {
+  color: #94a3b8;
+  font-style: normal;
+  text-align: right;
+  white-space: nowrap;
+}
+.gs-key {
+  width: 30px;
+  height: 4px;
+  display: inline-block;
+  border-radius: 999px;
+}
+.gs-key-a { background: #3b82f6; opacity: 0.55; }
+.gs-key-b { background: #059669; }
+.gs-key-p {
+  height: 0;
+  border-top: 3px dashed #f97316;
+  background: transparent;
+}
 
 /* 概念关系图（auto模式） */
 .concept-map {
@@ -983,5 +1220,19 @@ onUnmounted(() => {
   10% { transform: scale(1); }
   85% { opacity: 1; transform: scale(1); }
   95%,100% { opacity: 0.3; transform: scale(0.95); }
+}
+
+@media (max-width: 760px) {
+  .gs-viewport {
+    height: 420px;
+  }
+  .gs-legend {
+    grid-template-columns: 1fr 1fr;
+  }
+  .gs-legend strong,
+  .gs-legend em {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
 }
 </style>

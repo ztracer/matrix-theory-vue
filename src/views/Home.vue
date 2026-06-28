@@ -35,111 +35,76 @@
       <div class="container">
         <div class="section-header">
           <div class="section-tag">Knowledge Architecture</div>
-          <h2>📊 知识体系架构图</h2>
-          <p class="section-desc">点击节点跳转学习，理解各章节间的逻辑关联</p>
+          <h2>📊 矩阵论知识图谱</h2>
+          <p class="section-desc">按小知识点展示前置依赖、推导路径和考试关联；点击节点进入对应课程。</p>
         </div>
         <div class="mindmap-card" @mousemove="moveTip" @mouseleave="hideTip">
-          <svg viewBox="0 0 1000 620" class="mindmap-svg">
+          <div class="kg-toolbar">
+            <button
+              v-for="g in knowledgeGroups"
+              :key="g.id"
+              class="kg-filter"
+              :class="{ active: activeKnowledgeGroup === g.id }"
+              :style="{ '--group-color': g.color }"
+              @click="setKnowledgeGroup(g.id)"
+            >
+              {{ g.label }}
+            </button>
+          </div>
+
+          <div class="kg-scroll">
+            <svg viewBox="0 0 1380 700" class="mindmap-svg">
             <defs>
-              <linearGradient id="gRoot" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#4f46e5"/><stop offset="50%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#ec4899"/>
-              </linearGradient>
-              <linearGradient id="gW1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#4338ca"/><stop offset="100%" stop-color="#6366f1"/>
-              </linearGradient>
-              <linearGradient id="gW2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#0d9488"/><stop offset="100%" stop-color="#14b8a6"/>
-              </linearGradient>
-              <linearGradient id="gW3" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#ea580c"/><stop offset="100%" stop-color="#f97316"/>
-              </linearGradient>
+              <marker id="kgArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="context-stroke"/>
+              </marker>
             </defs>
 
-            <!-- Connections (curved paths) -->
+            <g class="kg-lanes">
+              <template v-for="lane in knowledgeLanes" :key="lane.label">
+                <text :x="lane.x" y="34" text-anchor="middle">{{ lane.label }}</text>
+                <line :x1="lane.x" y1="52" :x2="lane.x" y2="672"/>
+              </template>
+            </g>
+
             <g class="edges">
-              <!-- Root to Week nodes -->
-              <path d="M500,330 C400,260 280,200 200,170" stroke="#c7d2fe" stroke-width="2.5" fill="none"/>
-              <path d="M500,330 C500,240 500,180 500,150" stroke="#99f6e4" stroke-width="2.5" fill="none"/>
-              <path d="M500,330 C600,260 720,200 800,170" stroke="#fed7aa" stroke-width="2.5" fill="none"/>
-
-              <!-- Week 1 chain: w1→01→02→03→04→root -->
-              <path d="M200,170 C160,220 130,270 110,320" stroke="#a5b4fc" stroke-width="2" fill="none"/>
-              <path d="M110,320 C140,370 170,420 200,450" stroke="#a5b4fc" stroke-width="2" fill="none"/>
-              <path d="M200,450 C260,440 320,410 380,390" stroke="#a5b4fc" stroke-width="2" fill="none"/>
-              <path d="M380,390 C400,395 410,398 420,400" stroke="#a5b4fc" stroke-width="2" fill="none"/>
-              <path d="M420,400 C440,380 470,350 500,330" stroke="#a5b4fc" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
-
-              <!-- Week 2 chain: w2→05→root, w2→06→07, w2→07, 07→root -->
-              <path d="M500,150 C450,200 420,250 400,290" stroke="#5eead4" stroke-width="2" fill="none"/>
-              <path d="M400,290 C430,305 465,320 500,330" stroke="#5eead4" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
-              <path d="M500,150 C550,200 580,250 600,290" stroke="#5eead4" stroke-width="2" fill="none"/>
-              <path d="M600,290 C570,350 530,410 500,460" stroke="#5eead4" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
-              <path d="M500,150 C500,250 500,360 500,460" stroke="#5eead4" stroke-width="2" fill="none"/>
-              <path d="M500,460 C500,420 500,370 500,330" stroke="#5eead4" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
-
-              <!-- Week 3 chain: w3→08→root, w3→09→08, w3→10→11, 11→w3 -->
-              <path d="M800,170 C740,220 700,270 680,320" stroke="#fdba74" stroke-width="2" fill="none"/>
-              <path d="M680,320 C630,325 570,328 500,330" stroke="#fdba74" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
-              <path d="M800,170 C820,230 830,290 820,350" stroke="#fdba74" stroke-width="2" fill="none"/>
-              <path d="M820,350 C770,345 720,335 680,320" stroke="#fdba74" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
-              <path d="M800,170 C860,240 900,310 910,380" stroke="#fdba74" stroke-width="2" fill="none"/>
-              <path d="M910,380 C880,420 850,470 830,500" stroke="#fdba74" stroke-width="2" fill="none"/>
-              <path d="M830,500 C820,400 810,280 800,170" stroke="#f9a8d4" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+              <path
+                v-for="edge in visibleKnowledgeEdges"
+                :key="edge.from + '-' + edge.to"
+                :d="edgePath(edge)"
+                :stroke="edgeStyle(edge).color"
+                :stroke-dasharray="edgeStyle(edge).dash"
+                :class="edgeClass(edge)"
+                fill="none"
+                marker-end="url(#kgArrow)"
+              />
             </g>
 
-            <!-- Root node -->
-            <g class="mm-node" @click="go('/')" @mouseenter="showTip($event, rootInfo)">
-              <circle cx="500" cy="330" r="50" fill="url(#gRoot)"/>
-              <text x="500" y="325" text-anchor="middle" fill="#fff" font-weight="700" font-size="17">矩阵论</text>
-              <text x="500" y="345" text-anchor="middle" fill="rgba(255,255,255,.8)" font-size="11">Matrix Theory</text>
-            </g>
-
-            <!-- Week nodes -->
-            <g class="mm-node" @mouseenter="showTip($event, weekInfo[0])">
-              <circle cx="200" cy="170" r="38" fill="url(#gW1)"/>
-              <text x="200" y="166" text-anchor="middle" fill="#fff" font-weight="600" font-size="12">第1周</text>
-              <text x="200" y="182" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="10">空间变换</text>
-            </g>
-            <g class="mm-node" @mouseenter="showTip($event, weekInfo[1])">
-              <circle cx="500" cy="150" r="38" fill="url(#gW2)"/>
-              <text x="500" y="146" text-anchor="middle" fill="#fff" font-weight="600" font-size="12">第2周</text>
-              <text x="500" y="162" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="10">矩阵分解</text>
-            </g>
-            <g class="mm-node" @mouseenter="showTip($event, weekInfo[2])">
-              <circle cx="800" cy="170" r="38" fill="url(#gW3)"/>
-              <text x="800" y="166" text-anchor="middle" fill="#fff" font-weight="600" font-size="12">第3周</text>
-              <text x="800" y="182" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="10">应用专题</text>
-            </g>
-
-            <!-- Week 1 topic nodes -->
-            <g v-for="n in w1Nodes" :key="n.id" class="mm-node topic" @click="go(n.path)" @mouseenter="showTip($event, n)">
-              <circle :cx="n.x" :cy="n.y" r="30" :fill="n.color"/>
-              <text :x="n.x" :y="n.y - 2" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">{{ n.label1 }}</text>
-              <text :x="n.x" :y="n.y + 11" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">{{ n.label2 }}</text>
-            </g>
-
-            <!-- Week 2 topic nodes -->
-            <g v-for="n in w2Nodes" :key="n.id" class="mm-node topic" @click="go(n.path)" @mouseenter="showTip($event, n)">
-              <circle :cx="n.x" :cy="n.y" r="30" :fill="n.color"/>
-              <text :x="n.x" :y="n.y - 2" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">{{ n.label1 }}</text>
-              <text :x="n.x" :y="n.y + 11" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">{{ n.label2 }}</text>
-            </g>
-
-            <!-- Week 3 topic nodes -->
-            <g v-for="n in w3Nodes" :key="n.id" class="mm-node topic" @click="go(n.path)" @mouseenter="showTip($event, n)">
-              <circle :cx="n.x" :cy="n.y" r="30" :fill="n.color"/>
-              <text :x="n.x" :y="n.y - 2" text-anchor="middle" fill="#fff" font-weight="600" font-size="11">{{ n.label1 }}</text>
-              <text :x="n.x" :y="n.y + 11" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="10">{{ n.label2 }}</text>
+            <g
+              v-for="n in visibleKnowledgeNodes"
+              :key="n.id"
+              class="mm-node kg-node"
+              :class="nodeClass(n)"
+              :transform="`translate(${n.x}, ${n.y})`"
+              @click="selectKnowledgeNode(n)"
+              @mouseenter="selectedKnowledgeNodeId = n.id; showTip($event, nodeTip(n))"
+            >
+              <rect x="-58" y="-23" width="116" height="46" rx="8" :fill="groupColor(n.group)"/>
+              <text y="-3" text-anchor="middle" fill="#fff" font-weight="700" font-size="12">{{ n.label }}</text>
+              <text y="13" text-anchor="middle" fill="rgba(255,255,255,.86)" font-size="10">L{{ String(n.lesson).padStart(2, '0') }} · {{ n.formula }}</text>
+              <g v-if="nodeQuestionCount(n) > 0" transform="translate(47,-28)">
+                <circle r="12" fill="#fff" :stroke="groupColor(n.group)" stroke-width="2"/>
+                <text y="4" text-anchor="middle" :fill="groupColor(n.group)" font-weight="800" font-size="10">{{ nodeQuestionCount(n) }}</text>
+              </g>
             </g>
           </svg>
+          </div>
 
           <div class="mm-tooltip" ref="tip" :class="{ show: tipShow }">{{ tipText }}</div>
 
           <div class="mm-legend">
-            <div class="legend-item"><span class="dot" style="background:linear-gradient(135deg,#4338ca,#6366f1)"></span>第1周：空间与标准形</div>
-            <div class="legend-item"><span class="dot" style="background:linear-gradient(135deg,#0d9488,#14b8a6)"></span>第2周：分解与广义逆</div>
-            <div class="legend-item"><span class="dot" style="background:linear-gradient(135deg,#ea580c,#f97316)"></span>第3周：应用与真题</div>
-            <div class="legend-item"><span class="dot dashed"></span>知识点依赖</div>
+            <div v-for="g in knowledgeGroups.slice(1)" :key="g.id" class="legend-item"><span class="dot" :style="{ background: g.color }"></span>{{ g.label }}</div>
+            <div v-for="(type, key) in edgeTypes" :key="key" class="legend-item"><span class="edge-sample" :style="{ borderTopColor: type.color, borderTopStyle: type.dash ? 'dashed' : 'solid' }"></span>{{ type.label }}</div>
           </div>
         </div>
       </div>
@@ -305,6 +270,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { quizBank, lessonMeta } from '@/data/quizBank'
 import { homeworkBank } from '../data/homeworkBank'
+import { knowledgeEdges, knowledgeGroups, knowledgeNodes, edgeTypes } from '../data/knowledgeGraph'
 import { useKatex } from '../composables/useKatex'
 
 useKatex()
@@ -313,6 +279,8 @@ const router = useRouter()
 const tip = ref(null)
 const tipShow = ref(false)
 const tipText = ref('')
+const activeKnowledgeGroup = ref('all')
+const selectedKnowledgeNodeId = ref(null)
 
 // 动态获取某课的真题数量
 const getQuizCount = (id) => quizBank[id]?.length || 0
@@ -333,43 +301,132 @@ const mathSymbols = [
   { sym: 'Ax=λx', style: 'bottom:12%;right:5%;font-size:48px;animation-delay:-15s' },
 ]
 
-const rootInfo = { tip: '矩阵论 Matrix Theory\n\n研究线性空间上线性变换的数学分支，核心思想：几何直观 + 代数计算。' }
-const weekInfo = [
-  { tip: '第1周：空间变换与标准形\n建立线性空间和线性变换的基本概念，通过特征值分析得到标准形。' },
-  { tip: '第2周：矩阵分解与广义逆\n矩阵分解（LU, QR, SVD）与广义逆理论，是数值计算的核心工具。' },
-  { tip: '第3周：应用专题与真题\n投影、最小二乘、特征值估计等应用，结合真题进行考前冲刺。' },
+const knowledgeLanes = [
+  { label: '基础对象', x: 90 },
+  { label: '变换结构', x: 300 },
+  { label: '标准形/函数', x: 500 },
+  { label: '分解工具', x: 700 },
+  { label: 'SVD/广义逆', x: 900 },
+  { label: '几何优化', x: 1090 },
+  { label: '估计/考点', x: 1280 }
 ]
 
-const w1Nodes = [
-  { id:'01', x:110, y:320, color:'#4f46e5', label1:'线性', label2:'空间', path:'/lesson/01',
-    tip:'01 线性空间与子空间\n8条公理、子空间判定、基与维数、直和分解、维数公式。' },
-  { id:'02', x:200, y:450, color:'#6366f1', label1:'线性', label2:'变换', path:'/lesson/02',
-    tip:'02 线性变换及其矩阵\n矩阵表示、相似变换、核与像、Gram-Schmidt正交化、Householder反射。' },
-  { id:'03', x:380, y:390, color:'#7c3aed', label1:'Jordan', label2:'标准形', path:'/lesson/03',
-    tip:'03 对角化与Jordan标准形\n特征值特征向量、代数与几何重数、Jordan块、Jordan链。' },
-  { id:'04', x:420, y:400, color:'#8b5cf6', label1:'矩阵', label2:'函数', path:'/lesson/04',
-    tip:'04 矩阵函数与微分方程\n矩阵指数、相图分析、线性微分方程组求解。' },
-]
+const groupColor = (groupId) => knowledgeGroups.find(g => g.id === groupId)?.color || '#64748b'
 
-const w2Nodes = [
-  { id:'05', x:400, y:290, color:'#0d9488', label1:'LU/QR', label2:'分解', path:'/lesson/05',
-    tip:'05 三角分解与QR分解\nLU分解（Gauss消元）、QR分解、Gram-Schmidt、Householder反射。' },
-  { id:'06', x:600, y:290, color:'#14b8a6', label1:'SVD', label2:'分解', path:'/lesson/06',
-    tip:'06 满秩分解与SVD\n奇异值分解、几何意义（旋转-拉伸-旋转）、最佳低秩逼近。' },
-  { id:'07', x:500, y:460, color:'#10b981', label1:'M-P', label2:'广义逆', path:'/lesson/07',
-    tip:'07 Moore-Penrose广义逆\n四个Penrose方程、广义逆的SVD构造、极小范数最小二乘解。' },
-]
+const nodeById = computed(() => Object.fromEntries(knowledgeNodes.map(n => [n.id, n])))
 
-const w3Nodes = [
-  { id:'08', x:680, y:320, color:'#ea580c', label1:'投影', label2:'矩阵', path:'/lesson/08',
-    tip:'08 投影矩阵与应用\n幂等性（投影两次等于投影一次）、正交投影与斜投影、到列空间的投影。' },
-  { id:'09', x:820, y:350, color:'#f97316', label1:'最小', label2:'二乘', path:'/lesson/09',
-    tip:'09 最小二乘与范数\n最小二乘极小化、正规方程、向量与矩阵范数、谱半径。' },
-  { id:'10', x:910, y:380, color:'#fb923c', label1:'特征值', label2:'估计', path:'/lesson/10',
-    tip:'10 特征值估计与极大极小原理\n盖尔圆盘定理、隔离定理、Rayleigh商。' },
-  { id:'11', x:830, y:500, color:'#ec4899', label1:'考前', label2:'复习', path:'/lesson/11',
-    tip:'11 考前预测与复习\n高频计算与证明模板、解题流程、易错点总结。' },
-]
+function textMatchesNode(text, node) {
+  if (!text) return false
+  const terms = [node.label, node.formula, ...(node.aliases || [])].filter(Boolean)
+  return terms.some(term => text.includes(term))
+}
+
+function countBankMatches(bank, node) {
+  let count = 0
+  for (const items of Object.values(bank)) {
+    for (const item of items || []) {
+      const knowledgeText = Array.isArray(item.knowledge) ? item.knowledge.join(' ') : (item.knowledge || '')
+      const haystack = `${knowledgeText} ${item.title || ''} ${item.question || ''}`
+      if (textMatchesNode(haystack, node)) count++
+    }
+  }
+  return count
+}
+
+const nodeQuestionCounts = computed(() => {
+  const counts = {}
+  for (const node of knowledgeNodes) {
+    counts[node.id] = countBankMatches(quizBank, node) + countBankMatches(homeworkBank, node)
+  }
+  return counts
+})
+
+const nodeQuestionCount = (node) => nodeQuestionCounts.value[node.id] || 0
+
+const selectedNeighborIds = computed(() => {
+  if (!selectedKnowledgeNodeId.value) return new Set()
+  const ids = new Set([selectedKnowledgeNodeId.value])
+  knowledgeEdges.forEach(edge => {
+    if (edge.from === selectedKnowledgeNodeId.value) ids.add(edge.to)
+    if (edge.to === selectedKnowledgeNodeId.value) ids.add(edge.from)
+  })
+  return ids
+})
+
+const visibleKnowledgeNodes = computed(() => {
+  if (activeKnowledgeGroup.value === 'all') return knowledgeNodes
+  const related = new Set()
+  knowledgeEdges.forEach(edge => {
+    const from = nodeById.value[edge.from]
+    const to = nodeById.value[edge.to]
+    if (from?.group === activeKnowledgeGroup.value || to?.group === activeKnowledgeGroup.value) {
+      related.add(edge.from)
+      related.add(edge.to)
+    }
+  })
+  return knowledgeNodes.filter(n => n.group === activeKnowledgeGroup.value || related.has(n.id))
+})
+
+const visibleKnowledgeNodeIds = computed(() => new Set(visibleKnowledgeNodes.value.map(n => n.id)))
+
+const visibleKnowledgeEdges = computed(() => {
+  return knowledgeEdges.filter(edge => (
+    visibleKnowledgeNodeIds.value.has(edge.from) &&
+    visibleKnowledgeNodeIds.value.has(edge.to)
+  ))
+})
+
+function setKnowledgeGroup(groupId) {
+  activeKnowledgeGroup.value = groupId
+  selectedKnowledgeNodeId.value = null
+}
+
+function selectKnowledgeNode(node) {
+  selectedKnowledgeNodeId.value = node.id
+  go(node.path)
+}
+
+function edgeStyle(edge) {
+  return edgeTypes[edge.type] || edgeTypes.requires
+}
+
+function edgePath(edge) {
+  const from = nodeById.value[edge.from]
+  const to = nodeById.value[edge.to]
+  if (!from || !to) return ''
+  const startX = from.x + 58
+  const endX = to.x - 58
+  const sameDirection = endX > startX
+  const c = Math.max(55, Math.abs(endX - startX) * 0.45)
+  const c1x = sameDirection ? startX + c : startX - c
+  const c2x = sameDirection ? endX - c : endX + c
+  return `M ${startX} ${from.y} C ${c1x} ${from.y}, ${c2x} ${to.y}, ${endX} ${to.y}`
+}
+
+function nodeTip(node) {
+  const lesson = lessonMeta.find(l => l.id === node.lesson)
+  const count = nodeQuestionCount(node)
+  return {
+    tip: `${node.label} · ${lesson?.num || ''} ${lesson?.title || ''}\n${node.formula}\n\n${node.desc}\n\n关联题目：${count} 道`
+  }
+}
+
+function nodeClass(node) {
+  return {
+    muted: activeKnowledgeGroup.value !== 'all' && node.group !== activeKnowledgeGroup.value,
+    selected: selectedKnowledgeNodeId.value === node.id,
+    related: selectedNeighborIds.value.has(node.id)
+  }
+}
+
+function edgeClass(edge) {
+  const hasSelection = Boolean(selectedKnowledgeNodeId.value)
+  const connected = edge.from === selectedKnowledgeNodeId.value || edge.to === selectedKnowledgeNodeId.value
+  return {
+    muted: hasSelection && !connected,
+    active: connected
+  }
+}
 
 // 从 lessonMeta 按周派生课程列表（anims 从 lessonMeta 读取，quizCount 通过 quizBank 动态计算）
 const week1 = computed(() => lessonMeta.filter(l => l.week === 1))
@@ -540,14 +597,95 @@ const hideTip = () => { tipShow.value = false }
   padding:24px; position:relative;
   overflow:hidden;
 }
-.mindmap-svg { width:100%; height:auto; display:block; max-width:100%; }
+.kg-toolbar {
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.kg-filter {
+  border:1px solid #e2e8f0;
+  background:#fff;
+  color:#475569;
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .2s;
+}
+.kg-filter:hover,
+.kg-filter.active {
+  color:#fff;
+  background:var(--group-color);
+  border-color:var(--group-color);
+  box-shadow:0 8px 20px color-mix(in srgb, var(--group-color) 24%, transparent);
+}
+.kg-scroll {
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding-bottom:8px;
+}
+.mindmap-svg {
+  width:100%;
+  min-width:1180px;
+  height:auto;
+  display:block;
+  max-width:none;
+  border-radius:14px;
+  background:
+    linear-gradient(90deg, rgba(248,250,252,.96), rgba(255,255,255,.96)),
+    repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(226,232,240,.45) 80px);
+}
+.kg-lanes text {
+  fill:#64748b;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+.kg-lanes line {
+  stroke:#e2e8f0;
+  stroke-width:1;
+  stroke-dasharray:4 8;
+}
+.edges path {
+  stroke-width:2;
+  opacity:.72;
+  transition:opacity .2s, stroke-width .2s;
+}
+.edges path.muted { opacity:.09; }
+.edges path.active {
+  opacity:1;
+  stroke-width:3;
+}
 .mm-node { cursor:pointer; }
-.mm-node:hover circle { filter:brightness(1.15); }
-.mm-node circle { transition:filter .2s; transform-origin:center; }
+.kg-node {
+  transition:opacity .2s, filter .2s, transform .2s;
+}
+.kg-node rect {
+  stroke:rgba(255,255,255,.72);
+  stroke-width:1.5;
+  filter:drop-shadow(0 8px 14px rgba(15,23,42,.12));
+  transition:filter .2s, stroke .2s, stroke-width .2s;
+}
+.kg-node:hover rect,
+.kg-node.selected rect {
+  filter:brightness(1.08) drop-shadow(0 12px 22px rgba(15,23,42,.18));
+  stroke:#0f172a;
+  stroke-width:2;
+}
+.kg-node.muted {
+  opacity:.34;
+}
+.kg-node.related {
+  opacity:1;
+}
 .mm-tooltip {
   position:absolute; background:#1e293b; color:#fff;
   padding:12px 16px; border-radius:10px; font-size:13px;
-  max-width:260px; pointer-events:none; opacity:0;
+  max-width:320px; pointer-events:none; opacity:0;
   transition:opacity .15s; z-index:10; line-height:1.7;
   box-shadow:0 8px 24px rgba(0,0,0,.25); white-space:pre-line;
 }
@@ -563,9 +701,10 @@ const hideTip = () => { tipShow.value = false }
 }
 .legend-item { display:flex; align-items:center; gap:8px; }
 .legend-item .dot { width:14px; height:14px; border-radius:50%; }
-.legend-item .dot.dashed {
-  background:repeating-linear-gradient(45deg,#cbd5e1,#cbd5e1 3px,transparent 3px,transparent 6px);
-  border:1px solid #cbd5e1;
+.edge-sample {
+  width:24px;
+  height:0;
+  border-top:2px solid #94a3b8;
 }
 
 /* Week blocks */

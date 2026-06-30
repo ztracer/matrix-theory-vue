@@ -94,6 +94,18 @@
       </ul>
     </Section>
 
+    <Section title="📺 视频讲解：SVD 的直观理解" :num="3">
+      <div class="bilibili-video">
+        <iframe
+          src="https://player.bilibili.com/player.html?isOutside=true&aid=592708535&bvid=BV1Hq4y117VK&cid=471718567&p=1"
+          scrolling="no"
+          frameborder="0"
+          allowfullscreen="true"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </Section>
+
     <!-- 4. SVD几何动画 -->
     <Section title="动画：SVD几何分解" :num="4">
       <p>
@@ -630,6 +642,24 @@ onUnmounted(() => {
 <style scoped>
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; margin: 12px 0; }
+
+/* Bilibili 视频嵌入 */
+.bilibili-video {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+.bilibili-video iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 .svd-sliders {
   display: flex; gap: 16px; align-items: center;
   font-size: 13px; color: #475569; flex-wrap: wrap;

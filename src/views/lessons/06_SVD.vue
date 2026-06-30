@@ -79,6 +79,12 @@
         为 <span class="formula-inline">A</span> 的奇异值。
       </Theorem>
 
+      <Theorem title="📡 奇异值与矩阵的谱" type="note" icon="📡">
+        <p style="margin-top:0;"><strong>什么是矩阵的"谱"？</strong><br/>一个方阵的特征值的集合 <span class="formula-inline">\{\lambda_1, \lambda_2, \ldots\}</span> 称为它的<strong>谱</strong>（spectrum）——就像光谱分解白光一样，特征值分解揭示了矩阵在各个"特征方向"上的作用强度。</p>
+        <p><strong>SVD 如何与谱挂钩？</strong><br/>从定义 <span class="formula-inline">\sigma_i = \sqrt{\lambda_i(A\T A)}</span> 可以看出：<strong>奇异值就是 <span class="formula-inline">A\T A</span> 这个对称方阵的谱（特征值）的算术平方根</strong>。你把 <span class="formula-inline">A</span> 的谱信息"藏"进了对称矩阵 <span class="formula-inline">A\T A</span> 里——对称矩阵永远可对角化，所以谱永远存在。</p>
+        <p style="margin-bottom:0;"><strong>一句话：</strong>EVD 只能给出方阵的谱；SVD 把"谱"的概念推广到了<strong>任意形状矩阵</strong>——奇异值就是非方阵的"广义谱"。当 <span class="formula-inline">A</span> 本身是对称正半定时，奇异值就等于特征值，二者合二为一。</p>
+      </Theorem>
+
       <Theorem title="SVD（奇异值分解）定理" type="theorem" icon="📌">
         对任意 <span class="formula-inline">A \in \R^{m \times n}</span>，存在 <span class="formula-inline">m</span> 阶正交矩阵 <span class="formula-inline">U</span>
         和 <span class="formula-inline">n</span> 阶正交矩阵 <span class="formula-inline">V</span>，使得：

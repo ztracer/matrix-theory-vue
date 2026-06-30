@@ -65,6 +65,12 @@
 
     <!-- 3. 奇异值与SVD -->
     <Section title="奇异值与SVD分解" :num="3">
+      <Theorem title="💡 有了特征值分解（EVD），为什么还要 SVD？" type="tip" icon="💡">
+        <p><strong>特征值分解的局限性：</strong>EVD 要求矩阵是 <strong>方阵</strong>（<span class="formula-inline">n \times n</span>）且<strong>可对角化</strong>。面对一个 <span class="formula-inline">1080 \times 1920</span> 的非方阵图像，EVD 直接失效。</p>
+        <p><strong>SVD 的降维打击：</strong>任何形状的矩阵 <span class="formula-inline">A \in \R^{m \times n}</span>（长方的、方的、哪怕只有一行/一列），<strong>百分之百存在 SVD</strong>。它的巧妙之处在于：把非方阵映射问题，转化成我们最熟悉的对称方阵问题——去研究 <span class="formula-inline">A\T A</span>（<span class="formula-inline">n \times n</span> 对称）和 <span class="formula-inline">AA\T</span>（<span class="formula-inline">m \times m</span> 对称），这两个矩阵一定可以对角化。</p>
+        <p style="margin:0.5rem 0 0;color:#065f46;"><strong>一句话：</strong>EVD 是方阵的"特权"，SVD 是全体矩阵的"通用语言"——它把 EVD 推广到了任意形状矩阵，是线性代数的终极分解定理。</p>
+      </Theorem>
+
       <Theorem title="奇异值定义" type="definition" icon="📖">
         设 <span class="formula-inline">A \in \R^{m \times n}</span>，<span class="formula-inline">\rank(A)=r</span>，
         <span class="formula-inline">A\T A</span> 的特征值为 <span class="formula-inline">\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_r > 0 = \lambda_{r+1} = \cdots = \lambda_n</span>，
@@ -107,62 +113,68 @@
       >
         <template #controls>
           <div class="svd-sliders">
-            <label>σ₁: <input type="range" v-model.number="sigma1" min="0.3" max="2.5" step="0.1"></label>
-            <label>σ₂: <input type="range" v-model.number="sigma2" min="0.3" max="2.5" step="0.1"></label>
+            <label class="svd-slider-label">
+              σ₁ = <span class="svd-sigma-val">{{ sigma1.toFixed(1) }}</span>
+              <input type="range" v-model.number="sigma1" min="0.3" max="2.5" step="0.1">
+            </label>
+            <label class="svd-slider-label">
+              σ₂ = <span class="svd-sigma-val">{{ sigma2.toFixed(1) }}</span>
+              <input type="range" v-model.number="sigma2" min="0.3" max="2.5" step="0.1">
+            </label>
           </div>
         </template>
         <svg :width="svdSvgWidth" height="380" viewBox="0 0 700 380">
           <!-- 四步流程 -->
           <!-- Step 1: 单位圆 -->
           <g transform="translate(100, 200)">
-            <text y="-120" text-anchor="middle" font-size="13" font-weight="600" fill="#0d9488">① 单位圆</text>
+            <text y="-120" text-anchor="middle" font-size="13" font-weight="600" fill="#3b82f6">① 单位圆</text>
             <circle cx="0" cy="0" r="70" fill="#dbeafe" fill-opacity="0.5" stroke="#3b82f6" stroke-width="2"/>
             <line x1="-80" y1="0" x2="80" y2="0" stroke="#e2e8f0" stroke-width="1"/>
             <line x1="0" y1="-80" x2="0" y2="80" stroke="#e2e8f0" stroke-width="1"/>
             <!-- 标准基向量 -->
-            <line v-if="svdPhase >= 0" x1="0" y1="0" x2="70" y2="0" stroke="#ef4444" stroke-width="2.5"/>
-            <line v-if="svdPhase >= 0" x1="0" y1="0" x2="0" y2="-70" stroke="#10b981" stroke-width="2.5"/>
-            <polygon points="70,0 63,-4 63,4" fill="#ef4444"/>
-            <polygon points="0,-70 -4,-63 4,-63" fill="#10b981"/>
+            <line v-if="svdPhase >= 0" x1="0" y1="0" x2="70" y2="0" stroke="#64748b" stroke-width="2.5"/>
+            <line v-if="svdPhase >= 0" x1="0" y1="0" x2="0" y2="-70" stroke="#64748b" stroke-width="2.5"/>
+            <polygon points="70,0 63,-4 63,4" fill="#64748b"/>
+            <polygon points="0,-70 -4,-63 4,-63" fill="#64748b"/>
           </g>
 
           <!-- 箭头1 -->
-          <text x="180" y="195" font-size="20" fill="#0d9488" font-weight="bold">→</text>
-          <text x="180" y="220" text-anchor="middle" font-size="11" fill="#64748b">Vᵀ</text>
+          <text x="180" y="195" font-size="20" fill="#6366f1" font-weight="bold">→</text>
+          <text x="180" y="220" text-anchor="middle" font-size="11" fill="#6366f1">Vᵀ</text>
 
           <!-- Step 2: V^T旋转后 -->
           <g transform="translate(270, 200)">
-            <text y="-120" text-anchor="middle" font-size="13" font-weight="600" fill="#0d9488">② Vᵀ旋转</text>
+            <text y="-120" text-anchor="middle" font-size="13" font-weight="600" fill="#6366f1">② Vᵀ旋转</text>
             <g :transform="`rotate(${svdVangle})`">
               <circle cx="0" cy="0" r="70" fill="#e0e7ff" fill-opacity="0.5" stroke="#6366f1" stroke-width="2"/>
               <line x1="-80" y1="0" x2="80" y2="0" stroke="#e2e8f0" stroke-width="1"/>
               <line x1="0" y1="-80" x2="0" y2="80" stroke="#e2e8f0" stroke-width="1"/>
-              <line v-if="svdPhase >= 1" x1="0" y1="0" x2="70" y2="0" stroke="#ef4444" stroke-width="2.5"/>
-              <line v-if="svdPhase >= 1" x1="0" y1="0" x2="0" y2="-70" stroke="#10b981" stroke-width="2.5"/>
+              <line v-if="svdPhase >= 1" x1="0" y1="0" x2="70" y2="0" stroke="#64748b" stroke-width="2.5"/>
+              <line v-if="svdPhase >= 1" x1="0" y1="0" x2="0" y2="-70" stroke="#64748b" stroke-width="2.5"/>
             </g>
           </g>
 
           <!-- 箭头2 -->
-          <text x="350" y="195" font-size="20" fill="#0d9488" font-weight="bold">→</text>
-          <text x="350" y="220" text-anchor="middle" font-size="11" fill="#64748b">Σ</text>
+          <text x="350" y="195" font-size="20" fill="#d97706" font-weight="bold">→</text>
+          <text x="350" y="220" text-anchor="middle" font-size="11" fill="#d97706">Σ</text>
 
           <!-- Step 3: Σ拉伸后 -->
           <g transform="translate(430, 200)">
-            <text y="-120" text-anchor="middle" font-size="13" font-weight="600" fill="#0d9488">③ Σ拉伸</text>
+            <text y="-120" text-anchor="middle" font-size="13" font-weight="600" fill="#d97706">③ Σ拉伸</text>
             <g :transform="`rotate(${svdVangle})`">
               <ellipse cx="0" cy="0" :rx="70*sigma1*svdStretch" :ry="70*sigma2*svdStretch" fill="#fef3c7" fill-opacity="0.5" stroke="#d97706" stroke-width="2"/>
               <line x1="-80" y1="0" x2="80" y2="0" stroke="#e2e8f0" stroke-width="1"/>
               <line x1="0" y1="-80" x2="0" y2="80" stroke="#e2e8f0" stroke-width="1"/>
-              <line v-if="svdPhase >= 2" x1="0" y1="0" :x2="70*sigma1*svdStretch" y2="0" stroke="#ef4444" stroke-width="2.5"/>
-              <line v-if="svdPhase >= 2" x1="0" y1="0" x2="0" :y2="-70*sigma2*svdStretch" stroke="#10b981" stroke-width="2.5"/>
-              <text v-if="svdPhase >= 2" :x="70*sigma1*svdStretch + 5" y="-3" font-size="10" fill="#ef4444">σ₁</text>
-              <text v-if="svdPhase >= 2" x="5" :y="-70*sigma2*svdStretch - 3" font-size="10" fill="#10b981">σ₂</text>
+              <line v-if="svdPhase >= 2" x1="0" y1="0" :x2="70*sigma1*svdStretch" y2="0" stroke="#64748b" stroke-width="2.5"/>
+              <line v-if="svdPhase >= 2" x1="0" y1="0" x2="0" :y2="-70*sigma2*svdStretch" stroke="#64748b" stroke-width="2.5"/>
+              <text v-if="svdPhase >= 2" :x="70*sigma1*svdStretch + 5" y="-3" font-size="10" fill="#64748b">σ₁</text>
+              <text v-if="svdPhase >= 2" x="5" :y="-70*sigma2*svdStretch - 3" font-size="10" fill="#64748b">σ₂</text>
             </g>
           </g>
 
           <!-- 箭头3 -->
           <text x="520" y="195" font-size="20" fill="#0d9488" font-weight="bold">→</text>
-          <text x="520" y="220" text-anchor="middle" font-size="11" fill="#64748b">U</text>
+          <text x="520" y="220" text-anchor="middle" font-size="11" fill="#0d9488">U</text>
 
           <!-- Step 4: U旋转后（最终椭球） -->
           <g transform="translate(600, 200)">
@@ -172,8 +184,8 @@
               <line x1="-90" y1="0" x2="90" y2="0" stroke="#e2e8f0" stroke-width="1"/>
               <line x1="0" y1="-90" x2="0" y2="90" stroke="#e2e8f0" stroke-width="1"/>
               <!-- 半轴 -->
-              <line v-if="svdPhase >= 3" x1="0" y1="0" :x2="70*sigma1*svdStretch" y2="0" stroke="#ef4444" stroke-width="3"/>
-              <line v-if="svdPhase >= 3" x1="0" y1="0" x2="0" :y2="-70*sigma2*svdStretch" stroke="#10b981" stroke-width="3"/>
+              <line v-if="svdPhase >= 3" x1="0" y1="0" :x2="70*sigma1*svdStretch" y2="0" stroke="#64748b" stroke-width="3"/>
+              <line v-if="svdPhase >= 3" x1="0" y1="0" x2="0" :y2="-70*sigma2*svdStretch" stroke="#64748b" stroke-width="3"/>
             </g>
             <text x="0" y="95" text-anchor="middle" font-size="11" fill="#0d9488" font-weight="600">半轴=σ₁,σ₂</text>
           </g>
@@ -185,6 +197,17 @@
           <text x="350" y="348" text-anchor="middle" font-size="12" fill="#94a3b8">当前 σ₁ = {{ sigma1.toFixed(1) }}, σ₂ = {{ sigma2.toFixed(1) }}</text>
         </svg>
       </AnimationBox>
+
+      <div class="svd-intuition" style="margin-top: 1rem; padding: 1rem 1.2rem; background: linear-gradient(135deg, #ecfdf5, #f0fdfa); border-radius: 8px; border-left: 4px solid #0d9488; font-size: 0.94rem; line-height: 1.8;">
+        <strong style="color:#0f766e;">🧐 怎么直观理解 <span class="formula-inline">A = U\Sigma V\T</span>？</strong>
+        <p style="margin:0.5rem 0 0 0;">
+          任何一个复杂的矩阵映射 <span class="formula-inline">A</span>，都可以拆解为三步：<br/>
+          1. <strong><span class="formula-inline">V\T</span>（旋转）</strong>：在原空间里找到一组最完美的<strong>标准正交基</strong>，把它旋转到和坐标轴对齐。<br/>
+          2. <strong><span class="formula-inline">\Sigma</span>（拉伸）</strong>：沿着这组轴的方向进行<strong>独立拉伸</strong>，原本的单位圆因此变成了椭圆。奇异值 <span class="formula-inline">\sigma_i</span> 就是椭圆各个半轴的长度。<br/>
+          3. <strong><span class="formula-inline">U</span>（再旋转）</strong>：把这个拉伸好的椭圆，整体在目标空间里<strong>再旋转</strong>一下，得到最终的映射结果。<br/>
+          这解释了为什么动画中，无论怎么调奇异值，圆一定会变成椭圆——因为矩阵映射本质上就是"旋转 + 拉伸 + 再旋转"，而拉伸轴的方向和长度正是由 SVD 给出的。
+        </p>
+      </div>
     </Section>
 
     <!-- 5. Frobenius范数与最佳秩k逼近 -->
@@ -202,6 +225,15 @@
         <Formula>\|A - A_k\|_F^2 = \min_{\rank(B)\leq k} \|A - B\|_F^2 = \sigma_{k+1}^2 + \cdots + \sigma_r^2</Formula>
       </Theorem>
 
+      <div class="svd-intuition" style="margin-top: 0.8rem; padding: 1rem 1.2rem; background: linear-gradient(135deg, #fffbeb, #fefce8); border-radius: 8px; border-left: 4px solid #d97706; font-size: 0.94rem; line-height: 1.8;">
+        <strong style="color:#92400e;">🖼️ 图像压缩的本质：</strong>
+        <p style="margin:0.5rem 0 0 0;">
+          上面公式 <span class="formula-inline">A = \sum_{i=1}^{r} \sigma_i u_i v_i\T</span> 告诉我们：矩阵 <span class="formula-inline">A</span> 可以写成 <span class="formula-inline">r</span> 个"秩为 1 的小矩阵"叠加。每一项 <span class="formula-inline">u_i v_i\T</span> 都是一张"基础纹理图"，<span class="formula-inline">\sigma_i</span> 是该纹理的"能量权重"。<br/>
+          由于奇异值 <span class="formula-inline">\sigma_i</span> 衰减极快（往往前 10% 的奇异值聚集了 90% 以上的画面能量，构成图像的大轮廓），后面的奇异值全是噪点和微小细节。所谓<strong>压缩</strong>，就是只保留前 <span class="formula-inline">k</span> 项（主要的"网格"），后面的直接抹成 0：<br/>
+          <span class="formula-inline" style="font-size:1.02rem;">A_k = \sigma_1 u_1 v_1\T + \sigma_2 u_2 v_2\T + \cdots + \sigma_k u_k v_k\T</span><br/>
+          主成分分析（PCA）、推荐系统、图像压缩的核心，都在这个看似简单的公式里。
+        </p>
+      </div>
       <p>这是图像压缩、主成分分析(PCA)、推荐系统等应用的理论基础——保留最大的 <span class="formula-inline">k</span> 个奇异值即可捕获矩阵的主要信息。</p>
     </Section>
 
@@ -359,6 +391,13 @@
           </div>
         </div>
       </AnimationBox>
+    </Section>
+
+    <Section title="⚠️ 计算避坑指南" :num="7">
+      <Theorem title="⚠️ 考试与计算的两个大坑（必看）" type="note" icon="⚠️" style="margin:0;">
+        <p style="margin-top:0;"><strong>坑一：正负号对齐问题</strong><br/>求出 <span class="formula-inline">V</span> 的列向量 <span class="formula-inline">v_i</span> 后，<strong>绝对不能</strong>盲目去求 <span class="formula-inline">AA\T</span> 的特征向量来凑 <span class="formula-inline">U</span>！因为特征向量的方向正负可任意选取，如果 <span class="formula-inline">u_i</span> 和 <span class="formula-inline">v_i</span> 独立确定正负号，会出现 <span class="formula-inline">(-u_i, v_i)</span> 这种不匹配的组合（等价于 <span class="formula-inline">\sigma_i \lt 0</span>，不合法）。<br/><strong>正确做法：</strong>先确定 <span class="formula-inline">v_i</span>（来自 <span class="formula-inline">A\T A</span>），再严格通过公式 <span class="formula-inline">u_i = \frac{1}{\sigma_i} A v_i</span> 计算 <span class="formula-inline">U</span> 的前 <span class="formula-inline">r</span> 个列向量。<span class="formula-inline">(-u_i, -v_i)</span> 同时取反是合法的，但 <span class="formula-inline">(u_i, -v_i)</span> 会出错。</p>
+        <p><strong>坑二：零空间的扩充（<span class="formula-inline">U</span> 的剩余列）</strong><br/>当 <span class="formula-inline">r \lt m</span> 时，用 <span class="formula-inline">u_i = \frac{1}{\sigma_i} A v_i</span> 只能求出 <span class="formula-inline">U</span> 的前 <span class="formula-inline">r</span> 列。剩下的 <span class="formula-inline">m-r</span> 列，必须通过求解齐次方程组 <span class="formula-inline">A\T x = 0</span> 得到基础解系，并对这些向量<strong>施密特正交化</strong>来补齐——它们构成 <span class="formula-inline">N(A\T) = R(A)^{\perp}</span> 的标准正交基。<br/><strong>对称提醒：</strong>当 <span class="formula-inline">r \lt n</span> 时，<span class="formula-inline">V</span> 的剩余列同样来自 <span class="formula-inline">\lambda=0</span> 对应的特征向量（即 <span class="formula-inline">N(A)</span>），这两侧是对称的。</p>
+      </Theorem>
     </Section>
 
     <!-- 8. 例题2：低秩逼近 -->
@@ -592,11 +631,26 @@ onUnmounted(() => {
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; margin: 12px 0; }
 .svd-sliders {
-  display: flex; gap: 12px; align-items: center;
-  font-size: 12px; color: #475569;
+  display: flex; gap: 16px; align-items: center;
+  font-size: 13px; color: #475569; flex-wrap: wrap;
 }
-.svd-sliders label { display: flex; align-items: center; gap: 4px; }
-.svd-sliders input[type="range"] { width: 80px; }
+.svd-slider-label {
+  display: flex; align-items: center; gap: 6px;
+  font-weight: 500;
+}
+.svd-sigma-val {
+  display: inline-block;
+  min-width: 2.2em; text-align: center;
+  padding: 2px 6px;
+  background: #0d9488; color: #fff;
+  border-radius: 4px;
+  font-weight: 700; font-size: 0.9em;
+}
+.svd-sliders input[type="range"] {
+  width: 180px;
+  accent-color: #0d9488;
+  cursor: pointer;
+}
 
 /* 满秩分解流程（auto模式CSS动画） */
 .fr-flow {

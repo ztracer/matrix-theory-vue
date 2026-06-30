@@ -84,6 +84,8 @@ a:hover {
 .formula-inline {
   display: inline;
   white-space: nowrap;
+  padding: 0 0.12em;
+  vertical-align: baseline;
 }
 
 /* KaTeX 显示模式 */

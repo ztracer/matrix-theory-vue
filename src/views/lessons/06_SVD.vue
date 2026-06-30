@@ -65,7 +65,7 @@
 
     <!-- 3. 奇异值与SVD -->
     <Section title="奇异值与SVD分解" :num="3">
-      <Theorem title="💡 有了特征值分解（EVD），为什么还要 SVD？" type="tip" icon="💡">
+      <Theorem title="有了特征值分解（EVD），为什么还要 SVD？" type="tip" icon="💡">
         <p><strong>特征值分解的局限性：</strong>EVD 要求矩阵是 <strong>方阵</strong>（<span class="formula-inline">n \times n</span>）且<strong>可对角化</strong>。面对一个 <span class="formula-inline">1080 \times 1920</span> 的非方阵图像，EVD 直接失效。</p>
         <p><strong>SVD 的降维打击：</strong>任何形状的矩阵 <span class="formula-inline">A \in \R^{m \times n}</span>（长方的、方的、哪怕只有一行/一列），<strong>百分之百存在 SVD</strong>。它的巧妙之处在于：把非方阵映射问题，转化成我们最熟悉的对称方阵问题——去研究 <span class="formula-inline">A\T A</span>（<span class="formula-inline">n \times n</span> 对称）和 <span class="formula-inline">AA\T</span>（<span class="formula-inline">m \times m</span> 对称），这两个矩阵一定可以对角化。</p>
         <p style="margin:0.5rem 0 0;color:#065f46;"><strong>一句话：</strong>EVD 是方阵的"特权"，SVD 是全体矩阵的"通用语言"——它把 EVD 推广到了任意形状矩阵，是线性代数的终极分解定理。</p>
@@ -79,7 +79,7 @@
         为 <span class="formula-inline">A</span> 的奇异值。
       </Theorem>
 
-      <Theorem title="📡 奇异值与矩阵的谱" type="note" icon="📡">
+      <Theorem title="奇异值与矩阵的谱" type="note" icon="📡">
         <p style="margin-top:0;"><strong>什么是矩阵的"谱"？</strong><br/>一个方阵的特征值的集合 <span class="formula-inline">\{\lambda_1, \lambda_2, \ldots\}</span> 称为它的<strong>谱</strong>（spectrum）——就像光谱分解白光一样，特征值分解揭示了矩阵在各个"特征方向"上的作用强度。</p>
         <p><strong>SVD 如何与谱挂钩？</strong><br/>从定义 <span class="formula-inline">\sigma_i = \sqrt{\lambda_i(A\T A)}</span> 可以看出：<strong>奇异值就是 <span class="formula-inline">A\T A</span> 这个对称方阵的谱（特征值）的算术平方根</strong>。你把 <span class="formula-inline">A</span> 的谱信息"藏"进了对称矩阵 <span class="formula-inline">A\T A</span> 里——对称矩阵永远可对角化，所以谱永远存在。</p>
         <p style="margin-bottom:0;"><strong>一句话：</strong>EVD 只能给出方阵的谱；SVD 把"谱"的概念推广到了<strong>任意形状矩阵</strong>——奇异值就是非方阵的"广义谱"。当 <span class="formula-inline">A</span> 本身是对称正半定时，奇异值就等于特征值，二者合二为一。</p>
@@ -455,7 +455,7 @@
     </Section>
 
     <Section title="⚠️ 计算避坑指南" :num="7">
-      <Theorem title="⚠️ 考试与计算的两个大坑（必看）" type="note" icon="⚠️" style="margin:0;">
+      <Theorem title="考试与计算的两个大坑（必看）" type="note" icon="⚠️" style="margin:0;">
         <p style="margin-top:0;"><strong>坑一：正负号对齐问题</strong><br/>求出 <span class="formula-inline">V</span> 的列向量 <span class="formula-inline">v_i</span> 后，<strong>绝对不能</strong>盲目去求 <span class="formula-inline">AA\T</span> 的特征向量来凑 <span class="formula-inline">U</span>！因为特征向量的方向正负可任意选取，如果 <span class="formula-inline">u_i</span> 和 <span class="formula-inline">v_i</span> 独立确定正负号，会出现 <span class="formula-inline">(-u_i, v_i)</span> 这种不匹配的组合（等价于 <span class="formula-inline">\sigma_i \lt 0</span>，不合法）。<br/><strong>正确做法：</strong>先确定 <span class="formula-inline">v_i</span>（来自 <span class="formula-inline">A\T A</span>），再严格通过公式 <span class="formula-inline">u_i = \frac{1}{\sigma_i} A v_i</span> 计算 <span class="formula-inline">U</span> 的前 <span class="formula-inline">r</span> 个列向量。<span class="formula-inline">(-u_i, -v_i)</span> 同时取反是合法的，但 <span class="formula-inline">(u_i, -v_i)</span> 会出错。</p>
         <p><strong>坑二：零空间的扩充（<span class="formula-inline">U</span> 的剩余列）</strong><br/>当 <span class="formula-inline">r \lt m</span> 时，用 <span class="formula-inline">u_i = \frac{1}{\sigma_i} A v_i</span> 只能求出 <span class="formula-inline">U</span> 的前 <span class="formula-inline">r</span> 列。剩下的 <span class="formula-inline">m-r</span> 列，必须通过求解齐次方程组 <span class="formula-inline">A\T x = 0</span> 得到基础解系，并对这些向量<strong>施密特正交化</strong>来补齐——它们构成 <span class="formula-inline">N(A\T) = R(A)^{\perp}</span> 的标准正交基。<br/><strong>对称提醒：</strong>当 <span class="formula-inline">r \lt n</span> 时，<span class="formula-inline">V</span> 的剩余列同样来自 <span class="formula-inline">\lambda=0</span> 对应的特征向量（即 <span class="formula-inline">N(A)</span>），这两侧是对称的。</p>
       </Theorem>

@@ -103,7 +103,7 @@
     <Section title="📺 视频讲解：SVD 的直观理解" :num="3">
       <div class="bilibili-video">
         <iframe
-          src="https://player.bilibili.com/player.html?isOutside=true&aid=592708535&bvid=BV1Hq4y117VK&cid=471718567&p=1"
+          src="https://player.bilibili.com/player.html?isOutside=true&aid=116134959388273&bvid=BV1XcfiBeEwQ&cid=36323591667&p=1"
           scrolling="no"
           frameborder="0"
           allowfullscreen="true"

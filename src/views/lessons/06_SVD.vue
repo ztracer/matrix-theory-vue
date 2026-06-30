@@ -125,88 +125,131 @@
       >
         <template #controls>
           <div class="svd-sliders">
-            <label class="svd-slider-label">
-              σ₁ = <span class="svd-sigma-val">{{ sigma1.toFixed(1) }}</span>
+            <label class="svd-slider-label svd-slider-major">
+              <span class="svd-slider-name">长轴 σ₁</span>
               <input type="range" v-model.number="sigma1" min="0.3" max="2.5" step="0.1">
+              <span class="svd-sigma-val">{{ sigma1.toFixed(1) }}</span>
             </label>
-            <label class="svd-slider-label">
-              σ₂ = <span class="svd-sigma-val">{{ sigma2.toFixed(1) }}</span>
+            <label class="svd-slider-label svd-slider-minor">
+              <span class="svd-slider-name">短轴 σ₂</span>
               <input type="range" v-model.number="sigma2" min="0.3" max="2.5" step="0.1">
+              <span class="svd-sigma-val">{{ sigma2.toFixed(1) }}</span>
             </label>
+            <div class="svd-ratio-pill">
+              拉伸比 {{ (sigma1 / sigma2).toFixed(2) }}
+            </div>
           </div>
         </template>
-        <svg :width="svdSvgWidth" height="380" viewBox="0 0 700 380">
-          <!-- 四步流程 -->
+        <svg class="svd-geometry-svg" viewBox="0 0 760 420" role="img" aria-label="SVD 几何分解动画">
+          <defs>
+            <filter id="svd-soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.08"/>
+            </filter>
+            <radialGradient id="svd-blue-fill" cx="50%" cy="42%" r="60%">
+              <stop offset="0%" stop-color="#eff6ff"/><stop offset="100%" stop-color="#bfdbfe"/>
+            </radialGradient>
+            <radialGradient id="svd-indigo-fill" cx="50%" cy="42%" r="60%">
+              <stop offset="0%" stop-color="#eef2ff"/><stop offset="100%" stop-color="#c7d2fe"/>
+            </radialGradient>
+            <radialGradient id="svd-amber-fill" cx="50%" cy="42%" r="65%">
+              <stop offset="0%" stop-color="#fffbeb"/><stop offset="100%" stop-color="#fde68a"/>
+            </radialGradient>
+            <radialGradient id="svd-teal-fill" cx="50%" cy="42%" r="65%">
+              <stop offset="0%" stop-color="#f0fdfa"/><stop offset="100%" stop-color="#99f6e4"/>
+            </radialGradient>
+            <marker id="svd-arrow-indigo" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+              <path d="M0,0 L7,3.5 L0,7 Z" fill="#6366f1"/>
+            </marker>
+            <marker id="svd-arrow-amber" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+              <path d="M0,0 L7,3.5 L0,7 Z" fill="#d97706"/>
+            </marker>
+            <marker id="svd-arrow-teal" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+              <path d="M0,0 L7,3.5 L0,7 Z" fill="#0d9488"/>
+            </marker>
+          </defs>
+
           <!-- Step 1: 单位圆 -->
           <g transform="translate(100, 200)">
-            <text y="-120" text-anchor="middle" font-size="13" font-weight="600" fill="#3b82f6">① 单位圆</text>
-            <circle cx="0" cy="0" r="70" fill="#dbeafe" fill-opacity="0.5" stroke="#3b82f6" stroke-width="2"/>
+            <rect x="-88" y="-142" width="176" height="230" rx="18" fill="#ffffff" stroke="#bfdbfe" stroke-width="1.5" filter="url(#svd-soft-shadow)" :opacity="svdActiveStage === -1 || svdActiveStage === 0 ? 1 : 0.55"/>
+            <circle v-if="svdActiveStage === 0" cx="0" cy="0" r="92" fill="#3b82f6" opacity="0.06"><animate attributeName="r" values="88;98;88" dur="1.8s" repeatCount="indefinite"/></circle>
+            <text y="-122" text-anchor="middle" font-size="13" font-weight="700" fill="#3b82f6">① 单位圆</text>
+            <circle cx="0" cy="0" r="70" fill="url(#svd-blue-fill)" fill-opacity="0.7" stroke="#3b82f6" stroke-width="2"/>
             <line x1="-80" y1="0" x2="80" y2="0" stroke="#e2e8f0" stroke-width="1"/>
             <line x1="0" y1="-80" x2="0" y2="80" stroke="#e2e8f0" stroke-width="1"/>
-            <!-- 标准基向量 -->
-            <line v-if="svdPhase >= 0" x1="0" y1="0" x2="70" y2="0" stroke="#64748b" stroke-width="2.5"/>
-            <line v-if="svdPhase >= 0" x1="0" y1="0" x2="0" y2="-70" stroke="#64748b" stroke-width="2.5"/>
+            <line x1="0" y1="0" x2="70" y2="0" stroke="#64748b" stroke-width="2.5"/>
+            <line x1="0" y1="0" x2="0" y2="-70" stroke="#64748b" stroke-width="2.5"/>
             <polygon points="70,0 63,-4 63,4" fill="#64748b"/>
             <polygon points="0,-70 -4,-63 4,-63" fill="#64748b"/>
           </g>
 
-          <!-- 箭头1 -->
-          <text x="180" y="195" font-size="20" fill="#6366f1" font-weight="bold">→</text>
-          <text x="180" y="220" text-anchor="middle" font-size="11" fill="#6366f1">Vᵀ</text>
+          <!-- 箭头1: Vᵀ -->
+          <line x1="190" y1="200" x2="232" y2="200" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" marker-end="url(#svd-arrow-indigo)"/>
+          <text x="211" y="188" text-anchor="middle" font-size="13" fill="#6366f1" font-weight="700">Vᵀ</text>
+          <text x="211" y="220" text-anchor="middle" font-size="10" fill="#818cf8">旋转基</text>
 
-          <!-- Step 2: V^T旋转后 -->
-          <g transform="translate(270, 200)">
-            <text y="-120" text-anchor="middle" font-size="13" font-weight="600" fill="#6366f1">② Vᵀ旋转</text>
+          <!-- Step 2: Vᵀ旋转后 -->
+          <g transform="translate(280, 200)">
+            <rect x="-88" y="-142" width="176" height="230" rx="18" fill="#ffffff" stroke="#c7d2fe" stroke-width="1.5" filter="url(#svd-soft-shadow)" :opacity="svdActiveStage === 0 || svdActiveStage === -1 ? 1 : 0.55"/>
+            <circle v-if="svdActiveStage === 0" cx="0" cy="0" r="92" fill="#6366f1" opacity="0.06"><animate attributeName="r" values="88;98;88" dur="1.8s" repeatCount="indefinite"/></circle>
+            <text y="-122" text-anchor="middle" font-size="13" font-weight="700" fill="#6366f1">② Vᵀ 旋转</text>
             <g :transform="`rotate(${svdVangle})`">
-              <circle cx="0" cy="0" r="70" fill="#e0e7ff" fill-opacity="0.5" stroke="#6366f1" stroke-width="2"/>
+              <circle cx="0" cy="0" r="70" fill="url(#svd-indigo-fill)" fill-opacity="0.7" stroke="#6366f1" stroke-width="2"/>
               <line x1="-80" y1="0" x2="80" y2="0" stroke="#e2e8f0" stroke-width="1"/>
               <line x1="0" y1="-80" x2="0" y2="80" stroke="#e2e8f0" stroke-width="1"/>
-              <line v-if="svdPhase >= 1" x1="0" y1="0" x2="70" y2="0" stroke="#64748b" stroke-width="2.5"/>
-              <line v-if="svdPhase >= 1" x1="0" y1="0" x2="0" y2="-70" stroke="#64748b" stroke-width="2.5"/>
+              <line v-if="svdActiveStage >= 0" x1="0" y1="0" x2="70" y2="0" stroke="#64748b" stroke-width="2.5"/>
+              <line v-if="svdActiveStage >= 0" x1="0" y1="0" x2="0" y2="-70" stroke="#64748b" stroke-width="2.5"/>
             </g>
           </g>
 
-          <!-- 箭头2 -->
-          <text x="350" y="195" font-size="20" fill="#d97706" font-weight="bold">→</text>
-          <text x="350" y="220" text-anchor="middle" font-size="11" fill="#d97706">Σ</text>
+          <!-- 箭头2: Σ -->
+          <line x1="370" y1="200" x2="412" y2="200" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" marker-end="url(#svd-arrow-amber)"/>
+          <text x="391" y="188" text-anchor="middle" font-size="13" fill="#d97706" font-weight="700">Σ</text>
+          <text x="391" y="220" text-anchor="middle" font-size="10" fill="#f59e0b">拉伸半轴</text>
 
-          <!-- Step 3: Σ拉伸后 -->
-          <g transform="translate(430, 200)">
-            <text y="-120" text-anchor="middle" font-size="13" font-weight="600" fill="#d97706">③ Σ拉伸</text>
-            <g :transform="`rotate(${svdVangle})`">
-              <ellipse cx="0" cy="0" :rx="70*sigma1*svdStretch" :ry="70*sigma2*svdStretch" fill="#fef3c7" fill-opacity="0.5" stroke="#d97706" stroke-width="2"/>
+          <!-- Step 3: Σ拉伸后（轴对齐） -->
+          <g transform="translate(460, 200)">
+            <rect x="-88" y="-142" width="176" height="230" rx="18" fill="#ffffff" stroke="#fde68a" stroke-width="1.5" filter="url(#svd-soft-shadow)" :opacity="svdActiveStage === 1 || svdActiveStage === -1 ? 1 : 0.55"/>
+            <circle v-if="svdActiveStage === 1" cx="0" cy="0" r="92" fill="#d97706" opacity="0.06"><animate attributeName="r" values="88;98;88" dur="1.8s" repeatCount="indefinite"/></circle>
+            <text y="-122" text-anchor="middle" font-size="13" font-weight="700" fill="#d97706">③ Σ 拉伸</text>
+            <g>
+              <ellipse cx="0" cy="0" :rx="70 * (1 + (sigma1 - 1) * svdStretch)" :ry="70 * (1 + (sigma2 - 1) * svdStretch)" fill="url(#svd-amber-fill)" fill-opacity="0.7" stroke="#d97706" stroke-width="2.5"/>
               <line x1="-80" y1="0" x2="80" y2="0" stroke="#e2e8f0" stroke-width="1"/>
               <line x1="0" y1="-80" x2="0" y2="80" stroke="#e2e8f0" stroke-width="1"/>
-              <line v-if="svdPhase >= 2" x1="0" y1="0" :x2="70*sigma1*svdStretch" y2="0" stroke="#64748b" stroke-width="2.5"/>
-              <line v-if="svdPhase >= 2" x1="0" y1="0" x2="0" :y2="-70*sigma2*svdStretch" stroke="#64748b" stroke-width="2.5"/>
-              <text v-if="svdPhase >= 2" :x="70*sigma1*svdStretch + 5" y="-3" font-size="10" fill="#64748b">σ₁</text>
-              <text v-if="svdPhase >= 2" x="5" :y="-70*sigma2*svdStretch - 3" font-size="10" fill="#64748b">σ₂</text>
+              <line v-if="svdActiveStage >= 1" x1="0" y1="0" :x2="70 * (1 + (sigma1 - 1) * svdStretch)" y2="0" stroke="#64748b" stroke-width="2.5"/>
+              <line v-if="svdActiveStage >= 1" x1="0" y1="0" x2="0" :y2="-(70 * (1 + (sigma2 - 1) * svdStretch))" stroke="#64748b" stroke-width="2.5"/>
+              <text v-if="svdActiveStage >= 1" :x="70 * (1 + (sigma1 - 1) * svdStretch) + 5" y="-3" font-size="11" fill="#64748b">σ₁</text>
+              <text v-if="svdActiveStage >= 1" x="5" :y="-(70 * (1 + (sigma2 - 1) * svdStretch)) - 3" font-size="11" fill="#64748b">σ₂</text>
             </g>
           </g>
 
-          <!-- 箭头3 -->
-          <text x="520" y="195" font-size="20" fill="#0d9488" font-weight="bold">→</text>
-          <text x="520" y="220" text-anchor="middle" font-size="11" fill="#0d9488">U</text>
+          <!-- 箭头3: U -->
+          <line x1="550" y1="200" x2="592" y2="200" stroke="#0d9488" stroke-width="2.5" stroke-linecap="round" marker-end="url(#svd-arrow-teal)"/>
+          <text x="571" y="188" text-anchor="middle" font-size="13" fill="#0d9488" font-weight="700">U</text>
+          <text x="571" y="220" text-anchor="middle" font-size="10" fill="#14b8a6">最终朝向</text>
 
           <!-- Step 4: U旋转后（最终椭球） -->
-          <g transform="translate(600, 200)">
-            <text y="-120" text-anchor="middle" font-size="13" font-weight="600" fill="#0d9488">④ U旋转=椭球</text>
-            <g :transform="`rotate(${svdVangle + svdUangle})`">
-              <ellipse cx="0" cy="0" :rx="70*sigma1*svdStretch" :ry="70*sigma2*svdStretch" fill="#ccfbf1" fill-opacity="0.6" stroke="#0d9488" stroke-width="2.5"/>
+          <g transform="translate(640, 200)">
+            <rect x="-88" y="-142" width="176" height="230" rx="18" fill="#ffffff" stroke="#99f6e4" stroke-width="1.5" filter="url(#svd-soft-shadow)" :opacity="svdActiveStage === 2 || svdActiveStage === -1 ? 1 : 0.55"/>
+            <circle v-if="svdActiveStage === 2" cx="0" cy="0" r="92" fill="#0d9488" opacity="0.06"><animate attributeName="r" values="88;98;88" dur="1.8s" repeatCount="indefinite"/></circle>
+            <text y="-122" text-anchor="middle" font-size="13" font-weight="700" fill="#0d9488">④ U 旋转 = 椭球</text>
+            <g :transform="`rotate(${svdUangle})`">
+              <ellipse cx="0" cy="0" :rx="70 * (1 + (sigma1 - 1) * svdStretch)" :ry="70 * (1 + (sigma2 - 1) * svdStretch)" fill="url(#svd-teal-fill)" fill-opacity="0.75" stroke="#0d9488" stroke-width="3"/>
               <line x1="-90" y1="0" x2="90" y2="0" stroke="#e2e8f0" stroke-width="1"/>
               <line x1="0" y1="-90" x2="0" y2="90" stroke="#e2e8f0" stroke-width="1"/>
-              <!-- 半轴 -->
-              <line v-if="svdPhase >= 3" x1="0" y1="0" :x2="70*sigma1*svdStretch" y2="0" stroke="#64748b" stroke-width="3"/>
-              <line v-if="svdPhase >= 3" x1="0" y1="0" x2="0" :y2="-70*sigma2*svdStretch" stroke="#64748b" stroke-width="3"/>
+              <line v-if="svdActiveStage >= 2" x1="0" y1="0" :x2="70 * (1 + (sigma1 - 1) * svdStretch)" y2="0" stroke="#64748b" stroke-width="3"/>
+              <line v-if="svdActiveStage >= 2" x1="0" y1="0" x2="0" :y2="-(70 * (1 + (sigma2 - 1) * svdStretch))" stroke="#64748b" stroke-width="3"/>
             </g>
-            <text x="0" y="95" text-anchor="middle" font-size="11" fill="#0d9488" font-weight="600">半轴=σ₁,σ₂</text>
+            <text x="0" y="104" text-anchor="middle" font-size="11" fill="#0d9488" font-weight="700">半轴 = σ₁, σ₂</text>
           </g>
 
-          <!-- 公式 -->
-          <rect x="50" y="270" width="600" height="90" rx="10" fill="#f0fdfa" stroke="#14b8a6"/>
-          <text x="350" y="298" text-anchor="middle" font-size="15" font-weight="600" fill="#0d9488">{{ svdStepText }}</text>
-          <text x="350" y="325" text-anchor="middle" font-size="14" fill="#475569">A = UΣVᵀ : 旋转 → 拉伸 → 旋转</text>
-          <text x="350" y="348" text-anchor="middle" font-size="12" fill="#94a3b8">当前 σ₁ = {{ sigma1.toFixed(1) }}, σ₂ = {{ sigma2.toFixed(1) }}</text>
+          <!-- 底部状态面板 -->
+          <g transform="translate(70, 326)">
+            <rect width="620" height="76" rx="16" fill="#0f172a" opacity="0.94" filter="url(#svd-soft-shadow)"/>
+            <text x="20" y="30" font-size="14" font-weight="700" fill="#ffffff">{{ svdStepText }}</text>
+            <text x="20" y="56" font-size="12" fill="#cbd5e1">{{ svdStepSub }}</text>
+            <text x="540" y="32" text-anchor="middle" font-size="12" fill="#99f6e4">σ₁={{ sigma1.toFixed(1) }} · σ₂={{ sigma2.toFixed(1) }}</text>
+            <text x="540" y="56" text-anchor="middle" font-size="12" fill="#fcd34d">拉伸比 {{ (sigma1 / sigma2).toFixed(2) }}</text>
+          </g>
         </svg>
       </AnimationBox>
 
@@ -486,7 +529,7 @@ import QuizProblem from '../../components/quiz/QuizProblem.vue'
 import { quizBank } from '../../data/quizBank'
 import { homeworkBank } from '../../data/homeworkBank'
 import { useKatex } from '../../composables/useKatex'
-import { ref, onUnmounted, computed } from 'vue'
+import { ref, onUnmounted, computed, watch } from 'vue'
 
 const quizzes = (quizBank[6] || []).map(q => ({ ...q, lessonNum: '06', lessonTitle: '满秩分解与SVD' }))
 const hwQuizzes = computed(() => (homeworkBank[6] || []).map(q => ({ ...q })))
@@ -497,7 +540,6 @@ const { renderMath } = useKatex(renderTrigger)
 // ========== SVD几何动画 ==========
 const svdPlaying = ref(false)
 let svdRafId = null
-const svdSvgWidth = ref(700)
 const svdPhase = ref(0)
 const sigma1 = ref(1.8)
 const sigma2 = ref(0.8)
@@ -505,48 +547,77 @@ const svdVangle = ref(0)
 const svdUangle = ref(0)
 const svdStretch = ref(0)
 const svdStepText = ref('点击播放：单位圆经三步变换变为椭球')
+const svdStepSub = ref('')
+const svdActiveStage = ref(-1)
+
+function easeInOutCubic(x) {
+  return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+}
 
 function svdAnimate() {
-  const dur = 4000
+  const dur = 5200
   const start = performance.now()
+
   function tick(now) {
     if (!svdPlaying.value) return
     const t = Math.min((now - start) / dur, 1)
-    if (t < 0.25) {
-      svdPhase.value = 1
-      const p = t / 0.25
+
+    if (t < 0.22) {
+      svdActiveStage.value = 0
+      const p = easeInOutCubic(t / 0.22)
       svdVangle.value = 30 * p
       svdUangle.value = 0
       svdStretch.value = 0
-      svdStepText.value = '第1步：Vᵀ旋转（不改变形状）'
-    } else if (t < 0.55) {
-      svdPhase.value = 2
-      const p = (t - 0.25) / 0.3
+      svdStepText.value = '第1步：Vᵀ 旋转坐标基'
+      svdStepSub.value = '单位圆形状保持不变，只是换了观察方向'
+    } else if (t < 0.34) {
+      svdActiveStage.value = 0
+      svdVangle.value = 30
+      svdUangle.value = 0
+      svdStretch.value = 0
+      svdStepText.value = 'Vᵀ 旋转完成'
+      svdStepSub.value = '圆还是圆，但基已经对齐到奇异向量方向'
+    } else if (t < 0.62) {
+      svdActiveStage.value = 1
+      const p = easeInOutCubic((t - 0.34) / 0.28)
       svdVangle.value = 30
       svdUangle.value = 0
       svdStretch.value = p
-      svdStepText.value = '第2步：Σ沿坐标轴方向拉伸（变为椭球）'
-    } else if (t < 0.85) {
-      svdPhase.value = 3
-      const p = (t - 0.55) / 0.3
+      svdStepText.value = '第2步：Σ 沿坐标轴拉伸'
+      svdStepSub.value = 'σ₁、σ₂ 决定了椭圆的长短半轴'
+    } else if (t < 0.74) {
+      svdActiveStage.value = 1
+      svdVangle.value = 30
+      svdUangle.value = 0
+      svdStretch.value = 1
+      svdStepText.value = 'Σ 拉伸完成'
+      svdStepSub.value = '椭圆半轴 = σᵢ·(单位圆半径)'
+    } else if (t < 0.94) {
+      svdActiveStage.value = 2
+      const p = easeInOutCubic((t - 0.74) / 0.2)
       svdVangle.value = 30
       svdStretch.value = 1
       svdUangle.value = -45 * p
-      svdStepText.value = '第3步：U再次旋转（椭球方向改变）'
+      svdStepText.value = '第3步：U 将椭圆旋转到最终方向'
+      svdStepSub.value = 'U 是目标空间中的旋转'
     } else {
-      svdPhase.value = 3
+      svdActiveStage.value = 2
       svdVangle.value = 30
       svdStretch.value = 1
       svdUangle.value = -45
-      svdStepText.value = '单位圆→椭球映射完成，半轴=σ₁,σ₂（拖动滑块改变σ）'
+      svdStepText.value = '完成！单位圆 → 椭圆，半轴长 = σ₁, σ₂'
+      svdStepSub.value = '拖动滑块改变 σ 值，观察椭圆形状变化'
     }
+
     renderTrigger.value++
+
     if (t < 1) {
       svdRafId = requestAnimationFrame(tick)
     } else {
       svdPlaying.value = false
     }
   }
+
   svdRafId = requestAnimationFrame(tick)
 }
 
@@ -562,8 +633,14 @@ function svdReset() {
   sigma1.value = 1.8
   sigma2.value = 0.8
   svdStepText.value = '点击播放：单位圆经三步变换变为椭球'
+  svdStepSub.value = ''
+  svdActiveStage.value = -1
   renderTrigger.value++
 }
+
+// 保证 σ₁ ≥ σ₂（规范记号）
+watch(sigma1, (v) => { if (v < sigma2.value) sigma2.value = v })
+watch(sigma2, (v) => { if (v > sigma1.value) sigma1.value = v })
 
 // ========== 误差条形图动画 ==========
 const svdErrPlaying = ref(false)
@@ -660,26 +737,62 @@ onUnmounted(() => {
   border: none;
 }
 
+/* SVD 几何动画 SVG */
+.svd-geometry-svg {
+  width: 100%;
+  max-width: 860px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+/* SVD 滑块控制台 */
 .svd-sliders {
-  display: flex; gap: 16px; align-items: center;
-  font-size: 13px; color: #475569; flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f8fafc, #ecfeff);
+  border: 1px solid #dbeafe;
+  font-size: 13px;
 }
 .svd-slider-label {
-  display: flex; align-items: center; gap: 6px;
-  font-weight: 500;
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+  font-size: 13px; font-weight: 650; color: #334155;
 }
+.svd-slider-name { white-space: nowrap; }
 .svd-sigma-val {
-  display: inline-block;
-  min-width: 2.2em; text-align: center;
-  padding: 2px 6px;
-  background: #0d9488; color: #fff;
-  border-radius: 4px;
-  font-weight: 700; font-size: 0.9em;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2.4em; height: 24px;
+  padding: 0 8px; border-radius: 999px;
+  color: #fff; font-weight: 800; font-size: 0.86em;
+}
+.svd-slider-major .svd-sigma-val {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+}
+.svd-slider-minor .svd-sigma-val {
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
 }
 .svd-sliders input[type="range"] {
-  width: 180px;
+  width: 160px; cursor: pointer;
+}
+.svd-slider-major input[type="range"] {
+  accent-color: #d97706;
+}
+.svd-slider-minor input[type="range"] {
   accent-color: #0d9488;
-  cursor: pointer;
+}
+.svd-ratio-pill {
+  padding: 7px 14px; border-radius: 999px;
+  background: #0f172a; color: #e0f2fe;
+  font-size: 12px; font-weight: 700; white-space: nowrap;
 }
 
 /* 满秩分解流程（auto模式CSS动画） */

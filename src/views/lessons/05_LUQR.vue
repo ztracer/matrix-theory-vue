@@ -193,6 +193,76 @@
         </div>
       </div>
 
+      <div class="qr-intuitive-guide">
+        <h3>直观理解：抽丝剥茧看 QR 分解与 Householder 变换</h3>
+        <p>我们把所有高深的数学名词拆开，用最直观的逻辑一步步抽丝剥茧。</p>
+
+        <h4>一、什么是 QR 分解？</h4>
+        <p><strong>1. 核心直觉：把矩阵"拆"成两部分</strong></p>
+        <p>在线性代数里，分解矩阵就像把一个合数因式分解（比如 <span class="formula-inline">12 = 3 \times 4</span>）。QR 分解，就是把任意一个矩阵 <span class="formula-inline">A</span>，拆成两个特殊矩阵 <span class="formula-inline">Q</span> 和 <span class="formula-inline">R</span> 的乘积：</p>
+        <Formula>A = QR</Formula>
+        <p>这两个矩阵各司其职，性格极其鲜明：</p>
+        <ul>
+          <li><strong><span class="formula-inline">Q</span>（Orthogonal 规范正交矩阵）：</strong>它的每一列都是一个长度为 1 的单位向量，且两两之间互相垂直（夹角为 90°）。在几何上，它代表了一个纯粹的旋转或镜像反射，绝不拉伸空间。</li>
+          <li><strong><span class="formula-inline">R</span>（Upper Triangular 上三角矩阵）：</strong>它的形状像个漏斗，主对角线下方全是 0。在几何上，它代表了缩放和剪切。</li>
+        </ul>
+
+        <p><strong>2. 为什么要费尽心思搞 QR 分解？</strong></p>
+        <p>如果我们要解线性方程组 <span class="formula-inline">Ax = b</span>，直接解很难。但如果把 <span class="formula-inline">A</span> 拆成 <span class="formula-inline">QR</span>，方程就变成了：</p>
+        <p style="text-align: center; font-size: 1.05rem;"><span class="formula-inline">QRx = b</span></p>
+        <p>因为 <span class="formula-inline">Q</span> 的逆矩阵就是它的转置（<span class="formula-inline">Q^{-1} = Q\T</span>，极易计算），两边同乘 <span class="formula-inline">Q\T</span>：</p>
+        <p style="text-align: center; font-size: 1.05rem;"><span class="formula-inline">Rx = Q\T b</span></p>
+        <p>因为 <span class="formula-inline">R</span> 是上三角矩阵，我们用从下往上回代的方法，几秒钟就能算出 <span class="formula-inline">x</span>。它在计算机工程、最小二乘法拟合中是绝对的核心算法。</p>
+
+        <h4>二、什么是 Householder 变换？</h4>
+        <p>既然要把一个杂乱无章的矩阵 <span class="formula-inline">A</span> 变成上三角矩阵 <span class="formula-inline">R</span>，我们就需要一种工具，把矩阵主对角线下面的元素全部"消成 0"。除了你可能听过的"高斯消元法"，另一种更高级、在计算机里更稳定的工具就是 <strong>Householder 变换（豪斯霍尔德变换）</strong>。</p>
+
+        <p><strong>1. 几何本质：镜像反射</strong></p>
+        <p>Householder 变换在几何上非常浪漫，它其实就是<strong>照镜子（镜像反射）</strong>。假设你在高维空间里有一个向量 <span class="formula-inline">x</span>，你想通过一面"镜子"（在数学上叫超平面），把 <span class="formula-inline">x</span> 反射到另一个位置 <span class="formula-inline">y</span>。为了让 <span class="formula-inline">A</span> 变成上三角矩阵，我们的目标非常明确：要把一整个向量 <span class="formula-inline">x</span>，通过镜子反射后，让它贴在坐标轴上（即除了第一个分量，其他分量全变成 0）。</p>
+
+        <p><strong>2. 怎么找到这面镜子？</strong></p>
+        <p>如果要把向量 <span class="formula-inline">x</span> 反射到 <span class="formula-inline">y</span>，那么这面"镜子"应该垂直平分连接 <span class="formula-inline">x</span> 和 <span class="formula-inline">y</span> 的那条线。把这条连接线对应的向量称为反射向量 <span class="formula-inline">w</span>：</p>
+        <p style="text-align: center; font-size: 1.05rem;"><span class="formula-inline">w = x - y</span></p>
+        <p>只要找到了这个 <span class="formula-inline">w</span>，就能构造出 Householder 矩阵 <span class="formula-inline">H</span>。任何向量乘以这个 <span class="formula-inline">H</span>，就相当于照了一次这面镜子：</p>
+        <Formula>H = I - \frac{2 w w\T}{\|w\|^2}</Formula>
+        <p>这个矩阵 <span class="formula-inline">H</span> 有一个完美的特性：它自己乘自己等于单位阵（<span class="formula-inline">H^2 = I</span>），也就是说照两次镜子就变回原样了。因此 <span class="formula-inline">H = H^{-1} = H\T</span>，它是一个天然的正交矩阵！</p>
+
+        <h4>三、手把手带你重新走一遍这道题</h4>
+        <p>现在，把这两个概念串起来看真题。我们要把 <span class="formula-inline">A = \begin{pmatrix} 1 & 0 & 0 \\ 2 & 2 & 0 \\ 2 & 1 & 6 \end{pmatrix}</span> 分解为 <span class="formula-inline">QR</span>。主线任务：把第一列的 <span class="formula-inline">\begin{pmatrix} 1 \\ 2 \\ 2 \end{pmatrix}</span> 通过照镜子，把下面的两个 2 变成 0。</p>
+
+        <p><strong>第一步：锁定目标，寻找镜子</strong></p>
+        <p>① 原向量（镜子前的你）：取 <span class="formula-inline">A</span> 的第一列 <span class="formula-inline">x = \begin{pmatrix} 1 \\ 2 \\ 2 \end{pmatrix}</span>，长度 <span class="formula-inline">\|x\| = \sqrt{1^2+2^2+2^2} = 3</span>。</p>
+        <p>② 目标向量（镜子里的虚像）：反射后它应躺在第一维坐标轴上，长度不变。取 <span class="formula-inline">y = \begin{pmatrix} -3 \\ 0 \\ 0 \end{pmatrix}</span>（取 <span class="formula-inline">-3</span> 而非 <span class="formula-inline">+3</span> 是为了数值稳定性，避免 <span class="formula-inline">x - y</span> 时首项相消）。</p>
+        <p>③ 镜子方向 <span class="formula-inline">w</span>：<span class="formula-inline">w = x - y = \begin{pmatrix} 1-(-3) \\ 2-0 \\ 2-0 \end{pmatrix} = \begin{pmatrix} 4 \\ 2 \\ 2 \end{pmatrix}</span></p>
+
+        <p><strong>第二步：打造这面镜子（算矩阵 <span class="formula-inline">H</span>）</strong></p>
+        <p>知道了镜子的方向 <span class="formula-inline">w</span>，通过公式 <span class="formula-inline">H = I - \frac{2 w w\T}{\|w\|^2}</span> 算出镜子矩阵（完整计算见下方标准例题）：</p>
+        <div class="formula-block">
+          H = \begin{pmatrix}
+            -\frac{1}{3} & -\frac{2}{3} & -\frac{2}{3} \\
+            -\frac{2}{3} &  \frac{2}{3} & -\frac{1}{3} \\
+            -\frac{2}{3} & -\frac{1}{3} &  \frac{2}{3}
+          \end{pmatrix}
+        </div>
+
+        <p><strong>第三步：让整个矩阵 <span class="formula-inline">A</span> 穿过这面镜子</strong></p>
+        <p>令整个矩阵 <span class="formula-inline">A</span> 左乘镜子 <span class="formula-inline">H</span>，即 <span class="formula-inline">R = HA</span>。神奇的事情发生了：</p>
+        <ul>
+          <li>第一列如愿以偿，变成了 <span class="formula-inline">\begin{pmatrix} -3 \\ 0 \\ 0 \end{pmatrix}</span>。</li>
+          <li>第二列和第三列穿过镜子后，也自动变成了新值。</li>
+          <li>此时整个矩阵恰好已经是上三角矩阵——这就是 <span class="formula-inline">R</span>！</li>
+        </ul>
+
+        <p><strong>第四步：大功告成，写出 <span class="formula-inline">Q</span> 和 <span class="formula-inline">R</span></strong></p>
+        <p>因为 <span class="formula-inline">R = HA</span>，两边左乘 <span class="formula-inline">H^{-1}</span>。镜子矩阵的逆就是它自己（<span class="formula-inline">H^{-1} = H</span>），得 <span class="formula-inline">A = HR</span>。对比标准形式 <span class="formula-inline">A = QR</span>，发现镜子 <span class="formula-inline">H</span> 本身就是 <span class="formula-inline">Q</span>：</p>
+        <Formula>Q = H,\quad R = \begin{pmatrix} -3 & -2 & -4 \\ 0 & 1 & -2 \\ 0 & 0 & 4 \end{pmatrix}</Formula>
+
+        <div class="summary-box" style="margin-top: 1.2rem; padding: 1rem 1.2rem; background: #f0f9ff; border-left: 4px solid #0ea5e9; border-radius: 6px; font-size: 0.92rem;">
+          <strong>💡 总结一句话</strong>
+          <p style="margin: 0.5rem 0 0 0;">QR 分解就是把矩阵拆成"旋转/反射"和"上三角"；而 Householder 变换就是精确设计一面高维的"镜子"，让原矩阵的第一列撞在镜子上反弹回来时，恰好只有第一个数有值、其余全变成 0，从而顺理成章地切出了上三角矩阵 <span class="formula-inline">R</span>。</p>
+        </div>
+      </div>
+
     </Section>
 
     <!-- 3. 方法一 Gram-Schmidt（新卡片 + 旧动画） -->
@@ -447,6 +517,156 @@
                 Q = H_1 H_2, \quad R = H_2 H_1 A, \quad A = QR
               </div>
               <p><strong>注意：</strong>Householder方法每次消去一列中主元以下的所有元素，共需 <span class="formula-inline">n-1</span> 次反射，数值稳定性优于Gram-Schmidt。</p>
+            </div>
+          </div>
+        </template>
+      </ExampleBox>
+
+      <ExampleBox source="研究生矩阵论考试·标准方法" badge="📝 Householder 标准例题">
+        <template #problem>
+          <p>用Householder变换求矩阵
+            <span class="formula-inline">A = \begin{pmatrix} 1 & 0 & 0 \\ 2 & 2 & 0 \\ 2 & 1 & 6 \end{pmatrix}</span>
+            的QR分解。
+          </p>
+          <p>（注：本题仅需一次反射，适合作为考场标准模板背诵）</p>
+        </template>
+        <template #solution>
+          <div class="step">
+            <span class="step-num">1</span>
+            <div>
+              <p><strong>第一步：确定目标向量 <span class="formula-inline">y</span> 与反射向量 <span class="formula-inline">w</span></strong></p>
+              <p>取矩阵 <span class="formula-inline">A</span> 的第一列向量 <span class="formula-inline">x = (1, 2, 2)\T</span>。计算其 2-范数（长度）：</p>
+              <p><span class="formula-inline">\|x\| = \sqrt{1^2 + 2^2 + 2^2} = \sqrt{9} = 3</span></p>
+              <p>根据数值稳定性原则（目标首项符号与 <span class="formula-inline">x_1</span> 符号相反），取目标向量：</p>
+              <p><span class="formula-inline">y = (-\|x\|, 0, 0)\T = (-3, 0, 0)\T</span></p>
+              <p>从而得到反射向量 <span class="formula-inline">w</span>：</p>
+              <p><span class="formula-inline">w = x - y = (1-(-3), 2-0, 2-0)\T = (4, 2, 2)\T</span></p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <div>
+              <p><strong>第二步：构造 Householder 矩阵 <span class="formula-inline">H</span></strong></p>
+              <p>计算 <span class="formula-inline">w</span> 的模长平方：</p>
+              <p><span class="formula-inline">\|w\|^2 = 4^2 + 2^2 + 2^2 = 16 + 4 + 4 = 24</span></p>
+              <p>计算外积矩阵 <span class="formula-inline">w w\T</span>：</p>
+              <div class="formula-block">
+                w w\T = \begin{pmatrix} 4 \\ 2 \\ 2 \end{pmatrix}
+                \begin{pmatrix} 4 & 2 & 2 \end{pmatrix} =
+                \begin{pmatrix}
+                  16 & 8 & 8 \\
+                  8 & 4 & 4 \\
+                  8 & 4 & 4
+                \end{pmatrix}
+              </div>
+              <p>根据公式 <span class="formula-inline">H = I - \frac{2 w w\T}{\|w\|^2}</span>，代入数据：</p>
+              <div class="formula-block">
+                \begin{aligned}
+                H &= I - \frac{2}{24} w w\T
+                 = I - \frac{1}{12}
+                    \begin{pmatrix}
+                      16 & 8 & 8 \\
+                      8 & 4 & 4 \\
+                      8 & 4 & 4
+                    \end{pmatrix} \\[6pt]
+                  &= \begin{pmatrix}
+                       1 - \frac{4}{3} & 0 - \frac{2}{3} & 0 - \frac{2}{3} \\
+                       0 - \frac{2}{3} & 1 - \frac{1}{3} & 0 - \frac{1}{3} \\
+                       0 - \frac{2}{3} & 0 - \frac{1}{3} & 1 - \frac{1}{3}
+                     \end{pmatrix}
+                   = \begin{pmatrix}
+                       -\frac{1}{3} & -\frac{2}{3} & -\frac{2}{3} \\
+                       -\frac{2}{3} &  \frac{2}{3} & -\frac{1}{3} \\
+                       -\frac{2}{3} & -\frac{1}{3} &  \frac{2}{3}
+                     \end{pmatrix}
+                \end{aligned}
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <div>
+              <p><strong>第三步：计算上三角矩阵 <span class="formula-inline">R</span></strong></p>
+              <p>将 <span class="formula-inline">H</span> 左乘原矩阵 <span class="formula-inline">A</span>，即 <span class="formula-inline">R = HA</span>：</p>
+              <div class="formula-block">
+                R = HA =
+                \begin{pmatrix}
+                  -\frac{1}{3} & -\frac{2}{3} & -\frac{2}{3} \\
+                  -\frac{2}{3} &  \frac{2}{3} & -\frac{1}{3} \\
+                  -\frac{2}{3} & -\frac{1}{3} &  \frac{2}{3}
+                \end{pmatrix}
+                \begin{pmatrix}
+                  1 & 0 & 0 \\
+                  2 & 2 & 0 \\
+                  2 & 1 & 6
+                \end{pmatrix}
+              </div>
+              <p>逐行展开计算：</p>
+              <p>▸ <strong>第 1 行乘各列：</strong>
+              <span class="formula-inline">r_{11} = -\frac{1}{3}\!\cdot\!1 -\frac{2}{3}\!\cdot\!2 -\frac{2}{3}\!\cdot\!2 = -3</span>，
+              <span class="formula-inline">r_{12} = -\frac{1}{3}\!\cdot\!0 -\frac{2}{3}\!\cdot\!2 -\frac{2}{3}\!\cdot\!1 = -2</span>，
+              <span class="formula-inline">r_{13} = -\frac{1}{3}\!\cdot\!0 -\frac{2}{3}\!\cdot\!0 -\frac{2}{3}\!\cdot\!6 = -4</span></p>
+              <p>▸ <strong>第 2 行乘各列：</strong>
+              <span class="formula-inline">r_{21} = -\frac{2}{3}\!\cdot\!1 +\frac{2}{3}\!\cdot\!2 -\frac{1}{3}\!\cdot\!2 = 0</span>，
+              <span class="formula-inline">r_{22} = -\frac{2}{3}\!\cdot\!0 +\frac{2}{3}\!\cdot\!2 -\frac{1}{3}\!\cdot\!1 = 1</span>，
+              <span class="formula-inline">r_{23} = -\frac{2}{3}\!\cdot\!0 +\frac{2}{3}\!\cdot\!0 -\frac{1}{3}\!\cdot\!6 = -2</span></p>
+              <p>▸ <strong>第 3 行乘各列：</strong>
+              <span class="formula-inline">r_{31} = -\frac{2}{3}\!\cdot\!1 -\frac{1}{3}\!\cdot\!2 +\frac{2}{3}\!\cdot\!2 = 0</span>，
+              <span class="formula-inline">r_{32} = -\frac{2}{3}\!\cdot\!0 -\frac{1}{3}\!\cdot\!2 +\frac{2}{3}\!\cdot\!1 = 0</span>（<strong>触发彩蛋消元！</strong>），
+              <span class="formula-inline">r_{33} = -\frac{2}{3}\!\cdot\!0 -\frac{1}{3}\!\cdot\!0 +\frac{2}{3}\!\cdot\!6 = 4</span></p>
+              <p>得到：</p>
+              <div class="formula-block">
+                R = \begin{pmatrix}
+                  -3 & -2 & -4 \\
+                   0 &  1 & -2 \\
+                   0 &  0 &  4
+                \end{pmatrix}
+              </div>
+              <p>可见，<span class="formula-inline">R</span> 已满足上三角矩阵要求（左下角全部为 0）。</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">4</span>
+            <div>
+              <p><strong>第四步：写出最终 QR 分解结果</strong></p>
+              <p>由于 Householder 矩阵具有对称正交性（<span class="formula-inline">H^{-1} = H</span>），故正交矩阵 <span class="formula-inline">Q = H</span>。最终的 QR 分解为 <span class="formula-inline">A = QR</span>，其中：</p>
+              <div class="formula-block">
+                \begin{aligned}
+                Q &= \begin{pmatrix}
+                  -\frac{1}{3} & -\frac{2}{3} & -\frac{2}{3} \\
+                  -\frac{2}{3} &  \frac{2}{3} & -\frac{1}{3} \\
+                  -\frac{2}{3} & -\frac{1}{3} &  \frac{2}{3}
+                \end{pmatrix}, \quad
+                R = \begin{pmatrix}
+                  -3 & -2 & -4 \\
+                   0 &  1 & -2 \\
+                   0 &  0 &  4
+                \end{pmatrix} \\[8pt]
+                A &= QR =
+                \begin{pmatrix}
+                  -\frac{1}{3} & -\frac{2}{3} & -\frac{2}{3} \\
+                  -\frac{2}{3} &  \frac{2}{3} & -\frac{1}{3} \\
+                  -\frac{2}{3} & -\frac{1}{3} &  \frac{2}{3}
+                \end{pmatrix}
+                \begin{pmatrix}
+                  -3 & -2 & -4 \\
+                   0 &  1 & -2 \\
+                   0 &  0 &  4
+                \end{pmatrix}
+                = \begin{pmatrix} 1 & 0 & 0 \\ 2 & 2 & 0 \\ 2 & 1 & 6 \end{pmatrix}
+                \end{aligned}
+              </div>
+              <div class="summary-box" style="margin-top: 1.2rem; padding: 1rem 1.2rem; background: #fef9c3; border-left: 4px solid #eab308; border-radius: 6px; font-size: 0.92rem;">
+                <strong>💡 考场默写口诀</strong>
+                <ol style="margin: 0.5rem 0 0 1.2rem; line-height: 1.8;">
+                  <li>拿第一列算长度（算出是 3）。</li>
+                  <li>反号做目标（变向成 −3）。</li>
+                  <li>前减后算出 <span class="formula-inline">w</span>（得 4, 2, 2）。</li>
+                  <li>套公式算出 <span class="formula-inline">H</span>（细心算矩阵乘法，别漏了前面的系数）。</li>
+                  <li><span class="formula-inline">H \times A</span> 直接吐出 <span class="formula-inline">R</span>（做完矩阵乘法，检查左下角三个数是不是零——全为零则大功告成）。</li>
+                  <li>写出 <span class="formula-inline">Q = H</span> 和 <span class="formula-inline">R</span> 的最终矩阵。</li>
+                </ol>
+              </div>
             </div>
           </div>
         </template>

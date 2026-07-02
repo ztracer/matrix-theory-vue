@@ -207,25 +207,51 @@
         </div>
 
         <!-- Week 4 -->
-        <section id="week4" class="week-section week4">
-          <h2 class="week-title">
-            <span class="week-num">WEEK 4</span>
-            课后作业与真题
-          </h2>
-          <p class="week-desc">教材课后习题详解与历年真题汇总，支持按知识点检索</p>
-          <div class="week4-links">
-            <router-link to="/homework" class="week4-card homework">
-              <span class="card-icon">📝</span>
-              <span class="card-title">课后作业</span>
-              <span class="card-desc">教材习题精解（62道）</span>
+        <div class="week-block">
+          <div class="week-header">
+            <span class="week-badge w4">WEEK 4</span>
+            <div>
+              <div class="week-title">课后作业与真题冲刺</div>
+              <div class="week-theme">教材习题精解 → 历年真题 → 考前模拟</div>
+            </div>
+          </div>
+          <div class="cards">
+            <router-link to="/homework" class="card w4">
+              <div class="card-num">📝</div>
+              <div class="card-top">
+                <div class="card-icon">📝</div>
+              </div>
+              <div class="card-title">课后作业</div>
+              <div class="card-en">Homework</div>
+              <div class="card-desc">62 道教材习题精解，按章节分组，含详细计算步骤与知识点标签。</div>
+              <div class="card-tags">
+                <span class="tag">教材习题</span>
+                <span class="tag">章节分组</span>
+              </div>
+              <div class="card-footer">
+                <span class="card-anim">📝 62 道习题</span>
+                <span class="card-arrow">→</span>
+              </div>
             </router-link>
-            <router-link to="/exam" class="week4-card exam">
-              <span class="card-icon">📋</span>
-              <span class="card-title">真题汇总</span>
-              <span class="card-desc">历年考试真题（34道）</span>
+            <router-link to="/exam" class="card w4">
+              <div class="card-num">📋</div>
+              <div class="card-top">
+                <div class="card-icon">📋</div>
+              </div>
+              <div class="card-title">真题汇总</div>
+              <div class="card-en">Exam Bank</div>
+              <div class="card-desc">34 道历年考试真题，按知识点分类检索，含完整解答步骤。</div>
+              <div class="card-tags">
+                <span class="tag">历年真题</span>
+                <span class="tag">知识点检索</span>
+              </div>
+              <div class="card-footer">
+                <span class="card-anim">📝 34 道真题</span>
+                <span class="card-arrow">→</span>
+              </div>
             </router-link>
           </div>
-        </section>
+        </div>
       </div>
     </section>
 
@@ -722,8 +748,14 @@ const hideTip = () => { tipShow.value = false }
 .week-badge.w1 { background:linear-gradient(135deg,#4338ca,#6366f1); }
 .week-badge.w2 { background:linear-gradient(135deg,#0d9488,#14b8a6); }
 .week-badge.w3 { background:linear-gradient(135deg,#ea580c,#f97316); }
+.week-badge.w4 { background:linear-gradient(135deg,#059669,#10b981); }
 .week-title { font-size:22px; font-weight:700; color:var(--text); }
 .week-theme { color:var(--text-light); font-size:14px; }
+.w4.card::before { background:linear-gradient(90deg,#059669,#34d399); }
+.w4.card .card-icon { background:linear-gradient(135deg,#ecfdf5,#d1fae5); }
+.w4.card .card-num { color:#059669; }
+.w4.card .tag { background:#ecfdf5; color:#065f46; }
+.w4.card .card-arrow { color:#059669; }
 
 /* Cards */
 .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
@@ -795,79 +827,6 @@ const hideTip = () => { tipShow.value = false }
 .path-dot.w2 { background:linear-gradient(135deg,#0d9488,#14b8a6); }
 .path-dot.w3 { background:linear-gradient(135deg,#ea580c,#f97316); }
 
-/* Week 4 */
-.week-section.week4 {
-  text-align: center;
-  padding: 48px 0;
-  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #f0fdfa 100%);
-  border-radius: 20px;
-  border: 2px solid #a7f3d0;
-  margin-bottom: 24px;
-}
-.week-section.week4 .week-title {
-  font-size: 28px;
-  font-weight: 800;
-  color: #065f46;
-  margin-bottom: 10px;
-}
-.week-num {
-  display: inline-block;
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #fff;
-  background: linear-gradient(135deg, #059669, #10b981);
-  margin-right: 10px;
-  vertical-align: middle;
-}
-.week-desc {
-  font-size: 15px;
-  color: #047857;
-  margin-bottom: 28px;
-}
-.week4-links {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.week4-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 28px 36px;
-  border-radius: 16px;
-  text-decoration: none;
-  color: #1e293b;
-  transition: all .3s cubic-bezier(.4,0,.2,1);
-  min-width: 200px;
-}
-.week4-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0,0,0,.1);
-  text-decoration: none;
-}
-.week4-card.homework {
-  background: linear-gradient(135deg, #fff, #ecfdf5);
-  border: 2px solid #6ee7b7;
-}
-.week4-card.homework:hover {
-  border-color: #34d399;
-  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-}
-.week4-card.exam {
-  background: linear-gradient(135deg, #fff, #fce7f3);
-  border: 2px solid #f9a8d4;
-}
-.week4-card.exam:hover {
-  border-color: #f472b6;
-  background: linear-gradient(135deg, #fce7f3, #fbcfe8);
-}
-.week4-card .card-icon { font-size: 36px; }
-.week4-card .card-title { font-size: 20px; font-weight: 700; }
-.week4-card .card-desc { font-size: 13px; color: var(--text-light); }
 .path-content {
   background:#fff; border-radius:12px; padding:16px 20px;
   border:1px solid var(--border); flex:1; transition:all .2s;

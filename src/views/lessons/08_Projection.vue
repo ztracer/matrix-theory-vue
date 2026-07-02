@@ -57,8 +57,143 @@
       </Theorem>
     </Section>
 
+    <Section num="2" title="核心实例：正交投影与斜投影">
+      <p>
+        下面通过两个具体例子，彻底搞懂投影矩阵的计算方法和几何本质。
+        设 <span class="formula-inline">L = \operatorname{span}\{(1,0,0)\T\}</span>（即 <span class="formula-inline">x</span> 轴），
+        <span class="formula-inline">M = \operatorname{span}\{(1,1,0)\T, (0,1,1)\T\}</span>。
+      </p>
+
+      <ExampleBox title="例3：正交投影到 L" badge="📝 正交投影">
+        <template #problem>
+          <p>求到 <span class="formula-inline">L</span> 的<strong>正交投影矩阵</strong> <span class="formula-inline">P_L</span>，
+            并将 <span class="formula-inline">x = (2,2,1)\T</span> 正交投影到 <span class="formula-inline">L</span> 上。</p>
+        </template>
+        <template #solution>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div>
+              <p><strong>写出公式。</strong><span class="formula-inline">L</span> 由单个向量 <span class="formula-inline">u = (1,0,0)\T</span> 张成，正交投影矩阵为：</p>
+              <Formula>P_L = \frac{uu\T}{u\T u}</Formula>
+              <p>分母 <span class="formula-inline">u\T u</span> 是一个数（归一化），分子 <span class="formula-inline">uu\T</span> 是矩阵（决定投影方向）。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div>
+              <p><strong>计算。</strong><span class="formula-inline">u\T u = 1</span>，<span class="formula-inline">uu\T = \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix}(1,0,0) = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \end{pmatrix}</span>。</p>
+              <Formula>P_L = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \end{pmatrix} = \operatorname{diag}(1,0,0)</Formula>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div>
+              <p><strong>投影向量 x。</strong></p>
+              <Formula>P_L x = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \end{pmatrix}\begin{pmatrix} 2 \\ 2 \\ 1 \end{pmatrix} = \begin{pmatrix} 2 \\ 0 \\ 0 \end{pmatrix}</Formula>
+              <p><strong>直觉：</strong><span class="formula-inline">L</span> 就是 <span class="formula-inline">x</span> 轴，正交投影后 <span class="formula-inline">y</span> 和 <span class="formula-inline">z</span> 坐标归零，只保留 <span class="formula-inline">x</span> 坐标。矩阵 <span class="formula-inline">\operatorname{diag}(1,0,0)</span> 完美刻画这一几何操作。</p>
+            </div>
+          </div>
+        </template>
+      </ExampleBox>
+
+      <ExampleBox title="例4：斜投影——沿 M 到 L" badge="📝 斜投影">
+        <template #problem>
+          <p><span class="formula-inline">\R^3 = L \oplus M</span>。求沿 <span class="formula-inline">M</span> 到 <span class="formula-inline">L</span> 的<strong>斜投影矩阵</strong> <span class="formula-inline">P</span>，
+            并将 <span class="formula-inline">x = (2,2,1)\T</span> 沿 <span class="formula-inline">M</span> 斜投影到 <span class="formula-inline">L</span> 上。</p>
+        </template>
+        <template #solution>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div>
+              <p><strong>核心思想：空间分解。</strong>斜投影的本质是把 <span class="formula-inline">x</span> 唯一拆成两部分：</p>
+              <Formula>x = \underbrace{l}_{\in L} + \underbrace{m}_{\in M}</Formula>
+              <p>我们要的投影就是 <span class="formula-inline">l</span>。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div>
+              <p><strong>设出一般表达式。</strong>任取 <span class="formula-inline">x = (x_1, x_2, x_3)\T</span>。</p>
+              <p><span class="formula-inline">l \in L</span>：<span class="formula-inline">l = a(1,0,0)\T = (a, 0, 0)\T</span></p>
+              <p><span class="formula-inline">m \in M</span>：<span class="formula-inline">m = s(1,1,0)\T + t(0,1,1)\T = (s,\; s+t,\; t)\T</span></p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div>
+              <p><strong>列方程组解系数。</strong>由 <span class="formula-inline">x = l + m</span>：</p>
+              <div class="formula-block">
+                \begin{cases} x_1 = a + s \\ x_2 = 0 + (s+t) \\ x_3 = 0 + t \end{cases}
+                \implies \quad
+                t = x_3,\quad s = x_2 - x_3,\quad a = x_1 - x_2 + x_3
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div>
+              <p><strong>写出投影矩阵。</strong>投影 <span class="formula-inline">l = (a, 0, 0)\T = (x_1 - x_2 + x_3,\; 0,\; 0)\T</span>。提取系数：</p>
+              <Formula>P = \begin{pmatrix} 1 &amp; -1 &amp; 1 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \end{pmatrix}</Formula>
+              <p>验证：<span class="formula-inline">P^2 = P</span> ✓，<span class="formula-inline">R(P) = L</span> ✓，<span class="formula-inline">N(P) = M</span> ✓。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div>
+              <p><strong>代入具体向量。</strong><span class="formula-inline">x = (2,2,1)\T</span>：</p>
+              <Formula>Px = \begin{pmatrix} 1 &amp; -1 &amp; 1 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \end{pmatrix}\begin{pmatrix} 2 \\ 2 \\ 1 \end{pmatrix} = \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix}</Formula>
+              <p>直接用前面推导的 <span class="formula-inline">a = x_1 - x_2 + x_3 = 2 - 2 + 1 = 1</span>，投影结果 <span class="formula-inline">(1, 0, 0)\T</span> → 正交投影得 <span class="formula-inline">(2,0,0)\T</span>，斜投影得 <span class="formula-inline">(1,0,0)\T</span>，两者不同！</p>
+            </div>
+          </div>
+        </template>
+      </ExampleBox>
+
+      <div class="compare-project">
+        <div class="cp-card cp-card-ortho">
+          <div class="cp-title">正交投影（垂直投射）</div>
+          <div class="cp-detail"><strong>公式：</strong><span class="formula-inline">P_L = \dfrac{uu\T}{u\T u}</span></div>
+          <div class="cp-detail"><strong>结果：</strong><span class="formula-inline">P_L(2,2,1)\T = (2, 0, 0)\T</span></div>
+        </div>
+        <div class="cp-card cp-card-oblq">
+          <div class="cp-title">斜投影（沿 M 投射）</div>
+          <div class="cp-detail"><strong>方法：</strong>拆分 <span class="formula-inline">x = l + m</span>，解出 <span class="formula-inline">l</span></div>
+          <div class="cp-detail"><strong>结果：</strong><span class="formula-inline">P(2,2,1)\T = (1, 0, 0)\T</span></div>
+        </div>
+      </div>
+
+      <h3>3D 可视化：在 R³ 中观察投影过程</h3>
+      <p>
+        在三维空间中观察向量 <span class="formula-inline">x = (2,2,1)</span> 投影到
+        <span class="formula-inline">L</span>（<span class="formula-inline">x</span> 轴）的过程。
+        正交投影（绿）沿法线垂直落下，斜投影（紫）沿 <span class="formula-inline">M</span> 平面方向倾斜映射。
+        <strong>拖动画面旋转视角，滚轮缩放。</strong>
+      </p>
+
+      <AnimationBox
+        title="R³ 正交投影与斜投影"
+        :playing="proj3dPlaying"
+        description="蓝色=向量x, 绿色=正交投影P_ortho·x, 紫色=斜投影P_oblq·x, 橙色=x轴(L), 粉色=平面(M)"
+        step
+        @play="proj3dPlay"
+        @pause="proj3dPause"
+        @reset="proj3dReset"
+        @step="proj3dAdvanceStep"
+      >
+        <div class="proj3d-stage">
+          <div ref="proj3dViewport" class="proj3d-viewport" aria-label="3D projection interactive view"></div>
+          <div class="proj3d-legend">
+            <span><i class="proj3d-key proj3d-key-x"></i>向量 x</span>
+            <span><i class="proj3d-key proj3d-key-o"></i>正交投影 P_ortho·x</span>
+            <span><i class="proj3d-key proj3d-key-q"></i>斜投影 P_oblq·x</span>
+            <strong>{{ proj3dStepText }}</strong>
+            <em>步骤 {{ proj3dStep }} / 3</em>
+          </div>
+        </div>
+      </AnimationBox>
+    </Section>
+
     <!-- Animation 1: 正交投影vs斜投影对比 (几何演示 - 保留interactive) -->
-    <Section title="动画：正交投影 vs 斜投影" :num="2">
+    <Section title="动画：正交投影 vs 斜投影" :num="3">
       <AnimationBox
         title="正交投影与斜投影对比（可调节斜投影角度）"
         :playing="playing1"
@@ -144,7 +279,7 @@
     </Section>
 
     <!-- Section 2: 重要投影公式 -->
-    <Section title="重要投影矩阵公式" :num="3">
+    <Section title="重要投影矩阵公式" :num="4">
       <h3>1. 一维投影（投影到向量 u 张成的直线）</h3>
       <Theorem title="一维正交投影公式" type="theorem" icon="📍">
         <p>设<span class="formula-inline">u \neq 0</span>，到<span class="formula-inline">\operatorname{span}\{u\}</span>的正交投影矩阵为：</p>
@@ -180,7 +315,7 @@
     </Section>
 
     <!-- Animation 2: 幂等性动画 (几何演示 - 保留interactive) -->
-    <Section title="动画：投影幂等性 P²=P" :num="4">
+    <Section title="动画：投影幂等性 P²=P" :num="5">
       <AnimationBox
         title="投影的幂等性：P(Px) = Px"
         :playing="playing2"
@@ -247,7 +382,7 @@
     </Section>
 
     <!-- Section 3: 直和分解 -->
-    <Section title="值域与零空间的直和分解" :num="5">
+    <Section title="值域与零空间的直和分解" :num="6">
       <Theorem title="投影矩阵的直和分解定理" type="theorem" icon="🧩">
         <p>若<span class="formula-inline">P</span>是<span class="formula-inline">V</span>上的投影矩阵（<span class="formula-inline">P^2 = P</span>），则：</p>
         <Formula>V = R(P) \oplus N(P)</Formula>
@@ -269,7 +404,7 @@
     </Section>
 
     <!-- Animation 3: 直和分解可视化 (几何演示 - 保留interactive) -->
-    <Section title="动画：R(P)⊕N(P) 直和分解" :num="6">
+    <Section title="动画：R(P)⊕N(P) 直和分解" :num="7">
       <AnimationBox
         title="直和分解可视化：x = Px + (I-P)x"
         :playing="playing3"
@@ -329,7 +464,7 @@
     </Section>
 
     <!-- Section 4: 矩阵方程 AXB=D -->
-    <Section title="矩阵方程 AXB = D" :num="7">
+    <Section title="矩阵方程 AXB = D" :num="8">
       <p>
         投影矩阵的一个重要应用是求解矩阵方程<span class="formula-inline">AXB = D</span>。
         利用广义逆和投影算子，可以给出解的存在条件和通解结构。
@@ -357,7 +492,7 @@
     </Section>
 
     <!-- 真题例题 -->
-    <Section title="真题例题" :num="8">
+    <Section title="真题例题" :num="9">
       <ExampleBox source="矩阵论期末考试真题" badge="📝 真题1">
         <template #problem>
           <p>设<span class="formula-inline">A = \begin{pmatrix} 1 & 1 \\ 0 & 1 \\ 1 & 0 \end{pmatrix}</span>，求到列空间<span class="formula-inline">R(A)</span>的正交投影矩阵<span class="formula-inline">P</span>，并验证<span class="formula-inline">P^2 = P</span>和<span class="formula-inline">P^{\mathsf{T}} = P</span>。</p>
@@ -467,7 +602,7 @@
       <WeekQuizBank :quizzes="quizzes" weekLabel="第3周" />
     </Section>
 
-    <Section title="📝 课后作业" :num="9">
+    <Section title="📝 课后作业" :num="10">
       <div v-if="hwQuizzes.length === 0" class="empty-state">暂无课后作业</div>
       <template v-for="hw in hwQuizzes" :key="hw.id">
         <QuizProblem :quiz="hw" badge="📝 课后作业" />
@@ -489,13 +624,211 @@ import QuizProblem from '../../components/quiz/QuizProblem.vue'
 import { quizBank } from '../../data/quizBank'
 import { homeworkBank } from '../../data/homeworkBank'
 import { useKatex } from '../../composables/useKatex'
-import { ref, onUnmounted, computed } from 'vue'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { CSS2DObject, CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
+import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
 
 const quizzes = (quizBank[8] || []).map(q => ({ ...q, lessonNum: '08', lessonTitle: '投影矩阵与广义逆应用' }))
 const hwQuizzes = computed(() => (homeworkBank[8] || []).map(q => ({ ...q })))
 
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)
+
+// ====== 3D Projection Animation ======
+const proj3dPlaying = ref(false)
+const proj3dStep = ref(0)
+const proj3dStepText = ref('点击步进逐步观察投影过程')
+let proj3dRafId = null
+let proj3dAnimateId = null
+const proj3dViewport = ref(null)
+let pScene = null, pCamera = null, pRenderer = null, pLabelRenderer = null, pControls = null
+let pSceneLayer = null, pResizeObserver = null
+
+const pData = {
+  x: [2, 2, 1],
+  l: [1, 0, 0],   // L basis
+  m1: [1, 1, 0],  // M basis 1
+  m2: [0, 1, 1]   // M basis 2
+}
+const pOrtho = [2, 0, 0]  // orthogonal proj of (2,2,1) onto x-axis
+const pOblq  = [1, 0, 0]  // oblique proj of (2,2,1) along M onto L
+
+function pToV3(v) { return new THREE.Vector3(v[0], v[2], v[1]) }
+
+function pMakeLabel(text, cls = '') {
+  const el = document.createElement('div')
+  el.className = 'proj3d-label ' + cls
+  el.textContent = text
+  return new CSS2DObject(el)
+}
+
+function pClearLayer() {
+  if (!pSceneLayer) return
+  while (pSceneLayer.children.length) {
+    const c = pSceneLayer.children[0]
+    pSceneLayer.remove(c)
+    c.traverse?.(o => { o.geometry?.dispose?.(); if (Array.isArray(o.material)) o.material.forEach(m => m.dispose?.()); else o.material?.dispose?.() })
+  }
+}
+
+function pAddArrow(from, to, color, label = '', opacity = 1) {
+  const s = pToV3(from), e = pToV3(to)
+  const d = e.clone().sub(s)
+  if (d.length() < 0.001) return
+  const a = new THREE.ArrowHelper(d.clone().normalize(), s, d.length(), color, 0.16, 0.1)
+  a.line.material.transparent = true; a.line.material.opacity = opacity
+  a.cone.material.transparent = true; a.cone.material.opacity = opacity
+  pSceneLayer.add(a)
+  if (label) {
+    const lp = s.clone().lerp(e, 0.55).add(new THREE.Vector3(0.06, 0.08, 0.05))
+    const lab = pMakeLabel(label, 'proj3d-lbl')
+    lab.position.copy(lp)
+    pSceneLayer.add(lab)
+  }
+}
+
+function pAddDashed(from, to, color = 0x94a3b8, opacity = 0.6) {
+  const pts = [pToV3(from), pToV3(to)]
+  const g = new THREE.BufferGeometry().setFromPoints(pts)
+  const m = new THREE.LineDashedMaterial({ color, dashSize: 0.15, gapSize: 0.1, transparent: true, opacity })
+  const l = new THREE.Line(g, m); l.computeLineDistances()
+  pSceneLayer.add(l)
+}
+
+function pRenderScene() {
+  if (!pSceneLayer) return
+  pClearLayer()
+
+  // X-axis (L subspace) — orange
+  pAddArrow([-0.5, 0, 0], [3, 0, 0], 0xf97316, 'L = x轴', 0.9)
+
+  // M plane visualization — draw both basis vectors
+  pAddArrow([0, 0, 0], pData.m1, 0xe11d48, 'M基1', 0.45)
+  pAddArrow([0, 0, 0], pData.m2, 0xe11d48, '', 0.35)
+  const m1e = pToV3(pData.m1)
+  const lblM = pMakeLabel('M(平面)', 'proj3d-lbl proj3d-lbl-m')
+  lblM.position.copy(m1e.clone().multiplyScalar(0.55).add(new THREE.Vector3(0.05, 0.1, 0.0)))
+  pSceneLayer.add(lblM)
+
+  // Vector x — blue (always shown)
+  if (proj3dStep.value >= 0) {
+    pAddArrow([0, 0, 0], pData.x, 0x3b82f6, 'x=(2,2,1)', 1)
+  }
+
+  // Orthogonal projection — green
+  if (proj3dStep.value >= 1) {
+    pAddArrow([0, 0, 0], pOrtho, 0x10b981, 'P_ortho·x=(2,0,0)', 0.95)
+    pAddDashed(pData.x, pOrtho, 0x10b981, 0.55)
+  }
+
+  // Oblique projection — purple
+  if (proj3dStep.value >= 2) {
+    pAddArrow([0, 0, 0], pOblq, 0x8b5cf6, 'P_oblq·x=(1,0,0)', 0.95)
+    pAddDashed(pData.x, pOblq, 0x8b5cf6, 0.45)
+  }
+}
+
+function pInitScene() {
+  if (!proj3dViewport.value || pScene) return
+  pScene = new THREE.Scene()
+  pScene.background = new THREE.Color(0xf8fafc)
+
+  pCamera = new THREE.PerspectiveCamera(44, 1, 0.1, 100)
+  pCamera.position.set(5.0, 3.8, 5.8)
+
+  pRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
+  pRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  pRenderer.domElement.className = 'proj3d-canvas'
+  proj3dViewport.value.appendChild(pRenderer.domElement)
+
+  pLabelRenderer = new CSS2DRenderer()
+  pLabelRenderer.domElement.className = 'proj3d-label-layer'
+  proj3dViewport.value.appendChild(pLabelRenderer.domElement)
+
+  pControls = new OrbitControls(pCamera, pRenderer.domElement)
+  pControls.enableDamping = true; pControls.dampingFactor = 0.08
+  pControls.target.set(0.8, 0.5, 0.5)
+  pControls.minDistance = 2; pControls.maxDistance = 14
+  pControls.enablePan = true
+
+  pScene.add(new THREE.HemisphereLight(0xffffff, 0xdbeafe, 2.5))
+  const grid = new THREE.GridHelper(6, 12, 0xcbd5e1, 0xe2e8f0)
+  grid.position.y = -0.02; pScene.add(grid)
+
+  // Axes
+  const axes = [
+    { v: [3.2, 0, 0], c: 0x94a3b8, lb: 'x' },
+    { v: [0, 3.2, 0], c: 0x94a3b8, lb: 'z' },
+    { v: [0, 0, 3.2], c: 0x94a3b8, lb: 'y' }
+  ]
+  axes.forEach(a => {
+    const e = new THREE.Vector3(...a.v)
+    pScene.add(new THREE.ArrowHelper(e.clone().normalize(), new THREE.Vector3(0,0,0), e.length(), a.c, 0.1, 0.07))
+    const l = pMakeLabel(a.lb, 'proj3d-lbl-axis')
+    l.position.copy(e.multiplyScalar(1.05)); pScene.add(l)
+  })
+
+  pSceneLayer = new THREE.Group(); pScene.add(pSceneLayer)
+
+  pResizeObserver = new ResizeObserver(() => {
+    if (!proj3dViewport.value || !pCamera || !pRenderer || !pLabelRenderer) return
+    const r = proj3dViewport.value.getBoundingClientRect()
+    const w = Math.max(r.width, 320), h = Math.max(r.height, 320)
+    pCamera.aspect = w / h; pCamera.updateProjectionMatrix()
+    pRenderer.setSize(w, h); pLabelRenderer.setSize(w, h)
+  })
+  pResizeObserver.observe(proj3dViewport.value)
+  pRenderScene()
+  pDrawFrame()
+}
+
+function pDrawFrame() {
+  if (!pRenderer || !pScene || !pCamera) return
+  pControls?.update()
+  pRenderer.render(pScene, pCamera)
+  pLabelRenderer?.render(pScene, pCamera)
+  proj3dRafId = requestAnimationFrame(pDrawFrame)
+}
+
+function pDisposeScene() {
+  if (proj3dRafId) cancelAnimationFrame(proj3dRafId)
+  if (proj3dAnimateId) clearTimeout(proj3dAnimateId)
+  pResizeObserver?.disconnect(); pControls?.dispose()
+  pClearLayer()
+  pScene?.traverse(o => { o.geometry?.dispose?.(); if (Array.isArray(o.material)) o.material.forEach(m => m.dispose?.()); else o.material?.dispose?.() })
+  pRenderer?.dispose(); pRenderer?.domElement?.remove()
+  pLabelRenderer?.domElement?.remove()
+  pScene = null; pCamera = null; pRenderer = null; pLabelRenderer = null; pControls = null; pSceneLayer = null; pResizeObserver = null
+}
+
+function pApplyStep(s) {
+  proj3dStep.value = Math.max(0, Math.min(2, s))
+  const texts = [
+    '点击步进：拖动旋转视角，滚轮缩放',
+    '步骤1：正交投影——向量 x 垂直投影到 x 轴，绿色为投影结果 (2,0,0)',
+    '步骤2：斜投影——向量 x 沿 M 方向斜投影到 x 轴，紫色为投影结果 (1,0,0)'
+  ]
+  proj3dStepText.value = texts[proj3dStep.value]
+  pRenderScene()
+}
+
+function proj3dAdvanceStep() { pApplyStep(proj3dStep.value + 1) }
+function proj3dPlay() {
+  if (proj3dStep.value >= 2) pApplyStep(0)
+  proj3dPlaying.value = true
+  async function loop() {
+    if (!proj3dPlaying.value) return
+    if (proj3dStep.value < 2) { pApplyStep(proj3dStep.value + 1); proj3dAnimateId = setTimeout(loop, 3000) }
+    else proj3dPlaying.value = false
+  }
+  loop()
+}
+function proj3dPause() { proj3dPlaying.value = false; if (proj3dAnimateId) clearTimeout(proj3dAnimateId) }
+function proj3dReset() { proj3dPause(); pApplyStep(0) }
+
+onMounted(() => { nextTick(pInitScene) })
+onUnmounted(() => { proj3dPause(); pDisposeScene() })
 
 // ====== Animation 1: Orthogonal vs Oblique Projection ======
 const obliqueAngle = ref(60)
@@ -653,5 +986,108 @@ onUnmounted(() => {
 .formula-block { display: block; text-align: center; }
 h3 { color: #7c3aed; }
 .responsive-svg { max-width: 100%; height: auto; display: block; }
+
+/* 投影对比卡片 */
+.compare-project {
+  display: flex;
+  gap: 16px;
+  margin: 18px 0;
+}
+.cp-card {
+  flex: 1;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+}
+.cp-card-ortho { border-color: #10b981; background: #f0fdf6; }
+.cp-card-oblq { border-color: #8b5cf6; background: #faf5ff; }
+.cp-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.cp-card-ortho .cp-title { color: #059669; }
+.cp-card-oblq .cp-title { color: #7c3aed; }
+.cp-detail { font-size: 13px; color: #475569; margin: 4px 0; }
+.cp-detail .formula-inline { font-size: 13px; }
+
+/* 3D 投影动画 */
+.proj3d-stage {
+  width: min(100%, 920px);
+  margin: 0 auto;
+}
+.proj3d-viewport {
+  position: relative;
+  height: clamp(360px, 52vw, 520px);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+  touch-action: none;
+}
+.proj3d-canvas,
+.proj3d-label-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.proj3d-label-layer {
+  pointer-events: none;
+}
+.proj3d-legend {
+  display: grid;
+  grid-template-columns: auto auto auto minmax(180px, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin: 12px 0 0;
+  padding: 14px 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: rgba(248, 250, 252, 0.93);
+  color: #475569;
+  font-size: 13px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+.proj3d-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.proj3d-legend strong {
+  color: #0d9488;
+  font-size: 14px;
+  text-align: right;
+}
+.proj3d-legend em {
+  color: #94a3b8;
+  font-style: normal;
+  text-align: right;
+  white-space: nowrap;
+}
+.proj3d-key {
+  width: 30px;
+  height: 4px;
+  display: inline-block;
+  border-radius: 999px;
+}
+.proj3d-key-x { background: #3b82f6; }
+.proj3d-key-o { background: #10b981; }
+.proj3d-key-q { background: #8b5cf6; }
 :deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
+
+:deep(.proj3d-label) {
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(248, 250, 252, 0.88);
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+  user-select: none;
+}
+:deep(.proj3d-lbl) { color: #1e293b; }
+:deep(.proj3d-lbl-m) { color: #be123c; font-size: 11px; }
+:deep(.proj3d-lbl-axis) {
+  background: transparent; color: #94a3b8; box-shadow: none; font-size: 14px;
+}
 </style>

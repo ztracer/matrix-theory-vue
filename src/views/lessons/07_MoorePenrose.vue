@@ -16,15 +16,46 @@
       </Theorem>
     </Section>
 
-    <!-- 2. Penrose方程 -->
-    <Section num="2" title="Penrose方程">
+    <!-- 2. MP逆的意义 -->
+    <Section num="2" title="MP逆的意义：一把处理“坏方程组”的钥匙">
+      <p>
+        无论方程组多么恶劣（无解或无数组解），<span class="formula-inline">A^+b</span> 永远能给出一个
+        <strong>唯一的、误差最小且自身长度最短</strong>的最优近似解。
+      </p>
+
+      <Theorem title="① 方程无解时（超定方程组）：找距离最近的解" type="tip" icon="🎯">
+        <p>当方程数 <span class="formula-inline">m</span> 远大于未知数 <span class="formula-inline">n</span> 时，<span class="formula-inline">Ax=b</span> 通常无解（<span class="formula-inline">b \notin R(A)</span>）。</p>
+        <p>令 <span class="formula-inline">\hat{x}=A^+b</span>，则有：</p>
+        <Formula display>\|A\hat{x}-b\|_2 = \min_{x} \|Ax-b\|_2</Formula>
+        <p><strong>几何解释：</strong><span class="formula-inline">AA^+b</span> 是向量 <span class="formula-inline">b</span> 在 <span class="formula-inline">A</span> 的列空间 <span class="formula-inline">R(A)</span> 上的<strong>正交投影</strong>，是子空间里离 <span class="formula-inline">b</span> 最近的点。</p>
+      </Theorem>
+
+      <Theorem title="② 方程有无穷解时（欠定方程组）：找最短的解" type="tip" icon="📏">
+        <p>当未知数 <span class="formula-inline">n</span> 远大于方程数 <span class="formula-inline">m</span> 时，方程 <span class="formula-inline">Ax=b</span> 通常有无穷多个解。</p>
+        <p>在这无数个解中，<span class="formula-inline">\hat{x}=A^+b</span> 是几何长度最短的那一个：</p>
+        <Formula display>\|\hat{x}\|_2 = \min_{Ax=b} \|x\|_2</Formula>
+        <p><strong>几何解释：</strong>它找出从原点到解空间（超平面）的<strong>垂线段</strong>的交点。</p>
+      </Theorem>
+
+      <Theorem title="一句话总结" type="note" icon="✨">
+        <strong><span class="formula-inline">A^+b</span> 无论方程组有无解、有多少解，永远给出一个唯一、最优、最简的答案：</strong>
+        <ul>
+          <li>无解时 → 最小二乘解（误差最小）</li>
+          <li>有解时 → 极小范数解（长度最短）</li>
+          <li>唯一解时 → 就是那个解（退化为普通逆）</li>
+        </ul>
+      </Theorem>
+    </Section>
+
+    <!-- 3. Penrose方程与MP逆定义 -->
+    <Section num="3" title="Penrose方程与MP逆定义">
       <Theorem title="Moore-Penrose四个条件" type="definition" icon="🔮">
         设 <span class="formula-inline">A\in\C^{m\times n}</span>，若 <span class="formula-inline">X\in\C^{n\times m}</span> 满足：
         <ol>
-          <li><span class="formula-inline">AXA = A</span>（<span class="formula-inline">AX</span> 是沿 <span class="formula-inline">N(A)</span> 到 <span class="formula-inline">R(A)</span> 的投影）</li>
-          <li><span class="formula-inline">XAX = X</span>（<span class="formula-inline">XA</span> 是幂等的）</li>
-          <li><span class="formula-inline">(AX)\T = AX</span>（<span class="formula-inline">AX</span> 是对称的）</li>
-          <li><span class="formula-inline">(XA)\T = XA</span>（<span class="formula-inline">XA</span> 是对称的）</li>
+          <li><span class="formula-inline">AXA = A</span>（1-逆 / 减号逆）</li>
+          <li><span class="formula-inline">XAX = X</span>（2-逆 / 弱逆）</li>
+          <li><span class="formula-inline">(AX)\T = AX</span>（3-逆）</li>
+          <li><span class="formula-inline">(XA)\T = XA</span>（4-逆）</li>
         </ol>
         则称 <span class="formula-inline">X</span> 为 <span class="formula-inline">A</span> 的 M-P 广义逆，记为 <span class="formula-inline">A^+</span>。
       </Theorem>
@@ -32,18 +63,112 @@
         对任意矩阵 <span class="formula-inline">A</span>，M-P 广义逆 <span class="formula-inline">A^+</span> 存在且唯一。
       </Theorem>
 
-      <Theorem title="特殊情形" type="note" icon="📌">
+      <!-- Penrose方程关系图（auto模式） -->
+      <AnimationBox
+        mode="auto"
+        title="Penrose方程与A⁺性质关系图"
+        description="脉冲依次展示四个Penrose条件及其几何意义"
+      >
+        <div class="penrose-map">
+          <div class="pm-center">A⁺</div>
+          <div class="pm-nodes">
+            <div class="pm-node pm-n1" style="animation-delay:0s">
+              <div class="pm-eq">AXA=A</div>
+              <div class="pm-desc">AX是投影到R(A)</div>
+            </div>
+            <div class="pm-node pm-n2" style="animation-delay:1.5s">
+              <div class="pm-eq">XAX=X</div>
+              <div class="pm-desc">XA是幂等的</div>
+            </div>
+            <div class="pm-node pm-n3" style="animation-delay:3s">
+              <div class="pm-eq">(AX)ᵀ=AX</div>
+              <div class="pm-desc">AX是对称投影</div>
+            </div>
+            <div class="pm-node pm-n4" style="animation-delay:4.5s">
+              <div class="pm-eq">(XA)ᵀ=XA</div>
+              <div class="pm-desc">XA是对称投影</div>
+            </div>
+          </div>
+        </div>
+      </AnimationBox>
+    </Section>
+
+    <!-- 4. Penrose广义逆 vs MP逆 -->
+    <Section num="4" title="Penrose广义逆 vs MP逆">
+      <p>
+        在矩阵代数中，<strong>Penrose广义逆</strong>是一个大家族，而<strong>MP逆</strong>是这个家族中条件最苛刻、最完美的"独苗"。
+      </p>
+
+      <Theorem title="Penrose条件分类" type="definition" icon="📋">
+        <p>给定 <span class="formula-inline">A \in \C^{m\times n}</span>，若 <span class="formula-inline">X \in \C^{n\times m}</span> 满足以下部分或全部条件：</p>
+        <ol>
+          <li><span class="formula-inline">AXA = A</span> — 满足此条件称 <strong>减号逆</strong> 或 <strong>1-逆</strong>，记作 <span class="formula-inline">A^-</span></li>
+          <li><span class="formula-inline">XAX = X</span> — 满足此条件称 <strong>弱逆</strong> 或 <strong>2-逆</strong></li>
+          <li><span class="formula-inline">(AX)\H = AX</span> — 满足此条件称 <strong>3-逆</strong></li>
+          <li><span class="formula-inline">(XA)\H = XA</span> — 满足此条件称 <strong>4-逆</strong></li>
+        </ol>
+        <p>根据满足条件的组合不同，广义逆有<strong>多种类型</strong>。通常只要满足条件 (1)，即 <span class="formula-inline">AXA=A</span> 的矩阵 <span class="formula-inline">X</span>，就可以称为 <span class="formula-inline">A</span> 的一个 Penrose 广义逆。这种逆<strong>一般不唯一</strong>。</p>
+      </Theorem>
+
+      <Theorem title="MP逆（Moore-Penrose逆）" type="theorem" icon="🌟">
+        <p>只有当一个矩阵 <span class="formula-inline">X</span><strong>同时满足全部四个条件</strong> (1)~(4) 时，它才被称为 <span class="formula-inline">A</span> 的 Moore-Penrose 逆，记作 <span class="formula-inline">A^+</span>。</p>
+        <p>每一个矩阵 <span class="formula-inline">A</span>（无论方阵、长方阵、满秩与否）都<strong>存在且仅存在一个</strong>唯一的 MP 逆 <span class="formula-inline">A^+</span>。</p>
+        <p>若 <span class="formula-inline">A</span> 可逆，则 <span class="formula-inline">A^+ = A^{-1}</span>。</p>
+      </Theorem>
+
+      <!-- 对比表格 -->
+      <div class="compare-table-wrapper">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>对比项</th>
+              <th>Penrose 广义逆 (<span class="formula-inline">A^-</span>)</th>
+              <th>MP 逆 (<span class="formula-inline">A^+</span>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>满足条件</td>
+              <td>通常只满足 <span class="formula-inline">AXA=A</span></td>
+              <td>同时满足四个 Penrose 条件</td>
+            </tr>
+            <tr>
+              <td>唯一性</td>
+              <td><strong>不唯一</strong></td>
+              <td><strong>唯一存在</strong></td>
+            </tr>
+            <tr>
+              <td>记号</td>
+              <td><span class="formula-inline">A^-</span> 或 <span class="formula-inline">A^{(1)}</span></td>
+              <td><span class="formula-inline">A^+</span></td>
+            </tr>
+            <tr>
+              <td>几何性质</td>
+              <td>不一定是正交投影</td>
+              <td>对应正交投影</td>
+            </tr>
+            <tr>
+              <td>最小二乘意义</td>
+              <td>不一定保证</td>
+              <td>保证极小范数最小二乘解</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <Theorem title="MP逆在常见矩阵形状下的具体形式" type="note" icon="📌">
         <ul>
           <li>若 <span class="formula-inline">A</span> 可逆，则 <span class="formula-inline">A^+ = A^{-1}</span>；</li>
-          <li>若 <span class="formula-inline">A</span> 列满秩，则 <span class="formula-inline">A^+ = (A\T A)^{-1}A\T</span>（左逆）；</li>
-          <li>若 <span class="formula-inline">A</span> 行满秩，则 <span class="formula-inline">A^+ = A\T(AA\T)^{-1}</span>（右逆）；</li>
+          <li>若 <span class="formula-inline">A</span> 列满秩（<span class="formula-inline">m > n</span>），则 <span class="formula-inline">A^+ = (A\T A)^{-1}A\T</span>（左逆）；</li>
+          <li>若 <span class="formula-inline">A</span> 行满秩（<span class="formula-inline">m &lt; n</span>），则 <span class="formula-inline">A^+ = A\T(AA\T)^{-1}</span>（右逆）；</li>
+          <li>一般情况使用 SVD：<span class="formula-inline">A=U\Sigma V\T \implies A^+ = V\Sigma^+ U\T</span>；</li>
           <li>零矩阵 <span class="formula-inline">O</span> 的广义逆 <span class="formula-inline">O^+ = O</span>。</li>
         </ul>
       </Theorem>
     </Section>
 
-    <!-- 3. A⁺的SVD构造 -->
-    <Section num="3" title="A⁺的SVD构造">
+    <!-- 5. A⁺的构造方法 -->
+    <Section num="5" title="A⁺的构造方法">
       <Theorem title="利用SVD求A⁺" type="theorem">
         设 <span class="formula-inline">A = U\Sigma V\T</span> 为 <span class="formula-inline">A</span> 的奇异值分解，则
         <Formula display>A^+ = V\Sigma^+ U\T</Formula>
@@ -60,8 +185,76 @@
       </Theorem>
     </Section>
 
-    <!-- 4. AA⁺投影动画 -->
-    <Section num="4" title="动画：AA⁺正交投影几何意义">
+    <!-- 6. 公式记忆方法 -->
+    <Section num="6" title="公式记忆方法：用维数判断左右位置">
+      <Theorem title="核心大前提：只有方阵才能直接求逆" type="tip" icon="💡">
+        <p>假设矩阵 <span class="formula-inline">A</span> 的维度是 <span class="formula-inline">m \times n</span>：</p>
+        <ul>
+          <li>转置 <span class="formula-inline">A\T</span> 的维度是 <span class="formula-inline">n \times m</span></li>
+          <li>若 <span class="formula-inline">m \neq n</span>，不能直接写 <span class="formula-inline">A^{-1}</span></li>
+          <li>必须用 <span class="formula-inline">A</span> 和 <span class="formula-inline">A\T</span> 相乘，强行构造出一个<strong>满秩的方阵</strong></li>
+        </ul>
+      </Theorem>
+
+      <Theorem title="列满秩：高瘦型 (m &gt; n)" type="theorem" icon="📐">
+        <p><span class="formula-inline">A</span> 是 <span class="formula-inline">m \times n</span>，列数少，列向量互相独立。</p>
+        <p><strong>唯一可逆的方阵：</strong><span class="formula-inline">A\T A</span>（维度 <span class="formula-inline">n \times n</span>，列满秩保证可逆）</p>
+        <p><strong>目标维度：</strong><span class="formula-inline">n \times m</span></p>
+        <p>方阵 <span class="formula-inline">(A\T A)^{-1}</span> 是 <span class="formula-inline">n\times n</span>，需要右边乘 <span class="formula-inline">A\T</span>（<span class="formula-inline">n\times m</span>）补齐维度：</p>
+        <Formula display>A^+ = (A\T A)^{-1}A\T</Formula>
+        <p>检验：<span class="formula-inline">(n\times n) \times (n\times m) = n\times m</span> ✓</p>
+      </Theorem>
+
+      <Theorem title="行满秩：矮胖型 (m &lt; n)" type="theorem" icon="📐">
+        <p><span class="formula-inline">A</span> 是 <span class="formula-inline">m \times n</span>，行数少，行向量互相独立。</p>
+        <p><strong>唯一可逆的方阵：</strong><span class="formula-inline">AA\T</span>（维度 <span class="formula-inline">m \times m</span>，行满秩保证可逆）</p>
+        <p><strong>目标维度：</strong><span class="formula-inline">n \times m</span></p>
+        <p>方阵 <span class="formula-inline">(AA\T)^{-1}</span> 是 <span class="formula-inline">m\times m</span>，需要左边乘 <span class="formula-inline">A\T</span>（<span class="formula-inline">n\times m</span>）补齐维度：</p>
+        <Formula display>A^+ = A\T(AA\T)^{-1}</Formula>
+        <p>检验：<span class="formula-inline">(n\times m) \times (m\times m) = n\times m</span> ✓</p>
+      </Theorem>
+
+      <!-- 记忆表格 -->
+      <div class="compare-table-wrapper">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>矩阵类型</th>
+              <th>形状</th>
+              <th>可逆方阵</th>
+              <th>公式</th>
+              <th><span class="formula-inline">A\T</span> 在哪侧</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>列满秩</strong></td>
+              <td>高瘦 <span class="formula-inline">m&gt;n</span></td>
+              <td><span class="formula-inline">A\T A</span></td>
+              <td><span class="formula-inline">(A\T A)^{-1}A\T</span></td>
+              <td><strong>右侧</strong>（像尾巴）</td>
+            </tr>
+            <tr>
+              <td><strong>行满秩</strong></td>
+              <td>矮胖 <span class="formula-inline">m&lt;n</span></td>
+              <td><span class="formula-inline">AA\T</span></td>
+              <td><span class="formula-inline">A\T(AA\T)^{-1}</span></td>
+              <td><strong>左侧</strong>（像车头）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <Steps :steps="[
+        '判断 A 是高瘦型 (m&gt;n) 还是矮胖型 (m&lt;n)',
+        '找出可逆方阵：列满秩用 AᵀA，行满秩用 AAᵀ',
+        '用 Aᵀ 补齐到目标维度 n×m',
+        '检验：中间方阵维数匹配，两边维数对齐'
+      ]" />
+    </Section>
+
+    <!-- 7. 动画：AA⁺正交投影几何意义 -->
+    <Section num="7" title="动画：AA⁺正交投影几何意义">
       <p>
         <span class="formula-inline">AA^+</span> 是到列空间 <span class="formula-inline">R(A)</span> 的正交投影矩阵，
         <span class="formula-inline">A^+A</span> 是到 <span class="formula-inline">R(A\T)</span> 的正交投影矩阵。
@@ -131,8 +324,8 @@
       </AnimationBox>
     </Section>
 
-    <!-- 5. 广义逆与最小二乘 -->
-    <Section num="5" title="广义逆与最小二乘">
+    <!-- 8. 广义逆与最小二乘 -->
+    <Section num="8" title="广义逆与最小二乘">
       <Theorem title="极小范数最小二乘解" type="theorem">
         矛盾方程组 <span class="formula-inline">Ax=b</span> 的极小范数最小二乘解唯一存在，且为
         <Formula display>x^+ = A^+ b</Formula>
@@ -142,39 +335,10 @@
           <li><strong>极小范数：</strong>在所有最小二乘解中，<span class="formula-inline">\|x^+\|</span> 最小。</li>
         </ul>
       </Theorem>
-
-      <!-- Penrose方程关系图（auto模式） -->
-      <AnimationBox
-        mode="auto"
-        title="Penrose方程与A⁺性质关系图"
-        description="脉冲依次展示四个Penrose条件及其几何意义"
-      >
-        <div class="penrose-map">
-          <div class="pm-center">A⁺</div>
-          <div class="pm-nodes">
-            <div class="pm-node pm-n1" style="animation-delay:0s">
-              <div class="pm-eq">AXA=A</div>
-              <div class="pm-desc">AX是投影到R(A)</div>
-            </div>
-            <div class="pm-node pm-n2" style="animation-delay:1.5s">
-              <div class="pm-eq">XAX=X</div>
-              <div class="pm-desc">XA是幂等的</div>
-            </div>
-            <div class="pm-node pm-n3" style="animation-delay:3s">
-              <div class="pm-eq">(AX)ᵀ=AX</div>
-              <div class="pm-desc">AX是对称投影</div>
-            </div>
-            <div class="pm-node pm-n4" style="animation-delay:4.5s">
-              <div class="pm-eq">(XA)ᵀ=XA</div>
-              <div class="pm-desc">XA是对称投影</div>
-            </div>
-          </div>
-        </div>
-      </AnimationBox>
     </Section>
 
-    <!-- 6. 真题精讲 -->
-    <Section num="6" title="真题精讲">
+    <!-- 9. 真题精讲 -->
+    <Section num="9" title="真题精讲">
       <ExampleBox source="2021年期末考试" badge="📝 真题例题">
         <template #problem>
           <p>用SVD求矩阵 <span class="formula-inline">A = \begin{pmatrix} 1 & 1 \\ 1 & 1 \\ 0 & 0 \end{pmatrix}</span> 的M-P广义逆 <span class="formula-inline">A^+</span>。</p>
@@ -240,7 +404,7 @@
             <div>
               <p><strong>A⁺ = Gᵀ(GGᵀ)⁻¹(FᵀF)⁻¹Fᵀ：</strong></p>
               <div class="formula-block">
-                A^+ = \frac{1}{3}\begin{pmatrix} 2 & -1 \\ 1 & 1 \\ 1 & 0 \end{pmatrix}
+                 A^+ = \frac{1}{3}\begin{pmatrix} 2 & -3 \\ -1 & 3 \\ 1 & 0 \end{pmatrix}
               </div>
             </div>
           </div>
@@ -248,32 +412,34 @@
             <span class="step-num">4</span>
             <div>
               <p><strong>极小范数最小二乘解：</strong></p>
-              <p><span class="formula-inline">x^+ = A^+ b = \frac{1}{3}\begin{pmatrix} 2 & -1 \\ 1 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 1 \\ 0 \end{pmatrix} = \frac{1}{3}(2, 1, 1)\T</span></p>
+              <p><span class="formula-inline">x^+ = A^+ b = \frac{1}{3}\begin{pmatrix} 2 & -3 \\ -1 & 3 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 1 \\ 0 \end{pmatrix} = \frac{1}{3}(2, -1, 1)\T</span></p>
             </div>
           </div>
         </template>
       </ExampleBox>
     </Section>
 
-    <!-- 7. 知识点小结 -->
-    <Section num="7" title="知识点小结">
+    <!-- 10. 知识点小结 -->
+    <Section num="10" title="知识点小结">
       <Steps :steps="[
-        'M-P广义逆 A⁺ 由四个Penrose方程定义，存在且唯一',
-        'A⁺ 同时满足 AXA=A, XAX=X, (AX)ᵀ=AX, (XA)ᵀ=XA',
-        'SVD构造：A=UΣVᵀ ⟹ A⁺=VΣ⁺Uᵀ（非零奇异值取倒数再转置）',
-        '满秩分解构造：A=FG ⟹ A⁺=Gᵀ(GGᵀ)⁻¹(FᵀF)⁻¹Fᵀ',
+        '普通逆只适用于可逆方阵，MP逆把\u201c求解\u201d推广到任意矩阵',
+        'A⁺b 总是给出唯一最优结果：最小误差 + 极小范数',
+        'A⁺ 由四个Penrose方程定义，存在且唯一',
+        '只满足 AXA=A 的广义逆一般不唯一；同时满足四条才是唯一的A⁺',
+        'SVD构造：A=UΣVᵀ ⟹ A⁺=VΣ⁺Uᵀ',
+        '列满秩：A⁺=(AᵀA)⁻¹Aᵀ（Aᵀ在右）；行满秩：A⁺=Aᵀ(AAᵀ)⁻¹（Aᵀ在左）',
+        '记公式先看维数：只有方阵能求逆，先构造可逆方阵',
         'AA⁺是到R(A)的正交投影矩阵，A⁺A是到R(Aᵀ)的正交投影矩阵',
-        'A⁺b 是 Ax=b 的极小范数最小二乘解',
-        'A 可逆时 A⁺ = A⁻¹；A 列满秩时 A⁺ = (AᵀA)⁻¹Aᵀ'
+        'A 可逆时 A⁺ = A⁻¹（普通逆是MP逆的特例）'
       ]" />
     </Section>
 
-    <!-- 8. 真题与习题汇总 -->
-    <Section title="🗂️ 真题与习题汇总">
+    <!-- 11. 真题与习题汇总 -->
+    <Section num="11" title="🗂️ 真题与习题汇总">
       <WeekQuizBank :quizzes="quizzes" weekLabel="第2周" />
     </Section>
 
-    <Section title="📝 课后作业" :num="8">
+    <Section title="📝 课后作业" :num="12">
       <div v-if="hwQuizzes.length === 0" class="empty-state">暂无课后作业</div>
       <template v-for="hw in hwQuizzes" :key="hw.id">
         <QuizProblem :quiz="hw" badge="📝 课后作业" />
@@ -461,5 +627,44 @@ onUnmounted(() => {
   12% { transform: scale(1) translateY(0); }
   85% { opacity: 1; transform: scale(1) translateY(0); }
   95%,100% { opacity: 0.25; transform: scale(0.95) translateY(0); }
+}
+
+/* 对比表格 */
+.compare-table-wrapper {
+  margin: 16px 0;
+  overflow-x: auto;
+}
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,0,0,.06);
+}
+.compare-table thead th {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff;
+  padding: 12px 14px;
+  font-weight: 600;
+  text-align: left;
+}
+.compare-table tbody td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  vertical-align: top;
+}
+.compare-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.compare-table tbody tr:hover {
+  background: #f8fafc;
+}
+.compare-table tbody td:first-child {
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
 }
 </style>

@@ -440,7 +440,7 @@ const path = [
   {step:'动态系统',name:'矩阵函数与微分方程',desc:'矩阵指数、相图、稳定性',path:'/lesson/04'},
   {step:'基本分解',name:'LU与QR分解',desc:'Gauss消元、正交化、反射',path:'/lesson/05'},
   {step:'核心分解',name:'SVD奇异值分解',desc:'旋转-拉伸-旋转、低秩逼近',path:'/lesson/06'},
-  {step:'逆的推广',name:'Moore-Penrose广义逆',desc:'Penrose方程、广义逆双重角色',path:'/lesson/07'},
+  {step:'分解与逆',name:'满秩分解与MP逆',desc:'满秩分解、Penrose方程、广义逆双重角色',path:'/lesson/07'},
   {step:'几何应用',name:'投影矩阵',desc:'正交投影、斜投影、幂等性',path:'/lesson/08'},
   {step:'数据拟合',name:'最小二乘与范数',desc:'正规方程、残差正交、范数',path:'/lesson/09'},
   {step:'特征值界',name:'盖尔圆盘估计',desc:'圆盘定理、隔离、Rayleigh商',path:'/lesson/10'},

@@ -1,8 +1,70 @@
 <template>
-  <LessonLayout :lesson-id="7" title="Moore-Penrose广义逆" subtitle="Moore-Penrose Pseudoinverse">
+  <LessonLayout :lesson-id="7" title="满秩分解与MP逆" subtitle="Full Rank Decomposition & MP Inverse">
+
+    <!-- 1. 满秩分解 -->
+    <Section title="满秩分解 A=FG" :num="1">
+      <Theorem title="满秩分解定理" type="theorem" icon="📌">
+        设 <span class="formula-inline">A \in \C^{m \times n}</span>，<span class="formula-inline">\rank(A) = r > 0</span>，
+        则存在列满秩矩阵 <span class="formula-inline">F \in \C^{m \times r}</span> 和行满秩矩阵
+        <span class="formula-inline">G \in \C^{r \times n}</span>，使得：
+        <Formula>A = FG</Formula>
+      </Theorem>
+
+      <p><strong>构造方法：</strong>对 <span class="formula-inline">A</span> 做行初等变换化为行标准形 <span class="formula-inline">\tilde{A}</span>，则：</p>
+      <ul>
+        <li><span class="formula-inline">F</span>：取 <span class="formula-inline">A</span> 中对应 <span class="formula-inline">\tilde{A}</span> 主元列的 <span class="formula-inline">r</span> 个列；</li>
+        <li><span class="formula-inline">G</span>：取 <span class="formula-inline">\tilde{A}</span> 中非零的前 <span class="formula-inline">r</span> 行。</li>
+      </ul>
+
+      <Theorem title="满秩分解的几何意义" type="tip" icon="💡">
+        线性映射 <span class="formula-inline">A: \R^n \to \R^m</span> 可分解为：
+        <span class="formula-inline">\R^n \xrightarrow{G} \R^r \xrightarrow{F} \R^m</span>，
+        即先降维到 <span class="formula-inline">r</span> 维空间，再嵌入到目标空间。
+      </Theorem>
+    </Section>
+
+    <!-- 2. 满秩分解降维动画 -->
+    <Section title="动画：满秩分解的空间映射" :num="2">
+      <p>观察线性映射 <span class="formula-inline">A = FG</span> 的几何过程：<span class="formula-inline">\R^m \leftarrow \R^r \leftarrow \R^n</span>，中间经过 <span class="formula-inline">r</span> 维空间。</p>
+
+      <AnimationBox
+        mode="auto"
+        title="满秩分解降维可视化"
+        description="n维空间经G映射到r维空间（降维），再经F映射到m维空间（嵌入），脉冲依次点亮"
+      >
+        <div class="fr-flow">
+          <div class="fr-space fr-n">
+            <div class="fr-ball" style="animation-delay:0s"></div>
+            <div class="fr-label">ℝⁿ</div>
+            <div class="fr-sub">(n维空间)</div>
+          </div>
+          <div class="fr-arrow">
+            <div class="fr-arrow-line" style="animation-delay:1s"></div>
+            <div class="fr-arrow-label" style="color:#0d9488">G</div>
+            <div class="fr-arrow-sub">行满秩·降维</div>
+          </div>
+          <div class="fr-space fr-r">
+            <div class="fr-ellipse" style="animation-delay:2s"></div>
+            <div class="fr-label">ℝʳ</div>
+            <div class="fr-sub">(r维·列空间)</div>
+          </div>
+          <div class="fr-arrow">
+            <div class="fr-arrow-line" style="animation-delay:3s"></div>
+            <div class="fr-arrow-label" style="color:#0d9488">F</div>
+            <div class="fr-arrow-sub">列满秩·嵌入</div>
+          </div>
+          <div class="fr-space fr-m">
+            <div class="fr-ellipse fr-rotated" style="animation-delay:4s"></div>
+            <div class="fr-label">ℝᵐ</div>
+            <div class="fr-sub">(m维空间)</div>
+          </div>
+          <div class="fr-eq" style="animation-delay:5s">A = FG</div>
+        </div>
+      </AnimationBox>
+    </Section>
 
     <!-- 1. 广义逆的引入 -->
-    <Section num="1" title="广义逆的引入">
+    <Section num="3" title="广义逆的引入">
       <p>
         当 <span class="formula-inline">A</span> 不是方阵或奇异时，逆矩阵不存在。Moore-Penrose 广义逆
         <span class="formula-inline">A^+</span> 将逆矩阵的概念推广到任意矩阵，在最小二乘、优化等领域有广泛应用。
@@ -17,7 +79,7 @@
     </Section>
 
     <!-- 2. MP逆的意义 -->
-    <Section num="2" title="MP逆的意义：一把处理“坏方程组”的钥匙">
+    <Section num="4" title="MP逆的意义：一把处理“坏方程组”的钥匙">
       <p>
         无论方程组多么恶劣（无解或无数组解），<span class="formula-inline">A^+b</span> 永远能给出一个
         <strong>唯一的、误差最小且自身长度最短</strong>的最优近似解。
@@ -48,7 +110,7 @@
     </Section>
 
     <!-- 3. Penrose方程与MP逆定义 -->
-    <Section num="3" title="Penrose方程与MP逆定义">
+    <Section num="5" title="Penrose方程与MP逆定义">
       <Theorem title="Moore-Penrose四个条件" type="definition" icon="🔮">
         设 <span class="formula-inline">A\in\C^{m\times n}</span>，若 <span class="formula-inline">X\in\C^{n\times m}</span> 满足：
         <ol>
@@ -94,7 +156,7 @@
     </Section>
 
     <!-- 4. Penrose广义逆 vs MP逆 -->
-    <Section num="4" title="Penrose广义逆 vs MP逆">
+    <Section num="6" title="Penrose广义逆 vs MP逆">
       <p>
         在矩阵代数中，<strong>Penrose广义逆</strong>是一个大家族，而<strong>MP逆</strong>是这个家族中条件最苛刻、最完美的"独苗"。
       </p>
@@ -168,7 +230,7 @@
     </Section>
 
     <!-- 5. A⁺的构造方法 -->
-    <Section num="5" title="A⁺的构造方法">
+    <Section num="7" title="A⁺的构造方法">
       <Theorem title="利用SVD求A⁺" type="theorem">
         设 <span class="formula-inline">A = U\Sigma V\T</span> 为 <span class="formula-inline">A</span> 的奇异值分解，则
         <Formula display>A^+ = V\Sigma^+ U\T</Formula>
@@ -186,7 +248,7 @@
     </Section>
 
     <!-- 6. 公式记忆方法 -->
-    <Section num="6" title="公式记忆方法：用维数判断左右位置">
+    <Section num="8" title="公式记忆方法：用维数判断左右位置">
       <Theorem title="核心大前提：只有方阵才能直接求逆" type="tip" icon="💡">
         <p>假设矩阵 <span class="formula-inline">A</span> 的维度是 <span class="formula-inline">m \times n</span>：</p>
         <ul>
@@ -254,7 +316,7 @@
     </Section>
 
     <!-- 7. 动画：AA⁺正交投影几何意义 -->
-    <Section num="7" title="动画：AA⁺正交投影几何意义">
+    <Section num="9" title="动画：AA⁺正交投影几何意义">
       <p>
         <span class="formula-inline">AA^+</span> 是到列空间 <span class="formula-inline">R(A)</span> 的正交投影矩阵，
         <span class="formula-inline">A^+A</span> 是到 <span class="formula-inline">R(A\T)</span> 的正交投影矩阵。
@@ -325,7 +387,7 @@
     </Section>
 
     <!-- 8. 广义逆与最小二乘 -->
-    <Section num="8" title="广义逆与最小二乘">
+    <Section num="10" title="广义逆与最小二乘">
       <Theorem title="极小范数最小二乘解" type="theorem">
         矛盾方程组 <span class="formula-inline">Ax=b</span> 的极小范数最小二乘解唯一存在，且为
         <Formula display>x^+ = A^+ b</Formula>
@@ -338,7 +400,7 @@
     </Section>
 
     <!-- 9. 真题精讲 -->
-    <Section num="9" title="真题精讲">
+    <Section num="11" title="真题精讲">
       <ExampleBox source="2021年期末考试" badge="📝 真题例题">
         <template #problem>
           <p>用SVD求矩阵 <span class="formula-inline">A = \begin{pmatrix} 1 & 1 \\ 1 & 1 \\ 0 & 0 \end{pmatrix}</span> 的M-P广义逆 <span class="formula-inline">A^+</span>。</p>
@@ -420,8 +482,9 @@
     </Section>
 
     <!-- 10. 知识点小结 -->
-    <Section num="10" title="知识点小结">
+    <Section num="12" title="知识点小结">
       <Steps :steps="[
+        '满秩分解 A=FG：F列满秩、G行满秩，可通过行标准形构造（取主元列为F，非零行为G）。',
         '普通逆只适用于可逆方阵，MP逆把\u201c求解\u201d推广到任意矩阵',
         'A⁺b 总是给出唯一最优结果：最小误差 + 极小范数',
         'A⁺ 由四个Penrose方程定义，存在且唯一',
@@ -435,11 +498,11 @@
     </Section>
 
     <!-- 11. 真题与习题汇总 -->
-    <Section num="11" title="🗂️ 真题与习题汇总">
+    <Section num="13" title="🗂️ 真题与习题汇总">
       <WeekQuizBank :quizzes="quizzes" weekLabel="第2周" />
     </Section>
 
-    <Section title="📝 课后作业" :num="12">
+    <Section title="📝 课后作业" :num="14">
       <div v-if="hwQuizzes.length === 0" class="empty-state">暂无课后作业</div>
       <template v-for="hw in hwQuizzes" :key="hw.id">
         <QuizProblem :quiz="hw" badge="📝 课后作业" />
@@ -463,7 +526,7 @@ import { homeworkBank } from '../../data/homeworkBank'
 import { useKatex } from '../../composables/useKatex'
 import { ref, onUnmounted, computed } from 'vue'
 
-const quizzes = (quizBank[7] || []).map(q => ({ ...q, lessonNum: '07', lessonTitle: 'Moore-Penrose广义逆' }))
+const quizzes = (quizBank[7] || []).map(q => ({ ...q, lessonNum: '07', lessonTitle: '满秩分解与MP逆' }))
 const hwQuizzes = computed(() => (homeworkBank[7] || []).map(q => ({ ...q })))
 
 const renderTrigger = ref(0)
@@ -666,5 +729,106 @@ onUnmounted(() => {
   font-weight: 600;
   color: #1e293b;
   white-space: nowrap;
+}
+
+/* 满秩分解动画 */
+.fr-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 30px 16px;
+  flex-wrap: wrap;
+  min-height: 200px;
+}
+.fr-space {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 2px dashed #94a3b8;
+  min-width: 90px;
+  background: #fff;
+}
+.fr-n { border-color: #f59e0b; background: #fffbeb; }
+.fr-r { border-color: #059669; background: #ecfdf5; }
+.fr-m { border-color: #3b82f6; background: #eff6ff; }
+.fr-ball {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fde68a, #f59e0b);
+  opacity: 0;
+  animation: fr-pulse 6s ease-in-out infinite;
+}
+.fr-ellipse {
+  width: 60px; height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #6ee7b7, #059669);
+  opacity: 0;
+  animation: fr-pulse 6s ease-in-out infinite;
+}
+.fr-rotated {
+  background: radial-gradient(circle, #93c5fd, #3b82f6);
+  transform: rotate(20deg);
+}
+.fr-label { font-size: 18px; font-weight: 700; color: #1e293b; }
+.fr-sub { font-size: 11px; color: #64748b; }
+.fr-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 50px;
+}
+.fr-arrow-line {
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #0d9488, #14b8a6);
+  border-radius: 2px;
+  position: relative;
+  opacity: 0;
+  animation: fr-arrow 6s ease-in-out infinite;
+}
+.fr-arrow-line::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: -4px;
+  border: 6px solid transparent;
+  border-left-color: #0d9488;
+}
+.fr-arrow-label { font-size: 16px; font-weight: 700; opacity: 0; animation: fr-fade 6s ease-in-out infinite; }
+.fr-arrow-sub { font-size: 10px; color: #64748b; opacity: 0; animation: fr-fade 6s ease-in-out infinite; }
+.fr-eq {
+  margin-left: 12px;
+  padding: 8px 20px;
+  background: linear-gradient(135deg,#0d9488,#14b8a6);
+  color: #fff;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  opacity: 0;
+  animation: fr-pulse 6s ease-in-out infinite;
+}
+@keyframes fr-pulse {
+  0% { opacity: 0; transform: scale(0.6); }
+  10% { opacity: 1; transform: scale(1.1); }
+  15% { transform: scale(1); }
+  80% { opacity: 1; transform: scale(1); }
+  90%,100% { opacity: 0.3; transform: scale(0.95); }
+}
+@keyframes fr-arrow {
+  0% { opacity: 0; width: 0; }
+  10% { opacity: 1; width: 40px; }
+  80% { opacity: 1; width: 40px; }
+  90%,100% { opacity: 0.3; width: 40px; }
+}
+@keyframes fr-fade {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  80% { opacity: 1; }
+  90%,100% { opacity: 0.3; }
 }
 </style>

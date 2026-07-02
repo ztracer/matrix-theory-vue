@@ -1,70 +1,8 @@
 <template>
-  <LessonLayout :lesson-id="6" title="满秩分解与SVD奇异值分解" subtitle="Full Rank Decomposition & SVD">
-
-    <!-- 1. 满秩分解 -->
-    <Section title="满秩分解 A=FG" :num="1">
-      <Theorem title="满秩分解定理" type="theorem" icon="📌">
-        设 <span class="formula-inline">A \in \C^{m \times n}</span>，<span class="formula-inline">\rank(A) = r > 0</span>，
-        则存在列满秩矩阵 <span class="formula-inline">F \in \C^{m \times r}</span> 和行满秩矩阵
-        <span class="formula-inline">G \in \C^{r \times n}</span>，使得：
-        <Formula>A = FG</Formula>
-      </Theorem>
-
-      <p><strong>构造方法：</strong>对 <span class="formula-inline">A</span> 做行初等变换化为行标准形 <span class="formula-inline">\tilde{A}</span>，则：</p>
-      <ul>
-        <li><span class="formula-inline">F</span>：取 <span class="formula-inline">A</span> 中对应 <span class="formula-inline">\tilde{A}</span> 主元列的 <span class="formula-inline">r</span> 个列；</li>
-        <li><span class="formula-inline">G</span>：取 <span class="formula-inline">\tilde{A}</span> 中非零的前 <span class="formula-inline">r</span> 行。</li>
-      </ul>
-
-      <Theorem title="满秩分解的几何意义" type="tip" icon="💡">
-        线性映射 <span class="formula-inline">A: \R^n \to \R^m</span> 可分解为：
-        <span class="formula-inline">\R^n \xrightarrow{G} \R^r \xrightarrow{F} \R^m</span>，
-        即先降维到 <span class="formula-inline">r</span> 维空间，再嵌入到目标空间。
-      </Theorem>
-    </Section>
-
-    <!-- 2. 满秩分解降维动画 -->
-    <Section title="动画：满秩分解的空间映射" :num="2">
-      <p>观察线性映射 <span class="formula-inline">A = FG</span> 的几何过程：<span class="formula-inline">\R^m \leftarrow \R^r \leftarrow \R^n</span>，中间经过 <span class="formula-inline">r</span> 维空间。</p>
-
-      <AnimationBox
-        mode="auto"
-        title="满秩分解降维可视化"
-        description="n维空间经G映射到r维空间（降维），再经F映射到m维空间（嵌入），脉冲依次点亮"
-      >
-        <div class="fr-flow">
-          <div class="fr-space fr-n">
-            <div class="fr-ball" style="animation-delay:0s"></div>
-            <div class="fr-label">ℝⁿ</div>
-            <div class="fr-sub">(n维空间)</div>
-          </div>
-          <div class="fr-arrow">
-            <div class="fr-arrow-line" style="animation-delay:1s"></div>
-            <div class="fr-arrow-label" style="color:#0d9488">G</div>
-            <div class="fr-arrow-sub">行满秩·降维</div>
-          </div>
-          <div class="fr-space fr-r">
-            <div class="fr-ellipse" style="animation-delay:2s"></div>
-            <div class="fr-label">ℝʳ</div>
-            <div class="fr-sub">(r维·列空间)</div>
-          </div>
-          <div class="fr-arrow">
-            <div class="fr-arrow-line" style="animation-delay:3s"></div>
-            <div class="fr-arrow-label" style="color:#0d9488">F</div>
-            <div class="fr-arrow-sub">列满秩·嵌入</div>
-          </div>
-          <div class="fr-space fr-m">
-            <div class="fr-ellipse fr-rotated" style="animation-delay:4s"></div>
-            <div class="fr-label">ℝᵐ</div>
-            <div class="fr-sub">(m维空间)</div>
-          </div>
-          <div class="fr-eq" style="animation-delay:5s">A = FG</div>
-        </div>
-      </AnimationBox>
-    </Section>
+  <LessonLayout :lesson-id="6" title="SVD奇异值分解" subtitle="Singular Value Decomposition">
 
     <!-- 3. 奇异值与SVD -->
-    <Section title="奇异值与SVD分解" :num="3">
+    <Section title="奇异值与SVD分解" :num="1">
       <Theorem title="有了特征值分解（EVD），为什么还要 SVD？" type="tip" icon="💡">
         <p><strong>特征值分解的局限性：</strong>EVD 要求矩阵是 <strong>方阵</strong>（<span class="formula-inline">n \times n</span>）且<strong>可对角化</strong>。面对一个 <span class="formula-inline">1080 \times 1920</span> 的非方阵图像，EVD 直接失效。</p>
         <p><strong>SVD 的降维打击：</strong>任何形状的矩阵 <span class="formula-inline">A \in \R^{m \times n}</span>（长方的、方的、哪怕只有一行/一列），<strong>百分之百存在 SVD</strong>。它的巧妙之处在于：把非方阵映射问题，转化成我们最熟悉的对称方阵问题——去研究 <span class="formula-inline">A\T A</span>（<span class="formula-inline">n \times n</span> 对称）和 <span class="formula-inline">AA\T</span>（<span class="formula-inline">m \times m</span> 对称），这两个矩阵一定可以对角化。</p>
@@ -100,7 +38,7 @@
       </ul>
     </Section>
 
-    <Section title="📺 视频讲解：SVD 的直观理解" :num="3">
+    <Section title="📺 视频讲解：SVD 的直观理解" :num="2">
       <div class="bilibili-video">
         <iframe
           src="https://player.bilibili.com/player.html?isOutside=true&aid=116134959388273&bvid=BV1XcfiBeEwQ&cid=36323591667&p=1"
@@ -113,7 +51,7 @@
     </Section>
 
     <!-- 4. SVD几何动画 -->
-    <Section title="动画：SVD几何分解" :num="4">
+    <Section title="动画：SVD几何分解" :num="3">
       <p>
         SVD将线性变换分解为三步：
         <span class="formula-inline">V\T</span>（旋转/反射）→ <span class="formula-inline">\Sigma</span>（坐标轴方向拉伸）→ <span class="formula-inline">U</span>（旋转/反射）。
@@ -272,7 +210,7 @@
     </Section>
 
     <!-- 5. Frobenius范数与最佳秩k逼近 -->
-    <Section title="Frobenius范数与最佳秩k逼近" :num="5">
+    <Section title="Frobenius范数与最佳秩k逼近" :num="4">
       <p>奇异值包含了矩阵的重要"能量"信息：</p>
 
       <Theorem title="Frobenius范数与奇异值" type="theorem" icon="📌">
@@ -299,7 +237,7 @@
     </Section>
 
     <!-- 6. 奇异值分布+低秩逼近误差动画 -->
-    <Section title="动画：奇异值分布与低秩逼近误差" :num="6">
+    <Section title="动画：奇异值分布与低秩逼近误差" :num="5">
       <p>观察不同奇异值分布下的椭球形态，以及随着 <span class="formula-inline">k</span> 增大，逼近误差快速下降的条形图。</p>
 
       <AnimationBox
@@ -362,7 +300,7 @@
     </Section>
 
     <!-- 7. 例题 -->
-    <Section title="真题精讲" :num="7">
+    <Section title="真题精讲" :num="6">
       <ExampleBox source="研究生矩阵论考试真题" badge="📝 真题例题">
         <template #problem>
           <p>求矩阵 <span class="formula-inline">A = \begin{pmatrix} 1 & 1 \\ 1 & 1 \\ 0 & 0 \end{pmatrix}</span> 的奇异值分解。</p>
@@ -454,7 +392,7 @@
       </AnimationBox>
     </Section>
 
-    <Section title="⚠️ 计算避坑指南" :num="7">
+    <Section title="⚠️ 计算避坑指南" :num="8">
       <Theorem title="考试与计算的两个大坑（必看）" type="note" icon="⚠️" style="margin:0;">
         <p style="margin-top:0;"><strong>坑一：正负号对齐问题</strong><br/>求出 <span class="formula-inline">V</span> 的列向量 <span class="formula-inline">v_i</span> 后，<strong>绝对不能</strong>盲目去求 <span class="formula-inline">AA\T</span> 的特征向量来凑 <span class="formula-inline">U</span>！因为特征向量的方向正负可任意选取，如果 <span class="formula-inline">u_i</span> 和 <span class="formula-inline">v_i</span> 独立确定正负号，会出现 <span class="formula-inline">(-u_i, v_i)</span> 这种不匹配的组合（等价于 <span class="formula-inline">\sigma_i \lt 0</span>，不合法）。<br/><strong>正确做法：</strong>先确定 <span class="formula-inline">v_i</span>（来自 <span class="formula-inline">A\T A</span>），再严格通过公式 <span class="formula-inline">u_i = \frac{1}{\sigma_i} A v_i</span> 计算 <span class="formula-inline">U</span> 的前 <span class="formula-inline">r</span> 个列向量。<span class="formula-inline">(-u_i, -v_i)</span> 同时取反是合法的，但 <span class="formula-inline">(u_i, -v_i)</span> 会出错。</p>
         <p><strong>坑二：零空间的扩充（<span class="formula-inline">U</span> 的剩余列）</strong><br/>当 <span class="formula-inline">r \lt m</span> 时，用 <span class="formula-inline">u_i = \frac{1}{\sigma_i} A v_i</span> 只能求出 <span class="formula-inline">U</span> 的前 <span class="formula-inline">r</span> 列。剩下的 <span class="formula-inline">m-r</span> 列，必须通过求解齐次方程组 <span class="formula-inline">A\T x = 0</span> 得到基础解系，并对这些向量<strong>施密特正交化</strong>来补齐——它们构成 <span class="formula-inline">N(A\T) = R(A)^{\perp}</span> 的标准正交基。<br/><strong>对称提醒：</strong>当 <span class="formula-inline">r \lt n</span> 时，<span class="formula-inline">V</span> 的剩余列同样来自 <span class="formula-inline">\lambda=0</span> 对应的特征向量（即 <span class="formula-inline">N(A)</span>），这两侧是对称的。</p>
@@ -462,7 +400,7 @@
     </Section>
 
     <!-- 8. 例题2：低秩逼近 -->
-    <Section title="真题精讲（续）" :num="8">
+    <Section title="真题精讲（续）" :num="9">
       <ExampleBox source="经典习题" badge="📝 最佳秩k逼近">
         <template #problem>
           <p>设 <span class="formula-inline">A = \begin{pmatrix} 2 & 0 & 0 \\ 0 & 1 & 0 \end{pmatrix}</span>，求 <span class="formula-inline">\|A\|_F</span> 和最佳秩1逼近 <span class="formula-inline">A_1</span>，并计算逼近误差。</p>
@@ -497,9 +435,8 @@
     </Section>
 
     <!-- 9. 小结 -->
-    <Section title="知识点小结" :num="9">
+    <Section title="知识点小结" :num="10">
       <Steps :steps="[
-        '满秩分解 A=FG：F列满秩、G行满秩，可通过行标准形构造（取主元列为F，非零行为G）。',
         '奇异值 σᵢ=√λᵢ(AᵀA)，是非负实数，衡量矩阵在各正交方向上的“拉伸强度”。',
         'SVD分解 A=UΣVᵀ：U、V为正交矩阵，Σ为对角元为奇异值的广义对角矩阵，任何矩阵都存在SVD。',
         'SVD几何意义：Vᵀ旋转→Σ沿轴拉伸→U旋转，将单位球映射为椭球，半轴长=奇异值。',
@@ -509,11 +446,11 @@
     </Section>
 
     <!-- 10. 真题与习题汇总 -->
-    <Section title="🗂️ 真题与习题汇总">
+    <Section title="🗂️ 真题与习题汇总" :num="11">
       <WeekQuizBank :quizzes="quizzes" weekLabel="第2周" />
     </Section>
 
-    <Section title="📝 课后作业" :num="10">
+    <Section title="📝 课后作业" :num="12">
       <div v-if="hwQuizzes.length === 0" class="empty-state">暂无课后作业</div>
       <template v-for="hw in hwQuizzes" :key="hw.id">
         <QuizProblem :quiz="hw" badge="📝 课后作业" />
@@ -537,7 +474,7 @@ import { homeworkBank } from '../../data/homeworkBank'
 import { useKatex } from '../../composables/useKatex'
 import { ref, onUnmounted, computed, watch } from 'vue'
 
-const quizzes = (quizBank[6] || []).map(q => ({ ...q, lessonNum: '06', lessonTitle: '满秩分解与SVD' }))
+const quizzes = (quizBank[6] || []).map(q => ({ ...q, lessonNum: '06', lessonTitle: 'SVD奇异值分解' }))
 const hwQuizzes = computed(() => (homeworkBank[6] || []).map(q => ({ ...q })))
 
 const renderTrigger = ref(0)
@@ -799,107 +736,6 @@ onUnmounted(() => {
   padding: 7px 14px; border-radius: 999px;
   background: #0f172a; color: #e0f2fe;
   font-size: 12px; font-weight: 700; white-space: nowrap;
-}
-
-/* 满秩分解流程（auto模式CSS动画） */
-.fr-flow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 30px 16px;
-  flex-wrap: wrap;
-  min-height: 200px;
-}
-.fr-space {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px;
-  border-radius: 16px;
-  border: 2px dashed #94a3b8;
-  min-width: 90px;
-  background: #fff;
-}
-.fr-n { border-color: #f59e0b; background: #fffbeb; }
-.fr-r { border-color: #059669; background: #ecfdf5; }
-.fr-m { border-color: #3b82f6; background: #eff6ff; }
-.fr-ball {
-  width: 50px; height: 50px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fde68a, #f59e0b);
-  opacity: 0;
-  animation: fr-pulse 6s ease-in-out infinite;
-}
-.fr-ellipse {
-  width: 60px; height: 40px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #6ee7b7, #059669);
-  opacity: 0;
-  animation: fr-pulse 6s ease-in-out infinite;
-}
-.fr-rotated {
-  background: radial-gradient(circle, #93c5fd, #3b82f6);
-  transform: rotate(20deg);
-}
-.fr-label { font-size: 18px; font-weight: 700; color: #1e293b; }
-.fr-sub { font-size: 11px; color: #64748b; }
-.fr-arrow {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  min-width: 50px;
-}
-.fr-arrow-line {
-  width: 40px;
-  height: 3px;
-  background: linear-gradient(90deg, #0d9488, #14b8a6);
-  border-radius: 2px;
-  position: relative;
-  opacity: 0;
-  animation: fr-arrow 6s ease-in-out infinite;
-}
-.fr-arrow-line::after {
-  content: '';
-  position: absolute;
-  right: -6px;
-  top: -4px;
-  border: 6px solid transparent;
-  border-left-color: #0d9488;
-}
-.fr-arrow-label { font-size: 16px; font-weight: 700; opacity: 0; animation: fr-fade 6s ease-in-out infinite; }
-.fr-arrow-sub { font-size: 10px; color: #64748b; opacity: 0; animation: fr-fade 6s ease-in-out infinite; }
-.fr-eq {
-  margin-left: 12px;
-  padding: 8px 20px;
-  background: linear-gradient(135deg,#0d9488,#14b8a6);
-  color: #fff;
-  border-radius: 12px;
-  font-size: 18px;
-  font-weight: 700;
-  opacity: 0;
-  animation: fr-pulse 6s ease-in-out infinite;
-}
-@keyframes fr-pulse {
-  0% { opacity: 0; transform: scale(0.6); }
-  10% { opacity: 1; transform: scale(1.1); }
-  15% { transform: scale(1); }
-  80% { opacity: 1; transform: scale(1); }
-  90%,100% { opacity: 0.3; transform: scale(0.95); }
-}
-@keyframes fr-arrow {
-  0% { opacity: 0; width: 0; }
-  10% { opacity: 1; width: 40px; }
-  80% { opacity: 1; width: 40px; }
-  90%,100% { opacity: 0.3; width: 40px; }
-}
-@keyframes fr-fade {
-  0% { opacity: 0; }
-  15% { opacity: 1; }
-  80% { opacity: 1; }
-  90%,100% { opacity: 0.3; }
 }
 
 /* SVD解题流程图（auto模式） */

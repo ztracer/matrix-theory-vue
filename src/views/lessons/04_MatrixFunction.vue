@@ -29,6 +29,43 @@
           <li><span class="formula-inline">(I-A)^{-1} = \sum_{k=0}^{\infty} A^k</span>（ρ(A)<1时收敛）</li>
         </ul>
       </div>
+
+      <h3>矩阵序列的收敛性</h3>
+
+      <Theorem title="收敛矩阵的定义" type="definition" icon="📐">
+        <p>设 <span class="formula-inline">A \in \C^{n \times n}</span>。若 <span class="formula-inline">\lim_{k\to\infty} A^k = 0</span>（零矩阵），则称 <span class="formula-inline">A</span> 为<strong>收敛矩阵</strong>。</p>
+        <p><strong>充要条件：</strong><span class="formula-inline">A</span> 收敛 <span class="formula-inline">\iff</span> 谱半径 <span class="formula-inline">\rho(A) < 1</span>。</p>
+        <p><strong>Jordan 块视角：</strong>若 <span class="formula-inline">|\lambda| < 1</span>，则 Jordan 块 <span class="formula-inline">J_r(\lambda)^k \to 0</span>；若 <span class="formula-inline">|\lambda| \ge 1</span>，<span class="formula-inline">J_r(\lambda)^k</span> 发散。</p>
+      </Theorem>
+
+      <Theorem title="谱半径 ρ(A)" type="tip" icon="💡">
+        <p><strong>定义：</strong><span class="formula-inline">\rho(A) = \max\{|\lambda| : \lambda \in \sigma(A)\}</span>，即 <span class="formula-inline">A</span> 的<strong>最大特征值模长</strong>。</p>
+        <p><strong>Gelfand 公式：</strong><span class="formula-inline">\rho(A) = \lim_{k\to\infty} \|A^k\|^{1/k}</span>（对任意矩阵范数成立）。</p>
+        <p><strong>核心作用：</strong><span class="formula-inline">\rho(A)</span> 是判断矩阵幂级数是否收敛的唯一指标——与范数无关。</p>
+      </Theorem>
+
+      <Theorem title="矩阵幂级数的收敛性" type="theorem">
+        <p>幂级数 <span class="formula-inline">\sum_{k=0}^{\infty} c_k A^k</span> 收敛 <span class="formula-inline">\iff</span> 对 <span class="formula-inline">A</span> 的每个特征值 <span class="formula-inline">\lambda</span>，标量级数 <span class="formula-inline">\sum_{k=0}^{\infty} c_k \lambda^k</span> 收敛。</p>
+        <p><strong>两个特例：</strong></p>
+        <ul>
+          <li><span class="formula-inline">e^A</span>：收敛半径 <span class="formula-inline">R = \infty</span>，对任意 <span class="formula-inline">A</span> 都收敛；</li>
+          <li>Neumann 级数 <span class="formula-inline">(I-A)^{-1} = \sum_{k=0}^{\infty} A^k</span>：收敛 <span class="formula-inline">\iff \rho(A) < 1</span>。</li>
+        </ul>
+      </Theorem>
+
+      <ExampleBox title="例题：判断收敛性并计算级数" badge="📝 收敛判断">
+        <template #problem>
+          <p>设 <span class="formula-inline">A = \begin{pmatrix} 0.5 &amp; 0.1 \\ 0 &amp; 0.8 \end{pmatrix}</span>。判断 <span class="formula-inline">A</span> 是否为收敛矩阵；若 <span class="formula-inline">\rho(A) < 1</span>，用 Neumann 级数求 <span class="formula-inline">(I-A)^{-1}</span>。</p>
+        </template>
+        <template #solution>
+          <p><strong>步骤1：求特征值。</strong><span class="formula-inline">A</span> 是上三角矩阵，特征值即对角线元素：<span class="formula-inline">\lambda_1 = 0.5</span>，<span class="formula-inline">\lambda_2 = 0.8</span>。</p>
+          <p><strong>步骤2：算谱半径。</strong><span class="formula-inline">\rho(A) = \max(0.5, 0.8) = 0.8 < 1</span> <span class="formula-inline">\implies</span> <span class="formula-inline">A</span> 为收敛矩阵，<span class="formula-inline">A^k \to 0</span>。</p>
+          <p><strong>步骤3：Neumann 级数。</strong><span class="formula-inline">\rho(A) < 1</span> 保证级数收敛：</p>
+          <div class="formula-block">(I-A)^{-1} = I + A + A^2 + A^3 + \cdots</div>
+          <p><strong>步骤4：直接验证。</strong>级数收敛保证 <span class="formula-inline">(I-A)^{-1}</span> 存在，直接求逆验证其值：<span class="formula-inline">I-A = \begin{pmatrix} 0.5 &amp; -0.1 \\ 0 &amp; 0.2 \end{pmatrix}</span>，<span class="formula-inline">(I-A)^{-1} = \begin{pmatrix} 2 &amp; 1 \\ 0 &amp; 5 \end{pmatrix}</span>。</p>
+          <p>对比：若 <span class="formula-inline">A = \begin{pmatrix} 1.2 &amp; 0 \\ 0 &amp; 0.5 \end{pmatrix}</span>，<span class="formula-inline">\rho(A)=1.2 > 1</span>，则 <span class="formula-inline">A^k</span> 发散，<span class="formula-inline">(I-A)^{-1}</span> 的 Neumann 级数<strong>不成立</strong>。</p>
+        </template>
+      </ExampleBox>
     </Section>
 
     <Section num="2" title="矩阵函数的计算方法">

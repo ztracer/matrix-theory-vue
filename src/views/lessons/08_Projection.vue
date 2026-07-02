@@ -172,21 +172,31 @@
       <AnimationBox
         title="R³ 正交投影与斜投影"
         :playing="proj3dPlaying"
-        description="蓝色=向量x, 绿色=正交投影P_ortho·x, 紫色=斜投影P_oblq·x, 橙色=x轴(L), 粉色=平面(M)"
+        description="蓝色=向量x, 绿色=正交投影, 紫色=斜投影l, 粉色=M平面与m分量, 橙色=x轴(L)。斜投影展示 x = l + m 的平行四边形分解。"
         step
         @play="proj3dPlay"
         @pause="proj3dPause"
         @reset="proj3dReset"
         @step="proj3dAdvanceStep"
       >
+        <template #controls>
+          <label class="proj3d-mode-control">
+            显示方式：
+            <select v-model="proj3dMode" class="proj3d-select">
+              <option value="both">两者都显示</option>
+              <option value="ortho">仅正交</option>
+              <option value="oblq">仅斜投影</option>
+            </select>
+          </label>
+        </template>
         <div class="proj3d-stage">
           <div ref="proj3dViewport" class="proj3d-viewport" aria-label="3D projection interactive view"></div>
           <div class="proj3d-legend">
             <span><i class="proj3d-key proj3d-key-x"></i>向量 x</span>
-            <span><i class="proj3d-key proj3d-key-o"></i>正交投影 P_ortho·x</span>
-            <span><i class="proj3d-key proj3d-key-q"></i>斜投影 P_oblq·x</span>
+            <span :class="{ 'is-muted': !showProj3dOrtho }"><i class="proj3d-key proj3d-key-o"></i>正交投影 P_ortho·x</span>
+            <span :class="{ 'is-muted': !showProj3dOblq }"><i class="proj3d-key proj3d-key-q"></i>斜投影 P_oblq·x</span>
             <strong>{{ proj3dStepText }}</strong>
-            <em>步骤 {{ proj3dStep }} / 3</em>
+            <em>步骤 {{ proj3dStep }} / {{ proj3dMaxStep }}</em>
           </div>
         </div>
       </AnimationBox>
@@ -627,7 +637,7 @@ import { useKatex } from '../../composables/useKatex'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { CSS2DObject, CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
-import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'
 
 const quizzes = (quizBank[8] || []).map(q => ({ ...q, lessonNum: '08', lessonTitle: '投影矩阵与广义逆应用' }))
 const hwQuizzes = computed(() => (homeworkBank[8] || []).map(q => ({ ...q })))
@@ -639,6 +649,11 @@ const { renderMath } = useKatex(renderTrigger)
 const proj3dPlaying = ref(false)
 const proj3dStep = ref(0)
 const proj3dStepText = ref('点击步进逐步观察投影过程')
+const proj3dMaxStep = 2
+const proj3dMode = ref('both')
+const showProj3dOrtho = computed(() => proj3dMode.value === 'ortho' || proj3dMode.value === 'both')
+const showProj3dOblq = computed(() => proj3dMode.value === 'oblq' || proj3dMode.value === 'both')
+watch(proj3dMode, () => pRenderScene())
 let proj3dRafId = null
 let proj3dAnimateId = null
 const proj3dViewport = ref(null)
@@ -696,6 +711,83 @@ function pAddDashed(from, to, color = 0x94a3b8, opacity = 0.6) {
   pSceneLayer.add(l)
 }
 
+function pAddMPlanePatch() {
+  const s = 1.35
+  const m1 = pToV3(pData.m1)
+  const m2 = pToV3(pData.m2)
+
+  const pts = [
+    m1.clone().multiplyScalar(s).add(m2.clone().multiplyScalar(s)),
+    m1.clone().multiplyScalar(s).sub(m2.clone().multiplyScalar(s)),
+    m1.clone().multiplyScalar(-s).sub(m2.clone().multiplyScalar(s)),
+    m1.clone().multiplyScalar(-s).add(m2.clone().multiplyScalar(s))
+  ]
+
+  const g = new THREE.BufferGeometry().setFromPoints(pts)
+  g.setIndex([0, 1, 2, 0, 2, 3])
+  g.computeVertexNormals()
+
+  const mat = new THREE.MeshBasicMaterial({
+    color: 0xf472b6,
+    transparent: true,
+    opacity: 0.18,
+    side: THREE.DoubleSide,
+    depthWrite: false
+  })
+
+  const mesh = new THREE.Mesh(g, mat)
+  mesh.renderOrder = -1
+  pSceneLayer.add(mesh)
+
+  const edgeGeom = new THREE.BufferGeometry().setFromPoints([...pts, pts[0]])
+  const edgeMat = new THREE.LineDashedMaterial({
+    color: 0xe11d48,
+    dashSize: 0.12,
+    gapSize: 0.08,
+    transparent: true,
+    opacity: 0.55
+  })
+
+  const outline = new THREE.Line(edgeGeom, edgeMat)
+  outline.computeLineDistances()
+  pSceneLayer.add(outline)
+}
+
+function pAddDecompositionParallelogram() {
+  const zero = [0, 0, 0]
+  const l = pOblq
+  const m = [1, 2, 1] // m = x - l = (2,2,1) - (1,0,0)
+  const x = pData.x
+
+  const pts = [zero, l, x, m].map(pToV3)
+
+  const g = new THREE.BufferGeometry().setFromPoints(pts)
+  g.setIndex([0, 1, 2, 0, 2, 3])
+
+  const mat = new THREE.MeshBasicMaterial({
+    color: 0x8b5cf6,
+    transparent: true,
+    opacity: 0.10,
+    side: THREE.DoubleSide,
+    depthWrite: false
+  })
+
+  const mesh = new THREE.Mesh(g, mat)
+  mesh.renderOrder = 1
+  pSceneLayer.add(mesh)
+
+  pAddDashed(zero, m, 0xe11d48, 0.65)
+  pAddDashed(m, x, 0xf97316, 0.6)
+  pAddDashed(l, x, 0xe11d48, 0.75)
+
+  pAddArrow(zero, l, 0x8b5cf6, 'l=Px=(1,0,0)', 0.95)
+  pAddArrow(zero, m, 0xe11d48, 'm=x-l=(1,2,1)∈M', 0.75)
+
+  const lab = pMakeLabel('x = l + m', 'proj3d-lbl')
+  lab.position.copy(pToV3(x).clone().multiplyScalar(0.48).add(new THREE.Vector3(0.08, 0.12, 0.04)))
+  pSceneLayer.add(lab)
+}
+
 function pRenderScene() {
   if (!pSceneLayer) return
   pClearLayer()
@@ -703,13 +795,10 @@ function pRenderScene() {
   // X-axis (L subspace) — orange
   pAddArrow([-0.5, 0, 0], [3, 0, 0], 0xf97316, 'L = x轴', 0.9)
 
-  // M plane visualization — draw both basis vectors
-  pAddArrow([0, 0, 0], pData.m1, 0xe11d48, 'M基1', 0.45)
-  pAddArrow([0, 0, 0], pData.m2, 0xe11d48, '', 0.35)
-  const m1e = pToV3(pData.m1)
-  const lblM = pMakeLabel('M(平面)', 'proj3d-lbl proj3d-lbl-m')
-  lblM.position.copy(m1e.clone().multiplyScalar(0.55).add(new THREE.Vector3(0.05, 0.1, 0.0)))
-  pSceneLayer.add(lblM)
+  // M plane visualization — translucent parallelogram surface + basis arrows
+  pAddMPlanePatch()
+  pAddArrow([0, 0, 0], pData.m1, 0xe11d48, 'm₁=(1,1,0)', 0.65)
+  pAddArrow([0, 0, 0], pData.m2, 0xe11d48, 'm₂=(0,1,1)', 0.6)
 
   // Vector x — blue (always shown)
   if (proj3dStep.value >= 0) {
@@ -717,15 +806,14 @@ function pRenderScene() {
   }
 
   // Orthogonal projection — green
-  if (proj3dStep.value >= 1) {
+  if (proj3dStep.value >= 1 && showProj3dOrtho.value) {
     pAddArrow([0, 0, 0], pOrtho, 0x10b981, 'P_ortho·x=(2,0,0)', 0.95)
     pAddDashed(pData.x, pOrtho, 0x10b981, 0.55)
   }
 
-  // Oblique projection — purple
-  if (proj3dStep.value >= 2) {
-    pAddArrow([0, 0, 0], pOblq, 0x8b5cf6, 'P_oblq·x=(1,0,0)', 0.95)
-    pAddDashed(pData.x, pOblq, 0x8b5cf6, 0.45)
+  // Oblique projection — x = l + m decomposition
+  if (proj3dStep.value >= 2 && showProj3dOblq.value) {
+    pAddDecompositionParallelogram()
   }
 }
 
@@ -803,11 +891,11 @@ function pDisposeScene() {
 }
 
 function pApplyStep(s) {
-  proj3dStep.value = Math.max(0, Math.min(2, s))
+  proj3dStep.value = Math.max(0, Math.min(proj3dMaxStep, s))
   const texts = [
     '点击步进：拖动旋转视角，滚轮缩放',
     '步骤1：正交投影——向量 x 垂直投影到 x 轴，绿色为投影结果 (2,0,0)',
-    '步骤2：斜投影——向量 x 沿 M 方向斜投影到 x 轴，紫色为投影结果 (1,0,0)'
+    '步骤2：斜投影——x 分解为 l+m，l=(1,0,0)在x轴上，m=(1,2,1)在M平面中'
   ]
   proj3dStepText.value = texts[proj3dStep.value]
   pRenderScene()
@@ -815,11 +903,11 @@ function pApplyStep(s) {
 
 function proj3dAdvanceStep() { pApplyStep(proj3dStep.value + 1) }
 function proj3dPlay() {
-  if (proj3dStep.value >= 2) pApplyStep(0)
+  if (proj3dStep.value >= proj3dMaxStep) pApplyStep(0)
   proj3dPlaying.value = true
   async function loop() {
     if (!proj3dPlaying.value) return
-    if (proj3dStep.value < 2) { pApplyStep(proj3dStep.value + 1); proj3dAnimateId = setTimeout(loop, 3000) }
+    if (proj3dStep.value < proj3dMaxStep) { pApplyStep(proj3dStep.value + 1); proj3dAnimateId = setTimeout(loop, 3000) }
     else proj3dPlaying.value = false
   }
   loop()
@@ -1071,6 +1159,25 @@ h3 { color: #7c3aed; }
 .proj3d-key-x { background: #3b82f6; }
 .proj3d-key-o { background: #10b981; }
 .proj3d-key-q { background: #8b5cf6; }
+.proj3d-legend .is-muted {
+  opacity: 0.35;
+}
+.proj3d-mode-control {
+  font-size: 12px;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.proj3d-select {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 4px 8px;
+  background: #fff;
+  color: #334155;
+  font-size: 12px;
+  cursor: pointer;
+}
 :deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
 
 :deep(.proj3d-label) {

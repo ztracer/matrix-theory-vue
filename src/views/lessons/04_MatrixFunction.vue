@@ -87,43 +87,79 @@
 
       <AnimationBox title="最小多项式与插值条件示意" mode="auto"
         description="特征值 λ₁,λ₂,λ₃ 处的各阶导数匹配条件，脉冲高亮循环。">
-        <svg viewBox="0 0 600 300" style="width:100%;max-width:600px;">
+        <svg viewBox="0 0 620 360" style="width:100%;max-width:620px;">
           <defs>
-            <marker id="arrow4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-              <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6"/>
+            <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#f8fafc"/>
+              <stop offset="100%" stop-color="#eef2ff"/>
+            </linearGradient>
+            <marker id="arr4" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/>
             </marker>
           </defs>
+
+          <!-- Background -->
+          <rect x="4" y="4" width="612" height="352" rx="14" fill="url(#bg4)" stroke="#cbd5e1" stroke-width="1"/>
+
+          <!-- Title -->
+          <text x="310" y="28" text-anchor="middle" font-size="14" font-weight="700" fill="#334155">插值条件：让 p(λ) 在特征值处匹配 f(λ)</text>
+
           <!-- Axes -->
-          <line x1="50" y1="250" x2="550" y2="250" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow4)"/>
-          <line x1="50" y1="250" x2="50" y2="30" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow4)"/>
-          <text x="555" y="255" font-size="13" fill="#64748b">λ</text>
-          <text x="35" y="30" font-size="13" fill="#64748b">f(λ)</text>
+          <line x1="50" y1="270" x2="580" y2="270" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr4)"/>
+          <line x1="50" y1="270" x2="50" y2="45" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr4)"/>
+          <text x="588" y="274" font-size="12" fill="#94a3b8">λ</text>
 
-          <!-- Curve f(λ) -->
-          <path d="M 80 220 Q 200 80 350 120 T 530 60" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
-          <text x="480" y="50" font-size="14" fill="#3b82f6" font-weight="bold">f(λ)</text>
+          <!-- f(λ) curve — blue solid, always visible -->
+          <path d="M 65 245 C 140 140, 220 140, 310 120 C 390 102, 445 75, 510 56" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+          <text x="530" y="48" font-size="13" fill="#2563eb" font-weight="600">f(λ)</text>
 
-          <!-- Interpolation points with pulse animation -->
-          <g :class="{'pulse-dot': ipActive === 0}">
-            <circle cx="150" cy="190" r="6" fill="#ef4444"/>
-            <text x="140" y="275" font-size="13" fill="#ef4444" font-weight="bold">λ₁</text>
-            <text x="125" y="180" font-size="12" fill="#ef4444">f(λ₁)=p(λ₁)</text>
+          <!-- p(λ) curve — purple dashed, appears via animation -->
+          <path class="curve-p" d="M 65 250 C 145 135, 215 145, 310 120 C 395 98, 450 70, 510 56" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="8 5" stroke-dashoffset="600" stroke-linecap="round"/>
+          <text class="label-p" x="550" y="64" font-size="13" fill="#8b5cf6" font-weight="600" opacity="0">p(λ)</text>
+
+          <!-- Vertical dashed lines from eigenvalues to curve -->
+          <line class="vl vl1" x1="140" y1="270" x2="140" y2="175" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4 3"/>
+          <line class="vl vl2" x1="310" y1="270" x2="310" y2="120" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4 3"/>
+          <line class="vl vl3" x1="460" y1="270" x2="460" y2="70" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4 3"/>
+
+          <!-- Eigenvalue labels on x-axis -->
+          <text class="ev-label ev-l1" x="140" y="292" text-anchor="middle" font-size="14" font-weight="700" fill="#475569">λ₁</text>
+          <text class="ev-label ev-l2" x="310" y="292" text-anchor="middle" font-size="14" font-weight="700" fill="#475569">λ₂</text>
+          <text class="ev-label ev-l3" x="460" y="292" text-anchor="middle" font-size="14" font-weight="700" fill="#475569">λ₃</text>
+
+          <!-- Multiplicity badges -->
+          <text class="ev-badge ev-b1" x="140" y="308" text-anchor="middle" font-size="11" fill="#8b5cf6">二重根</text>
+          <text class="ev-badge ev-b2" x="310" y="308" text-anchor="middle" font-size="11" fill="#64748b">单根</text>
+          <text class="ev-badge ev-b3" x="460" y="308" text-anchor="middle" font-size="11" fill="#64748b">单根</text>
+
+          <!-- Intersection points on curve -->
+          <circle class="pt pt1" cx="140" cy="175" r="6" fill="#f59e0b" stroke="#fff" stroke-width="2.5"/>
+          <circle class="pt pt2" cx="310" cy="120" r="6" fill="#94a3b8" stroke="#fff" stroke-width="2.5"/>
+          <circle class="pt pt3" cx="460" cy="70" r="6" fill="#94a3b8" stroke="#fff" stroke-width="2.5"/>
+
+          <!-- Tangent line at λ₁ (double root) — f'(λ₁)=p'(λ₁) -->
+          <g class="tangent-group">
+            <line x1="80" y1="220" x2="200" y2="130" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="4 3"/>
+            <text x="210" y="125" font-size="11" fill="#f59e0b" font-weight="600">切线重合</text>
           </g>
-          <g :class="{'pulse-dot': ipActive === 1}">
-            <circle cx="320" cy="135" r="6" fill="#10b981"/>
-            <text x="310" y="275" font-size="13" fill="#10b981" font-weight="bold">λ₂</text>
-            <text x="295" y="125" font-size="12" fill="#10b981">f(λ₂)=p(λ₂)</text>
-          </g>
-          <g :class="{'pulse-dot': ipActive === 2}">
-            <circle cx="470" cy="80" r="6" fill="#f59e0b"/>
-            <text x="460" y="275" font-size="13" fill="#f59e0b" font-weight="bold">λ₃</text>
-            <text x="445" y="70" font-size="12" fill="#f59e0b">f(λ₃)=p(λ₃)</text>
-          </g>
-          <!-- Tangent line at λ₁ -->
-          <g :class="{'pulse-line': ipActive === 0}">
-            <line x1="100" y1="225" x2="200" y2="155" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="5,3"/>
-            <text x="205" y="155" font-size="11" fill="#ef4444">f'(λ₁)=p'(λ₁)</text>
-          </g>
+
+          <!-- Bottom info panel -->
+          <rect class="info-panel" x="30" y="320" width="560" height="35" rx="8" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1"/>
+          <text class="info-text info-t0" x="310" y="343" text-anchor="middle" font-size="13" fill="#0c4a6e">
+            目标：只需求出 p(λ)，即可用 p(A) 代替 f(A)
+          </text>
+          <text class="info-text info-t1" x="310" y="343" text-anchor="middle" font-size="13" fill="#0c4a6e" opacity="0">
+            λ₁ 是二重根 → 匹配函数值 f(λ₁)=p(λ₁) + 导数 f'(λ₁)=p'(λ₁)
+          </text>
+          <text class="info-text info-t2" x="310" y="343" text-anchor="middle" font-size="13" fill="#0c4a6e" opacity="0">
+            λ₂ 是单根 → 只需匹配函数值 f(λ₂)=p(λ₂)
+          </text>
+          <text class="info-text info-t3" x="310" y="343" text-anchor="middle" font-size="13" fill="#0c4a6e" opacity="0">
+            λ₃ 是单根 → 只需匹配函数值 f(λ₃)=p(λ₃)
+          </text>
+          <text class="info-text info-t4" x="310" y="343" text-anchor="middle" font-size="13" fill="#059669" font-weight="600" opacity="0">
+            全部条件满足 → 令 f(A) = p(A)，用低次多项式替代矩阵函数
+          </text>
         </svg>
       </AnimationBox>
     </Section>
@@ -312,20 +348,112 @@ onUnmounted(() => {
   transition: color 0.5s;
 }
 .flow-arrow.active { color: #3b82f6; }
-.pulse-dot circle {
-  animation: pulseGlow 1.5s ease-in-out;
+/* 插值条件动画 */
+.curve-p {
+  animation: drawCurve 10s ease-in-out infinite;
 }
-.pulse-line line {
-  animation: dashGlow 1.5s ease-in-out;
+.label-p {
+  animation: fadeInLabel 10s ease-in-out infinite;
 }
-@keyframes pulseGlow {
-  0% { r: 6; opacity: 0.5; }
-  50% { r: 12; opacity: 1; }
-  100% { r: 6; opacity: 1; }
+@keyframes drawCurve {
+  0%, 5% { stroke-dashoffset: 600; }
+  20%, 100% { stroke-dashoffset: 0; }
 }
-@keyframes dashGlow {
-  0% { opacity: 0.3; }
-  50% { opacity: 1; stroke-width: 3; }
-  100% { opacity: 1; stroke-width: 1.5; }
+@keyframes fadeInLabel {
+  0%, 15% { opacity: 0; }
+  25%, 100% { opacity: 1; }
 }
+
+/* Vertical lines */
+.vl { opacity: 0.25; transition: opacity 0.6s; }
+@keyframes vlPulse1 {
+  0%, 30% { opacity: 0.25; stroke: #cbd5e1; }
+  38%, 48% { opacity: 0.9; stroke: #f59e0b; stroke-width: 2; }
+  58%, 100% { opacity: 0.25; stroke: #cbd5e1; stroke-width: 1; }
+}
+@keyframes vlPulse2 {
+  0%, 48% { opacity: 0.25; stroke: #cbd5e1; }
+  56%, 66% { opacity: 0.8; stroke: #3b82f6; stroke-width: 2; }
+  76%, 100% { opacity: 0.25; stroke: #cbd5e1; stroke-width: 1; }
+}
+@keyframes vlPulse3 {
+  0%, 66% { opacity: 0.25; stroke: #cbd5e1; }
+  74%, 84% { opacity: 0.8; stroke: #3b82f6; stroke-width: 2; }
+  94%, 100% { opacity: 0.25; stroke: #cbd5e1; stroke-width: 1; }
+}
+.vl1 { animation: vlPulse1 10s ease-in-out infinite; }
+.vl2 { animation: vlPulse2 10s ease-in-out infinite; }
+.vl3 { animation: vlPulse3 10s ease-in-out infinite; }
+
+/* Eigenvalue labels — highlight on active */
+.ev-label { transition: fill 0.6s, font-size 0.6s; }
+@keyframes evGlow1 {
+  0%, 30% { fill: #475569; font-size: 14px; }
+  38%, 48% { fill: #f59e0b; font-size: 16px; }
+  58%, 100% { fill: #475569; font-size: 14px; }
+}
+@keyframes evGlow2 {
+  0%, 48% { fill: #475569; font-size: 14px; }
+  56%, 66% { fill: #3b82f6; font-size: 16px; }
+  76%, 100% { fill: #475569; font-size: 14px; }
+}
+@keyframes evGlow3 {
+  0%, 66% { fill: #475569; font-size: 14px; }
+  74%, 84% { fill: #3b82f6; font-size: 16px; }
+  94%, 100% { fill: #475569; font-size: 14px; }
+}
+.ev-l1 { animation: evGlow1 10s ease-in-out infinite; }
+.ev-l2 { animation: evGlow2 10s ease-in-out infinite; }
+.ev-l3 { animation: evGlow3 10s ease-in-out infinite; }
+
+/* Badges */
+.ev-badge { opacity: 0.6; transition: opacity 0.6s; }
+@keyframes badge1 { 0%,30%{opacity:0.6} 38%,48%{opacity:1} 58%,100%{opacity:0.6} }
+@keyframes badge2 { 0%,48%{opacity:0.6} 56%,66%{opacity:1} 76%,100%{opacity:0.6} }
+@keyframes badge3 { 0%,66%{opacity:0.6} 74%,84%{opacity:1} 94%,100%{opacity:0.6} }
+.ev-b1 { animation: badge1 10s ease-in-out infinite; }
+.ev-b2 { animation: badge2 10s ease-in-out infinite; }
+.ev-b3 { animation: badge3 10s ease-in-out infinite; }
+
+/* Intersection points */
+.pt { transition: r 0.5s, fill 0.5s; }
+@keyframes ptGlow1 { 0%,30%{fill:#94a3b8;r:5} 38%,48%{fill:#f59e0b;r:8} 58%,100%{fill:#94a3b8;r:5} }
+@keyframes ptGlow2 { 0%,48%{fill:#94a3b8;r:5} 56%,66%{fill:#f59e0b;r:8} 76%,100%{fill:#94a3b8;r:5} }
+@keyframes ptGlow3 { 0%,66%{fill:#94a3b8;r:5} 74%,84%{fill:#f59e0b;r:8} 94%,100%{fill:#94a3b8;r:5} }
+.pt1 { animation: ptGlow1 10s ease-in-out infinite; }
+.pt2 { animation: ptGlow2 10s ease-in-out infinite; }
+.pt3 { animation: ptGlow3 10s ease-in-out infinite; }
+
+/* Tangent group — only visible during λ₁ phase */
+.tangent-group {
+  animation: tangentShow 10s ease-in-out infinite;
+}
+@keyframes tangentShow {
+  0%, 30% { opacity: 0.15; }
+  38%, 48% { opacity: 1; }
+  58%, 100% { opacity: 0.15; }
+}
+
+/* Info panel text rotation */
+.info-text { transition: opacity 0.5s; }
+@keyframes infoCycle0 {
+  0%, 10% { opacity: 1; } 12%, 100% { opacity: 0; }
+}
+@keyframes infoCycle1 {
+  0%, 30% { opacity: 0; } 38%, 46% { opacity: 1; } 50%, 100% { opacity: 0; }
+}
+@keyframes infoCycle2 {
+  0%, 48% { opacity: 0; } 56%, 64% { opacity: 1; } 68%, 100% { opacity: 0; }
+}
+@keyframes infoCycle3 {
+  0%, 66% { opacity: 0; } 74%, 82% { opacity: 1; } 86%, 100% { opacity: 0; }
+}
+@keyframes infoCycle4 {
+  0%, 85% { opacity: 0; } 92%, 100% { opacity: 1; }
+}
+.info-t0 { animation: infoCycle0 10s ease-in-out infinite; }
+.info-t1 { animation: infoCycle1 10s ease-in-out infinite; }
+.info-t2 { animation: infoCycle2 10s ease-in-out infinite; }
+.info-t3 { animation: infoCycle3 10s ease-in-out infinite; }
+.info-t4 { animation: infoCycle4 10s ease-in-out infinite; }
 </style>

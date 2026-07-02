@@ -46,13 +46,42 @@
 
       <Steps :steps="[
         '求最小多项式 m_A(λ) 及其各根 λᵢ 的重数 rᵢ',
-        '设插值多项式 p(λ) = a₀ + a₁λ + … + a_{m−1}λ^{m−1}，其中 m = deg(m_A)',
+        '设插值多项式 p(λ) = a₀ + a₁λ + … + aₘ₋₁λᵐ⁻¹，其中 m = deg(m_A)',
         '列插值条件 f^{(l)}(λᵢ) = p^{(l)}(λᵢ)，共 m 个方程',
-        '解方程组求系数 a₀,…,a_{m−1}',
-        '计算 f(A) = a₀I + a₁A + … + a_{m−1}A^{m−1}'
+        '解方程组求系数 a₀, …, aₘ₋₁',
+        '计算 f(A) = a₀I + a₁A + … + aₘ₋₁Aᵐ⁻¹'
       ]" />
 
-      <h3>方法二：幂级数法</h3>
+      <Theorem title="&quot;ab公式&quot;的理解：为什么可以设 e^{At}=a(t)I+b(t)A？" type="tip" icon="💡">
+        <p>Cayley-Hamilton 定理保证：任何一个 <span class="formula-inline">n \times n</span> 矩阵 <span class="formula-inline">A</span>，其 <span class="formula-inline">n</span> 次及以上的幂都可以用 <span class="formula-inline">I, A, \dots, A^{n-1}</span> 线性表出。</p>
+        <p>由于 <span class="formula-inline">e^{At} = I + tA + \frac{t^2}{2!}A^2 + \cdots</span> 是无穷级数。对于 <strong>2×2 矩阵</strong>（或最小多项式次数 ≤ 2 的矩阵），<span class="formula-inline">A^2</span> 可表为 <span class="formula-inline">I</span> 和 <span class="formula-inline">A</span> 的线性组合，进而所有高次项皆可降为这两者的组合：</p>
+        <Formula display>e^{At} = a(t)I + b(t)A</Formula>
+        <p><strong>核心规律：</strong>若 <span class="formula-inline">A</span> 是 <span class="formula-inline">n \times n</span> 矩阵，则 <span class="formula-inline">e^{At}</span> 可表为 <span class="formula-inline">I, A, \dots, A^{n-1}</span> 的线性组合，系数仅为 <span class="formula-inline">t</span> 的函数（待定系数法的理论基础）。</p>
+      </Theorem>
+
+      <h3>方法二：标准形法（计算 e^{At} 的三种高效入口）</h3>
+
+      <Theorem title="入口1：对角化法（最常考）" type="theorem" icon="🔑">
+        <p>若 <span class="formula-inline">A</span> 可对角化，即存在可逆矩阵 <span class="formula-inline">P</span> 使 <span class="formula-inline">A = PDP^{-1}</span>（<span class="formula-inline">D</span> 为对角阵），则：</p>
+        <Formula display>e^{At} = P\,e^{Dt}\,P^{-1}</Formula>
+        <p>其中 <span class="formula-inline">e^{Dt}</span> 只需将对角元 <span class="formula-inline">\lambda_i</span> 替换为 <span class="formula-inline">e^{\lambda_i t}</span> 即可，其余位置为 0。</p>
+      </Theorem>
+
+      <Theorem title="入口2：Jordan 块法（对角化失败时使用）" type="theorem" icon="🔨">
+        <p>若 <span class="formula-inline">A</span> 不可对角化，化为 Jordan 标准形 <span class="formula-inline">J = \lambda I + N</span>，其中 <span class="formula-inline">N</span> 是幂零矩阵（若干次方后变为零矩阵）。由于 <span class="formula-inline">\lambda I</span> 与 <span class="formula-inline">N</span> 可交换：</p>
+        <Formula display>e^{Jt} = e^{\lambda t}\, e^{Nt} = e^{\lambda t}\left(I + tN + \frac{t^2}{2!}N^2 + \cdots + \frac{t^{k-1}}{(k-1)!}N^{k-1}\right)</Formula>
+        <p><strong>示例：</strong>二阶 Jordan 块 <span class="formula-inline">J_2(\lambda) = \begin{pmatrix} \lambda &amp; 1 \\ 0 &amp; \lambda \end{pmatrix}</span> 对应 <span class="formula-inline">N = \begin{pmatrix} 0 &amp; 1 \\ 0 &amp; 0 \end{pmatrix}</span>（<span class="formula-inline">N^2=0</span>），则：</p>
+        <Formula display>e^{J_2(\lambda)t} = e^{\lambda t}\begin{pmatrix} 1 &amp; t \\ 0 &amp; 1 \end{pmatrix}</Formula>
+        <p>三阶时 <span class="formula-inline">N^3=0</span>，公式中会多出 <span class="formula-inline">\frac{t^2}{2}</span> 项。</p>
+      </Theorem>
+
+      <Theorem title="入口3：2×2 旋转矩阵秒杀公式" type="theorem" icon="⚡">
+        <p>若矩阵形如 <span class="formula-inline">A = \begin{pmatrix} a &amp; b \\ -b &amp; a \end{pmatrix}</span>，可拆分为 <span class="formula-inline">A = aI + bJ</span>，其中 <span class="formula-inline">J = \begin{pmatrix} 0 &amp; 1 \\ -1 &amp; 0 \end{pmatrix}</span> 满足 <span class="formula-inline">J^2 = -I</span>（行为类似虚数单位 <span class="formula-inline">i</span>）。借用欧拉公式直接得：</p>
+        <Formula display>e^{At} = e^{at}\Big(\cos(bt)I + \sin(bt)J\Big) = e^{at}\begin{pmatrix} \cos(bt) &amp; \sin(bt) \\ -\sin(bt) &amp; \cos(bt) \end{pmatrix}</Formula>
+        <p><strong>优点：</strong>遇到复数特征值的 <span class="formula-inline">2\times 2</span> 矩阵，无需计算复特征向量和求逆矩阵，直接套公式秒杀。</p>
+      </Theorem>
+
+      <h3>方法三：幂级数法</h3>
 
       <p>对于整函数（如 <span class="formula-inline">e^A</span>, sin A, cos A），可直接用幂级数展开计算。但对于低阶矩阵，插值法更高效。</p>
 
@@ -118,16 +147,17 @@
         </ul>
       </div>
 
-      <ExampleBox title="例题：计算e^{At}" :showSolution="false">
-        已知 A = <span class="formula-inline">\begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix}</span>，求 <span class="formula-inline">e^{At}</span>。
-        <template #solution>
-          <p><strong>方法：幂级数法</strong></p>
-          <p>计算得 <span class="formula-inline">A^2 = -I</span>, <span class="formula-inline">A^3 = -A</span>, <span class="formula-inline">A^4 = I</span>，周期为4。</p>
-          <div class="formula-block">e^{At} = \sum_{k=0}^{\infty}\frac{(At)^k}{k!} = I + At + \frac{A^2 t^2}{2!} + \frac{A^3 t^3}{3!} + \cdots</div>
-          <div class="formula-block">= I\left(1-\frac{t^2}{2!}+\frac{t^4}{4!}-\cdots\right) + A\left(t-\frac{t^3}{3!}+\frac{t^5}{5!}-\cdots\right)</div>
-          <div class="formula-block">= I\cos t + A\sin t = \begin{pmatrix} \cos t & \sin t \\ -\sin t & \cos t \end{pmatrix}</div>
-        </template>
-      </ExampleBox>
+      <Theorem title="非齐次系统 x' = Ax + b(t)" type="theorem">
+        若方程组右侧多出非齐次项 <span class="formula-inline">\vec{b}(t)</span>，令 <span class="formula-inline">\vec{x}' = A\vec{x} + \vec{b}(t)</span>，其通解由常数变易法给出：
+        <Formula display>\vec{x}(t) = e^{At}\vec{x}(0) + \int_0^t e^{A(t-\tau)}\vec{b}(\tau)\,d\tau</Formula>
+      </Theorem>
+
+      <Steps :steps="[
+        '算特征值：求 det(A-λI)=0，判断特征值类型（互异/重根/复数）',
+        '选路径：特征值互异→对角化法；重根且特征向量不够→Jordan块法',
+        '2×2且形如 [[a,b],[-b,a]]→旋转矩阵秒杀公式',
+        '矩阵阶数高且难以对角化→C-H待定系数法降次'
+      ]" />
 
       <QuizProblem :quiz="{
         id: '04-extra-1',
@@ -138,11 +168,54 @@
       }" />
     </Section>
 
-    <Section title="🗂️ 真题与习题汇总">
+    <Section num="4" title="核心题型精讲">
+      <ExampleBox title="题型一：利用泰勒级数直接截断" badge="📝 级数截断法">
+        <template #problem>
+          <p><strong>例1：</strong>若 <span class="formula-inline">A^2 = 0</span>，求 <span class="formula-inline">e^{At}</span>。</p>
+          <p><strong>例2：</strong>若 <span class="formula-inline">A^2 = A</span>（幂等矩阵），求 <span class="formula-inline">e^{At}</span>。</p>
+        </template>
+        <template #solution>
+          <p><strong>例1 解析：</strong></p>
+          <p><span class="formula-inline">e^{At} = I + At + \frac{t^2}{2!}A^2 + \frac{t^3}{3!}A^3 + \cdots</span>，因为 <span class="formula-inline">A^2=0</span>，所有高次项全为零：</p>
+          <Formula display>e^{At} = I + At</Formula>
+          <p><strong>例2 解析：</strong></p>
+          <p>当 <span class="formula-inline">A^2 = A</span> 时，<span class="formula-inline">A^3 = A^2 \cdot A = A</span>，所有高次幂均退化为 <span class="formula-inline">A</span>：</p>
+          <Formula display>e^{At} = I + A\left(t + \frac{t^2}{2!} + \frac{t^3}{3!} + \cdots\right) = I + (e^t - 1)A</Formula>
+        </template>
+      </ExampleBox>
+
+      <ExampleBox title="题型二：Cayley-Hamilton 待定系数法" badge="📝 待定系数法">
+        <template #problem>
+          <p>设 <span class="formula-inline">A</span> 满足 <span class="formula-inline">A^2 - 3A + 2I = 0</span>，用待定系数法将 <span class="formula-inline">e^{At}</span> 表示为 <span class="formula-inline">a(t)I + b(t)A</span>。</p>
+        </template>
+        <template #solution>
+          <p><strong>步骤1：求特征值。</strong>由特征方程 <span class="formula-inline">\lambda^2 - 3\lambda + 2 = 0</span> 得 <span class="formula-inline">\lambda_1 = 1</span>，<span class="formula-inline">\lambda_2 = 2</span>。</p>
+          <p><strong>步骤2：设标量方程。</strong>令 <span class="formula-inline">e^{\lambda t} = a(t) + b(t)\lambda</span>。分别代入两个特征值：</p>
+          <p><span class="formula-inline">e^{t} = a(t) + b(t)</span>，<span class="formula-inline">e^{2t} = a(t) + 2b(t)</span></p>
+          <p><strong>步骤3：解系数。</strong>两式相减得 <span class="formula-inline">b(t) = e^{2t} - e^t</span>，回代得 <span class="formula-inline">a(t) = 2e^t - e^{2t}</span>。</p>
+          <p><strong>步骤4：写出结果。</strong></p>
+          <Formula display>e^{At} = (2e^t - e^{2t})I + (e^{2t} - e^t)A</Formula>
+        </template>
+      </ExampleBox>
+
+      <ExampleBox title="题型三：2×2 旋转矩阵秒杀（2023年真题）" badge="📝 真题">
+        <template #problem>
+          <p>已知 <span class="formula-inline">A = \begin{pmatrix} a &amp; b \\ -b &amp; a \end{pmatrix}</span>，求 <span class="formula-inline">e^{At}</span>，并给出 <span class="formula-inline">a=0,b=1</span> 时 <span class="formula-inline">e^{At}</span> 的值。</p>
+        </template>
+        <template #solution>
+          <p><strong>通用公式：</strong>此类矩阵的特征值为 <span class="formula-inline">\lambda = a \pm bi</span>，对应复平面上的旋转 + 伸缩：</p>
+          <Formula display>e^{At} = e^{at}\begin{pmatrix} \cos(bt) &amp; \sin(bt) \\ -\sin(bt) &amp; \cos(bt) \end{pmatrix}</Formula>
+          <p><strong>当 a=0, b=1 时：</strong><span class="formula-inline">A = \begin{pmatrix} 0 &amp; 1 \\ -1 &amp; 0 \end{pmatrix}</span>，代入公式得：</p>
+          <Formula display>e^{At} = \begin{pmatrix} \cos t &amp; \sin t \\ -\sin t &amp; \cos t \end{pmatrix}</Formula>
+        </template>
+      </ExampleBox>
+    </Section>
+
+    <Section num="5" title="🗂️ 真题与习题汇总">
       <WeekQuizBank :quizzes="quizzes" weekLabel="第1周" />
     </Section>
 
-    <Section title="📝 课后作业" :num="4">
+    <Section title="📝 课后作业" :num="6">
       <div v-if="hwQuizzes.length === 0" class="empty-state">暂无课后作业</div>
       <template v-for="hw in hwQuizzes" :key="hw.id">
         <QuizProblem :quiz="hw" badge="📝 课后作业" />
@@ -159,6 +232,7 @@ import Theorem from '../../components/ui/Theorem.vue'
 import Steps from '../../components/ui/Steps.vue'
 import AnimationBox from '../../components/ui/AnimationBox.vue'
 import ExampleBox from '../../components/ui/ExampleBox.vue'
+import Formula from '../../components/ui/Formula.vue'
 import QuizProblem from '../../components/quiz/QuizProblem.vue'
 import WeekQuizBank from '../../components/quiz/WeekQuizBank.vue'
 import { quizBank } from '../../data/quizBank'

@@ -5,28 +5,45 @@
 }
 
 :root {
-  --primary: #4f46e5;
-  --primary-dark: #3730a3;
-  --primary-light: #818cf8;
-  --w1: #4338ca;
-  --w1-light: #6366f1;
-  --w2: #0d9488;
-  --w2-light: #14b8a6;
-  --w3: #ea580c;
-  --w3-light: #f97316;
-  --bg: #f8fafc;
-  --card: #ffffff;
-  --text: #1e293b;
-  --text-light: #64748b;
-  --border: #e2e8f0;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --color-primary: #0F172A;
+  --color-on-primary: #F8FAFC;
+  --color-secondary: #334155;
+  --color-accent: #0369A1;
+  --color-on-accent: #FFFFFF;
+  --color-background: #F8FAFC;
+  --color-foreground: #0F172A;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #0F172A;
+  --color-muted: #E8ECF1;
+  --color-muted-foreground: #64748B;
+  --color-border: #E2E8F0;
+  --color-destructive: #DC2626;
+  --color-ring: #0F172A;
+
+  /* Legacy aliases retained for existing components */
+  --primary: var(--color-primary);
+  --primary-dark: var(--color-primary);
+  --primary-light: var(--color-accent);
+  --w1: var(--color-primary);
+  --w1-light: var(--color-accent);
+  --w2: var(--color-secondary);
+  --w2-light: var(--color-accent);
+  --w3: var(--color-accent);
+  --w3-light: var(--color-accent);
+  --bg: var(--color-background);
+  --card: var(--color-card);
+  --text: var(--color-foreground);
+  --text-light: var(--color-muted-foreground);
+  --border: var(--color-border);
+  --success: var(--color-accent);
+  --warning: var(--color-secondary);
+  --danger: var(--color-destructive);
+
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  color: var(--text);
-  background: var(--bg);
+  color: var(--color-foreground);
+  background: var(--color-background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -35,6 +52,9 @@ body {
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  text-rendering: optimizeLegibility;
 }
 
 #app {
@@ -42,17 +62,26 @@ body {
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
 a {
-  color: var(--primary);
+  color: var(--color-accent);
   text-decoration: none;
+  transition: color .18s ease, background-color .18s ease, border-color .18s ease;
 }
 a:hover {
-  text-decoration: underline;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-foreground);
+  line-height: 1.3;
+  font-weight: 750;
+  letter-spacing: -0.025em;
 }
 
 /* ========== KaTeX 公式修复 ========== */
@@ -72,7 +101,8 @@ a:hover {
   display: block;
   margin: 12px 0;
   padding: 12px 16px;
-  background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+  background: var(--color-muted);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   overflow-x: auto !important;
   overflow-y: visible !important;
@@ -124,6 +154,12 @@ a:hover {
 button {
   font-family: inherit;
   cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 3px;
 }
 
 /* 文本换行 */

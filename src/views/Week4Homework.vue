@@ -50,14 +50,14 @@ const lessonTitles = {
   text-align: center;
   padding: 20px;
   margin-bottom: 24px;
-  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  background: var(--color-card);
   border-radius: 16px;
-  border: 1px solid #a7f3d0;
+  border: 1px solid var(--color-border);
 }
 .homework-overview p {
   font-size: 18px;
-  font-weight: 700;
-  color: #065f46;
+  font-weight: 750;
+  color: var(--color-foreground);
   margin: 0;
 }
 
@@ -69,7 +69,7 @@ const lessonTitles = {
   padding: 28px 24px 20px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 2px 16px rgba(0,0,0,.04);
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
 }
 .lesson-accent {
   position: absolute;
@@ -78,17 +78,15 @@ const lessonTitles = {
   width: 100%;
   height: 5px;
 }
-.accent-w1 { background: linear-gradient(90deg, #4338ca, #6366f1); }
-.accent-w2 { background: linear-gradient(90deg, #0d9488, #14b8a6); }
-.accent-w3 { background: linear-gradient(90deg, #ea580c, #f97316); }
+.accent-w1, .accent-w2, .accent-w3 { background: var(--color-primary); }
 
 .lesson-title {
   font-size: 22px;
-  font-weight: 800;
+  font-weight: 760;
   color: var(--text);
   margin: 0 0 20px;
   padding-bottom: 12px;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .hw-item {
@@ -125,8 +123,9 @@ const lessonTitles = {
   font-size: 11px;
   font-weight: 600;
   padding: 3px 10px;
-  border-radius: 20px;
-  color: #fff;
-  background: linear-gradient(135deg, #059669, #10b981);
+  border-radius: 8px;
+  color: var(--color-secondary);
+  background: var(--color-muted);
+  border: 1px solid var(--color-border);
 }
 </style>

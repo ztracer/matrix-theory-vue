@@ -20,37 +20,25 @@ defineProps({
 
 <style scoped>
 .theorem-box {
-  margin: 16px 0;
-  padding: 16px 20px;
-  border-radius: 8px;
-  border-left: 4px solid;
+  margin: 18px 0;
+  padding: 18px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  background: var(--color-card);
 }
-.theorem-box.theorem {
-  background: linear-gradient(135deg, #fef3c7, #fffbeb);
-  border-color: #f59e0b;
-}
-.theorem-box.definition {
-  background: linear-gradient(135deg, #dbeafe, #eff6ff);
-  border-color: #3b82f6;
-}
-.theorem-box.note {
-  background: linear-gradient(135deg, #fce7f3, #fdf2f8);
-  border-color: #ec4899;
-}
-.theorem-box.tip {
-  background: linear-gradient(135deg, #d1fae5, #ecfdf5);
-  border-color: #10b981;
-}
+.theorem-box.theorem { border-left-color: var(--color-primary); }
+.theorem-box.definition { border-left-color: var(--color-accent); }
+.theorem-box.note { border-left-color: var(--color-secondary); }
+.theorem-box.tip { border-left-color: #0284c7; }
 .theorem-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
-  font-weight: 700;
+  margin-bottom: 10px;
+  font-weight: 750;
+  color: var(--color-foreground);
 }
-.theorem-box.theorem .theorem-header { color: #92400e; }
-.theorem-box.definition .theorem-header { color: #1e40af; }
-.theorem-box.note .theorem-header { color: #9d174d; }
-.theorem-box.tip .theorem-header { color: #065f46; }
-.theorem-body { font-size: 14px; line-height: 1.7; color: #374151; }
+.theorem-icon { opacity: .72; }
+.theorem-body { font-size: 14px; line-height: 1.75; color: var(--color-secondary); }
 </style>

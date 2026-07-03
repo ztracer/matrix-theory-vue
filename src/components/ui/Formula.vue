@@ -16,9 +16,10 @@ defineProps({
 .formula-box {
   margin: 16px 0;
   padding: 16px 20px;
-  background: linear-gradient(135deg, #eef2ff, #f5f3ff);
-  border-left: 4px solid #6366f1;
-  border-radius: 0 8px 8px 0;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  border-radius: 12px;
   overflow-x: auto;
 }
 .formula-box.inline {

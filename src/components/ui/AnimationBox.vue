@@ -44,77 +44,77 @@ defineEmits(['play', 'pause', 'reset', 'step'])
 <style scoped>
 .anim-box {
   margin: 20px 0;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;
 }
 .anim-box.auto-mode {
-  border-color: #a5b4fc;
-  background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+  border-color: var(--color-border);
+  background: var(--color-card);
 }
 .anim-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
+  padding: 14px 16px;
+  background: var(--color-card);
+  border-bottom: 1px solid var(--color-border);
   flex-wrap: wrap;
   gap: 8px;
 }
 .auto-mode .anim-header {
-  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-  border-bottom-color: #c7d2fe;
+  background: var(--color-card);
+  border-bottom-color: var(--color-border);
 }
-.anim-title { font-weight: 600; color: #4f46e5; font-size: 15px; }
-.auto-mode .anim-title { color: #4338ca; }
+.anim-title { font-weight: 700; color: var(--color-foreground); font-size: 15px; }
+.auto-mode .anim-title { color: var(--color-foreground); }
 .anim-controls { display: flex; gap: 6px; flex-wrap: wrap; }
 .ctrl-btn {
   padding: 6px 14px;
-  border: 1px solid #e2e8f0;
-  background: #fff;
-  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  border-radius: 8px;
   font-size: 13px;
   cursor: pointer;
-  transition: all .15s;
-  color: #475569;
+  transition: all .18s ease;
+  color: var(--color-secondary);
   font-family: inherit;
 }
 .ctrl-btn:hover:not(:disabled) {
-  background: #4f46e5;
-  color: #fff;
-  border-color: #4f46e5;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border-color: var(--color-primary);
 }
 .ctrl-btn:disabled { opacity: .4; cursor: not-allowed; }
 .anim-canvas-wrap {
-  padding: 16px;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
+  background: var(--color-card);
   overflow-x: auto; /* 允许SVG/Canvas横向滚动 */
 }
 .anim-canvas-wrap :deep(svg), .anim-canvas-wrap :deep(canvas) {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-  background: #fafbff;
-  border: 1px solid #e2e8f0;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
   display: block;
 }
 .anim-desc {
   margin: 0;
   padding: 10px 16px;
   font-size: 13px;
-  color: #64748b;
-  background: #f1f5f9;
+  color: var(--color-muted-foreground);
+  background: var(--color-background);
   text-align: center;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--color-border);
 }
 .auto-mode .anim-desc {
-  background: #e0e7ff;
-  color: #4338ca;
-  border-top-color: #c7d2fe;
+  background: var(--color-background);
+  color: var(--color-muted-foreground);
+  border-top-color: var(--color-border);
 }
 </style>

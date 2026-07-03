@@ -29,41 +29,39 @@ defineProps({
 .example-box {
   margin: 24px 0;
   border-radius: 12px;
-  border: 2px solid #fbbf24;
+  border: 1px solid var(--color-border);
   overflow: hidden;
-  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  background: var(--color-card);
 }
 .example-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 20px;
-  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  padding: 14px 20px;
+  background: var(--color-primary);
 }
 .example-badge {
-  color: #fff;
-  font-weight: 700;
+  color: var(--color-on-primary);
+  font-weight: 750;
   font-size: 14px;
-  padding: 4px 12px;
-  background: rgba(255,255,255,.2);
-  border-radius: 6px;
+  padding: 4px 0;
 }
-.example-source { color: rgba(255,255,255,.9); font-size: 13px; }
+.example-source { color: #cbd5e1; font-size: 13px; }
 .example-problem {
   padding: 16px 20px;
   font-size: 15px;
   line-height: 1.8;
-  color: #78350f;
+  color: var(--color-secondary);
 }
-.example-problem strong { color: #92400e; }
+.example-problem strong { color: var(--color-foreground); }
 .example-solution {
-  border-top: 1px dashed #fcd34d;
+  border-top: 1px solid var(--color-border);
 }
 .solution-toggle {
   padding: 12px 20px;
   cursor: pointer;
-  font-weight: 600;
-  color: #b45309;
+  font-weight: 700;
+  color: var(--color-accent);
   font-size: 14px;
   list-style: none;
   user-select: none;
@@ -75,21 +73,21 @@ details[open] .solution-toggle::before { content: '▼ '; }
   padding: 0 20px 20px;
   font-size: 14px;
   line-height: 1.9;
-  color: #78350f;
+  color: var(--color-secondary);
 }
 .solution-content :deep(.step) {
   display: flex;
   gap: 12px;
   margin: 10px 0;
   padding: 10px 14px;
-  background: rgba(255,255,255,.6);
+  background: var(--color-background);
   border-radius: 8px;
-  border-left: 3px solid #f59e0b;
+  border-left: 3px solid var(--color-accent);
 }
 .solution-content :deep(.step-num) {
   min-width: 28px; height: 28px;
-  background: #f59e0b; color: #fff;
-  border-radius: 50%;
+  background: var(--color-primary); color: var(--color-on-primary);
+  border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 13px; flex-shrink: 0;
 }

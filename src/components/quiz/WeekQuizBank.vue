@@ -25,21 +25,21 @@ defineProps({
 <style scoped>
 .week-quiz-section {
   margin: 32px 0 24px;
-  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  background: var(--color-card);
   border-radius: 16px;
   padding: 24px;
-  border: 2px solid #f59e0b;
+  border: 1px solid var(--color-border);
 }
 .week-quiz-header {
   display: flex; align-items: center; gap: 16px;
   padding-bottom: 16px;
-  border-bottom: 2px dashed #f59e0b;
+  border-bottom: 1px solid var(--color-border);
   margin-bottom: 16px;
 }
-.wq-icon { font-size: 36px; }
+.wq-icon { font-size: 28px; opacity: .78; }
 .week-quiz-header h3 {
-  margin: 0; font-size: 20px; color: #92400e;
+  margin: 0; font-size: 20px; color: var(--color-foreground); font-weight: 750;
 }
-.wq-desc { margin: 4px 0 0; font-size: 13px; color: #b45309; }
+.wq-desc { margin: 4px 0 0; font-size: 13px; color: var(--color-muted-foreground); }
 .quiz-list { display: flex; flex-direction: column; gap: 12px; }
 </style>

@@ -162,8 +162,9 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 /* ===== Nav ===== */
 .exam-nav {
   position: sticky; top: 0; z-index: 100;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  box-shadow: 0 2px 12px rgba(0,0,0,.15);
+  background: rgba(255,255,255,.94);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(12px);
 }
 .nav-inner {
   max-width: 1200px; margin: 0 auto;
@@ -172,61 +173,59 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 }
 .nav-brand {
   display: flex; align-items: center; gap: 8px;
-  color: #fff; text-decoration: none; font-weight: 700; font-size: 16px;
+  color: var(--color-primary); text-decoration: none; font-weight: 750; font-size: 16px;
 }
 .brand-icon { font-size: 20px; }
 .nav-links { display: flex; gap: 12px; margin-left: auto; }
 .nav-link {
-  color: rgba(255,255,255,.9); text-decoration: none;
-  padding: 6px 14px; border-radius: 6px; font-size: 14px;
-  transition: background .2s;
+  color: var(--color-secondary); text-decoration: none;
+  padding: 7px 12px; border-radius: 8px; font-size: 14px;
+  transition: background .18s ease, color .18s ease;
 }
-.nav-link:hover { background: rgba(255,255,255,.2); color: #fff; }
+.nav-link:hover { background: var(--color-muted); color: var(--color-primary); }
 
 /* ===== Header ===== */
 .exam-header {
   padding: 56px 24px 40px;
-  background: linear-gradient(135deg, #eef2ff 0%, #faf5ff 50%, #fef3c7 100%);
-  text-align: center;
+  background: var(--color-card);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
 }
-.header-content { max-width: 800px; margin: 0 auto; }
+.header-content { max-width: 820px; margin: 0; }
 .exam-badge {
-  display: inline-block; padding: 8px 24px; border-radius: 30px;
-  background: linear-gradient(135deg, #4f46e5, #ec4899);
-  color: #fff; font-size: 13px; font-weight: 700; margin-bottom: 20px;
-  letter-spacing: 2px;
+  display: inline-block; padding: 7px 12px; border-radius: 8px;
+  background: var(--color-background);
+  color: var(--color-accent); font-size: 12px; font-weight: 750; margin-bottom: 20px;
+  letter-spacing: .08em; border: 1px solid var(--color-border);
 }
 .exam-header h1 {
   font-size: clamp(30px, 5vw, 44px);
-  color: #1e293b; margin: 0 0 12px; font-weight: 800;
+  color: var(--color-foreground); margin: 0 0 12px; font-weight: 780;
 }
-.subtitle { color: #64748b; font-size: 16px; margin: 0 0 12px; }
-.header-desc { color: #94a3b8; font-size: 14px; line-height: 1.8; max-width: 600px; margin: 0 auto; }
+.subtitle { color: var(--color-muted-foreground); font-size: 16px; margin: 0 0 12px; }
+.header-desc { color: var(--color-muted-foreground); font-size: 14px; line-height: 1.8; max-width: 680px; margin: 0; }
 
 /* ===== Stats bar ===== */
 .stats-bar {
   padding: 24px 0;
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
 }
 .stats-inner {
   display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
 }
 .stat-item {
   display: flex; flex-direction: column; align-items: center;
-  padding: 16px 28px; border-radius: 14px;
+  padding: 16px 28px; border-radius: 12px;
   min-width: 160px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
 }
-.stat-item.w1 { background: linear-gradient(135deg, #eef2ff, #e0e7ff); }
-.stat-item.w2 { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); }
-.stat-item.w3 { background: linear-gradient(135deg, #fff7ed, #ffedd5); }
 .stat-num {
   font-size: 36px; font-weight: 800; line-height: 1;
 }
-.stat-item.w1 .stat-num { color: #4338ca; }
-.stat-item.w2 .stat-num { color: #0d9488; }
-.stat-item.w3 .stat-num { color: #ea580c; }
-.stat-label { font-size: 13px; color: #64748b; margin-top: 6px; }
+.stat-item.w1 .stat-num, .stat-item.w2 .stat-num, .stat-item.w3 .stat-num { color: var(--color-primary); }
+.stat-label { font-size: 13px; color: var(--color-muted-foreground); margin-top: 6px; }
 
 /* ===== Main content ===== */
 .exam-main { padding: 32px 24px 60px; }
@@ -237,19 +236,17 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
   display: flex; align-items: center; gap: 16px;
   padding: 20px 24px; border-radius: 16px 16px 0 0;
   margin-bottom: 0;
+  background: var(--color-primary);
 }
-.week-title-bar.w1 { background: linear-gradient(135deg, #4338ca, #6366f1); }
-.week-title-bar.w2 { background: linear-gradient(135deg, #0d9488, #14b8a6); }
-.week-title-bar.w3 { background: linear-gradient(135deg, #ea580c, #f97316); }
-.week-icon { font-size: 32px; }
+.week-icon { font-size: 24px; opacity: .85; }
 .week-title-bar h2 {
-  margin: 0; font-size: 22px; color: #fff; font-weight: 700;
+  margin: 0; font-size: 22px; color: var(--color-on-primary); font-weight: 750;
 }
-.week-count { margin: 4px 0 0; font-size: 13px; color: rgba(255,255,255,.8); }
+.week-count { margin: 4px 0 0; font-size: 13px; color: #cbd5e1; }
 
 .topic-card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
   border-top: none;
   overflow: hidden;
 }
@@ -258,29 +255,23 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 .topic-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 24px;
-  border-bottom: 2px solid #f1f5f9;
+  border-bottom: 1px solid var(--color-border);
 }
-.topic-header.w1 { background: #fafbff; }
-.topic-header.w2 { background: #f8fdfb; }
-.topic-header.w3 { background: #fffbf8; }
+.topic-header.w1, .topic-header.w2, .topic-header.w3 { background: var(--color-card); }
 .topic-info { display: flex; align-items: center; gap: 12px; }
 .topic-icon { font-size: 22px; }
 .topic-num {
   display: inline-block; padding: 3px 10px;
-  border-radius: 16px; font-weight: 700; font-size: 12px;
-  color: #fff; margin-right: 8px;
+  border-radius: 8px; font-weight: 700; font-size: 12px;
+  color: var(--color-on-primary); margin-right: 8px;
+  background: var(--color-primary);
 }
-.topic-header.w1 .topic-num { background: linear-gradient(135deg, #4338ca, #6366f1); }
-.topic-header.w2 .topic-num { background: linear-gradient(135deg, #0d9488, #14b8a6); }
-.topic-header.w3 .topic-num { background: linear-gradient(135deg, #ea580c, #f97316); }
-.topic-title { font-size: 16px; font-weight: 600; color: #1e293b; }
+.topic-title { font-size: 16px; font-weight: 700; color: var(--color-foreground); }
 .topic-quiz-count {
   font-size: 14px; font-weight: 600; padding: 4px 14px;
-  border-radius: 20px;
+  border-radius: 8px;
 }
-.topic-header.w1 .topic-quiz-count { background: #eef2ff; color: #4338ca; }
-.topic-header.w2 .topic-quiz-count { background: #f0fdfa; color: #0d9488; }
-.topic-header.w3 .topic-quiz-count { background: #fff7ed; color: #ea580c; }
+.topic-header.w1 .topic-quiz-count, .topic-header.w2 .topic-quiz-count, .topic-header.w3 .topic-quiz-count { background: var(--color-muted); color: var(--color-secondary); }
 
 .topic-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 
@@ -289,22 +280,22 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
   text-align: center; padding: 80px 24px;
 }
 .empty-icon { font-size: 64px; margin-bottom: 20px; }
-.empty-state h3 { font-size: 22px; color: #1e293b; margin: 0 0 8px; }
-.empty-state p { color: #94a3b8; font-size: 15px; }
+.empty-state h3 { font-size: 22px; color: var(--color-foreground); margin: 0 0 8px; }
+.empty-state p { color: var(--color-muted-foreground); font-size: 15px; }
 
 /* ===== Footer ===== */
 .exam-footer {
-  background: #1e1b4b; padding: 40px 24px; text-align: center;
+  background: var(--color-primary); padding: 40px 24px; text-align: center;
 }
 .footer-btn {
   display: inline-block; padding: 12px 28px;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: #fff; border-radius: 10px; text-decoration: none;
-  font-weight: 600; font-size: 15px; transition: all .2s;
+  background: var(--color-on-primary);
+  color: var(--color-primary); border-radius: 10px; text-decoration: none;
+  font-weight: 700; font-size: 15px; transition: all .18s ease;
 }
-.footer-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(79,70,229,.4); }
+.footer-btn:hover { transform: translateY(-1px); }
 .footer-copy {
-  font-size: 12px; color: #64748b; margin-top: 20px;
+  font-size: 12px; color: #94a3b8; margin-top: 20px;
   border-top: 1px solid rgba(255,255,255,.1); padding-top: 16px;
 }
 

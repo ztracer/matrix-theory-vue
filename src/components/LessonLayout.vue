@@ -110,60 +110,59 @@ const nextLesson = computed(() => {
 </script>
 
 <style scoped>
-.lesson-page { min-height: 100vh; background: #f8fafc; padding-bottom: 40px; }
+.lesson-page { min-height: 100vh; background: var(--color-background); padding-bottom: 40px; color: var(--color-foreground); }
 
 .lesson-nav {
   position: sticky; top: 0; z-index: 100;
-  box-shadow: 0 2px 12px rgba(0,0,0,.1);
+  background: rgba(255,255,255,.94);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(12px);
 }
 .nav-inner {
   max-width: 1200px; margin: 0 auto;
   display: flex; align-items: center; gap: 24px;
-  padding: 12px 24px;
+  padding: 14px 24px;
 }
-.w1 .lesson-nav, .w1 { background: linear-gradient(135deg, #4338ca, #6366f1); }
-.w2 .lesson-nav, .w2 { background: linear-gradient(135deg, #0d9488, #14b8a6); }
-.w3 .lesson-nav, .w3 { background: linear-gradient(135deg, #ea580c, #f97316); }
-.w4 .lesson-nav, .w4 { background: linear-gradient(135deg, #059669, #10b981); }
 
 .nav-brand {
   display: flex; align-items: center; gap: 8px;
-  color: #fff; text-decoration: none; font-weight: 700; font-size: 16px;
+  color: var(--color-primary); text-decoration: none; font-weight: 750; font-size: 16px;
 }
-.brand-icon { font-size: 20px; }
+.brand-icon { font-size: 18px; opacity: .72; }
 .nav-brand span {
   max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .nav-links { display: flex; gap: 12px; margin-left: auto; flex-wrap: wrap; }
 .nav-link {
-  color: rgba(255,255,255,.9); text-decoration: none;
-  padding: 6px 14px; border-radius: 6px; font-size: 14px;
-  transition: background .2s;
+  color: var(--color-secondary); text-decoration: none;
+  padding: 7px 12px; border-radius: 8px; font-size: 14px;
+  transition: background .18s ease, color .18s ease;
 }
-.nav-link:hover { background: rgba(255,255,255,.2); color: #fff; }
+.nav-link:hover { background: var(--color-muted); color: var(--color-primary); }
 
 .lesson-header {
-  padding: 48px 24px 36px;
-  background: linear-gradient(135deg, #eef2ff 0%, #faf5ff 50%, #fff7ed 100%);
-  text-align: center;
+  padding: 64px 24px 44px;
+  background: var(--color-card);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
 }
-.header-content { max-width: 800px; margin: 0 auto; }
+.header-content { max-width: 900px; margin: 0; }
 .week-badge {
-  display: inline-block; padding: 6px 18px; border-radius: 20px;
-  color: #fff; font-size: 13px; font-weight: 600; margin-bottom: 16px;
+  display: inline-block; padding: 7px 12px; border-radius: 8px;
+  color: var(--color-accent); font-size: 12px; font-weight: 750; margin-bottom: 18px;
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  letter-spacing: .08em;
 }
-.w1 .week-badge { background: linear-gradient(135deg,#4338ca,#6366f1); }
-.w2 .week-badge { background: linear-gradient(135deg,#0d9488,#14b8a6); }
-.w3 .week-badge { background: linear-gradient(135deg,#ea580c,#f97316); }
-.w4 .week-badge { background: linear-gradient(135deg,#059669,#10b981); }
 
 .lesson-header h1 {
-  font-size: clamp(28px, 4vw, 40px);
-  color: #1e293b; margin: 0 0 12px;
+  font-size: clamp(32px, 5vw, 48px);
+  color: var(--color-foreground); margin: 0 0 12px;
+  font-weight: 780;
 }
-.subtitle { color: #64748b; font-size: 16px; margin: 0; }
+.subtitle { color: var(--color-muted-foreground); font-size: 16px; margin: 0; max-width: 760px; }
 
-.lesson-main { padding: 32px 24px; }
+.lesson-main { padding: 40px 24px; }
 
 .lesson-footer {
   margin-top: 60px; padding: 24px;
@@ -176,22 +175,23 @@ const nextLesson = computed(() => {
 }
 .footer-card {
   display: block; padding: 20px 24px;
-  background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
-  text-decoration: none; color: #1e293b;
-  transition: all .2s;
+  background: var(--color-card); border: 1px solid var(--color-border); border-radius: 12px;
+  text-decoration: none; color: var(--color-foreground);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
 .footer-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  transform: translateY(-1px);
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
 }
 .footer-card.prev { text-align: left; }
 .footer-card.next { text-align: right; }
 .footer-card.home { text-align: center; padding: 16px 24px; }
 .footer-label {
-  display: block; font-size: 12px; color: #94a3b8;
+  display: block; font-size: 12px; color: var(--color-muted-foreground);
   margin-bottom: 4px;
 }
-.footer-title { font-weight: 600; font-size: 15px; }
+.footer-title { font-weight: 700; font-size: 15px; }
 
 @media (max-width: 768px) {
   .nav-inner { flex-wrap: wrap; gap: 8px; padding: 10px 16px; }

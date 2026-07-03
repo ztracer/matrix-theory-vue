@@ -630,7 +630,7 @@ const hideTip = () => { tipShow.value = false }
   font-size:clamp(32px,4vw,48px); font-weight:700;
   color:var(--color-foreground); margin-bottom:12px;
 }
-.section-desc { color:var(--color-muted-foreground); font-size:15px; max-width:680px; margin:0; }
+.section-desc { color:var(--color-muted-foreground); font-size:15px; max-width:680px; margin:0; grid-column: 1 / -1; }
 
 /* Mind Map */
 .mindmap-section { background: var(--color-background); }

@@ -16,6 +16,9 @@
             下一课：{{ nextLesson.title }} →
           </router-link>
         </div>
+        <button class="theme-toggle" @click="toggle" :aria-label="theme === 'dark' ? '切换亮色' : '切换暗色'">
+          {{ theme === 'dark' ? '☀️' : '🌙' }}
+        </button>
       </div>
       <!-- V1: reading progress bar -->
       <div class="reading-progress" :style="{ width: progressPercent + '%' }"></div>
@@ -88,6 +91,9 @@ import { computed, ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 // E3: derive lesson list from quizBank.js lessonMeta (single source of truth)
 import { lessonMeta } from '@/data/quizBank'
+import { useTheme } from '@/composables/useTheme'
+
+const { theme, toggle } = useTheme()
 
 const props = defineProps({
   lessonId: { type: Number, required: true },
@@ -266,6 +272,19 @@ onUnmounted(() => {
   transition: background .18s ease, color .18s ease;
 }
 .nav-link:hover { background: var(--color-muted); color: var(--color-primary); }
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 15px;
+  cursor: pointer;
+  line-height: 1;
+  transition: background .18s ease;
+  margin-left: 8px;
+}
+.theme-toggle:hover { background: var(--color-muted); }
 
 /* V1: reading progress bar */
 .reading-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--color-accent); transition: width .1s linear; }

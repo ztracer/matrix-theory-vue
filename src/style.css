@@ -209,3 +209,68 @@ html {
     padding: 10px 16px;
   }
 }
+
+/* ===== Dark Mode ===== */
+[data-theme="dark"] {
+  --color-primary: #F8FAFC;
+  --color-on-primary: #0F172A;
+  --color-secondary: #94A3B8;
+  --color-on-secondary: #0F172A;
+  --color-accent: #38BDF8;
+  --color-on-accent: #0F172A;
+  --color-background: #0F172A;
+  --color-foreground: #F1F5F9;
+  --color-card: #1E293B;
+  --color-card-foreground: #F1F5F9;
+  --color-muted: #1E293B;
+  --color-muted-foreground: #94A3B8;
+  --color-border: #334155;
+  --color-destructive: #EF4444;
+  --color-ring: #38BDF8;
+
+  /* Legacy aliases update for dark */
+  --primary: var(--color-primary);
+  --primary-dark: var(--color-primary);
+  --primary-light: var(--color-accent);
+  --w1: var(--color-primary);
+  --w1-light: var(--color-accent);
+  --w2: var(--color-secondary);
+  --w2-light: var(--color-accent);
+  --w3: var(--color-accent);
+  --w3-light: var(--color-accent);
+  --bg: var(--color-background);
+  --card: var(--color-card);
+  --text: var(--color-foreground);
+  --text-light: var(--color-muted-foreground);
+  --border: var(--color-border);
+  --success: var(--color-accent);
+  --warning: var(--color-secondary);
+  --danger: var(--color-destructive);
+
+  color-scheme: dark;
+}
+
+/* Dark mode specific overrides for fixed elements */
+[data-theme="dark"] .lesson-nav {
+  background: rgba(15, 23, 42, .94);
+  border-bottom-color: var(--color-border);
+}
+
+[data-theme="dark"] .exam-nav {
+  background: rgba(15, 23, 42, .94);
+  border-bottom-color: var(--color-border);
+}
+
+[data-theme="dark"] .hero {
+  background: #020617;
+}
+
+[data-theme="dark"] .stat {
+  background: rgba(15, 23, 42, .92);
+}
+
+[data-theme="dark"] .kg-filter:hover,
+[data-theme="dark"] .kg-filter.active {
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+}

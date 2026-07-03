@@ -10,6 +10,9 @@
         <div class="nav-links">
           <router-link to="/" class="nav-link">← 返回首页</router-link>
         </div>
+        <button class="theme-toggle" @click="toggle" :aria-label="theme === 'dark' ? '切换亮色' : '切换暗色'">
+          {{ theme === 'dark' ? '☀️' : '🌙' }}
+        </button>
       </div>
     </nav>
 
@@ -104,6 +107,9 @@ import { computed, onMounted } from 'vue'
 import { quizBank, lessonMeta } from '../data/quizBank'
 import QuizProblem from '../components/quiz/QuizProblem.vue'
 import { useKatex } from '../composables/useKatex'
+import { useTheme } from '@/composables/useTheme'
+
+const { theme, toggle } = useTheme()
 
 const { renderMath } = useKatex()
 onMounted(() => { setTimeout(renderMath, 100) })
@@ -183,6 +189,19 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
   transition: background .18s ease, color .18s ease;
 }
 .nav-link:hover { background: var(--color-muted); color: var(--color-primary); }
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 15px;
+  cursor: pointer;
+  line-height: 1;
+  transition: background .18s ease;
+  margin-left: 8px;
+}
+.theme-toggle:hover { background: var(--color-muted); }
 
 /* ===== Header ===== */
 .exam-header {

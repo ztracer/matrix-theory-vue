@@ -19,6 +19,9 @@
           <router-link to="/exam" class="btn btn-exam">📋 真题汇总</router-link>
           <router-link to="/homework" class="btn btn-homework">📝 课后作业</router-link>
         </div>
+        <button class="theme-toggle home-theme-toggle" @click="toggle" :aria-label="theme === 'dark' ? '切换亮色' : '切换暗色'">
+          {{ theme === 'dark' ? '☀️' : '🌙' }}
+        </button>
       </div>
       <div class="scroll-hint">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -299,6 +302,9 @@ import { homeworkBank } from '@/data/homeworkBank'
 import { knowledgeEdges, knowledgeGroups, knowledgeNodes, edgeTypes } from '@/data/knowledgeGraph'
 import { useKatex } from '@/composables/useKatex'
 import { useScrollReveal } from '@/composables/useScrollReveal'
+import { useTheme } from '@/composables/useTheme'
+
+const { theme, toggle } = useTheme()
 
 useKatex()
 useScrollReveal('.home-page .reveal')
@@ -630,6 +636,22 @@ const hideTip = () => { tipShow.value = false }
   position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
   opacity:.45; color:var(--color-on-primary);
 }
+
+.home-theme-toggle {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+  background: rgba(248,250,252,.08);
+  border: 1px solid rgba(248,250,252,.2);
+  border-radius: 8px;
+  color: var(--color-on-primary);
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+.home-theme-toggle:hover { background: rgba(248,250,252,.16); }
 
 /* Section base */
 .section { padding: 64px 0; }

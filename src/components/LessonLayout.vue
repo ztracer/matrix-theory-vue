@@ -32,22 +32,34 @@
       </div>
     </header>
 
-    <!-- Main Content -->
-    <main ref="contentEl" class="container lesson-main">
-      <slot></slot>
-    </main>
+    <!-- Main Content + TOC -->
+    <div class="lesson-content-wrap">
+      <main ref="contentEl" class="container lesson-main">
+        <slot></slot>
+      </main>
 
-    <!-- V1: Table of Contents (right sidebar, desktop only) -->
-    <aside v-if="tocItems.length" class="lesson-toc">
-      <div class="toc-title">本课目录</div>
-      <a
-        v-for="item in tocItems"
-        :key="item.id"
-        :href="'#' + item.id"
-        :class="{ active: activeSection === item.id }"
-        @click.prevent="scrollToSection(item.id)"
-      >{{ item.text }}</a>
-    </aside>
+      <!-- V1: Table of Contents -->
+      <aside v-if="tocItems.length" class="lesson-toc" :class="{ collapsed: tocCollapsed }">
+        <button
+          class="toc-toggle"
+          @click="tocCollapsed = !tocCollapsed"
+          :aria-expanded="!tocCollapsed"
+        >
+          <span class="toc-toggle-label">本课目录</span>
+          <span class="toc-toggle-icon">{{ tocCollapsed ? '▶' : '▼' }}</span>
+        </button>
+        <nav class="toc-list" v-show="!tocCollapsed">
+          <a
+            v-for="item in tocItems"
+            :key="item.id"
+            :href="'#' + item.id"
+            class="toc-item"
+            :class="{ active: activeSection === item.id }"
+            @click.prevent="scrollToSection(item.id)"
+          >{{ item.text }}</a>
+        </nav>
+      </aside>
+    </div>
 
     <!-- Footer Nav -->
     <footer class="lesson-footer">
@@ -72,7 +84,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { computed, ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 // E3: derive lesson list from quizBank.js lessonMeta (single source of truth)
 import { lessonMeta } from '@/data/quizBank'
@@ -124,6 +136,17 @@ const contentEl = ref(null)
 const tocItems = ref([])
 const activeSection = ref(null)
 const progressPercent = ref(0)
+const tocCollapsed = ref(false)
+
+// Restore collapse preference
+try {
+  tocCollapsed.value = localStorage.getItem('matrix-toc-collapsed') === 'true'
+} catch { /* ignore */ }
+
+// Persist collapse state
+watch(tocCollapsed, (val) => {
+  try { localStorage.setItem('matrix-toc-collapsed', String(val)) } catch { /* ignore */ }
+})
 
 let observer = null
 
@@ -271,39 +294,92 @@ onUnmounted(() => {
 
 .lesson-main { padding: 40px 24px; }
 
-/* V1: Table of Contents sidebar */
-.lesson-toc {
-  position: fixed;
-  right: max(24px, calc((100vw - 1100px) / 2));
-  top: 120px;
-  width: 180px;
-  max-height: calc(100vh - 160px);
-  overflow-y: auto;
-  font-size: 13px;
+/* ===== V1: Table of Contents ===== */
+.lesson-content-wrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.lesson-toc .toc-title {
-  padding: 6px 12px;
+
+.lesson-toc {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 24px 32px;
+}
+
+.toc-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--color-card);
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 12px;
   font-weight: 700;
   color: var(--color-foreground);
-  font-size: 12px;
+  cursor: pointer;
   letter-spacing: .06em;
   text-transform: uppercase;
-  opacity: .7;
 }
-.lesson-toc a {
+.toc-toggle:hover { background: var(--color-muted); }
+.toc-toggle-icon { font-size: 10px; opacity: .6; }
+
+.lesson-toc.collapsed .toc-toggle {
+  border-bottom: none;
+}
+.lesson-toc.collapsed {
+  border-radius: 8px;
+}
+
+.toc-list {
+  padding: 8px;
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+}
+
+.toc-item {
   display: block;
-  padding: 6px 12px;
+  padding: 7px 10px;
+  border-radius: 6px;
   color: var(--color-muted-foreground);
   text-decoration: none;
-  border-left: 2px solid transparent;
-  transition: all .18s ease;
+  font-size: 13px;
+  line-height: 1.5;
+  transition: background .18s ease, color .18s ease;
   cursor: pointer;
 }
-.lesson-toc a:hover, .lesson-toc a.active {
+.toc-item:hover {
+  background: var(--color-muted);
   color: var(--color-foreground);
-  border-left-color: var(--color-accent);
 }
-@media (max-width: 1200px) { .lesson-toc { display: none; } }
+.toc-item.active {
+  background: var(--color-muted);
+  color: var(--color-foreground);
+  font-weight: 700;
+}
+
+/* Desktop: two-column grid with sticky TOC sidebar */
+@media (min-width: 1280px) {
+  .lesson-content-wrap {
+    grid-template-columns: 1fr 200px;
+    gap: 32px;
+    padding: 0 24px;
+    align-items: start;
+  }
+  .lesson-main { padding-left: 0; padding-right: 0; }
+  .lesson-toc {
+    position: sticky;
+    top: 88px;
+    max-height: calc(100vh - 120px);
+    align-self: start;
+    margin: 40px 0 0;
+  }
+}
 
 .lesson-footer {
   margin-top: 60px; padding: 24px;

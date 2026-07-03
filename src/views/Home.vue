@@ -569,8 +569,8 @@ const hideTip = () => { tipShow.value = false }
 /* Hero */
 .hero {
   min-height: 86vh;
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: #0B1220;
+  color: #F1F5F9;
   padding: 64px 24px 56px;
   position: relative;
   display: flex;
@@ -583,7 +583,7 @@ const hideTip = () => { tipShow.value = false }
   content:'';
   position:absolute;
   inset:0;
-  border: 24px solid color-mix(in srgb, var(--color-on-primary) 3%, transparent);
+  border: 24px solid rgba(241,245,249,.03);
   pointer-events: none;
 }
 .floating-math {
@@ -591,7 +591,7 @@ const hideTip = () => { tipShow.value = false }
   font-family: "Cambria Math", "STIX Two Math", math, serif;
   font-weight: 600;
   opacity: .045;
-  color: var(--color-on-primary);
+  color: #F1F5F9;
   pointer-events: none;
   animation: float 20s ease-in-out infinite;
 }
@@ -605,36 +605,36 @@ const hideTip = () => { tipShow.value = false }
   padding:0 0 10px;
   font-size:12px;
   margin-bottom:24px;
-  color: var(--color-muted-foreground);
+  color: #94A3B8;
   letter-spacing:.18em;
   text-transform:uppercase;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-on-primary) 22%, transparent);
+  border-bottom: 1px solid rgba(241,245,249,.22);
 }
 .hero h1 {
   font-size: clamp(48px, 8vw, 96px);
   font-weight: 700;
   line-height: .98;
   margin-bottom: 24px;
-  color:var(--color-on-primary);
+  color:#F8FAFC;
   letter-spacing:-.03em;
 }
-.hero-stats { grid-column:2; grid-row:1 / span 4; display:grid; grid-template-columns:1fr 1fr; gap:1px; background: color-mix(in srgb, var(--color-on-primary) 18%, transparent); border: 1px solid color-mix(in srgb, var(--color-on-primary) 18%, transparent); }
-.stat { background: var(--color-background); padding:24px; min-width:132px; }
+.hero-stats { grid-column:2; grid-row:1 / span 4; display:grid; grid-template-columns:1fr 1fr; gap:1px; background: rgba(241,245,249,.08); border: 1px solid rgba(241,245,249,.15); }
+.stat { background: rgba(15,23,42,.92); padding:24px; min-width:132px; }
 .stat-num {
-  font-size:40px; font-weight:700; color:var(--color-on-primary); line-height:1;
+  font-size:40px; font-weight:700; color:#F8FAFC; line-height:1;
 }
-.stat-label { font-size:13px; color: var(--color-muted-foreground); margin-top:10px; }
+.stat-label { font-size:13px; color: #94A3B8; margin-top:10px; }
 .hero-btns { display:flex; gap:12px; justify-content:flex-start; flex-wrap:wrap; }
 .btn {
   padding:13px 20px; border-radius:10px; font-size:14px; font-weight:650;
-  text-decoration:none; transition:all .18s ease; cursor:pointer; border: 1px solid color-mix(in srgb, var(--color-on-primary) 22%, transparent);
+  text-decoration:none; transition:all .18s ease; cursor:pointer; border: 1px solid rgba(241,245,249,.22);
 }
-.btn-primary, .btn-exam { background:var(--color-on-primary); color:var(--color-primary); }
-.btn-secondary, .btn-homework { background:transparent; color:var(--color-on-primary); }
-.btn:hover { transform:translateY(-1px); text-decoration:none; border-color:var(--color-on-primary); }
+.btn-primary, .btn-exam { background:#F8FAFC; color:#0B1220; }
+.btn-secondary, .btn-homework { background:transparent; color:#F8FAFC; }
+.btn:hover { transform:translateY(-1px); text-decoration:none; border-color:#F8FAFC; }
 .scroll-hint {
   position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
-  opacity:.45; color:var(--color-on-primary);
+  opacity:.45; color:#F8FAFC;
 }
 
 .home-theme-toggle {
@@ -642,16 +642,16 @@ const hideTip = () => { tipShow.value = false }
   top: 24px;
   right: 24px;
   z-index: 10;
-  background: color-mix(in srgb, var(--color-on-primary) 8%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-on-primary) 20%, transparent);
+  background: rgba(241,245,249,.08);
+  border: 1px solid rgba(241,245,249,.2);
   border-radius: 8px;
-  color: var(--color-on-primary);
+  color: #F1F5F9;
   padding: 8px 12px;
   font-size: 16px;
   cursor: pointer;
   transition: background .18s ease;
 }
-.home-theme-toggle:hover { background: color-mix(in srgb, var(--color-on-primary) 16%, transparent); }
+.home-theme-toggle:hover { background: rgba(241,245,249,.16); }
 
 /* Section base */
 .section { padding: 64px 0; }

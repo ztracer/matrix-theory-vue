@@ -96,7 +96,7 @@ matrix-theory-vue/
 ├── .github/workflows/
 │   └── deploy.yml                 # CI/CD 自动构建部署
 ├── public/
-│   └── matrix-icon.png            # 项目图标 / favicon
+│   └── matrix-icon.svg            # 项目图标 / favicon
 ├── src/
 │   ├── __tests__/                 # 冒烟测试
 │   │   ├── components.test.js

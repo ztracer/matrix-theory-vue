@@ -1,56 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254" role="img" aria-labelledby="title desc">
-  <title id="title">矩阵论可视化交互学习系统</title>
-  <desc id="desc">A clean recreation of the original icon: dark coordinate axes, a blue diagonal transformation vector, and a green mathematical curve on a light slate field.</desc>
-
-  <defs>
-    <linearGradient id="blue" x1="340" y1="1030" x2="1020" y2="250" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#0369A1"/>
-      <stop offset=".55" stop-color="#0EA5E9"/>
-      <stop offset="1" stop-color="#38BDF8"/>
-    </linearGradient>
-    <linearGradient id="green" x1="390" y1="980" x2="885" y2="330" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#15803D"/>
-      <stop offset=".48" stop-color="#16A34A"/>
-      <stop offset="1" stop-color="#65A30D"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="1254" height="1254" fill="#F8FAFC"/>
-
-  <!-- Coordinate frame from the original icon -->
-  <g fill="#1E293B">
-    <path d="M118 1070V244h92v826z"/>
-    <path d="M72 256 164 72l94 184z"/>
-    <path d="M118 1031h912v92H118z"/>
-    <path d="M1006 985 1190 1077l-184 94z"/>
-  </g>
-
-  <!-- Main blue transformation arrow -->
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M289 1035 1002 286" stroke="#0F172A" stroke-width="126" opacity=".08"/>
-    <path d="M289 1035 1002 286" stroke="url(#blue)" stroke-width="96"/>
-  </g>
-  <path d="M936 229 1138 116 1048 329z" fill="#38BDF8"/>
-  <path d="M955 249 1088 175 1029 315z" fill="#0369A1" opacity=".38"/>
-
-  <!-- Green curve / trajectory, rebuilt as smooth mathematical strokes -->
-  <g fill="none" stroke="url(#green)" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M305 1042C372 837 466 602 554 401c44-101 143-123 207-55 59 63 35 178-51 222-70 35-153-4-171-77-20-83 48-171 140-170 112 2 187 109 164 220-21 105-116 188-229 274-103 78-184 160-238 254" stroke-width="82"/>
-    <path d="M851 1051c-25-132 10-251 96-363" stroke-width="72"/>
-  </g>
-
-  <!-- Inner light cuts preserve the airy loop visible in the PNG at small sizes -->
-  <g fill="none" stroke="#F8FAFC" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M582 408c45-67 139-54 165 17 23 63-27 126-91 123-57-3-99-52-90-107" stroke-width="42"/>
-    <path d="M711 635c-63 54-147 116-209 191" stroke-width="34" opacity=".9"/>
-  </g>
-
-  <!-- Clean terminals and small original-style axis accents -->
-  <g fill="#1E293B">
-    <circle cx="164" cy="1077" r="47"/>
-    <path d="M1026 1031h80v92h-80z"/>
-  </g>
-  <g fill="#F8FAFC" opacity=".96">
-    <circle cx="164" cy="1077" r="19"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 649 621" role="img" aria-label="Matrix theory icon">
+  <g transform="translate(0 621) scale(0.1 -0.1)" stroke="none">
+    <path fill="#42b83d" d="M2004 3991 c-255 -179 -541 -516 -801 -944 -54 -89 -243 -426 -243
+-433 0 -2 -40 -85 -90 -185 l-90 -181 0 -338 c0 -186 4 -341 9 -344 5 -3 16
+16 26 42 151 399 420 959 633 1317 213 357 503 708 690 835 61 41 60 37 22 94
+-17 24 -42 75 -56 113 -14 37 -27 69 -28 71 -2 1 -34 -20 -72 -47z M3342 3911
+c-12 -28 -40 -72 -62 -100 -22 -28 -40 -53 -40 -57 0 -3 36 -45 81 -92 77 -83
+195 -233 289 -369 24 -35 46 -63 51 -63 12 0 159 176 159 191 0 48 -409 539
+-450 539 -3 0 -15 -22 -28 -49z M4190 2699 c-89 -24 -136 -45 -144 -64 -10
+-26 261 -455 422 -670 238 -316 582 -605 719 -605 63 0 116 57 117 126 1 59
+-25 90 -123 145 -104 58 -235 171 -352 302 -50 56 -95 101 -101 99 -5 -1 -7 2
+-3 8 4 6 -11 32 -32 58 -80 97 -212 293 -354 526 -30 49 -58 91 -64 92 -5 2
+-44 -6 -85 -17z"/>
+    <path fill="#42b83d" d="M2730 4665 a445 445 0 1 0 0 -890 a445 445 0 1 0 0 890z m0 -225 a220 220 0 1 1 0 -440 a220 220 0 1 1 0 440z" fill-rule="evenodd"/>
+    <path fill="#1593e6" d="M5960 5523 c-37 -13 -394 -148 -470 -178 -47 -18 -186 -72 -310 -120
+-674 -259 -650 -247 -650 -330 0 -61 20 -75 249 -169 111 -45 203 -86 203 -91
+2 -18 -549 -682 -851 -1024 -635 -721 -956 -1065 -1543 -1657 -241 -242 -435
+-444 -430 -448 4 -4 2 -6 -3 -4 -6 2 -30 -18 -54 -44 -24 -26 -47 -45 -51 -43
+-4 2 -22 -12 -41 -32 -19 -20 -28 -32 -20 -28 10 5 12 4 7 -4 -4 -6 -11 -9
+-16 -6 -5 3 -30 -19 -56 -49 -26 -31 -51 -53 -55 -51 -4 3 -39 -29 -77 -70
+-39 -41 -73 -75 -77 -75 -4 0 -49 -43 -101 -96 -51 -53 -97 -93 -102 -90 -5 3
+-17 -3 -26 -13 -10 -11 -13 -22 -8 -25 5 -3 176 -5 380 -5 l371 0 202 199
+c111 110 205 200 210 200 5 0 9 6 9 14 0 8 5 18 12 22 7 5 8 2 3 -7 -4 -8 90
+83 209 201 119 118 216 218 216 221 0 3 48 53 106 110 155 152 757 793 1069
+1139 361 400 1058 1205 1120 1293 8 11 16 19 18 16 2 -2 41 -71 86 -154 115
+-210 170 -253 245 -194 44 35 35 0 177 634 27 121 55 247 64 280 17 68 98 439
+116 530 10 53 10 64 -5 93 -23 45 -82 70 -126 55z"/>
+    <path fill="#132638" d="M560 6007 c-24 -18 -62 -86 -332 -590 -89 -166 -96 -203 -47 -239 25
+-19 31 -19 142 -5 l117 14 2 -2206 3 -2206 26 -55 c33 -71 79 -116 154 -151
+l60 -29 2348 0 2347 0 0 -110 c0 -106 1 -112 26 -137 42 -42 75 -30 314 116
+406 249 413 254 428 293 25 65 3 94 -139 180 -68 41 -214 129 -325 196 -110
+67 -211 122 -223 122 -12 0 -36 -13 -52 -29 l-29 -29 0 -131 0 -131 -1437 0
+c-791 -1 -1670 -3 -1953 -6 l-515 -5 75 72 75 72 -76 -67 -77 -66 -346 0 -346
+0 0 983 c-1 540 -3 1510 -6 2155 l-5 1173 23 -5 c67 -14 199 -27 217 -21 23 7
+51 53 51 82 0 26 -378 725 -406 751 -27 24 -70 28 -94 9z"/>
   </g>
 </svg>

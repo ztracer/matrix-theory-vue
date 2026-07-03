@@ -633,11 +633,11 @@ const hideTip = () => { tipShow.value = false }
 
 /* Section base */
 .section { padding: 64px 0; }
-.section-header { text-align:left; margin-bottom:28px; display:grid; grid-template-columns: 280px 1fr; gap:20px; align-items:start; }
+.section-header { margin-bottom:28px; }
 .section-tag {
   display:inline-block; font-size:12px; font-weight:700;
   text-transform:uppercase; letter-spacing:.18em;
-  color:var(--color-accent); margin-top:6px;
+  color:var(--color-accent); margin-bottom:12px;
 }
 .section-header h2 {
   font-size:clamp(32px,4vw,48px); font-weight:700;
@@ -856,7 +856,7 @@ const hideTip = () => { tipShow.value = false }
   .hero-content { grid-template-columns:1fr; text-align:left; }
   .hero-stats { grid-column:auto; grid-row:auto; grid-template-columns:1fr 1fr; }
   .stat-num { font-size:28px; }
-  .section-header { grid-template-columns:1fr; gap:8px; }
+  .section-header { margin-bottom:20px; }
   .week-header { grid-template-columns:1fr; gap:12px; }
   .cards { grid-template-columns:1fr; }
   .mindmap-card { padding:12px; }

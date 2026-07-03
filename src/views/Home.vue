@@ -282,7 +282,7 @@
         <div class="footer-tech">
           <span>Vue 3</span><span>Vite</span><span>SVG/Canvas</span><span>KaTeX</span><span>GitHub Pages</span>
         </div>
-        <div class="footer-copy">© 2025 Matrix Theory Interactive Learning · Vue + Vite 重构版</div>
+        <div class="footer-copy">© 2026 Matrix Theory Interactive Learning</div>
       </div>
     </footer>
   </div>

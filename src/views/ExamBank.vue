@@ -93,7 +93,7 @@
     <footer class="exam-footer">
       <div class="container">
         <router-link to="/" class="footer-btn">← 返回课程首页</router-link>
-        <p class="footer-copy">© 2025 Matrix Theory Interactive Learning · 真题题库</p>
+        <p class="footer-copy">© 2026 Matrix Theory Interactive Learning · 真题题库</p>
       </div>
     </footer>
   </div>

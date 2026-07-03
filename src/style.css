@@ -171,6 +171,32 @@ p, li, td, th {
 /* SVG 响应式 */
 svg { max-width: 100%; height: auto; }
 
+/* Skip to main */
+.skip-to-main {
+  position: absolute;
+  top: -100%;
+  left: 12px;
+  padding: 10px 18px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 10000;
+  text-decoration: none;
+}
+.skip-to-main:focus {
+  top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @media (max-width: 768px) {
   .container { padding: 0 16px; }
   .katex { font-size: 0.95em; }

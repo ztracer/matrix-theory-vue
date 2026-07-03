@@ -761,7 +761,7 @@ const hideTip = () => { tipShow.value = false }
 /* Week blocks */
 .week-block { margin-bottom:56px; }
 .week-header {
-  display:grid; grid-template-columns:128px 1fr; align-items:start; gap:24px;
+  display:flex; align-items:center; gap:18px;
   margin-bottom:20px; padding-bottom:16px;
   border-bottom:1px solid var(--color-border);
 }
@@ -857,7 +857,7 @@ const hideTip = () => { tipShow.value = false }
   .hero-stats { grid-column:auto; grid-row:auto; grid-template-columns:1fr 1fr; }
   .stat-num { font-size:28px; }
   .section-header { margin-bottom:20px; }
-  .week-header { grid-template-columns:1fr; gap:12px; }
+  .week-header { flex-wrap:wrap; gap:12px; }
   .cards { grid-template-columns:1fr; }
   .mindmap-card { padding:12px; }
 }

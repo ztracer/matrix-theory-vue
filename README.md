@@ -1,3 +1,5 @@
+<img align="right" width="128" height="128" src="./public/matrix-icon.png" alt="矩阵论图标" />
+
 # 矩阵论可视化交互学习系统
 
 > 通过 Vue 驱动的 SVG/Canvas/WebGL 动画，直观理解矩阵论的几何意义与代数本质。

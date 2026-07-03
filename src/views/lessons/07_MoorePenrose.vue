@@ -796,8 +796,10 @@ onUnmounted(() => {
   position: absolute;
   right: -6px;
   top: -4px;
-  border: 6px solid transparent;
-  border-left-color: #0d9488;
+  width: 12px;
+  height: 12px;
+  background: #0d9488;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
 .fr-arrow-label { font-size: 16px; font-weight: 700; opacity: 0; animation: fr-fade 6s ease-in-out infinite; }
 .fr-arrow-sub { font-size: 10px; color: #64748b; opacity: 0; animation: fr-fade 6s ease-in-out infinite; }

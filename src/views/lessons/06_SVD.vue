@@ -197,7 +197,7 @@
         </svg>
       </AnimationBox>
 
-      <div class="svd-intuition" style="margin-top: 1rem; padding: 1rem 1.2rem; background: linear-gradient(135deg, #ecfdf5, #f0fdfa); border-radius: 8px; border-left: 4px solid #0d9488; font-size: 0.94rem; line-height: 1.8;">
+      <div class="svd-intuition" style="margin-top: 1rem; padding: 1rem 1.2rem; background: #f0fdfa; border: 1px solid #ccfbf1; border-radius: 8px; font-size: 0.94rem; line-height: 1.75;">
         <strong style="color:#0f766e;">🧐 怎么直观理解 <span class="formula-inline">A = U\Sigma V\T</span>？</strong>
         <p style="margin:0.5rem 0 0 0;">
           任何一个复杂的矩阵映射 <span class="formula-inline">A</span>，都可以拆解为三步：<br/>
@@ -224,7 +224,7 @@
         <Formula>\|A - A_k\|_F^2 = \min_{\rank(B)\leq k} \|A - B\|_F^2 = \sigma_{k+1}^2 + \cdots + \sigma_r^2</Formula>
       </Theorem>
 
-      <div class="svd-intuition" style="margin-top: 0.8rem; padding: 1rem 1.2rem; background: linear-gradient(135deg, #fffbeb, #fefce8); border-radius: 8px; border-left: 4px solid #d97706; font-size: 0.94rem; line-height: 1.8;">
+      <div class="svd-intuition" style="margin-top: 0.8rem; padding: 1rem 1.2rem; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; font-size: 0.94rem; line-height: 1.75;">
         <strong style="color:#92400e;">🖼️ 图像压缩的本质：</strong>
         <p style="margin:0.5rem 0 0 0;">
           上面公式 <span class="formula-inline">A = \sum_{i=1}^{r} \sigma_i u_i v_i\T</span> 告诉我们：矩阵 <span class="formula-inline">A</span> 可以写成 <span class="formula-inline">r</span> 个"秩为 1 的小矩阵"叠加。每一项 <span class="formula-inline">u_i v_i\T</span> 都是一张"基础纹理图"，<span class="formula-inline">\sigma_i</span> 是该纹理的"能量权重"。<br/>

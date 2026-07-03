@@ -345,7 +345,7 @@ onUnmounted(() => {
 <style scoped>
 .key-point {
   background: #f0f9ff;
-  border-left: 4px solid #3b82f6;
+  border: 1px solid #bae6fd;
   border-radius: 8px;
   padding: 14px 18px;
   margin: 16px 0;

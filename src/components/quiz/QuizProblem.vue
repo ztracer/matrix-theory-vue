@@ -119,7 +119,7 @@ watch(show, () => {
 .quiz-id { color: #94a3b8; font-size: 12px; margin-left: auto; }
 .quiz-problem {
   padding: 14px 16px;
-  font-size: 15px; line-height: 1.9; color: var(--color-secondary);
+  font-size: 15px; line-height: 1.75; color: var(--color-secondary);
   overflow-x: auto;
 }
 .quiz-problem strong { color: var(--color-foreground); margin-right: 6px; }
@@ -164,7 +164,7 @@ watch(show, () => {
 .toggle-icon { margin-right: 6px; }
 .quiz-solution {
   padding: 4px 16px 16px;
-  font-size: 14px; line-height: 1.8; color: var(--color-secondary);
+  font-size: 14px; line-height: 1.75; color: var(--color-secondary);
 }
 .solution-step {
   display: flex; gap: 12px;
@@ -172,7 +172,7 @@ watch(show, () => {
   padding: 12px 14px;
   background: var(--color-background);
   border-radius: 10px;
-  border-left: 3px solid var(--color-accent);
+  border: 1px solid var(--color-border);
   overflow-x: auto;
 }
 .step-num-circle {

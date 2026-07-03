@@ -747,7 +747,7 @@ h3 { color: #7c3aed; }
   font-weight: 800; font-size: 14px;
 }
 .p-title { font-weight: 700; color: #5b21b6; font-size: 15px; }
-.p-body { padding: 14px 16px; font-size: 13px; line-height: 1.8; color: #475569; background: #fff; }
+.p-body { padding: 14px 16px; font-size: 13px; line-height: 1.75; color: #475569; background: #fff; }
 .p-body ol { padding-left: 20px; margin: 6px 0; }
 .p-body li { margin: 3px 0; }
 
@@ -774,7 +774,7 @@ h3 { color: #7c3aed; }
   padding: 0;
   margin: 0;
   font-size: 13px;
-  line-height: 1.8;
+  line-height: 1.75;
   color: #475569;
 }
 .trick-card li {

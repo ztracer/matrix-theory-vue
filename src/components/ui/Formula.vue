@@ -18,7 +18,6 @@ defineProps({
   padding: 16px 20px;
   background: var(--color-background);
   border: 1px solid var(--color-border);
-  border-left: 4px solid var(--color-accent);
   border-radius: 12px;
   overflow-x: auto;
 }
@@ -26,7 +25,6 @@ defineProps({
   display: inline-block;
   padding: 2px 8px;
   margin: 0 4px;
-  border-left-width: 2px;
   font-size: 15px;
 }
 .formula-content {

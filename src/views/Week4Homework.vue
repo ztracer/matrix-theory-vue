@@ -56,7 +56,7 @@ const lessonTitles = {
 }
 .homework-overview p {
   font-size: 18px;
-  font-weight: 750;
+  font-weight: 700;
   color: var(--color-foreground);
   margin: 0;
 }
@@ -69,7 +69,6 @@ const lessonTitles = {
   padding: 28px 24px 20px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,.04);
 }
 .lesson-accent {
   position: absolute;
@@ -82,7 +81,7 @@ const lessonTitles = {
 
 .lesson-title {
   font-size: 22px;
-  font-weight: 760;
+  font-weight: 700;
   color: var(--text);
   margin: 0 0 20px;
   padding-bottom: 12px;

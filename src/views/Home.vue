@@ -6,10 +6,7 @@
       <div class="container hero-content">
         <span class="hero-badge">MATRIX THEORY · INTERACTIVE LEARNING</span>
         <h1>矩阵论<br>可视化交互学习</h1>
-        <p class="hero-subtitle">
-          通过 Vue 驱动的 SVG/Canvas 动画，直观理解矩阵论的几何意义与代数本质。
-          <br>11 个核心知识点，33+ 交互动画，让抽象概念一目了然。
-        </p>
+
         <div class="hero-stats">
           <div class="stat"><div class="stat-num">{{ totalLessons }}</div><div class="stat-label">知识模块</div></div>
           <div class="stat"><div class="stat-num">{{ totalAnims }}+</div><div class="stat-label">交互动画</div></div>
@@ -544,23 +541,16 @@ const hideTip = () => { tipShow.value = false }
 }
 .hero h1 {
   font-size: clamp(48px, 8vw, 96px);
-  font-weight: 780;
+  font-weight: 700;
   line-height: .98;
   margin-bottom: 24px;
   color:var(--color-on-primary);
-  letter-spacing:-.06em;
-}
-.hero-subtitle {
-  font-size: clamp(15px, 2vw, 18px);
-  color: #cbd5e1;
-  max-width: 680px;
-  margin: 0 0 40px;
-  line-height: 1.8;
+  letter-spacing:-.03em;
 }
 .hero-stats { grid-column:2; grid-row:1 / span 4; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(248,250,252,.18); border:1px solid rgba(248,250,252,.18); }
 .stat { background:rgba(15,23,42,.92); padding:24px; min-width:132px; }
 .stat-num {
-  font-size:40px; font-weight:760; color:var(--color-on-primary); line-height:1;
+  font-size:40px; font-weight:700; color:var(--color-on-primary); line-height:1;
 }
 .stat-label { font-size:13px; color:#94a3b8; margin-top:10px; }
 .hero-btns { display:flex; gap:12px; justify-content:flex-start; flex-wrap:wrap; }
@@ -580,12 +570,12 @@ const hideTip = () => { tipShow.value = false }
 .section { padding: 88px 0; }
 .section-header { text-align:left; margin-bottom:40px; display:grid; grid-template-columns: 280px 1fr; gap:32px; align-items:start; }
 .section-tag {
-  display:inline-block; font-size:12px; font-weight:750;
+  display:inline-block; font-size:12px; font-weight:700;
   text-transform:uppercase; letter-spacing:.18em;
   color:var(--color-accent); margin-top:10px;
 }
 .section-header h2 {
-  font-size:clamp(32px,4vw,48px); font-weight:780;
+  font-size:clamp(32px,4vw,48px); font-weight:700;
   color:var(--color-foreground); margin-bottom:12px;
 }
 .section-desc { color:var(--color-muted-foreground); font-size:15px; max-width:680px; margin:0; }
@@ -594,7 +584,6 @@ const hideTip = () => { tipShow.value = false }
 .mindmap-section { background: var(--color-background); }
 .mindmap-card {
   background:var(--color-card); border-radius:16px;
-  box-shadow:0 1px 3px rgba(0,0,0,.06);
   border:1px solid var(--color-border);
   padding:24px; position:relative;
   overflow:hidden;
@@ -642,7 +631,7 @@ const hideTip = () => { tipShow.value = false }
 .kg-lanes text {
   fill:#64748b;
   font-size:13px;
-  font-weight:800;
+  font-weight:700;
   letter-spacing:.5px;
 }
 .kg-lanes line {
@@ -690,9 +679,7 @@ const hideTip = () => { tipShow.value = false }
 }
 .mm-tooltip.show { opacity:1; }
 .mm-tooltip::after {
-  content:''; position:absolute; bottom:-6px; left:50%;
-  transform:translateX(-50%); border-left:6px solid transparent;
-  border-right:6px solid transparent; border-top:6px solid var(--color-primary);
+  content:none;
 }
 .mm-legend {
   display:flex; gap:24px; justify-content:center;
@@ -715,36 +702,34 @@ const hideTip = () => { tipShow.value = false }
 }
 .week-badge {
   padding:7px 12px; border-radius:8px; color:var(--color-primary);
-  font-weight:750; font-size:12px; border:1px solid var(--color-border); background:var(--color-card);
+  font-weight:700; font-size:12px; border:1px solid var(--color-border); background:var(--color-card);
   letter-spacing:.08em;
 }
-.week-title { font-size:24px; font-weight:750; color:var(--color-foreground); }
+.week-title { font-size:24px; font-weight:700; color:var(--color-foreground); }
 .week-theme { color:var(--color-muted-foreground); font-size:14px; margin-top:4px; }
 
 /* Cards */
-.cards { display:grid; grid-template-columns:repeat(6,1fr); gap:16px; grid-auto-flow:dense; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:20px; justify-content:center; }
 .card {
-  grid-column:span 2;
   min-height:260px;
-  background:var(--color-card); border-radius:16px; padding:24px;
+  background:var(--color-card); border-radius:14px; padding:24px;
   border:1px solid var(--color-border); text-decoration:none; color:var(--color-card-foreground);
-  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease; position:relative; overflow:hidden; display:flex; flex-direction:column;
+  transition:transform .18s ease, border-color .18s ease; position:relative; overflow:hidden; display:flex; flex-direction:column;
 }
-.card:nth-child(1), .card:nth-child(6) { grid-column:span 3; }
-.card::before {
-  content:''; position:absolute; top:0; left:0; bottom:0; width:3px;
-  background:var(--color-primary);
-}
-.card:hover { transform:scale(1.01); box-shadow:0 1px 3px rgba(0,0,0,.06); border-color:#cbd5e1; text-decoration:none; }
+.card.w1 { background:#fbfcfe; }
+.card.w2 { background:#f8fafc; }
+.card.w3 { background:#f7fbff; }
+.card.w4 { background:#fafafa; }
+.card:hover { transform:scale(1.01); border-color:#cbd5e1; text-decoration:none; }
 .card-num {
   position:absolute; top:12px; right:16px;
-  font-size:48px; font-weight:760; line-height:1; opacity:.08; color:var(--color-primary);
+  font-size:48px; font-weight:700; line-height:1; opacity:.08; color:var(--color-primary);
 }
 .card-icon {
   width:44px; height:44px; border-radius:10px;
   display:flex; align-items:center; justify-content:center; font-size:20px; background:var(--color-muted); border:1px solid var(--color-border);
 }
-.card-title { font-size:20px; font-weight:750; margin:18px 0 4px; }
+.card-title { font-size:20px; font-weight:700; margin:18px 0 4px; }
 .card-en { font-size:12px; color:var(--color-muted-foreground); margin-bottom:12px; letter-spacing:.06em; text-transform:uppercase; }
 .card-desc { font-size:14px; color:var(--color-secondary); line-height:1.75; margin-bottom:16px; }
 .card-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
@@ -772,7 +757,7 @@ const hideTip = () => { tipShow.value = false }
 .path-dot {
   width:48px; height:48px; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
-  color:var(--color-primary); font-weight:750; flex-shrink:0; z-index:1;
+  color:var(--color-primary); font-weight:700; flex-shrink:0; z-index:1;
   background:var(--color-card); border:1px solid var(--color-border);
 }
 
@@ -783,7 +768,7 @@ const hideTip = () => { tipShow.value = false }
 }
 .path-content:hover { border-color:#cbd5e1; transform:translateX(4px); text-decoration:none; }
 .path-step { font-size:11px; font-weight:650; color:var(--color-muted-foreground); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
-.path-name { font-size:16px; font-weight:750; margin-bottom:4px; }
+.path-name { font-size:16px; font-weight:700; margin-bottom:4px; }
 .path-desc { font-size:13px; color:var(--color-muted-foreground); }
 
 /* Footer */
@@ -808,7 +793,6 @@ const hideTip = () => { tipShow.value = false }
   .section-header { grid-template-columns:1fr; gap:8px; }
   .week-header { grid-template-columns:1fr; gap:12px; }
   .cards { grid-template-columns:1fr; }
-  .card, .card:nth-child(1), .card:nth-child(6) { grid-column:auto; }
   .mindmap-card { padding:12px; }
 }
 </style>

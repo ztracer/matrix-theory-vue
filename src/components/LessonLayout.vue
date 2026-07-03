@@ -126,7 +126,7 @@ const nextLesson = computed(() => {
 
 .nav-brand {
   display: flex; align-items: center; gap: 8px;
-  color: var(--color-primary); text-decoration: none; font-weight: 750; font-size: 16px;
+  color: var(--color-primary); text-decoration: none; font-weight: 700; font-size: 16px;
 }
 .brand-icon { font-size: 18px; opacity: .72; }
 .nav-brand span {
@@ -149,7 +149,7 @@ const nextLesson = computed(() => {
 .header-content { max-width: 900px; margin: 0; }
 .week-badge {
   display: inline-block; padding: 7px 12px; border-radius: 8px;
-  color: var(--color-accent); font-size: 12px; font-weight: 750; margin-bottom: 18px;
+  color: var(--color-accent); font-size: 12px; font-weight: 700; margin-bottom: 18px;
   border: 1px solid var(--color-border);
   background: var(--color-background);
   letter-spacing: .08em;
@@ -158,7 +158,7 @@ const nextLesson = computed(() => {
 .lesson-header h1 {
   font-size: clamp(32px, 5vw, 48px);
   color: var(--color-foreground); margin: 0 0 12px;
-  font-weight: 780;
+  font-weight: 700;
 }
 .subtitle { color: var(--color-muted-foreground); font-size: 16px; margin: 0; max-width: 760px; }
 
@@ -177,12 +177,11 @@ const nextLesson = computed(() => {
   display: block; padding: 20px 24px;
   background: var(--color-card); border: 1px solid var(--color-border); border-radius: 12px;
   text-decoration: none; color: var(--color-foreground);
-  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  transition: transform .18s ease, border-color .18s ease;
 }
 .footer-card:hover {
   transform: translateY(-1px);
   border-color: #cbd5e1;
-  box-shadow: 0 1px 3px rgba(0,0,0,.06);
 }
 .footer-card.prev { text-align: left; }
 .footer-card.next { text-align: right; }

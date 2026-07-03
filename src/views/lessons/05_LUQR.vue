@@ -374,7 +374,7 @@
             <p>因为 <span class="formula-inline">R = HA</span>，两边左乘 <span class="formula-inline">H^{-1}</span>。镜子矩阵的逆就是它自己（<span class="formula-inline">H^{-1} = H</span>），得 <span class="formula-inline">A = HR</span>。对比标准形式 <span class="formula-inline">A = QR</span>，发现镜子 <span class="formula-inline">H</span> 本身就是 <span class="formula-inline">Q</span>：</p>
             <Formula>Q = H,\quad R = \begin{pmatrix} -3 & -2 & -4 \\ 0 & 1 & -2 \\ 0 & 0 & 4 \end{pmatrix}</Formula>
 
-            <div class="summary-box" style="margin-top: 1.2rem; padding: 1rem 1.2rem; background: #f0f9ff; border-left: 4px solid #0ea5e9; border-radius: 6px; font-size: 0.92rem;">
+            <div class="summary-box" style="margin-top: 1.2rem; padding: 1rem 1.2rem; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; font-size: 0.92rem;">
               <strong>💡 总结一句话</strong>
               <p style="margin: 0.5rem 0 0 0;">QR 分解就是把矩阵拆成"旋转/反射"和"上三角"；而 Householder 变换就是精确设计一面高维的"镜子"，让原矩阵的第一列撞在镜子上反弹回来时，恰好只有第一个数有值、其余全变成 0，从而顺理成章地切出了上三角矩阵 <span class="formula-inline">R</span>。</p>
             </div>
@@ -657,9 +657,9 @@
                 = \begin{pmatrix} 1 & 0 & 0 \\ 2 & 2 & 0 \\ 2 & 1 & 6 \end{pmatrix}
                 \end{aligned}
               </div>
-              <div class="summary-box" style="margin-top: 1.2rem; padding: 1rem 1.2rem; background: #fef9c3; border-left: 4px solid #eab308; border-radius: 6px; font-size: 0.92rem;">
+              <div class="summary-box" style="margin-top: 1.2rem; padding: 1rem 1.2rem; background: #fef9c3; border: 1px solid #fde68a; border-radius: 6px; font-size: 0.92rem;">
                 <strong>💡 考场默写口诀</strong>
-                <ol style="margin: 0.5rem 0 0 1.2rem; line-height: 1.8;">
+                <ol style="margin: 0.5rem 0 0 1.2rem; line-height: 1.75;">
                   <li>拿第一列算长度（算出是 3）。</li>
                   <li>反号做目标（变向成 −3）。</li>
                   <li>前减后算出 <span class="formula-inline">w</span>（得 4, 2, 2）。</li>
@@ -1917,7 +1917,7 @@ onUnmounted(() => {
 .qr-method-explain {
   padding: 18px 20px; border: 1px solid #e2e8f0; border-radius: 18px; background: rgba(255,255,255,0.82);
 }
-.qr-method-explain p { margin: 0 0 12px; color: #334155; line-height: 1.8; }
+.qr-method-explain p { margin: 0 0 12px; color: #334155; line-height: 1.75; }
 .qr-method-explain p:last-child { margin-bottom: 0; }
 .qr-method-note {
   display: grid; grid-template-columns: auto minmax(0,1fr); gap: 12px; align-items: start;

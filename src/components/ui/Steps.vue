@@ -28,7 +28,7 @@ defineProps({
   margin: 0 0 12px;
   color: var(--color-foreground);
   font-size: 16px;
-  font-weight: 750;
+  font-weight: 700;
 }
 .steps-list { display: flex; flex-direction: column; gap: 10px; }
 .step-item {

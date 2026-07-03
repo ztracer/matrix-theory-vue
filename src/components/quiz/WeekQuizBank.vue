@@ -38,7 +38,7 @@ defineProps({
 }
 .wq-icon { font-size: 28px; opacity: .78; }
 .week-quiz-header h3 {
-  margin: 0; font-size: 20px; color: var(--color-foreground); font-weight: 750;
+  margin: 0; font-size: 20px; color: var(--color-foreground); font-weight: 700;
 }
 .wq-desc { margin: 4px 0 0; font-size: 13px; color: var(--color-muted-foreground); }
 .quiz-list { display: flex; flex-direction: column; gap: 12px; }

@@ -173,7 +173,7 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 }
 .nav-brand {
   display: flex; align-items: center; gap: 8px;
-  color: var(--color-primary); text-decoration: none; font-weight: 750; font-size: 16px;
+  color: var(--color-primary); text-decoration: none; font-weight: 700; font-size: 16px;
 }
 .brand-icon { font-size: 20px; }
 .nav-links { display: flex; gap: 12px; margin-left: auto; }
@@ -195,15 +195,15 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 .exam-badge {
   display: inline-block; padding: 7px 12px; border-radius: 8px;
   background: var(--color-background);
-  color: var(--color-accent); font-size: 12px; font-weight: 750; margin-bottom: 20px;
+  color: var(--color-accent); font-size: 12px; font-weight: 700; margin-bottom: 20px;
   letter-spacing: .08em; border: 1px solid var(--color-border);
 }
 .exam-header h1 {
   font-size: clamp(30px, 5vw, 44px);
-  color: var(--color-foreground); margin: 0 0 12px; font-weight: 780;
+  color: var(--color-foreground); margin: 0 0 12px; font-weight: 700;
 }
 .subtitle { color: var(--color-muted-foreground); font-size: 16px; margin: 0 0 12px; }
-.header-desc { color: var(--color-muted-foreground); font-size: 14px; line-height: 1.8; max-width: 680px; margin: 0; }
+.header-desc { color: var(--color-muted-foreground); font-size: 14px; line-height: 1.75; max-width: 680px; margin: 0; }
 
 /* ===== Stats bar ===== */
 .stats-bar {
@@ -222,7 +222,7 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
   border: 1px solid var(--color-border);
 }
 .stat-num {
-  font-size: 36px; font-weight: 800; line-height: 1;
+  font-size: 36px; font-weight: 700; line-height: 1;
 }
 .stat-item.w1 .stat-num, .stat-item.w2 .stat-num, .stat-item.w3 .stat-num { color: var(--color-primary); }
 .stat-label { font-size: 13px; color: var(--color-muted-foreground); margin-top: 6px; }
@@ -240,7 +240,7 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 }
 .week-icon { font-size: 24px; opacity: .85; }
 .week-title-bar h2 {
-  margin: 0; font-size: 22px; color: var(--color-on-primary); font-weight: 750;
+  margin: 0; font-size: 22px; color: var(--color-on-primary); font-weight: 700;
 }
 .week-count { margin: 4px 0 0; font-size: 13px; color: #cbd5e1; }
 

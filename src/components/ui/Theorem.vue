@@ -24,21 +24,24 @@ defineProps({
   padding: 18px 20px;
   border-radius: 12px;
   border: 1px solid var(--color-border);
-  border-left: 4px solid var(--color-accent);
   background: var(--color-card);
 }
-.theorem-box.theorem { border-left-color: var(--color-primary); }
-.theorem-box.definition { border-left-color: var(--color-accent); }
-.theorem-box.note { border-left-color: var(--color-secondary); }
-.theorem-box.tip { border-left-color: #0284c7; }
+.theorem-box.theorem { background: #FAFAFA; }
+.theorem-box.definition { background: #F8FAFC; }
+.theorem-box.note { background: #FFFBF5; }
+.theorem-box.tip { background: #F5FAFF; }
 .theorem-header {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 10px;
-  font-weight: 750;
+  font-weight: 700;
   color: var(--color-foreground);
 }
+.theorem-box.theorem .theorem-header { color: var(--color-primary); }
+.theorem-box.definition .theorem-header { color: var(--color-accent); }
+.theorem-box.note .theorem-header { color: #92400e; }
+.theorem-box.tip .theorem-header { color: #075985; }
 .theorem-icon { opacity: .72; }
 .theorem-body { font-size: 14px; line-height: 1.75; color: var(--color-secondary); }
 </style>

@@ -42,7 +42,7 @@ defineProps({
 }
 .example-badge {
   color: var(--color-on-primary);
-  font-weight: 750;
+  font-weight: 700;
   font-size: 14px;
   padding: 4px 0;
 }
@@ -50,7 +50,7 @@ defineProps({
 .example-problem {
   padding: 16px 20px;
   font-size: 15px;
-  line-height: 1.8;
+  line-height: 1.75;
   color: var(--color-secondary);
 }
 .example-problem strong { color: var(--color-foreground); }
@@ -72,7 +72,7 @@ details[open] .solution-toggle::before { content: '▼ '; }
 .solution-content {
   padding: 0 20px 20px;
   font-size: 14px;
-  line-height: 1.9;
+  line-height: 1.75;
   color: var(--color-secondary);
 }
 .solution-content :deep(.step) {
@@ -82,7 +82,7 @@ details[open] .solution-toggle::before { content: '▼ '; }
   padding: 10px 14px;
   background: var(--color-background);
   border-radius: 8px;
-  border-left: 3px solid var(--color-accent);
+  border: 1px solid var(--color-border);
 }
 .solution-content :deep(.step-num) {
   min-width: 28px; height: 28px;

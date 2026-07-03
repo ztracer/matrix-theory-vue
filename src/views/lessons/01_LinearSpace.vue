@@ -378,7 +378,7 @@
 
       <p style="margin-top:16px;"><strong>证明 N(A) 是 Rⁿ 的子空间：</strong>只需验证加法和数乘的封闭性。</p>
 
-      <div style="background:#f0f9ff; border:1px solid #bae6fd; border-left:4px solid #0284c7; border-radius:6px; padding:14px 16px; margin:10px 0;">
+      <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:6px; padding:14px 16px; margin:10px 0;">
         <p style="margin:4px 0;"><strong>加法封闭：</strong>若 <span class="formula-inline">x_1,x_2\in N(A)</span>，则 <span class="formula-inline">Ax_1=0,\ Ax_2=0</span>。</p>
         <p style="margin:4px 0 4px 16px; color:#475569;">
           <span class="formula-inline">A(x_1+x_2)=Ax_1+Ax_2=0+0=0</span> → 所以 <span class="formula-inline">x_1+x_2\in N(A)</span> ✓
@@ -396,7 +396,7 @@
       <p>一个 <span class="formula-inline">m\times n</span> 的矩阵代表 <span class="formula-inline">n</span> 个未知数的方程组。矩阵的秩 <span class="formula-inline">\operatorname{rank}(A)</span> 是<strong>"真正起作用的独立约束方程个数"</strong>——这些约束把 <span class="formula-inline">\operatorname{rank}(A)</span> 个未知数"死死绑架"了（变成了主元变量）。剩下的 <span class="formula-inline">n-\operatorname{rank}(A)</span> 个未知数就是可以自由取值的<strong>自由变量</strong>。</p>
       <p>而零空间的维数 <span class="formula-inline">\dim N(A)</span> = 自由变量的个数 = 基础解系中向量的个数。</p>
 
-      <div style="background:#fefce8; border:1px solid #fde68a; border-left:4px solid #ca8a04; border-radius:6px; padding:12px 16px; margin:12px 0;">
+      <div style="background:#fefce8; border:1px solid #fde68a; border-radius:6px; padding:12px 16px; margin:12px 0;">
         <p style="margin:0;"><strong>💡 一句话记牢：</strong>秩 = "被管死的维度"，零度 = "自由好动的维度"，两者加起来刚好等于总维度 <span class="formula-inline">n</span>。</p>
       </div>
 

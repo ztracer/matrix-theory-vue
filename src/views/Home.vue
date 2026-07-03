@@ -30,7 +30,7 @@
     <!-- Mind Map -->
     <section class="section mindmap-section" id="mindmap">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
           <div class="section-tag">Knowledge Architecture</div>
           <h2>📊 矩阵论知识图谱</h2>
           <p class="section-desc">按小知识点展示前置依赖、推导路径和考试关联；点击节点进入对应课程。</p>
@@ -110,14 +110,14 @@
     <!-- Lessons -->
     <section class="section lessons-section" id="lessons">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
           <div class="section-tag">Interactive Lessons</div>
           <h2>📚 课程内容</h2>
           <p class="section-desc">每个知识点包含概念讲解、交互动画、定理公式和真题详解</p>
         </div>
 
         <!-- Week 1 -->
-        <div class="week-block">
+        <div class="week-block reveal" :style="{ '--i': 0 }">
           <div class="week-header">
             <span class="week-badge w1">WEEK 1</span>
             <div>
@@ -126,7 +126,7 @@
             </div>
           </div>
           <div class="cards">
-            <router-link v-for="l in week1" :key="l.id" :to="l.path" class="card w1">
+            <router-link v-for="(l, i) in week1" :key="l.id" :to="l.path" class="card w1 reveal" :style="{ '--i': i }">
               <div class="card-num">{{ l.num }}</div>
               <div class="card-top">
                 <div class="card-icon">{{ l.icon }}</div>
@@ -146,7 +146,7 @@
         </div>
 
         <!-- Week 2 -->
-        <div class="week-block">
+        <div class="week-block reveal" :style="{ '--i': 1 }">
           <div class="week-header">
             <span class="week-badge w2">WEEK 2</span>
             <div>
@@ -155,7 +155,7 @@
             </div>
           </div>
           <div class="cards">
-            <router-link v-for="l in week2" :key="l.id" :to="l.path" class="card w2">
+            <router-link v-for="(l, i) in week2" :key="l.id" :to="l.path" class="card w2 reveal" :style="{ '--i': i }">
               <div class="card-num">{{ l.num }}</div>
               <div class="card-top">
                 <div class="card-icon">{{ l.icon }}</div>
@@ -175,7 +175,7 @@
         </div>
 
         <!-- Week 3 -->
-        <div class="week-block">
+        <div class="week-block reveal" :style="{ '--i': 2 }">
           <div class="week-header">
             <span class="week-badge w3">WEEK 3</span>
             <div>
@@ -184,7 +184,7 @@
             </div>
           </div>
           <div class="cards">
-            <router-link v-for="l in week3" :key="l.id" :to="l.path" class="card w3">
+            <router-link v-for="(l, i) in week3" :key="l.id" :to="l.path" class="card w3 reveal" :style="{ '--i': i }">
               <div class="card-num">{{ l.num }}</div>
               <div class="card-top">
                 <div class="card-icon">{{ l.icon }}</div>
@@ -204,7 +204,7 @@
         </div>
 
         <!-- Week 4 -->
-        <div class="week-block">
+        <div class="week-block reveal" :style="{ '--i': 3 }">
           <div class="week-header">
             <span class="week-badge w4">WEEK 4</span>
             <div>
@@ -213,7 +213,7 @@
             </div>
           </div>
           <div class="cards">
-            <router-link to="/homework" class="card w4">
+            <router-link to="/homework" class="card w4 reveal" :style="{ '--i': 0 }">
               <div class="card-num">📝</div>
               <div class="card-top">
                 <div class="card-icon">📝</div>
@@ -230,7 +230,7 @@
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
-            <router-link to="/exam" class="card w4">
+            <router-link to="/exam" class="card w4 reveal" :style="{ '--i': 1 }">
               <div class="card-num">📋</div>
               <div class="card-top">
                 <div class="card-icon">📋</div>
@@ -255,14 +255,14 @@
     <!-- Learning Path -->
     <section class="section path-section">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
           <div class="section-tag">Learning Path</div>
           <h2>🗺️ 推荐学习路径</h2>
           <p class="section-desc">从基础到应用，循序渐进掌握矩阵论</p>
         </div>
         <div class="path-timeline">
           <div class="path-line"></div>
-          <div v-for="(s, i) in path" :key="i" class="path-item">
+          <div v-for="(s, i) in path" :key="i" class="path-item reveal" :style="{ '--i': i }">
             <div class="path-dot" :class="'w' + Math.ceil((i+1)/4) === 'w1' ? 'w1' : Math.ceil((i+1)/4) === 2 ? 'w2' : 'w3'">{{ i+1 }}</div>
             <router-link :to="s.path" class="path-content">
               <div class="path-step">{{ s.step }}</div>
@@ -295,8 +295,10 @@ import { quizBank, lessonMeta } from '@/data/quizBank'
 import { homeworkBank } from '../data/homeworkBank'
 import { knowledgeEdges, knowledgeGroups, knowledgeNodes, edgeTypes } from '../data/knowledgeGraph'
 import { useKatex } from '../composables/useKatex'
+import { useScrollReveal } from '../composables/useScrollReveal'
 
 useKatex()
+useScrollReveal('.home-page .reveal')
 
 const router = useRouter()
 const tip = ref(null)
@@ -499,6 +501,51 @@ const hideTip = () => { tipShow.value = false }
 
 <style scoped>
 .home-page { overflow-x: hidden; background: var(--color-background); color: var(--color-foreground); }
+
+.home-page {
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Scroll reveal */
+:global(.scroll-reveal-enabled) .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 350ms var(--ease-out-strong), transform 350ms var(--ease-out-strong);
+}
+:global(.scroll-reveal-enabled) .reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+:global(.scroll-reveal-enabled) .card.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+:global(.scroll-reveal-enabled) .card.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+:global(.scroll-reveal-enabled) .path-item.reveal {
+  opacity: 0;
+  transform: translateX(-12px);
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+:global(.scroll-reveal-enabled) .path-item.reveal.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+:global(.scroll-reveal-enabled) .section-header.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+}
+:global(.scroll-reveal-enabled) .section-header.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+:global(.scroll-reveal-enabled) .week-block.reveal {
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
 
 /* Hero */
 .hero {

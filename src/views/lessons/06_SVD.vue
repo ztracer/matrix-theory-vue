@@ -71,12 +71,12 @@
           <div class="svd-sliders">
             <label class="svd-slider-label svd-slider-major">
               <span class="svd-slider-name">长轴 σ₁</span>
-              <input type="range" v-model.number="sigma1" min="0.3" max="2.5" step="0.1">
+              <input v-model.number="sigma1" type="range" min="0.3" max="2.5" step="0.1">
               <span class="svd-sigma-val">{{ sigma1.toFixed(1) }}</span>
             </label>
             <label class="svd-slider-label svd-slider-minor">
               <span class="svd-slider-name">短轴 σ₂</span>
-              <input type="range" v-model.number="sigma2" min="0.3" max="2.5" step="0.1">
+              <input v-model.number="sigma2" type="range" min="0.3" max="2.5" step="0.1">
               <span class="svd-sigma-val">{{ sigma2.toFixed(1) }}</span>
             </label>
             <div class="svd-ratio-pill">
@@ -279,7 +279,8 @@
 
             <!-- 误差条 (误差 = 剩余奇异值平方和 / 总平方和) -->
             <template v-for="(bar, i) in errBars" :key="'bar'+i">
-              <rect :x="55 + i*55" :y="240 - bar.height*svdErrT" :width="35" :height="bar.height*svdErrT"
+              <rect
+:x="55 + i*55" :y="240 - bar.height*svdErrT" :width="35" :height="bar.height*svdErrT"
                 :fill="bar.color" rx="4" opacity="0.85"/>
               <text :x="72 + i*55" y="258" text-anchor="middle" font-size="12" fill="#475569">k={{ i }}</text>
               <text :x="72 + i*55" :y="235 - bar.height*svdErrT" text-anchor="middle" font-size="10" fill="#475569">
@@ -289,7 +290,7 @@
             <text x="170" y="280" text-anchor="middle" font-size="12" fill="#64748b">保留k个奇异值的误差</text>
 
             <!-- 累计能量线 -->
-            <polyline :points="cumLine" fill="none" stroke="#0d9488" stroke-width="2" stroke-dasharray="4,3" v-if="svdErrT > 0.5"/>
+            <polyline v-if="svdErrT > 0.5" :points="cumLine" fill="none" stroke="#0d9488" stroke-width="2" stroke-dasharray="4,3"/>
             <text x="270" y="80" font-size="11" fill="#0d9488">累计能量</text>
           </g>
 
@@ -436,7 +437,8 @@
 
     <!-- 9. 小结 -->
     <Section title="知识点小结" :num="10">
-      <Steps :steps="[
+      <Steps
+:steps="[
         '奇异值 σᵢ=√λᵢ(AᵀA)，是非负实数，衡量矩阵在各正交方向上的“拉伸强度”。',
         'SVD分解 A=UΣVᵀ：U、V为正交矩阵，Σ为对角元为奇异值的广义对角矩阵，任何矩阵都存在SVD。',
         'SVD几何意义：Vᵀ旋转→Σ沿轴拉伸→U旋转，将单位球映射为椭球，半轴长=奇异值。',
@@ -447,7 +449,7 @@
 
     <!-- 10. 真题与习题汇总 -->
     <Section title="🗂️ 真题与习题汇总" :num="11">
-      <WeekQuizBank :quizzes="quizzes" weekLabel="第2周" />
+      <WeekQuizBank :quizzes="quizzes" week-label="第2周" />
     </Section>
 
     <Section title="📝 课后作业" :num="12">
@@ -698,8 +700,8 @@ onUnmounted(() => {
   flex-wrap: wrap;
   padding: 8px 12px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #f8fafc, #ecfeff);
-  border: 1px solid #dbeafe;
+  background: var(--color-muted);
+  border: 1px solid var(--color-border);
   font-size: 13px;
 }
 .svd-slider-label {
@@ -718,10 +720,10 @@ onUnmounted(() => {
   color: #fff; font-weight: 800; font-size: 0.86em;
 }
 .svd-slider-major .svd-sigma-val {
-  background: linear-gradient(135deg, #d97706, #f59e0b);
+  background: var(--color-secondary);
 }
 .svd-slider-minor .svd-sigma-val {
-  background: linear-gradient(135deg, #0d9488, #14b8a6);
+  background: var(--color-accent);
 }
 .svd-sliders input[type="range"] {
   width: 160px; cursor: pointer;
@@ -754,15 +756,15 @@ onUnmounted(() => {
   gap: 10px;
   padding: 12px 16px;
   border-radius: 12px;
-  background: #fff;
-  border: 2px solid #6366f1;
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
   opacity: 1;
 }
 .sf-num {
   width: 28px; height: 28px;
   border-radius: 50%;
-  background: linear-gradient(135deg,#4f46e5,#7c3aed);
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -770,6 +772,6 @@ onUnmounted(() => {
   font-size: 14px;
   flex-shrink: 0;
 }
-.sf-text { font-size: 13px; color: #334155; line-height: 1.4; }
-.sf-arrow { font-size: 20px; color: #94a3b8; opacity: 1; }
+.sf-text { font-size: 13px; color: var(--color-secondary); line-height: 1.4; }
+.sf-arrow { font-size: 20px; color: var(--color-muted-foreground); opacity: 1; }
 </style>

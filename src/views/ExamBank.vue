@@ -301,7 +301,7 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 
 @media (max-width: 768px) {
   .nav-inner { padding: 10px 16px; }
-  .nav-link { font-size: 12px; padding: 4px 10px; }
+  .nav-link { font-size: 12px; min-height: 44px; padding: 10px 16px; }
   .stats-inner { flex-direction: column; gap: 10px; }
   .stat-item { flex-direction: row; gap: 12px; justify-content: center; }
   .topic-header { flex-direction: column; gap: 8px; align-items: flex-start; }

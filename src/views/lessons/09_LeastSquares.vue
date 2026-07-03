@@ -67,23 +67,27 @@
           <text x="42" y="365" font-size="11" fill="#334155">O</text>
 
           <!-- Vector b (blue, animated) -->
-          <line x1="60" y1="350" :x2="60 + bx" :y2="350 - by"
+          <line
+x1="60" y1="350" :x2="60 + bx" :y2="350 - by"
                 stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-b)"/>
           <text :x="60 + bx + 5" :y="350 - by - 5" fill="#2563eb" font-size="13" font-weight="700">b</text>
 
           <!-- Projection Pb (orange) -->
-          <line v-if="lsProg > 0.1" x1="60" y1="350" :x2="60 + pbx" :y2="350 - pby"
+          <line
+v-if="lsProg > 0.1" x1="60" y1="350" :x2="60 + pbx" :y2="350 - pby"
                 stroke="#ea580c" stroke-width="3" :opacity="lsProg" marker-end="url(#arr-p)"/>
           <text v-if="lsProg > 0.5" :x="60 + pbx + 5" :y="350 - pby - 5" fill="#ea580c" font-size="12" font-weight="600">Pb=Ax*</text>
 
           <!-- Residual r = b - Pb (red, perpendicular) -->
-          <line v-if="lsProg > 0.5" :x1="60 + pbx" :y1="350 - pby" :x2="60 + bx" :y2="350 - by"
+          <line
+v-if="lsProg > 0.5" :x1="60 + pbx" :y1="350 - pby" :x2="60 + bx" :y2="350 - by"
                 stroke="#dc2626" stroke-width="2" :opacity="(lsProg-0.5)*2" stroke-dasharray="5,3" marker-end="url(#arr-r)"/>
           <text v-if="lsProg > 0.8" :x="60 + (bx+pbx)/2 + 8" :y="350 - (by+pby)/2" fill="#dc2626" font-size="12" font-weight="600">r=b-Pb</text>
 
           <!-- Right angle mark -->
           <g v-if="lsProg > 0.9">
-            <rect :x="60+pbx-5" :y="350-pby-5" width="8" height="8" fill="none" stroke="#dc2626" stroke-width="1"
+            <rect
+:x="60+pbx-5" :y="350-pby-5" width="8" height="8" fill="none" stroke="#dc2626" stroke-width="1"
                   transform="rotate(0)"/>
           </g>
 
@@ -160,14 +164,16 @@
           <text :x="150 + b2x + 5" :y="250 - b2y" fill="#2563eb" font-size="13" font-weight="700">b</text>
 
           <!-- Residual r (perpendicular to plane) -->
-          <line v-if="orthoProg > 0.5" :x1="150 + p2x" :y1="250 - p2y" :x2="150 + b2x" :y2="250 - b2y"
+          <line
+v-if="orthoProg > 0.5" :x1="150 + p2x" :y1="250 - p2y" :x2="150 + b2x" :y2="250 - b2y"
                 stroke="#dc2626" stroke-width="2.5" stroke-dasharray="5,3"/>
           <polygon v-if="orthoProg > 0.7" :points="ah(150+b2x, 250-b2y, Math.atan2(-(b2y-p2y), b2x-p2x), '#dc2626')" fill="#dc2626"/>
           <text v-if="orthoProg > 0.7" :x="150 + (b2x+p2x)/2 + 10" :y="250 - (b2y+p2y)/2" fill="#dc2626" font-size="12" font-weight="600">r</text>
 
           <!-- Right angle with a1 -->
           <g v-if="orthoProg > 0.9">
-            <rect x="150" :y="250 - 12" width="12" height="12" fill="none" stroke="#dc2626" stroke-width="1" opacity="0.7"
+            <rect
+x="150" :y="250 - 12" width="12" height="12" fill="none" stroke="#dc2626" stroke-width="1" opacity="0.7"
                   transform="skewX(-15)"/>
             <text x="100" y="100" font-size="12" fill="#dc2626" font-weight="600">a₁ᵀr = 0 ✓</text>
             <text x="100" y="120" font-size="12" fill="#dc2626" font-weight="600">a₂ᵀr = 0 ✓</text>
@@ -240,23 +246,27 @@
           <text x="258" y="305" font-size="10" fill="#94a3b8">-1</text>
 
           <!-- Unit ball L1 (diamond) -->
-          <polygon v-if="showL1" points="350,200 250,100 150,200 250,300"
+          <polygon
+v-if="showL1" points="350,200 250,100 150,200 250,300"
                    fill="#ec4899" :opacity="ballProg*0.2" stroke="#ec4899" stroke-width="2"/>
           <text v-if="showL1 && ballProg>0.5" x="60" y="120" fill="#ec4899" font-size="13" font-weight="700">‖x‖₁=1</text>
 
           <!-- Unit ball L2 (circle) -->
-          <circle v-if="showL2" cx="250" cy="200" :r="100*ballProg"
+          <circle
+v-if="showL2" cx="250" cy="200" :r="100*ballProg"
                   fill="#7c3aed" :opacity="ballProg*0.15" stroke="#7c3aed" stroke-width="2"/>
           <text v-if="showL2 && ballProg>0.5" x="400" y="140" fill="#7c3aed" font-size="13" font-weight="700">‖x‖₂=1</text>
 
           <!-- Unit ball Linf (square) -->
-          <rect v-if="showLinf" :x="250-100*ballProg" :y="200-100*ballProg" :width="200*ballProg" :height="200*ballProg"
+          <rect
+v-if="showLinf" :x="250-100*ballProg" :y="200-100*ballProg" :width="200*ballProg" :height="200*ballProg"
                 fill="#ea580c" :opacity="ballProg*0.12" stroke="#ea580c" stroke-width="2"/>
           <text v-if="showLinf && ballProg>0.5" x="360" y="95" fill="#ea580c" font-size="13" font-weight="700">‖x‖∞=1</text>
 
           <!-- Rotating vector on unit ball -->
           <g v-if="ballProg >= 1">
-            <line x1="250" y1="200" :x2="250 + rvx" :y2="200 - rvy"
+            <line
+x1="250" y1="200" :x2="250 + rvx" :y2="200 - rvy"
                   stroke="#dc2626" stroke-width="2"/>
             <circle :cx="250 + rvx" :cy="200 - rvy" r="5" fill="#dc2626"/>
             <text :x="250 + rvx + 8" :y="200 - rvy" fill="#dc2626" font-size="12" font-weight="600">x(θ)</text>
@@ -399,7 +409,8 @@
         </template>
       </ExampleBox>
 
-      <Steps :steps="[
+      <Steps
+:steps="[
         '最小二乘问题：判断<span class=&quot;formula-inline&quot;>Ax=b</span>是否无解（<span class=&quot;formula-inline&quot;>r(A)\\neq r(A|b)</span>），写出<span class=&quot;formula-inline&quot;>\\min\\|Ax-b\\|^2</span>',
         '正规方程：计算<span class=&quot;formula-inline&quot;>A^{\\mathsf{T}}A</span>和<span class=&quot;formula-inline&quot;>A^{\\mathsf{T}}b</span>，解<span class=&quot;formula-inline&quot;>A^{\\mathsf{T}}Ax=A^{\\mathsf{T}}b</span>；列满秩时<span class=&quot;formula-inline&quot;>x=(A^{\\mathsf{T}}A)^{-1}A^{\\mathsf{T}}b=A^+b</span>',
         '几何验证：残差<span class=&quot;formula-inline&quot;>r=b-Ax^*</span>应满足<span class=&quot;formula-inline&quot;>A^{\\mathsf{T}}r=0</span>（<span class=&quot;formula-inline&quot;>r\\perp R(A)</span>），可用此检查计算',
@@ -411,7 +422,7 @@
 
     <!-- WeekQuizBank -->
     <Section title="🗂️ 真题与习题汇总">
-      <WeekQuizBank :quizzes="quizzes" weekLabel="第3周" />
+      <WeekQuizBank :quizzes="quizzes" week-label="第3周" />
     </Section>
 
     <Section title="📝 课后作业" :num="9">

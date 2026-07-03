@@ -1,26 +1,26 @@
 <template>
-  <div class="quiz-card" ref="rootEl">
+  <div ref="rootEl" class="quiz-card">
     <div class="quiz-header">
       <span class="quiz-badge">{{ badge || '📝 题目' }}</span>
-      <span class="quiz-source" v-if="quiz.source">{{ quiz.source }}</span>
-      <span class="quiz-id" v-if="quiz.id">#{{ quiz.id }}</span>
+      <span v-if="quiz.source" class="quiz-source">{{ quiz.source }}</span>
+      <span v-if="quiz.id" class="quiz-id">#{{ quiz.id }}</span>
     </div>
     <div class="quiz-problem">
       <strong>【题目】</strong>
       <span class="formula-inline">{{ quiz.problem || quiz.question }}</span>
-      <div class="quiz-options" v-if="quiz.options">
-        <div class="quiz-option" v-for="(opt, idx) in quiz.options" :key="idx" :class="{ correct: show && idx === quiz.answer }">
+      <div v-if="quiz.options" class="quiz-options">
+        <div v-for="(opt, idx) in quiz.options" :key="idx" class="quiz-option" :class="{ correct: show && idx === quiz.answer }">
           <span class="option-label">{{ String.fromCharCode(65 + idx) }}.</span>
           <span class="formula-inline">{{ opt }}</span>
         </div>
       </div>
     </div>
-    <button class="quiz-toggle" @click="show=!show" v-if="quiz.steps || quiz.explanation">
+    <button v-if="quiz.steps || quiz.explanation" class="quiz-toggle" @click="show=!show">
       <span class="toggle-icon">{{ show ? '▼' : '▶' }}</span>
       {{ show ? '收起解答' : '点击查看详细解答' }}
     </button>
     <transition name="slide">
-      <div class="quiz-solution" v-if="show">
+      <div v-if="show" class="quiz-solution">
         <div v-for="(step, i) in quiz.steps" :key="i" class="solution-step">
           <div class="step-num-circle">{{ i + 1 }}</div>
           <div class="step-body">
@@ -45,8 +45,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, nextTick } from 'vue'
-import katex from 'katex'
+import { ref, onMounted, watch } from 'vue'
+import { renderMathInElement } from '@/composables/useKatex.js'
 
 const props = defineProps({
   quiz: { type: Object, required: true },
@@ -57,44 +57,12 @@ const props = defineProps({
 const show = ref(props.defaultOpen)
 const rootEl = ref(null)
 
-function renderMathIn(el) {
-  if (!el) return
-  nextTick(() => {
-    el.querySelectorAll('.formula-block, .formula-inline, [data-katex]').forEach(node => {
-      if (node.dataset.katexRendered) return
-      const isBlock = node.classList.contains('formula-block') || node.dataset.katex === 'block'
-      try {
-        katex.render(node.textContent.trim(), node, {
-          throwOnError: false,
-          displayMode: isBlock,
-          macros: {
-            "\\R": "\\mathbb{R}",
-            "\\C": "\\mathbb{C}",
-            "\\diag": "\\operatorname{diag}",
-            "\\rank": "\\operatorname{rank}",
-            "\\Ker": "\\operatorname{Ker}",
-            "\\Im": "\\operatorname{Im}",
-            "\\tr": "\\operatorname{tr}",
-            "\\det": "\\operatorname{det}",
-            "\\sign": "\\operatorname{sign}",
-            "\\T": "^\\mathsf{T}",
-            "\\H": "^\\mathsf{H}"
-          }
-        })
-        node.dataset.katexRendered = 'true'
-      } catch (e) {
-        console.warn('KaTeX render error:', e.message)
-      }
-    })
-  })
-}
-
 onMounted(() => {
-  setTimeout(() => renderMathIn(rootEl.value), 50)
+  renderMathInElement(rootEl.value)
 })
 
 watch(show, () => {
-  setTimeout(() => renderMathIn(rootEl.value), 50)
+  renderMathInElement(rootEl.value)
 })
 </script>
 

@@ -42,9 +42,10 @@
         是 <span class="formula-inline">V</span> 的子空间，称为由 <span class="formula-inline">\alpha_1,\dots,\alpha_s</span> 生成（张成）的子空间。
       </Theorem>
 
-      <AnimationBox title="R³ 中过原点的平面/直线是子空间" mode="auto"
+      <AnimationBox
+title="R³ 中过原点的平面/直线是子空间" mode="auto"
         description="用真实3D投影观察：平面过原点，α、β 以及 α+β 始终落在同一个二维子空间内。">
-        <svg viewBox="0 0 600 400" ref="svg1Ref" style="width:100%;max-width:600px;">
+        <svg ref="svg1Ref" viewBox="0 0 600 400" style="width:100%;max-width:600px;">
           <defs>
             <linearGradient id="planeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#6366f1" stop-opacity="0.25"/>
@@ -123,9 +124,10 @@
         <li>替换定理（Steinitz）：设 <span class="formula-inline">\alpha_1,\dots,\alpha_r</span> 线性无关，则可从一组基中选出 <span class="formula-inline">n-r</span> 个向量与之合并，仍是基。</li>
       </ul>
 
-      <AnimationBox title="基扩定理：从子空间基扩充到全空间" mode="interactive" :playing="playingBasisExt" @play="playBasisExt" @pause="pauseBasisExt" @reset="resetBasisExt"
-        description="从 W 的基出发，逐个测试 V 中的新方向；只有保持线性无关的向量会进入最终基。">
-        <svg viewBox="0 0 720 360" ref="svgBasisExtRef" class="lesson1-board">
+      <AnimationBox
+title="基扩定理：从子空间基扩充到全空间" mode="interactive" :playing="playingBasisExt" description="从 W 的基出发，逐个测试 V 中的新方向；只有保持线性无关的向量会进入最终基。" @play="playBasisExt" @pause="pauseBasisExt"
+        @reset="resetBasisExt">
+        <svg ref="svgBasisExtRef" viewBox="0 0 720 360" class="lesson1-board">
           <defs>
             <marker id="arrowBasisLine" markerWidth="5" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0,5 2,0 4" fill="#475569"/></marker>
           </defs>
@@ -226,9 +228,10 @@
         算维数（空间的"大小"）也是同样的道理：直接相加时，交空间 <span class="formula-inline">W_1\cap W_2</span> 被重复计算了两次，所以必须减去一次。这就是大自然里重叠部分永远要被扣除的数学本质。
       </Theorem>
 
-      <AnimationBox title="子空间的和与交（平面 + 平面）" mode="auto"
+      <AnimationBox
+title="子空间的和与交（平面 + 平面）" mode="auto"
         description="用真实3D投影观察两个过原点平面：它们都包含同一条橙色交线，两个平面的和张成整个 R³。">
-        <svg viewBox="0 0 600 400" ref="svg2Ref" style="width:100%;max-width:600px;">
+        <svg ref="svg2Ref" viewBox="0 0 600 400" style="width:100%;max-width:600px;">
           <defs>
             <linearGradient id="planeW1" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
@@ -265,9 +268,10 @@
         </svg>
       </AnimationBox>
 
-      <AnimationBox title="维数公式证明动画：基扩定理在行动" mode="interactive" :playing="playingDimProof" @play="playDimProof" @pause="pauseDimProof" @reset="resetDimProof"
-        description="先数 W₁，再数 W₂；交空间 γ 被数了两次，合并时只保留一次。">
-        <svg viewBox="0 0 720 420" ref="svgDimProofRef" class="lesson1-board">
+      <AnimationBox
+title="维数公式证明动画：基扩定理在行动" mode="interactive" :playing="playingDimProof" description="先数 W₁，再数 W₂；交空间 γ 被数了两次，合并时只保留一次。" @play="playDimProof" @pause="pauseDimProof"
+        @reset="resetDimProof">
+        <svg ref="svgDimProofRef" viewBox="0 0 720 420" class="lesson1-board">
           <defs>
             <marker id="arrowDimFlow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#64748b"/></marker>
           </defs>
@@ -326,9 +330,10 @@
         </ol>
       </Theorem>
 
-      <AnimationBox title="直和中的唯一分解" :playing="playing3" @play="play3" @pause="pause3" @reset="reset3"
-        description="点击播放：向量 v 在直和 W₁⊕W₂ 中唯一分解为 v = v₁ + v₂，其中 v₁∈W₁（x轴），v₂∈W₂（y轴），虚线为投影辅助线。">
-        <svg viewBox="0 0 600 400" ref="svg3Ref" style="width:100%;max-width:600px;">
+      <AnimationBox
+title="直和中的唯一分解" :playing="playing3" description="点击播放：向量 v 在直和 W₁⊕W₂ 中唯一分解为 v = v₁ + v₂，其中 v₁∈W₁（x轴），v₂∈W₂（y轴），虚线为投影辅助线。" @play="play3" @pause="pause3"
+        @reset="reset3">
+        <svg ref="svg3Ref" viewBox="0 0 600 400" style="width:100%;max-width:600px;">
           <line x1="60" y1="340" x2="560" y2="340" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowB3)"/>
           <line x1="80" y1="380" x2="80" y2="40" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowP3)"/>
           <text x="565" y="345" fill="#4338ca" font-size="14" font-weight="bold">W₁ (x轴)</text>
@@ -351,7 +356,8 @@
           <line :x1="80+vx3" y1="340" :x2="80+vx3" :y2="340-vy3" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5,3" :opacity="projAlpha"/>
           <line x1="80" :y1="340-vy3" :x2="80+vx3" :y2="340-vy3" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5,3" :opacity="projAlpha"/>
 
-          <path :opacity="projAlpha" d="M 220 340 L 220 290 L 270 290" fill="none" stroke="#10b981" stroke-width="1.5"
+          <path
+:opacity="projAlpha" d="M 220 340 L 220 290 L 270 290" fill="none" stroke="#10b981" stroke-width="1.5"
                 :transform="`translate(${vx3-140}, ${-vy3+50})`"/>
 
           <circle cx="80" cy="340" r="4" fill="#1e293b"/>
@@ -400,9 +406,10 @@
         <p style="margin:0;"><strong>💡 一句话记牢：</strong>秩 = "被管死的维度"，零度 = "自由好动的维度"，两者加起来刚好等于总维度 <span class="formula-inline">n</span>。</p>
       </div>
 
-      <AnimationBox title="秩-零度定理：空间被压扁，零空间接住消失的维度" mode="interactive" :playing="playingNullspace" @play="playNullspace" @pause="pauseNullspace" @reset="resetNullspace"
-        description="点击播放：矩阵 A 逐步杀掉一个方向；被送到 0 的方向进入 N(A)，存活维度与消失维度相加始终等于 3。">
-        <svg viewBox="0 0 720 420" ref="svgNullspaceRef" class="lesson1-board">
+      <AnimationBox
+title="秩-零度定理：空间被压扁，零空间接住消失的维度" mode="interactive" :playing="playingNullspace" description="点击播放：矩阵 A 逐步杀掉一个方向；被送到 0 的方向进入 N(A)，存活维度与消失维度相加始终等于 3。" @play="playNullspace" @pause="pauseNullspace"
+        @reset="resetNullspace">
+        <svg ref="svgNullspaceRef" viewBox="0 0 720 420" class="lesson1-board">
           <defs>
             <marker id="arrowKernel" markerWidth="9" markerHeight="7" refX="9" refY="3.5" orient="auto">
               <polygon points="0 0,9 3.5,0 7" fill="#ea580c"/>
@@ -468,28 +475,28 @@
         <p style="margin:4px 0 0 0; color:#475569;">消元后只留下 2 个非零行 → rank = 2。100 个方程里可能只有 3 个真正管用的约束。</p>
       </div>
 
-      <h3 style="font-size:16px; color:#7c3aed; margin:16px 0 6px 0;">二、几何深意：空间的"降维打击器"</h3>
+      <h3 class="rank-geo-heading">二、几何深意：空间的"降维打击器"</h3>
       <p>在线性代数的高级视角中，矩阵 <span class="formula-inline">A</span> 是一个<strong>线性变换（空间变形器）</strong>：<span class="formula-inline">Ax=b</span> 把一个 <span class="formula-inline">n</span> 维空间里的向量 <span class="formula-inline">x</span>，映射到另一个空间。</p>
 
-      <div style="background:#faf5ff; border:1px solid #e9d5ff; border-radius:8px; padding:16px; margin:10px 0;">
-        <p style="margin:0 0 8px 0; font-weight:600; color:#6d28d9;">🎨 以 R³（三维空间）为例：一块弹性橡皮泥球被矩阵 A 变形——</p>
-        <table style="width:100%; border-collapse:collapse; font-size:14px;">
+      <div class="rank-geo-box">
+        <p class="rank-geo-intro">🎨 以 R³（三维空间）为例：一块弹性橡皮泥球被矩阵 A 变形——</p>
+        <table class="rank-geo-table">
           <tbody>
-            <tr style="border-bottom:1px solid #e9d5ff;">
+            <tr>
               <td style="padding:6px 10px; font-weight:600;">rank(A)=3（满秩）</td>
-              <td style="padding:6px 10px; color:#475569;">球被揉捏拉伸，但<strong>仍是三维物体</strong>，维度完好无损</td>
+              <td style="padding:6px 10px; color:var(--color-secondary);">球被揉捏拉伸，但<strong>仍是三维物体</strong>，维度完好无损</td>
             </tr>
-            <tr style="border-bottom:1px solid #e9d5ff;">
+            <tr>
               <td style="padding:6px 10px; font-weight:600;">rank(A)=2</td>
-              <td style="padding:6px 10px; color:#475569;"><strong>降维打击！</strong>三维球被一巴掌拍扁成<strong>二维平面</strong>，高度被压缩为 0</td>
+              <td style="padding:6px 10px; color:var(--color-secondary);"><strong>降维打击！</strong>三维球被一巴掌拍扁成<strong>二维平面</strong>，高度被压缩为 0</td>
             </tr>
-            <tr style="border-bottom:1px solid #e9d5ff;">
+            <tr>
               <td style="padding:6px 10px; font-weight:600;">rank(A)=1</td>
-              <td style="padding:6px 10px; color:#475569;">打击升级，被压缩成<strong>一根一维的直线</strong></td>
+              <td style="padding:6px 10px; color:var(--color-secondary);">打击升级，被压缩成<strong>一根一维的直线</strong></td>
             </tr>
             <tr>
               <td style="padding:6px 10px; font-weight:600;">rank(A)=0</td>
-              <td style="padding:6px 10px; color:#475569;">宇宙塌陷！一切被压到<strong>原点（0 维的点）</strong></td>
+              <td style="padding:6px 10px; color:var(--color-secondary);">宇宙塌陷！一切被压到<strong>原点（0 维的点）</strong></td>
             </tr>
           </tbody>
         </table>
@@ -621,11 +628,12 @@
     </Section>
 
     <Section title="🗂️ 真题与习题汇总" :num="10">
-      <WeekQuizBank :quizzes="quizzes" weekLabel="第1周" />
+      <WeekQuizBank :quizzes="quizzes" week-label="第1周" />
     </Section>
 
      <Section title="📌 知识点小结" :num="11">
-       <Steps :steps="[
+       <Steps
+:steps="[
          '线性空间：非空集合 + 数域 + 加法/数乘 = 满足8条公理的代数结构',
          '子空间判定：非空 + 对线性组合封闭（kα + lβ ∈ W），零向量必在其中',
          '基 = 线性无关 + 张成空间；维数 = 基中向量个数',
@@ -1158,5 +1166,34 @@ onUnmounted(() => {
 
 .lesson1-board text {
   letter-spacing: 0;
+}
+
+.rank-geo-heading {
+  font-size: 16px;
+  color: var(--color-accent);
+  margin: 16px 0 6px 0;
+}
+.rank-geo-box {
+  background: var(--color-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 10px 0;
+}
+.rank-geo-intro {
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+.rank-geo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.rank-geo-table tr {
+  border-bottom: 1px solid var(--color-border);
+}
+.rank-geo-table tr:last-child {
+  border-bottom: none;
 }
 </style>

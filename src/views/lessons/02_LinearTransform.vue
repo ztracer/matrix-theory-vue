@@ -35,8 +35,9 @@
         则 <span class="formula-inline">T(\alpha)</span> 的坐标为 <span class="formula-inline">Ax</span>。
       </Theorem>
 
-      <AnimationBox title="R² 中矩阵对单位正方形的变换" :playing="playing1" @play="play1" @pause="pause1" @reset="reset1"
-        :step="true" @step="step1" description="观察不同 2×2 矩阵对单位正方形的作用：拉伸、旋转、剪切、反射等。点击▶播放自动循环，或⏭步进切换变换类型。">
+      <AnimationBox
+title="R² 中矩阵对单位正方形的变换" :playing="playing1" :step="true" description="观察不同 2×2 矩阵对单位正方形的作用：拉伸、旋转、剪切、反射等。点击▶播放自动循环，或⏭步进切换变换类型。" @play="play1"
+        @pause="pause1" @reset="reset1" @step="step1">
         <canvas ref="canvas1Ref" width="600" height="400" style="max-width:100%;width:100%;"></canvas>
       </AnimationBox>
     </Section>
@@ -74,8 +75,9 @@
         则 <span class="formula-inline">\gamma_1,\dots,\gamma_m</span> 是单位正交组，且 <span class="formula-inline">\operatorname{span}\{\gamma_1,\dots,\gamma_k\}=\operatorname{span}\{\alpha_1,\dots,\alpha_k\}</span>。
       </Theorem>
 
-      <AnimationBox title="Gram-Schmidt 逐步正交化（R³ 投影到2D）" :playing="playing2" @play="play2" @pause="pause2" @reset="reset2"
-        :step="true" @step="step2" description="逐步演示：先单位化 a₁ 得 u₁；再从 a₂ 减去在 u₁ 上的投影分量，单位化得 u₂；最后从 a₃ 减去在 u₁、u₂ 上的投影，单位化得 u₃。点击▶自动播放或⏭单步推进。">
+      <AnimationBox
+title="Gram-Schmidt 逐步正交化（R³ 投影到2D）" :playing="playing2" :step="true" description="逐步演示：先单位化 a₁ 得 u₁；再从 a₂ 减去在 u₁ 上的投影分量，单位化得 u₂；最后从 a₃ 减去在 u₁、u₂ 上的投影，单位化得 u₃。点击▶自动播放或⏭单步推进。" @play="play2"
+        @pause="pause2" @reset="reset2" @step="step2">
         <canvas ref="canvas2Ref" width="600" height="420" style="max-width:100%;width:100%;"></canvas>
       </AnimationBox>
     </Section>
@@ -88,8 +90,9 @@
         几何意义：关于以 <span class="formula-inline">u</span> 为法向量的超平面做镜像反射。
       </Theorem>
 
-      <AnimationBox title="Householder 镜像反射" :playing="playing3" @play="play3" @pause="pause3" @reset="reset3"
-        description="向量 x 经 Householder 反射后变为 Hx = x - 2(x·u)u，即关于法向量 u 的超平面（直线）做镜像反射。">
+      <AnimationBox
+title="Householder 镜像反射" :playing="playing3" description="向量 x 经 Householder 反射后变为 Hx = x - 2(x·u)u，即关于法向量 u 的超平面（直线）做镜像反射。" @play="play3" @pause="pause3"
+        @reset="reset3">
         <canvas ref="canvas3Ref" width="600" height="400" style="max-width:100%;width:100%;"></canvas>
       </AnimationBox>
     </Section>
@@ -222,11 +225,12 @@
     </Section>
 
     <Section title="🗂️ 真题与习题汇总">
-      <WeekQuizBank :quizzes="quizzes" weekLabel="第1周" />
+      <WeekQuizBank :quizzes="quizzes" week-label="第1周" />
     </Section>
 
     <Section title="📌 知识点小结">
-      <Steps :steps="[
+      <Steps
+:steps="[
         '线性变换：T(kα+lβ)=kT(α)+lT(β)，保持线性组合',
         '矩阵表示：A 的第 j 列 = T(εⱼ) 在基下的坐标；T(α) 的坐标 = Ax',
         '相似矩阵：B = P⁻¹AP，不同基下同一变换的矩阵，有相同的迹/秩/行列式/特征值',
@@ -497,6 +501,7 @@ function drawCanvas2() {
         ctx2.fillText('β₂ = a₂ − proj', gsCx+bp[0]*gsScale+8, gsCy-bp[1]*gsScale-5)
       }
     } else {
+      const pu1 = proj3d(gsU[0])
       const pu2 = proj3d(u2)
       drawGSArrow(ctx2, pu1, '#4338ca', 3, 'u₁')
       drawGSArrow(ctx2, pu2, '#7c3aed', 3, 'u₂')

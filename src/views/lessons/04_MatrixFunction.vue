@@ -81,7 +81,8 @@
 
       <p>从而 <span class="formula-inline">f(A) = p(A)</span>。</p>
 
-      <Steps :steps="[
+      <Steps
+:steps="[
         '求最小多项式 m_A(λ) 及其各根 λᵢ 的重数 rᵢ',
         '设插值多项式 p(λ) = a₀ + a₁λ + … + aₘ₋₁λᵐ⁻¹，其中 m = deg(m_A)',
         '列插值条件 f^{(l)}(λᵢ) = p^{(l)}(λᵢ)，共 m 个方程',
@@ -122,7 +123,8 @@
 
       <p>对于整函数（如 <span class="formula-inline">e^A</span>, sin A, cos A），可直接用幂级数展开计算。但对于低阶矩阵，插值法更高效。</p>
 
-      <AnimationBox title="最小多项式与插值条件示意" mode="auto"
+      <AnimationBox
+title="最小多项式与插值条件示意" mode="auto"
         description="特征值 λ₁,λ₂,λ₃ 处的各阶导数匹配条件，脉冲高亮循环。">
         <svg viewBox="0 0 620 360" style="width:100%;max-width:620px;">
           <defs>
@@ -225,14 +227,16 @@
         <Formula display>\vec{x}(t) = e^{At}\vec{x}(0) + \int_0^t e^{A(t-\tau)}\vec{b}(\tau)\,d\tau</Formula>
       </Theorem>
 
-      <Steps :steps="[
+      <Steps
+:steps="[
         '算特征值：求 det(A-λI)=0，判断特征值类型（互异/重根/复数）',
         '选路径：特征值互异→对角化法；重根且特征向量不够→Jordan块法',
         '2×2且形如 [[a,b],[-b,a]]→旋转矩阵秒杀公式',
         '矩阵阶数高且难以对角化→C-H待定系数法降次'
       ]" />
 
-      <QuizProblem :quiz="{
+      <QuizProblem
+:quiz="{
         id: '04-extra-1',
         question: '设 A = [[2,0],[0,3]]（2阶对角矩阵），则 e^{At} = ?',
         options: ['[[e^{2t},0],[0,e^{3t}]]', '[[e^{2},0],[0,e^{3}]]', '[[2e^t,0],[0,3e^t]]', '[[t^2,0],[0,t^3]]'],
@@ -285,7 +289,7 @@
     </Section>
 
     <Section num="5" title="🗂️ 真题与习题汇总">
-      <WeekQuizBank :quizzes="quizzes" weekLabel="第1周" />
+      <WeekQuizBank :quizzes="quizzes" week-label="第1周" />
     </Section>
 
     <Section title="📝 课后作业" :num="6">

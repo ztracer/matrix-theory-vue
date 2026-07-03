@@ -16,8 +16,9 @@
         <p style="margin-top:8px;">重要关系：<span class="formula-inline">1\leq g(\lambda)\leq m(\lambda)</span>。</p>
       </Theorem>
 
-      <AnimationBox title="特征向量方向不变性" :playing="playing1" @play="play1" @pause="pause1" @reset="reset1"
-        description="矩阵 A 作用于单位圆上各点（向量），得到椭圆。沿特征向量方向的向量仅被缩放（方向不变），其他方向向量同时被旋转和缩放。">
+      <AnimationBox
+title="特征向量方向不变性" :playing="playing1" description="矩阵 A 作用于单位圆上各点（向量），得到椭圆。沿特征向量方向的向量仅被缩放（方向不变），其他方向向量同时被旋转和缩放。" @play="play1" @pause="pause1"
+        @reset="reset1">
         <canvas ref="canvas1Ref" width="600" height="400" style="max-width:100%;width:100%;"></canvas>
       </AnimationBox>
     </Section>
@@ -52,8 +53,9 @@
         Jordan 块的个数 <span class="formula-inline">s = \sum g(\lambda_i)</span> = 线性无关特征向量的总数。
       </Theorem>
 
-      <AnimationBox title="Jordan 块的剪切效果" :playing="playing2" @play="play2" @pause="pause2" @reset="reset2"
-        description="Jordan 块 J₂(λ)=[[λ,1],[0,λ]] 作用于正方形：不仅缩放，还产生沿 x 方向的剪切，这是不可对角化矩阵的特征——缺少一个方向的特征向量。">
+      <AnimationBox
+title="Jordan 块的剪切效果" :playing="playing2" description="Jordan 块 J₂(λ)=[[λ,1],[0,λ]] 作用于正方形：不仅缩放，还产生沿 x 方向的剪切，这是不可对角化矩阵的特征——缺少一个方向的特征向量。" @play="play2" @pause="pause2"
+        @reset="reset2">
         <canvas ref="canvas2Ref" width="600" height="400" style="max-width:100%;width:100%;"></canvas>
       </AnimationBox>
     </Section>
@@ -73,7 +75,8 @@
         即矩阵满足自身的特征方程。
       </Theorem>
 
-      <AnimationBox title="Jordan 链构造 (A−λI)η = ξ" mode="auto"
+      <AnimationBox
+title="Jordan 链构造 (A−λI)η = ξ" mode="auto"
         description="演示：从特征向量 ξ 出发，广义特征向量 η 经 (A−λI) 映射到 ξ，构成 Jordan 链。绿色标记为 Ker(A−λI)（特征子空间）。">
         <svg viewBox="0 0 600 400" style="width:100%;max-width:600px;">
           <defs>
@@ -110,7 +113,8 @@
           <text :x="80+etaX+8" :y="300-etaY-5" fill="#4338ca" font-weight="bold" font-size="14">η (广义特征向量)</text>
 
           <!-- (A-lambda I) mapping arrow across -->
-          <path :d="`M ${80+etaX+20} ${300-etaY} C ${280} ${300-etaY-40}, ${330} ${300-xiY-40}, ${380+xiX-10} ${300-xiY}`"
+          <path
+:d="`M ${80+etaX+20} ${300-etaY} C ${280} ${300-etaY-40}, ${330} ${300-xiY-40}, ${380+xiX-10} ${300-xiY}`"
                 fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrO3j)"/>
           <text x="300" y="170" text-anchor="middle" fill="#d97706" font-weight="bold" font-size="13">(A−λI)</text>
 
@@ -222,11 +226,12 @@
     </Section>
 
     <Section title="🗂️ 真题与习题汇总">
-      <WeekQuizBank :quizzes="quizzes" weekLabel="第1周" />
+      <WeekQuizBank :quizzes="quizzes" week-label="第1周" />
     </Section>
 
     <Section title="📌 知识点小结">
-      <Steps :steps="[
+      <Steps
+:steps="[
         '特征值 λ、特征向量 x：Ax = λx (x≠0)，由 det(λI−A)=0 求 λ，解 (λI−A)x=0 求 x',
         '代数重数 m(λ)：特征多项式根的重数；几何重数 g(λ)=n−rank(λI−A)，恒有 g(λ)≤m(λ)',
         '可对角化 ⟺ 所有特征值 g(λ)=m(λ) ⟺ 有 n 个线性无关特征向量',

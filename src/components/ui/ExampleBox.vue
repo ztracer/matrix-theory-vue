@@ -2,7 +2,7 @@
   <div class="example-box">
     <div class="example-header">
       <span class="example-badge">{{ badge || '📝 真题例题' }}</span>
-      <span class="example-source" v-if="source">{{ source }}</span>
+      <span v-if="source" class="example-source">{{ source }}</span>
     </div>
     <div class="example-problem">
       <strong>【题目】</strong>

@@ -2,7 +2,7 @@
   <div class="home-page">
     <!-- Hero -->
     <section class="hero">
-      <div class="floating-math" v-for="(m, i) in mathSymbols" :key="i" :style="m.style">{{ m.sym }}</div>
+      <div v-for="(m, i) in mathSymbols" :key="i" class="floating-math" :style="m.style">{{ m.sym }}</div>
       <div class="container hero-content">
         <span class="hero-badge">MATRIX THEORY · INTERACTIVE LEARNING</span>
         <h1>矩阵论<br>可视化交互学习</h1>
@@ -28,7 +28,7 @@
     </section>
 
     <!-- Mind Map -->
-    <section class="section mindmap-section" id="mindmap">
+    <section id="mindmap" class="section mindmap-section">
       <div class="container">
         <div class="section-header reveal">
           <div class="section-tag">Knowledge Architecture</div>
@@ -97,7 +97,7 @@
           </svg>
           </div>
 
-          <div class="mm-tooltip" ref="tip" :class="{ show: tipShow }">{{ tipText }}</div>
+          <div ref="tip" class="mm-tooltip" :class="{ show: tipShow }">{{ tipText }}</div>
 
           <div class="mm-legend">
             <div v-for="g in knowledgeGroups.slice(1)" :key="g.id" class="legend-item"><span class="dot" :style="{ background: g.color }"></span>{{ g.label }}</div>
@@ -108,7 +108,7 @@
     </section>
 
     <!-- Lessons -->
-    <section class="section lessons-section" id="lessons">
+    <section id="lessons" class="section lessons-section">
       <div class="container">
         <div class="section-header reveal">
           <div class="section-tag">Interactive Lessons</div>
@@ -139,6 +139,7 @@
               </div>
               <div class="card-footer">
                 <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 真题{{ getHwCount(l.id) ? ' + ' + getHwCount(l.id) + ' 作业' : '' }}</span>
+                <span v-if="readLessons.has(l.id)" class="card-read">✓ 已读</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -168,6 +169,7 @@
               </div>
               <div class="card-footer">
                 <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 真题{{ getHwCount(l.id) ? ' + ' + getHwCount(l.id) + ' 作业' : '' }}</span>
+                <span v-if="readLessons.has(l.id)" class="card-read">✓ 已读</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -197,6 +199,7 @@
               </div>
               <div class="card-footer">
                 <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 真题{{ getHwCount(l.id) ? ' + ' + getHwCount(l.id) + ' 作业' : '' }}</span>
+                <span v-if="readLessons.has(l.id)" class="card-read">✓ 已读</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -263,7 +266,7 @@
         <div class="path-timeline">
           <div class="path-line"></div>
           <div v-for="(s, i) in path" :key="i" class="path-item reveal" :style="{ '--i': i }">
-            <div class="path-dot" :class="'w' + Math.ceil((i+1)/4) === 'w1' ? 'w1' : Math.ceil((i+1)/4) === 2 ? 'w2' : 'w3'">{{ i+1 }}</div>
+            <div class="path-dot" :class="'w' + Math.ceil((i+1)/4)">{{ i+1 }}</div>
             <router-link :to="s.path" class="path-content">
               <div class="path-step">{{ s.step }}</div>
               <div class="path-name">{{ s.name }}</div>
@@ -289,18 +292,28 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { quizBank, lessonMeta } from '@/data/quizBank'
-import { homeworkBank } from '../data/homeworkBank'
-import { knowledgeEdges, knowledgeGroups, knowledgeNodes, edgeTypes } from '../data/knowledgeGraph'
-import { useKatex } from '../composables/useKatex'
-import { useScrollReveal } from '../composables/useScrollReveal'
+import { homeworkBank } from '@/data/homeworkBank'
+import { knowledgeEdges, knowledgeGroups, knowledgeNodes, edgeTypes } from '@/data/knowledgeGraph'
+import { useKatex } from '@/composables/useKatex'
+import { useScrollReveal } from '@/composables/useScrollReveal'
 
 useKatex()
 useScrollReveal('.home-page .reveal')
 
 const router = useRouter()
+const readLessons = ref(new Set())
+
+onMounted(() => {
+  try {
+    const stored = JSON.parse(localStorage.getItem('matrix-read-lessons') || '[]')
+    readLessons.value = new Set(stored)
+  } catch {
+    readLessons.value = new Set()
+  }
+})
 const tip = ref(null)
 const tipShow = ref(false)
 const tipText = ref('')
@@ -794,6 +807,7 @@ const hideTip = () => { tipShow.value = false }
   padding-top:14px; border-top:1px solid var(--color-border);
 }
 .card-anim { font-size:12px; color:var(--color-muted-foreground); }
+.card-read { font-size: 12px; color: #059669; font-weight: 600; }
 .card-arrow { font-size:20px; transition:transform .18s ease; color:var(--color-accent); }
 .card:hover .card-arrow { transform:translateX(4px); }
 

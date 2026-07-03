@@ -1,7 +1,7 @@
 <template>
   <section class="section-card">
     <h2 v-if="title" class="section-title">
-      <span class="section-num" v-if="num">{{ num }}</span>
+      <span v-if="num" class="section-num">{{ num }}</span>
       {{ title }}
     </h2>
     <div class="section-body">

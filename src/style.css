@@ -197,7 +197,15 @@ svg { max-width: 100%; height: auto; }
   }
 }
 
+html {
+  scroll-padding-top: 80px;
+}
+
 @media (max-width: 768px) {
   .container { padding: 0 16px; }
   .katex { font-size: 0.95em; }
+  .nav-link, .kg-filter, .quiz-toggle, .ctrl-btn, .btn {
+    min-height: 44px;
+    padding: 10px 16px;
+  }
 }

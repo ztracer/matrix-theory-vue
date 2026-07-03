@@ -75,21 +75,25 @@
 
           <!-- Gershgorin discs -->
           <g v-for="(d, i) in currentDiscs" :key="i">
-            <ellipse v-if="drawProgress[i] > 0"
+            <ellipse
+v-if="drawProgress[i] > 0"
                      :cx="toScreenX(d.center[0])" :cy="toScreenY(d.center[1])"
                      :rx="d.radius * gScale * drawProgress[i]"
                      :ry="d.radius * gScale * drawProgress[i]"
                      :fill="discColors[i]" :fill-opacity="0.15"
                      :stroke="discColors[i]" :stroke-width="2"/>
-            <circle v-if="drawProgress[i] > 0.3"
+            <circle
+v-if="drawProgress[i] > 0.3"
                     :cx="toScreenX(d.center[0])" :cy="toScreenY(d.center[1])"
                     r="4" :fill="discColors[i]"/>
-            <text v-if="drawProgress[i] > 0.5"
+            <text
+v-if="drawProgress[i] > 0.5"
                   :x="toScreenX(d.center[0]) + 8 + i * 6" :y="toScreenY(d.center[1]) - 8"
                   :fill="discColors[i]" font-size="11" font-weight="600">
               a{{ i+1 }}{{ i+1 }}={{ formatComplex(d.center) }}
             </text>
-            <text v-if="drawProgress[i] > 0.8"
+            <text
+v-if="drawProgress[i] > 0.8"
                   :x="toScreenX(d.center[0]) + 8 + i * 6" :y="toScreenY(d.center[1]) + 14"
                   :fill="discColors[i]" font-size="10">
               R{{ i+1 }}={{ d.radius }}
@@ -98,10 +102,12 @@
 
           <!-- Actual eigenvalues -->
           <g v-if="eigenVisible">
-            <circle v-for="(ev, i) in currentEigenvalues" :key="'e'+i"
+            <circle
+v-for="(ev, i) in currentEigenvalues" :key="'e'+i"
                     :cx="toScreenX(ev[0])" :cy="toScreenY(ev[1])"
                     r="6" fill="#dc2626" stroke="#fff" stroke-width="2"/>
-            <text v-for="(ev, i) in currentEigenvalues" :key="'et'+i"
+            <text
+v-for="(ev, i) in currentEigenvalues" :key="'et'+i"
                   :x="toScreenX(ev[0]) + 14" :y="toScreenY(ev[1]) - 22"
                   fill="#dc2626" font-size="11" font-weight="700">
               λ{{ i+1 }}={{ formatComplex(ev) }}
@@ -149,7 +155,7 @@
       >
         <template #controls>
           <label style="font-size:12px;display:flex;align-items:center;gap:6px;">
-            缩放ε：<input type="range" v-model.number="isoEpsilon" min="0.2" max="1.5" step="0.05" style="width:120px;">
+            缩放ε：<input v-model.number="isoEpsilon" type="range" min="0.2" max="1.5" step="0.05" style="width:120px;">
             {{ isoEpsilon.toFixed(2) }}
           </label>
         </template>
@@ -163,19 +169,22 @@
           <text x="505" y="205" font-size="11" fill="#334155">Re</text>
 
           <!-- Circle 1: center (10,0), radius=1*ε -->
-          <ellipse :cx="isoCx(10)" :cy="isoCy(0)" :rx="1*isoEpsilon*isoScale" :ry="1*isoEpsilon*isoScale"
+          <ellipse
+:cx="isoCx(10)" :cy="isoCy(0)" :rx="1*isoEpsilon*isoScale" :ry="1*isoEpsilon*isoScale"
                    fill="#ea580c" fill-opacity="0.15" stroke="#ea580c" stroke-width="2"/>
           <circle :cx="isoCx(10)" :cy="isoCy(0)" r="4" fill="#ea580c"/>
           <text :x="isoCx(10)-10" :y="isoCy(0)-12" fill="#ea580c" font-size="11" font-weight="600">G₁(10, ε)</text>
 
           <!-- Circle 2: center (2,0), radius=0.8*ε -->
-          <ellipse :cx="isoCx(2)" :cy="isoCy(0)" :rx="0.8*isoEpsilon*isoScale" :ry="0.8*isoEpsilon*isoScale"
+          <ellipse
+:cx="isoCx(2)" :cy="isoCy(0)" :rx="0.8*isoEpsilon*isoScale" :ry="0.8*isoEpsilon*isoScale"
                    fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="2"/>
           <circle :cx="isoCx(2)" :cy="isoCy(0)" r="4" fill="#7c3aed"/>
           <text :x="isoCx(2)-5" :y="isoCy(0)-12" fill="#7c3aed" font-size="11" font-weight="600">G₂(2, 0.8ε)</text>
 
           <!-- Circle 3: center (-1,0), radius=1.2*ε -->
-          <ellipse :cx="isoCx(-1)" :cy="isoCy(0)" :rx="1.2*isoEpsilon*isoScale" :ry="1.2*isoEpsilon*isoScale"
+          <ellipse
+:cx="isoCx(-1)" :cy="isoCy(0)" :rx="1.2*isoEpsilon*isoScale" :ry="1.2*isoEpsilon*isoScale"
                    fill="#0d9488" fill-opacity="0.15" stroke="#0d9488" stroke-width="2"/>
           <circle :cx="isoCx(-1)" :cy="isoCy(0)" r="4" fill="#0d9488"/>
           <text :x="isoCx(-1)-5" :y="isoCy(0)-12" fill="#0d9488" font-size="11" font-weight="600">G₃(-1, 1.2ε)</text>
@@ -239,9 +248,11 @@
             <circle :cx="rv3x" :cy="-rv3y" r="5" fill="#2563eb"/>
             <text :x="rv3x + 8" :y="-rv3y" fill="#2563eb" font-size="12" font-weight="600">x(θ)</text>
             <!-- Eigenvector directions -->
-            <line v-if="rayProg > 0.5" x1="-70" :y1="70*eig1Dir" x2="70" :y2="-70*eig1Dir"
+            <line
+v-if="rayProg > 0.5" x1="-70" :y1="70*eig1Dir" x2="70" :y2="-70*eig1Dir"
                   stroke="#10b981" stroke-width="1.5" stroke-dasharray="5,3"/>
-            <line v-if="rayProg > 0.5" x1="-70" :y1="-70*eig2Dir" x2="70" :y2="70*eig2Dir"
+            <line
+v-if="rayProg > 0.5" x1="-70" :y1="-70*eig2Dir" x2="70" :y2="70*eig2Dir"
                   stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3"/>
             <text v-if="rayProg > 0.7" x="-120" y="-80" fill="#f59e0b" font-size="10" font-weight="600">λ₂≈3.41</text>
             <text v-if="rayProg > 0.7" x="-120" y="95" fill="#10b981" font-size="10" font-weight="600">λ₁≈0.59</text>
@@ -351,7 +362,8 @@
         </template>
       </ExampleBox>
 
-      <Steps :steps="[
+      <Steps
+:steps="[
         '盖尔圆盘：圆心<span class=&quot;formula-inline&quot;>a_{ii}</span>，半径<span class=&quot;formula-inline&quot;>R_i=\\sum_{j\\neq i}|a_{ij}|</span>（去心行和），特征值<span class=&quot;formula-inline&quot;>\\subseteq \\bigcup G_i</span>',
         '列盖尔圆盘：用<span class=&quot;formula-inline&quot;>A^{\\mathsf{T}}</span>（去心列和）得到另一组圆盘，取交集缩小范围',
         '隔离定理：k个不交圆盘的连通分支恰含k个特征值',
@@ -363,7 +375,7 @@
 
     <!-- WeekQuizBank -->
     <Section title="🗂️ 真题与习题汇总">
-      <WeekQuizBank :quizzes="quizzes" weekLabel="第3周" />
+      <WeekQuizBank :quizzes="quizzes" week-label="第3周" />
     </Section>
 
     <Section title="📝 课后作业" :num="8">

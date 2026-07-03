@@ -62,10 +62,12 @@
             <rect x="0" y="0" width="140" height="140" rx="8" fill="url(#luGradA)" stroke="#0d9488" stroke-width="2"/>
             <template v-for="(row, i) in luA" :key="'a'+i">
               <template v-for="(val, j) in row" :key="'a'+i+j">
-                <rect :x="j*46+2" :y="i*46+2" width="42" height="42" rx="4"
+                <rect
+:x="j*46+2" :y="i*46+2" width="42" height="42" rx="4"
                   :fill="luHighlight(i,j) ? '#fca5a5' : (luZeroOut(i,j) ? '#d1fae5' : '#ffffff')"
                   :stroke="luHighlight(i,j) ? '#ef4444' : '#94a3b8'" stroke-width="1"/>
-                <text :x="j*46+23" :y="i*46+28" text-anchor="middle" font-size="16" font-weight="600"
+                <text
+:x="j*46+23" :y="i*46+28" text-anchor="middle" font-size="16" font-weight="600"
                   :fill="luZeroOut(i,j) ? '#059669' : '#1e293b'">{{ luDisplayVal(val) }}</text>
               </template>
             </template>
@@ -81,9 +83,11 @@
             <rect x="0" y="0" width="140" height="140" rx="8" fill="url(#luGradL)" stroke="#3b82f6" stroke-width="2"/>
             <template v-for="i in 3" :key="'lr'+i">
               <template v-for="j in 3" :key="'lc'+j">
-                <rect :x="(j-1)*46+2" :y="(i-1)*46+2" width="42" height="42" rx="4"
+                <rect
+:x="(j-1)*46+2" :y="(i-1)*46+2" width="42" height="42" rx="4"
                   :fill="luLfill(i-1,j-1)" stroke="#94a3b8" stroke-width="1"/>
-                <text :x="(j-1)*46+23" :y="(i-1)*46+28" text-anchor="middle" font-size="16" font-weight="600"
+                <text
+:x="(j-1)*46+23" :y="(i-1)*46+28" text-anchor="middle" font-size="16" font-weight="600"
                   :fill="luL[i-1][j-1] !== null && i-1 > j-1 ? '#059669' : '#1e293b'">{{ luLdisplay(i-1,j-1) }}</text>
               </template>
             </template>
@@ -99,9 +103,11 @@
             <rect x="0" y="0" width="140" height="140" rx="8" fill="url(#luGradU)" stroke="#d97706" stroke-width="2"/>
             <template v-for="(row, i) in luU" :key="'ur'+i">
               <template v-for="(val, j) in row" :key="'uc'+i+j">
-                <rect :x="j*46+2" :y="i*46+2" width="42" height="42" rx="4"
+                <rect
+:x="j*46+2" :y="i*46+2" width="42" height="42" rx="4"
                   :fill="i > j && val === 0 ? '#e2e8f0' : '#ffffff'" stroke="#94a3b8" stroke-width="1"/>
-                <text :x="j*46+23" :y="i*46+28" text-anchor="middle" font-size="16" font-weight="600"
+                <text
+:x="j*46+23" :y="i*46+28" text-anchor="middle" font-size="16" font-weight="600"
                   :fill="i > j && val === 0 ? '#94a3b8' : '#1e293b'">{{ i > j && val === 0 ? '0' : luDisplayVal(val) }}</text>
               </template>
             </template>
@@ -261,7 +267,7 @@
               @step="gsNextStep"
             >
               <template #controls>
-                <button class="ctrl-btn" @click="gsPreviousStep" :disabled="gsStep === 0 || gsPlaying">上一步</button>
+                <button class="ctrl-btn" :disabled="gsStep === 0 || gsPlaying" @click="gsPreviousStep">上一步</button>
               </template>
               <div class="gs-stage">
                 <div ref="gsViewport" class="gs-viewport" aria-label="Gram-Schmidt 3D interactive view"></div>
@@ -420,7 +426,8 @@
             <polygon points="0,-170 -5,-162 5,-162" fill="#94a3b8"/>
 
             <!-- 镜面（垂直于u的直线） -->
-            <line v-if="hhStep >= 1"
+            <line
+v-if="hhStep >= 1"
               :x1="hhMirror[0].x" :y1="hhMirror[0].y"
               :x2="hhMirror[1].x" :y2="hhMirror[1].y"
               stroke="#8b5cf6" stroke-width="2.5" stroke-dasharray="8,4"/>
@@ -722,8 +729,8 @@
                   <path d="M0,0 L8,4 L0,8 Z" fill="#8b5cf6"/>
                 </marker>
                 <linearGradient id="givensArcGrad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#8b5cf6"/>
-                  <stop offset="100%" stop-color="#0d9488"/>
+                  <stop offset="0%" stop-color="var(--color-accent)"/>
+                  <stop offset="100%" stop-color="var(--color-secondary)"/>
                 </linearGradient>
               </defs>
               <rect x="20" y="20" width="380" height="260" rx="22" fill="#faf5ff" stroke="#ddd6fe"/>
@@ -869,7 +876,8 @@
 
     <!-- 8. 知识点小结（旧Section 10，新增Givens条目） -->
     <Section title="知识点小结" :num="8">
-      <Steps :steps="[
+      <Steps
+:steps="[
         'LU分解 A=LU：L单位下三角记录Gauss乘数，U上三角为消元结果；顺序主子式非零则存在唯一。',
         'LDU分解 A=LDU：D为对角阵，对称正定时得Cholesky分解 A=LLᵀ。',
         'QR分解 A=QR：Q正交，R上三角；列满秩矩阵存在QR分解。',
@@ -882,7 +890,7 @@
 
     <!-- 9. 真题与习题汇总 + 课后作业（旧Section 11，重编号） -->
     <Section title="🗂️ 真题与习题汇总">
-      <WeekQuizBank :quizzes="quizzes" weekLabel="第2周" />
+      <WeekQuizBank :quizzes="quizzes" week-label="第2周" />
     </Section>
 
     <Section title="📝 课后作业" :num="9">
@@ -1607,9 +1615,9 @@ onUnmounted(() => {
   position: relative;
   height: clamp(360px, 52vw, 520px);
   overflow: hidden;
-  border: 1px solid #dbe3ef;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: #f8fafc;
+  background: var(--color-background);
   touch-action: none;
 }
 .gs-canvas,
@@ -1652,10 +1660,10 @@ onUnmounted(() => {
   padding: 14px 18px;
   position: relative;
   z-index: 2;
-  border: 1px solid #dbe3ef;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: rgba(248, 250, 252, 0.93);
-  color: #475569;
+  background: var(--color-card);
+  color: var(--color-secondary);
   font-size: 13px;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 }
@@ -1691,19 +1699,19 @@ onUnmounted(() => {
 }
 .ctrl-btn {
   padding: 6px 14px;
-  border: 1px solid #e2e8f0;
-  background: #fff;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
   border-radius: 6px;
   font-size: 13px;
   cursor: pointer;
   transition: all .15s;
-  color: #475569;
+  color: var(--color-secondary);
   font-family: inherit;
 }
 .ctrl-btn:hover:not(:disabled) {
-  background: #4f46e5;
-  color: #fff;
-  border-color: #4f46e5;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border-color: var(--color-primary);
 }
 .ctrl-btn:disabled {
   opacity: .4;
@@ -1720,13 +1728,13 @@ onUnmounted(() => {
   gap: 22px;
 }
 .cm-root {
-  background: #312e81;
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
   padding: 12px 28px;
   border-radius: 8px;
   font-size: 18px;
   font-weight: 700;
-  box-shadow: 0 10px 24px rgba(49, 46, 129, .16);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, .16);
 }
 .cm-columns {
   width: 100%;
@@ -1735,9 +1743,9 @@ onUnmounted(() => {
   gap: 22px;
 }
 .cm-family {
-  border: 1px solid #dbe3ef;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: #fff;
+  background: var(--color-card);
   padding: 18px;
   display: flex;
   flex-direction: column;
@@ -1748,7 +1756,7 @@ onUnmounted(() => {
 .cm-family-title {
   font-size: 15px;
   font-weight: 800;
-  color: #1e293b;
+  color: var(--color-foreground);
   text-align: center;
 }
 .cm-flow {
@@ -1764,9 +1772,9 @@ onUnmounted(() => {
   font-size: 14px;
   font-weight: 800;
   text-align: center;
-  background: #fff;
-  border: 1px solid #dbe3ef;
-  color: #1e293b;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground);
   line-height: 1.4;
   display: flex;
   flex-direction: column;
@@ -1776,7 +1784,7 @@ onUnmounted(() => {
 .cm-node span {
   font-size: 12px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--color-muted-foreground);
 }
 .cm-family-lu .cm-node { border-color: #93c5fd; color: #1d4ed8; }
 .cm-family-qr .cm-node { border-color: #6ee7b7; color: #047857; }
@@ -1786,7 +1794,7 @@ onUnmounted(() => {
 }
 .cm-arrow,
 .cm-merge {
-  color: #94a3b8;
+  color: var(--color-muted-foreground);
   font-size: 20px;
   font-weight: 700;
   text-align: center;
@@ -1800,10 +1808,10 @@ onUnmounted(() => {
 .cm-note {
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid #dbe3ef;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: #f8fafc;
-  color: #475569;
+  background: var(--color-background);
+  color: var(--color-secondary);
   font-size: 13px;
   text-align: center;
 }
@@ -1833,12 +1841,9 @@ onUnmounted(() => {
 .qr-method-comparison {
   margin: 28px 0 34px;
   padding: 24px;
-  border: 1px solid #ccfbf1;
+  border: 1px solid var(--color-border);
   border-radius: 20px;
-  background:
-    radial-gradient(circle at top left, rgba(13,148,136,0.12), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(139,92,246,0.10), transparent 36%),
-    #fff;
+  background: var(--color-card);
   box-shadow: 0 18px 45px rgba(15,23,42,0.08);
 }
 .qr-comparison-heading { max-width: 760px; margin-bottom: 18px; }
@@ -1846,24 +1851,24 @@ onUnmounted(() => {
   display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px;
   color: #0d9488; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
 }
-.qr-comparison-heading h3 { margin: 0 0 8px; color: #0f172a; font-size: clamp(22px,3vw,30px); line-height: 1.18; }
-.qr-comparison-heading p { margin: 0; color: #475569; line-height: 1.75; }
+.qr-comparison-heading h3 { margin: 0 0 8px; color: var(--color-foreground); font-size: clamp(22px,3vw,30px); line-height: 1.18; }
+.qr-comparison-heading p { margin: 0; color: var(--color-secondary); line-height: 1.75; }
 .qr-table-wrap {
-  overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 16px; background: rgba(255,255,255,0.86);
+  overflow-x: auto; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-card);
 }
 .qr-comparison-table { width: 100%; min-width: 840px; border-collapse: collapse; font-size: 14px; }
 .qr-comparison-table th {
-  padding: 15px 16px; color: #334155; font-size: 13px; font-weight: 800; text-align: left;
-  background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+  padding: 15px 16px; color: var(--color-secondary); font-size: 13px; font-weight: 800; text-align: left;
+  background: var(--color-background); border-bottom: 1px solid var(--color-border);
 }
 .qr-comparison-table td {
-  padding: 16px; color: #334155; vertical-align: top; border-bottom: 1px solid #edf2f7; line-height: 1.65;
+  padding: 16px; color: var(--color-secondary); vertical-align: top; border-bottom: 1px solid var(--color-muted); line-height: 1.65;
 }
 .qr-comparison-table tbody tr:last-child td { border-bottom: 0; }
 .qr-comparison-table tbody tr { transition: background .18s, transform .18s; }
-.qr-comparison-table tbody tr:hover { background: #f8fafc; }
+.qr-comparison-table tbody tr:hover { background: var(--color-background); }
 .method-name {
-  display: inline-flex; align-items: center; gap: 9px; color: #0f172a; font-weight: 850; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 9px; color: var(--color-foreground); font-weight: 850; white-space: nowrap;
 }
 .method-dot {
   width: 11px; height: 11px; border-radius: 999px; box-shadow: 0 0 0 5px rgba(13,148,136,0.10);
@@ -1877,20 +1882,19 @@ onUnmounted(() => {
 }
 .stability-low { color: #92400e; background: #fef3c7; }
 .stability-high { color: #047857; background: #d1fae5; }
-.qr-comparison-table small { display: block; color: #64748b; font-size: 12px; }
+.qr-comparison-table small { display: block; color: var(--color-muted-foreground); font-size: 12px; }
 
 /* ── QR method cards ── */
 .qr-method-card {
   --method-color: #0d9488; --method-soft: #ccfbf1; --method-tint: #f0fdfa;
   position: relative; margin: 8px 0 10px; padding: clamp(20px,3vw,30px); overflow: hidden;
   border: 1px solid var(--method-soft); border-radius: 24px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92)),
-              radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--method-color) 16%, transparent), transparent 32%);
+  background: var(--color-card);
   box-shadow: 0 22px 55px rgba(15,23,42,0.09);
 }
 .qr-method-card::before {
   content: ""; position: absolute; inset: 0 auto 0 0; width: 6px;
-  background: linear-gradient(180deg, var(--method-color), transparent);
+  background: var(--method-color);
 }
 .qr-method-card::after {
   content: ""; position: absolute; right: -80px; top: -80px; width: 190px; height: 190px;
@@ -1904,47 +1908,47 @@ onUnmounted(() => {
   position: relative; z-index: 1; display: grid;
   grid-template-columns: minmax(0,1fr) auto; gap: 18px; align-items: start; margin-bottom: 22px;
 }
-.qr-method-header h3 { margin: 0 0 8px; color: #0f172a; font-size: clamp(24px,3.3vw,34px); line-height: 1.12; letter-spacing: -0.03em; }
-.qr-method-header p { max-width: 760px; margin: 0; color: #475569; font-size: 15px; line-height: 1.75; }
+.qr-method-header h3 { margin: 0 0 8px; color: var(--color-foreground); font-size: clamp(24px,3.3vw,34px); line-height: 1.12; letter-spacing: -0.03em; }
+.qr-method-header p { max-width: 760px; margin: 0; color: var(--color-secondary); font-size: 15px; line-height: 1.75; }
 .qr-method-kicker { color: var(--method-color); }
 .qr-stability-badge {
   min-width: 132px; padding: 12px 14px; border: 1px solid var(--method-soft); border-radius: 16px;
   background: rgba(255,255,255,0.76); text-align: center; box-shadow: 0 10px 24px rgba(15,23,42,0.06);
 }
-.qr-stability-badge span { display: block; margin-bottom: 4px; color: #64748b; font-size: 12px; font-weight: 700; }
+.qr-stability-badge span { display: block; margin-bottom: 4px; color: var(--color-muted-foreground); font-size: 12px; font-weight: 700; }
 .qr-stability-badge strong { color: var(--method-color); font-size: 18px; letter-spacing: 0.04em; }
 .qr-method-body { position: relative; z-index: 1; display: grid; gap: 18px; }
 .qr-method-explain {
-  padding: 18px 20px; border: 1px solid #e2e8f0; border-radius: 18px; background: rgba(255,255,255,0.82);
+  padding: 18px 20px; border: 1px solid var(--color-border); border-radius: 18px; background: var(--color-card);
 }
-.qr-method-explain p { margin: 0 0 12px; color: #334155; line-height: 1.75; }
+.qr-method-explain p { margin: 0 0 12px; color: var(--color-secondary); line-height: 1.75; }
 .qr-method-explain p:last-child { margin-bottom: 0; }
 .qr-method-note {
   display: grid; grid-template-columns: auto minmax(0,1fr); gap: 12px; align-items: start;
   padding: 14px 16px; border: 1px solid var(--method-soft); border-radius: 16px;
-  background: var(--method-tint); color: #334155;
+  background: var(--method-tint); color: var(--color-secondary);
 }
 .qr-method-note strong { color: var(--method-color); white-space: nowrap; }
 .qr-method-note span { line-height: 1.65; }
 .qr-embedded-animation {
   padding: 16px; border: 1px dashed var(--method-soft); border-radius: 20px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(248,250,252,0.78));
+  background: var(--color-background);
 }
-.qr-animation-intro { margin: 0 0 14px; color: #475569; line-height: 1.75; }
+.qr-animation-intro { margin: 0 0 14px; color: var(--color-secondary); line-height: 1.75; }
 
 /* ── Givens diagram ── */
 .givens-diagram-panel {
   display: grid; grid-template-columns: minmax(220px,0.8fr) minmax(320px,1.2fr);
-  gap: 20px; align-items: center; padding: 18px; border: 1px solid #ddd6fe; border-radius: 20px;
-  background: radial-gradient(circle at top right, rgba(139,92,246,0.12), transparent 34%), #fff;
+  gap: 20px; align-items: center; padding: 18px; border: 1px solid var(--color-border); border-radius: 20px;
+  background: var(--color-card);
 }
-.givens-diagram-copy h4 { margin: 0 0 8px; color: #312e81; font-size: 20px; }
-.givens-diagram-copy p { margin: 0; color: #475569; line-height: 1.75; }
+.givens-diagram-copy h4 { margin: 0 0 8px; color: var(--color-primary); font-size: 20px; }
+.givens-diagram-copy p { margin: 0; color: var(--color-secondary); line-height: 1.75; }
 .givens-svg { width: 100%; height: auto; display: block; }
 .givens-svg-badge {
   display: inline-flex; align-items: center; justify-content: center; height: 30px; padding: 0 10px;
-  border: 1px solid #ddd6fe; border-radius: 999px; background: rgba(255,255,255,0.88);
-  color: #6d28d9; font-size: 12px; font-weight: 800; white-space: nowrap;
+  border: 1px solid var(--color-border); border-radius: 999px; background: var(--color-card);
+  color: var(--color-primary); font-size: 12px; font-weight: 800; white-space: nowrap;
 }
 
 /* ── Responsive ── */
@@ -1955,12 +1959,12 @@ onUnmounted(() => {
   .qr-comparison-table thead { display: none; }
   .qr-comparison-table, .qr-comparison-table tbody, .qr-comparison-table tr, .qr-comparison-table td { display: block; width: 100%; }
   .qr-comparison-table tr {
-    padding: 14px; border: 1px solid #e2e8f0; border-radius: 16px;
-    background: #fff; box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+    padding: 14px; border: 1px solid var(--color-border); border-radius: 16px;
+    background: var(--color-card); box-shadow: 0 10px 24px rgba(15,23,42,0.06);
   }
-  .qr-comparison-table td { display: grid; grid-template-columns: 104px minmax(0,1fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+  .qr-comparison-table td { display: grid; grid-template-columns: 104px minmax(0,1fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--color-muted); }
   .qr-comparison-table td:last-child { border-bottom: 0; }
-  .qr-comparison-table td::before { content: attr(data-label); color: #64748b; font-size: 12px; font-weight: 800; }
+  .qr-comparison-table td::before { content: attr(data-label); color: var(--color-muted-foreground); font-size: 12px; font-weight: 800; }
   .qr-method-card { padding: 18px; border-radius: 20px; }
   .qr-method-header { grid-template-columns: 1fr; }
   .qr-stability-badge { width: fit-content; min-width: 124px; text-align: left; }

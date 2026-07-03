@@ -1,5 +1,5 @@
 <template>
-  <div class="lesson-page">
+  <div ref="pageEl" class="lesson-page">
     <!-- Navigation -->
     <nav class="lesson-nav" :class="weekClass">
       <div class="nav-inner">
@@ -17,6 +17,8 @@
           </router-link>
         </div>
       </div>
+      <!-- V1: reading progress bar -->
+      <div class="reading-progress" :style="{ width: progressPercent + '%' }"></div>
     </nav>
 
     <!-- Header -->
@@ -31,9 +33,21 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container lesson-main">
+    <main ref="contentEl" class="container lesson-main">
       <slot></slot>
     </main>
+
+    <!-- V1: Table of Contents (right sidebar, desktop only) -->
+    <aside v-if="tocItems.length" class="lesson-toc">
+      <div class="toc-title">本课目录</div>
+      <a
+        v-for="item in tocItems"
+        :key="item.id"
+        :href="'#' + item.id"
+        :class="{ active: activeSection === item.id }"
+        @click.prevent="scrollToSection(item.id)"
+      >{{ item.text }}</a>
+    </aside>
 
     <!-- Footer Nav -->
     <footer class="lesson-footer">
@@ -58,7 +72,10 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
+// E3: derive lesson list from quizBank.js lessonMeta (single source of truth)
+import { lessonMeta } from '@/data/quizBank'
 
 const props = defineProps({
   lessonId: { type: Number, required: true },
@@ -66,27 +83,20 @@ const props = defineProps({
   subtitle: { type: String, default: '' }
 })
 
+const router = useRouter()
+
+// E3: build the lessons array used for prev/next navigation from lessonMeta.
+// The homework route (id=12) is appended to match the previous hardcoded list.
 const lessons = [
-  { id: 1, path: '/lesson/01', title: '线性空间与子空间' },
-  { id: 2, path: '/lesson/02', title: '线性变换及其矩阵' },
-  { id: 3, path: '/lesson/03', title: '对角化与Jordan标准形' },
-  { id: 4, path: '/lesson/04', title: '矩阵函数与微分方程' },
-  { id: 5, path: '/lesson/05', title: '三角分解与QR分解' },
-  { id: 6, path: '/lesson/06', title: 'SVD奇异值分解' },
-  { id: 7, path: '/lesson/07', title: '满秩分解与MP逆' },
-  { id: 8, path: '/lesson/08', title: '投影矩阵与应用' },
-  { id: 9, path: '/lesson/09', title: '最小二乘与范数' },
-  { id: 10, path: '/lesson/10', title: '特征值估计' },
-  { id: 11, path: '/lesson/11', title: '考前复习' },
-  { id: 12, path: '/homework', title: '课后作业' }
+  ...lessonMeta.map(l => ({ id: l.id, path: l.path, title: l.title, week: l.week })),
+  { id: 12, path: '/homework', title: '课后作业', week: 4 }
 ]
 
-const weekMap = {
-  1: 'w1', 2: 'w1', 3: 'w1', 4: 'w1',
-  5: 'w2', 6: 'w2', 7: 'w2',
-  8: 'w3', 9: 'w3', 10: 'w3', 11: 'w3',
-  12: 'w4'
-}
+const weekMap = computed(() => {
+  const m = {}
+  for (const l of lessons) m[l.id] = 'w' + l.week
+  return m
+})
 
 const weekLabelMap = {
   w1: '第1周 · 空间变换与标准形',
@@ -95,7 +105,7 @@ const weekLabelMap = {
   w4: '课后作业与真题'
 }
 
-const weekClass = computed(() => weekMap[props.lessonId] || 'w1')
+const weekClass = computed(() => weekMap.value[props.lessonId] || 'w1')
 const weekLabel = computed(() => weekLabelMap[weekClass.value])
 
 const prevLesson = computed(() => {
@@ -106,6 +116,100 @@ const prevLesson = computed(() => {
 const nextLesson = computed(() => {
   const idx = lessons.findIndex(l => l.id === props.lessonId)
   return idx < lessons.length - 1 ? lessons[idx + 1] : null
+})
+
+// ===== V1: Table of Contents + reading progress =====
+const pageEl = ref(null)
+const contentEl = ref(null)
+const tocItems = ref([])
+const activeSection = ref(null)
+const progressPercent = ref(0)
+
+let observer = null
+
+function collectToc() {
+  if (!contentEl.value) return
+  // Collect headings within the slotted lesson content
+  const headings = contentEl.value.querySelectorAll('h2, [data-section]')
+  const items = []
+  headings.forEach((h, i) => {
+    if (!h.id) h.id = 'lesson-section-' + i
+    items.push({ id: h.id, text: h.textContent.trim() })
+  })
+  tocItems.value = items
+}
+
+function scrollToSection(id) {
+  const el = document.getElementById(id)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    activeSection.value = id
+  }
+}
+
+function onScroll() {
+  const doc = document.documentElement
+  const scrollTop = window.scrollY || doc.scrollTop
+  const scrollHeight = doc.scrollHeight - doc.clientHeight
+  progressPercent.value = scrollHeight > 0 ? Math.min(100, (scrollTop / scrollHeight) * 100) : 0
+}
+
+function setupObserver() {
+  if (!contentEl.value || tocItems.value.length === 0) return
+  observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          activeSection.value = entry.target.id
+          markLessonRead()
+        }
+      }
+    },
+    { rootMargin: '-80px 0px -70% 0px', threshold: 0 }
+  )
+  tocItems.value.forEach(item => {
+    const el = document.getElementById(item.id)
+    if (el) observer.observe(el)
+  })
+}
+
+// V2 (tie-in): mark lesson as read in localStorage when a section enters view
+let readMarked = false
+function markLessonRead() {
+  if (readMarked) return
+  readMarked = true
+  try {
+    const readKey = 'matrix-read-lessons'
+    const read = JSON.parse(localStorage.getItem(readKey) || '[]')
+    if (!read.includes(props.lessonId)) {
+      read.push(props.lessonId)
+      localStorage.setItem(readKey, JSON.stringify(read))
+    }
+  } catch (e) {
+    // ignore storage errors
+  }
+}
+
+// ===== V3: keyboard shortcuts =====
+function handleKeydown(e) {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return
+  if (e.key === 'ArrowLeft' && prevLesson.value) router.push(prevLesson.value.path)
+  if (e.key === 'ArrowRight' && nextLesson.value) router.push(nextLesson.value.path)
+}
+
+onMounted(async () => {
+  window.addEventListener('scroll', onScroll, { passive: true })
+  window.addEventListener('keydown', handleKeydown)
+  await nextTick()
+  collectToc()
+  setupObserver()
+  onScroll()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('keydown', handleKeydown)
+  if (observer) observer.disconnect()
 })
 </script>
 
@@ -140,6 +244,9 @@ const nextLesson = computed(() => {
 }
 .nav-link:hover { background: var(--color-muted); color: var(--color-primary); }
 
+/* V1: reading progress bar */
+.reading-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--color-accent); transition: width .1s linear; }
+
 .lesson-header {
   padding: 64px 24px 44px;
   background: var(--color-card);
@@ -163,6 +270,40 @@ const nextLesson = computed(() => {
 .subtitle { color: var(--color-muted-foreground); font-size: 16px; margin: 0; max-width: 760px; }
 
 .lesson-main { padding: 40px 24px; }
+
+/* V1: Table of Contents sidebar */
+.lesson-toc {
+  position: fixed;
+  right: max(24px, calc((100vw - 1100px) / 2));
+  top: 120px;
+  width: 180px;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  font-size: 13px;
+}
+.lesson-toc .toc-title {
+  padding: 6px 12px;
+  font-weight: 700;
+  color: var(--color-foreground);
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  opacity: .7;
+}
+.lesson-toc a {
+  display: block;
+  padding: 6px 12px;
+  color: var(--color-muted-foreground);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all .18s ease;
+  cursor: pointer;
+}
+.lesson-toc a:hover, .lesson-toc a.active {
+  color: var(--color-foreground);
+  border-left-color: var(--color-accent);
+}
+@media (max-width: 1200px) { .lesson-toc { display: none; } }
 
 .lesson-footer {
   margin-top: 60px; padding: 24px;
@@ -195,7 +336,7 @@ const nextLesson = computed(() => {
 @media (max-width: 768px) {
   .nav-inner { flex-wrap: wrap; gap: 8px; padding: 10px 16px; }
   .nav-links { margin-left: 0; width: 100%; }
-  .nav-link { font-size: 12px; padding: 4px 10px; }
+  .nav-link { font-size: 12px; min-height: 44px; padding: 10px 16px; }
   .footer-nav { grid-template-columns: 1fr; }
   .footer-card.prev, .footer-card.next, .footer-card.home { text-align: center; }
 }

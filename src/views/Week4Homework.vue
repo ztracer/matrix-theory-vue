@@ -63,9 +63,9 @@ const lessonTitles = {
 
 .lesson-group {
   margin-bottom: 48px;
-  background: var(--card);
+  background: var(--color-card);
   border-radius: 16px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   padding: 28px 24px 20px;
   position: relative;
   overflow: hidden;
@@ -82,10 +82,10 @@ const lessonTitles = {
 .lesson-title {
   font-size: 22px;
   font-weight: 700;
-  color: var(--text);
+  color: var(--color-foreground);
   margin: 0 0 20px;
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .hw-item {
@@ -106,16 +106,16 @@ const lessonTitles = {
 .hw-id {
   font-size: 12px;
   font-weight: 700;
-  color: var(--text-light);
-  background: var(--bg);
+  color: var(--color-muted-foreground);
+  background: var(--color-background);
   padding: 3px 10px;
   border-radius: 6px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   font-family: 'SF Mono', 'Fira Code', monospace;
 }
 .hw-source {
   font-size: 13px;
-  color: var(--text-light);
+  color: var(--color-muted-foreground);
   font-weight: 500;
 }
 .hw-tag {

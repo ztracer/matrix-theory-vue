@@ -307,7 +307,8 @@
         </table>
       </div>
 
-      <Steps :steps="[
+      <Steps
+:steps="[
         '判断 A 是高瘦型 (m&gt;n) 还是矮胖型 (m&lt;n)',
         '找出可逆方阵：列满秩用 AᵀA，行满秩用 AAᵀ',
         '用 Aᵀ 补齐到目标维度 n×m',
@@ -363,14 +364,16 @@
 
             <!-- 残差 (橙色虚线) -->
             <template v-if="projStep >= 1">
-              <line :x1="projB[0]*80" :y1="-projB[1]*80" :x2="projProj[0]*80" :y2="-projProj[1]*80"
+              <line
+:x1="projB[0]*80" :y1="-projB[1]*80" :x2="projProj[0]*80" :y2="-projProj[1]*80"
                 stroke="#f97316" stroke-width="2" stroke-dasharray="6,4" :opacity="projStep === 1 ? projT : 1"/>
               <text :x="(projB[0]+projProj[0])/2*80 + 8" :y="-(projB[1]+projProj[1])/2*80" font-size="11" fill="#f97316" :opacity="projStep === 1 ? projT : 1">残差⊥R(A)</text>
             </template>
 
             <!-- 投影动画中的投影线（垂直于R(A)的虚线） -->
             <template v-if="projStep >= 1">
-              <line :x1="projB[0]*80" :y1="-projB[1]*80"
+              <line
+:x1="projB[0]*80" :y1="-projB[1]*80"
                 :x2="(projB[0]+(projProj[0]-projB[0])*projT)*80"
                 :y2="-(projB[1]+(projProj[1]-projB[1])*projT)*80"
                 stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
@@ -483,7 +486,8 @@
 
     <!-- 10. 知识点小结 -->
     <Section num="12" title="知识点小结">
-      <Steps :steps="[
+      <Steps
+:steps="[
         '满秩分解 A=FG：F列满秩、G行满秩，可通过行标准形构造（取主元列为F，非零行为G）。',
         '普通逆只适用于可逆方阵，MP逆把\u201c求解\u201d推广到任意矩阵',
         'A⁺b 总是给出唯一最优结果：最小误差 + 极小范数',
@@ -499,7 +503,7 @@
 
     <!-- 11. 真题与习题汇总 -->
     <Section num="13" title="🗂️ 真题与习题汇总">
-      <WeekQuizBank :quizzes="quizzes" weekLabel="第2周" />
+      <WeekQuizBank :quizzes="quizzes" week-label="第2周" />
     </Section>
 
     <Section title="📝 课后作业" :num="14">
@@ -640,13 +644,13 @@ onUnmounted(() => {
   position: relative;
 }
 .pm-center {
-  background: linear-gradient(135deg,#4f46e5,#7c3aed);
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
   padding: 14px 36px;
   border-radius: 28px;
   font-size: 22px;
   font-weight: 700;
-  box-shadow: 0 4px 18px rgba(79,70,229,.35);
+  box-shadow: 0 4px 18px rgba(15,23,42,.25);
   animation: pm-pulse 2s ease-in-out infinite;
   z-index: 2;
 }
@@ -659,8 +663,8 @@ onUnmounted(() => {
 .pm-node {
   padding: 14px 18px;
   border-radius: 14px;
-  background: #fff;
-  border: 2px solid #e2e8f0;
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
   text-align: center;
   opacity: 0;
   animation: pm-light 6s ease-in-out infinite;
@@ -669,20 +673,20 @@ onUnmounted(() => {
 .pm-eq {
   font-size: 15px;
   font-weight: 700;
-  color: #4338ca;
+  color: var(--color-primary);
   margin-bottom: 4px;
 }
 .pm-desc {
   font-size: 11px;
-  color: #64748b;
+  color: var(--color-muted-foreground);
 }
 .pm-n1 { border-color: #93c5fd; }
 .pm-n2 { border-color: #6ee7b7; }
 .pm-n3 { border-color: #fcd34d; }
 .pm-n4 { border-color: #f9a8d4; }
 @keyframes pm-pulse {
-  0%,100% { box-shadow: 0 4px 18px rgba(79,70,229,.35); transform: scale(1); }
-  50% { box-shadow: 0 6px 28px rgba(79,70,229,.55); transform: scale(1.05); }
+  0%,100% { box-shadow: 0 4px 18px rgba(15,23,42,.25); transform: scale(1); }
+  50% { box-shadow: 0 6px 28px rgba(15,23,42,.4); transform: scale(1.05); }
 }
 @keyframes pm-light {
   0% { opacity: 0; transform: scale(0.7) translateY(10px); }
@@ -701,33 +705,33 @@ onUnmounted(() => {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-  background: #fff;
+  background: var(--color-card);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 1px 6px rgba(0,0,0,.06);
 }
 .compare-table thead th {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
   padding: 12px 14px;
   font-weight: 600;
   text-align: left;
 }
 .compare-table tbody td {
   padding: 11px 14px;
-  border-bottom: 1px solid #f1f5f9;
-  color: #334155;
+  border-bottom: 1px solid var(--color-muted);
+  color: var(--color-secondary);
   vertical-align: top;
 }
 .compare-table tbody tr:last-child td {
   border-bottom: none;
 }
 .compare-table tbody tr:hover {
-  background: #f8fafc;
+  background: var(--color-background);
 }
 .compare-table tbody td:first-child {
   font-weight: 600;
-  color: #1e293b;
+  color: var(--color-foreground);
   white-space: nowrap;
 }
 
@@ -750,7 +754,7 @@ onUnmounted(() => {
   border-radius: 16px;
   border: 2px dashed #94a3b8;
   min-width: 90px;
-  background: #fff;
+  background: var(--color-card);
 }
 .fr-n { border-color: #f59e0b; background: #fffbeb; }
 .fr-r { border-color: #059669; background: #ecfdf5; }
@@ -758,23 +762,23 @@ onUnmounted(() => {
 .fr-ball {
   width: 50px; height: 50px;
   border-radius: 50%;
-  background: radial-gradient(circle, #fde68a, #f59e0b);
+  background: var(--color-accent);
   opacity: 0;
   animation: fr-pulse 6s ease-in-out infinite;
 }
 .fr-ellipse {
   width: 60px; height: 40px;
   border-radius: 50%;
-  background: radial-gradient(circle, #6ee7b7, #059669);
+  background: var(--color-accent);
   opacity: 0;
   animation: fr-pulse 6s ease-in-out infinite;
 }
 .fr-rotated {
-  background: radial-gradient(circle, #93c5fd, #3b82f6);
+  background: var(--color-secondary);
   transform: rotate(20deg);
 }
-.fr-label { font-size: 18px; font-weight: 700; color: #1e293b; }
-.fr-sub { font-size: 11px; color: #64748b; }
+.fr-label { font-size: 18px; font-weight: 700; color: var(--color-foreground); }
+.fr-sub { font-size: 11px; color: var(--color-muted-foreground); }
 .fr-arrow {
   display: flex;
   flex-direction: column;
@@ -785,7 +789,7 @@ onUnmounted(() => {
 .fr-arrow-line {
   width: 40px;
   height: 3px;
-  background: linear-gradient(90deg, #0d9488, #14b8a6);
+  background: var(--color-accent);
   border-radius: 2px;
   position: relative;
   opacity: 0;
@@ -798,16 +802,16 @@ onUnmounted(() => {
   top: -4px;
   width: 12px;
   height: 12px;
-  background: #0d9488;
+  background: var(--color-accent);
   clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
 .fr-arrow-label { font-size: 16px; font-weight: 700; opacity: 0; animation: fr-fade 6s ease-in-out infinite; }
-.fr-arrow-sub { font-size: 10px; color: #64748b; opacity: 0; animation: fr-fade 6s ease-in-out infinite; }
+.fr-arrow-sub { font-size: 10px; color: var(--color-muted-foreground); opacity: 0; animation: fr-fade 6s ease-in-out infinite; }
 .fr-eq {
   margin-left: 12px;
   padding: 8px 20px;
-  background: linear-gradient(135deg,#0d9488,#14b8a6);
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
   border-radius: 12px;
   font-size: 18px;
   font-weight: 700;

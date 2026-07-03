@@ -30,17 +30,17 @@
     <!-- Section 1: 6大高频计算题 -->
     <Section title="六大高频计算题模板" :num="1">
       <div class="template-grid">
-        <div class="template-card" v-for="(t, i) in calcTemplates" :key="i">
+        <div v-for="(t, i) in calcTemplates" :key="i" class="template-card">
           <div class="t-card-header" :style="{background: t.color}">
             <span class="t-num">{{ i+1 }}</span>
             <span class="t-name">{{ t.name }}</span>
           </div>
           <div class="t-card-body">
-            <div class="t-step" v-for="(s, j) in t.steps" :key="j">
+            <div v-for="(s, j) in t.steps" :key="j" class="t-step">
               <span class="s-bullet">{{ j+1 }}</span>
               <span class="s-text">{{ s }}</span>
             </div>
-            <div class="t-formula" v-if="t.formula">
+            <div v-if="t.formula" class="t-formula">
               <span class="formula-inline">{{ t.formula }}</span>
             </div>
           </div>
@@ -51,7 +51,7 @@
     <!-- Section 2: 6大证明题模板 -->
     <Section title="六大证明题模板" :num="2">
       <div class="proof-list">
-        <div class="proof-item" v-for="(p, i) in proofTemplates" :key="i">
+        <div v-for="(p, i) in proofTemplates" :key="i" class="proof-item">
           <div class="p-head">
             <span class="p-idx">{{ String.fromCharCode(65+i) }}</span>
             <span class="p-title">{{ p.title }}</span>
@@ -77,8 +77,8 @@
         <svg viewBox="0 0 700 280" class="responsive-svg">
           <defs>
             <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#ea580c"/>
-              <stop offset="100%" stop-color="#7c3aed"/>
+              <stop offset="0%" stop-color="var(--color-secondary)"/>
+              <stop offset="100%" stop-color="var(--color-primary)"/>
             </linearGradient>
           </defs>
           <!-- Flow line (always fully visible in auto mode) -->
@@ -86,7 +86,8 @@
 
           <!-- Flow nodes with CSS pulse animation -->
           <g v-for="(node, i) in flowNodes" :key="i">
-            <circle class="flow-node" :cx="node.x" :cy="140" r="30"
+            <circle
+class="flow-node" :cx="node.x" :cy="140" r="30"
                     :fill="node.activeColor" :stroke="node.activeColor" stroke-width="2"
                     :style="{ color: node.activeColor, animationDelay: (i * 1) + 's' }"/>
             <text :x="node.x" :y="138" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">{{ node.icon }}</text>
@@ -158,16 +159,16 @@
         <svg viewBox="0 0 1000 600" class="responsive-svg mindmap-svg">
           <defs>
             <linearGradient id="gRoot2" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#4f46e5"/><stop offset="50%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#ec4899"/>
+              <stop offset="0%" stop-color="#0F172A"/><stop offset="50%" stop-color="#1e293b"/><stop offset="100%" stop-color="#334155"/>
             </linearGradient>
             <linearGradient id="gW1r" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#4338ca"/><stop offset="100%" stop-color="#6366f1"/>
+              <stop offset="0%" stop-color="#0F172A"/><stop offset="100%" stop-color="#334155"/>
             </linearGradient>
             <linearGradient id="gW2r" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#0d9488"/><stop offset="100%" stop-color="#14b8a6"/>
+              <stop offset="0%" stop-color="#0369A1"/><stop offset="100%" stop-color="#0d9488"/>
             </linearGradient>
             <linearGradient id="gW3r" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ea580c"/><stop offset="100%" stop-color="#ec4899"/>
+              <stop offset="0%" stop-color="#475569"/><stop offset="100%" stop-color="#64748b"/>
             </linearGradient>
             <filter id="glow">
               <feGaussianBlur stdDeviation="3" result="blur"/>
@@ -349,7 +350,7 @@
 
     <!-- Section: 综合模拟题 -->
     <Section title="综合模拟大题" :num="7">
-      <ExampleBox source="考前综合模拟（必考题型：Jordan+e^At+微分方程）" badge="🏆 综合大题" defaultOpen>
+      <ExampleBox source="考前综合模拟（必考题型：Jordan+e^At+微分方程）" badge="🏆 综合大题" default-open>
         <template #problem>
           <p>
             已知矩阵<span class="formula-inline">A = \begin{pmatrix} 3 & -1 & 1 \\ 2 & 0 & 1 \\ 1 & -1 & 2 \end{pmatrix}</span>。
@@ -416,7 +417,8 @@
 
     <!-- Final summary steps -->
     <Section title="考场应试锦囊" :num="8">
-      <Steps :steps="[
+      <Steps
+:steps="[
         '拿到题目先分类：计算题/证明题，判断题型（Jordan/<span class=&quot;formula-inline&quot;>e^{At}</span>/QR/SVD/投影/盖尔）',
         '计算题先写公式框架，再代入数值；三阶矩阵优先用迹和行列式校验特征值',
         'Jordan题：先求特征值→分析几何重数→确定块结构→求特征/广义特征向量',
@@ -428,7 +430,7 @@
 
     <!-- WeekQuizBank: 汇总第3周全部题目 -->
     <Section title="🗂️ 真题与习题汇总（三周综合）">
-      <WeekQuizBank :quizzes="allQuizzes" weekLabel="三周总复习" />
+      <WeekQuizBank :quizzes="allQuizzes" week-label="三周总复习" />
     </Section>
   </LessonLayout>
 </template>
@@ -460,37 +462,37 @@ const { renderMath } = useKatex(renderTrigger)
 const calcTemplates = [
   {
     name: 'Jordan标准形',
-    color: 'linear-gradient(135deg,#4338ca,#6366f1)',
+    color: 'var(--color-primary)',
     steps: ['求特征多项式det(A-λI)=0', '分析每个特征值的几何重数', '确定Jordan块结构', '求特征向量和广义特征向量', '组装P和J'],
     formula: 'P^{-1}AP = J'
   },
   {
     name: '矩阵指数e^{At}',
-    color: 'linear-gradient(135deg,#6366f1,#7c3aed)',
+    color: 'var(--color-secondary)',
     steps: ['求Jordan标准形J和变换矩阵P', '写出e^{Jt}（对角→e^{λt}，Jordan块→e^{λt}乘多项式）', '计算e^{At}=Pe^{Jt}P⁻¹'],
     formula: 'e^{J_k(\\lambda)t} = e^{\\lambda t}\\begin{pmatrix}1&t&t^2/2\\\\0&1&t\\\\0&0&1\\end{pmatrix}'
   },
   {
     name: 'Householder QR',
-    color: 'linear-gradient(135deg,#0d9488,#14b8a6)',
+    color: 'var(--color-accent)',
     steps: ['对第k列构造Householder向量v= x-αe₁', '计算H=I-2vvᵀ/(vᵀv)', '左乘H消去第k列次对角元以下', '重复直到R为上三角', 'Q=H₁H₂…H_{n-1}'],
     formula: 'H = I - \\frac{2vv^{\\mathsf{T}}}{v^{\\mathsf{T}}v}'
   },
   {
     name: '满秩分解求A⁺',
-    color: 'linear-gradient(135deg,#14b8a6,#06b6d4)',
+    color: 'var(--color-accent)',
     steps: ['行变换求行最简形，确定F（主元列）和G（非零行）', '计算A⁺=Gᵀ(GGᵀ)⁻¹(FᵀF)⁻¹Fᵀ', '验证四个Penrose方程'],
     formula: 'A = FG \\implies A^+ = G^{\\mathsf{T}}(GG^{\\mathsf{T}})^{-1}(F^{\\mathsf{T}}F)^{-1}F^{\\mathsf{T}}'
   },
   {
     name: '正交投影矩阵',
-    color: 'linear-gradient(135deg,#ea580c,#f97316)',
+    color: 'var(--color-primary)',
     steps: ['确定目标子空间R(A)（列满秩）', '计算P=A(AᵀA)⁻¹Aᵀ=AA⁺', '验证P²=P和Pᵀ=P'],
     formula: 'P = A(A^{\\mathsf{T}}A)^{-1}A^{\\mathsf{T}}'
   },
   {
     name: '盖尔圆盘估计',
-    color: 'linear-gradient(135deg,#f97316,#fb923c)',
+    color: 'var(--color-secondary)',
     steps: ['计算每个圆盘Gᵢ: |z-aᵢᵢ|≤Rᵢ', '分析圆盘连通性', '用隔离定理确定特征值范围', '必要时用对角缩放D⁻¹AD缩小圆盘'],
     formula: 'R_i = \\sum_{j\\neq i}|a_{ij}|'
   }
@@ -602,7 +604,7 @@ onUnmounted(() => {
 <style scoped>
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; }
-h3 { color: #7c3aed; }
+h3 { color: var(--color-primary); }
 .responsive-svg { max-width: 100%; height: auto; display: block; }
 :deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
 
@@ -637,30 +639,24 @@ h3 { color: #7c3aed; }
   margin-bottom: 8px;
 }
 .banner-item {
-  background: linear-gradient(135deg, #fff7ed, #ffedd5);
+  background: var(--color-muted);
   border-radius: 12px;
   padding: 20px 16px;
   text-align: center;
-  border: 2px solid #fed7aa;
+  border: 2px solid var(--color-border);
 }
 .banner-item.accent {
-  background: linear-gradient(135deg, #fdf2f8, #fce7f3);
-  border-color: #f9a8d4;
+  background: var(--color-muted);
+  border-color: var(--color-accent);
 }
 .banner-num {
   display: block;
   font-size: 36px;
   font-weight: 800;
-  background: linear-gradient(135deg, #ea580c, #7c3aed);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-primary);
 }
 .banner-item.accent .banner-num {
-  background: linear-gradient(135deg, #ec4899, #7c3aed);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-accent);
 }
 .banner-label {
   font-size: 13px;
@@ -679,13 +675,13 @@ h3 { color: #7c3aed; }
 .template-card {
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #e2e8f0;
-  background: #fff;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
   box-shadow: 0 2px 8px rgba(0,0,0,.04);
 }
 .t-card-header {
   padding: 12px 16px;
-  color: #fff;
+  color: var(--color-on-primary);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -698,15 +694,15 @@ h3 { color: #7c3aed; }
   font-weight: 800; font-size: 14px;
 }
 .t-name { font-weight: 700; font-size: 15px; }
-.t-card-body { padding: 16px; font-size: 13px; line-height: 1.7; color: #475569; }
+.t-card-body { padding: 16px; font-size: 13px; line-height: 1.7; color: var(--color-secondary); }
 .t-step { display: flex; gap: 8px; margin: 4px 0; }
 .s-bullet {
   min-width: 20px; height: 20px;
-  background: #f1f5f9;
+  background: var(--color-muted);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 700;
-  color: #64748b;
+  color: var(--color-muted-foreground);
   flex-shrink: 0;
   margin-top: 1px;
 }
@@ -714,7 +710,7 @@ h3 { color: #7c3aed; }
 .t-formula {
   margin-top: 10px;
   padding: 8px 12px;
-  background: #f8fafc;
+  background: var(--color-background);
   border-radius: 6px;
   font-size: 12px;
   overflow-x: auto;
@@ -727,27 +723,27 @@ h3 { color: #7c3aed; }
 }
 .proof-item {
   border-radius: 10px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
   overflow: hidden;
 }
 .p-head {
   padding: 10px 16px;
-  background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+  background: var(--color-muted);
   display: flex;
   align-items: center;
   gap: 10px;
-  border-bottom: 1px solid #ddd6fe;
+  border-bottom: 1px solid var(--color-border);
 }
 .p-idx {
   width: 28px; height: 28px;
-  background: linear-gradient(135deg, #7c3aed, #a855f7);
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   font-weight: 800; font-size: 14px;
 }
-.p-title { font-weight: 700; color: #5b21b6; font-size: 15px; }
-.p-body { padding: 14px 16px; font-size: 13px; line-height: 1.75; color: #475569; background: #fff; }
+.p-title { font-weight: 700; color: var(--color-primary); font-size: 15px; }
+.p-body { padding: 14px 16px; font-size: 13px; line-height: 1.75; color: var(--color-secondary); background: var(--color-card); }
 .p-body ol { padding-left: 20px; margin: 6px 0; }
 .p-body li { margin: 3px 0; }
 
@@ -757,8 +753,8 @@ h3 { color: #7c3aed; }
   gap: 14px;
 }
 .trick-card {
-  background: linear-gradient(135deg, #fff7ed, #fff);
-  border: 1px solid #fed7aa;
+  background: var(--color-muted);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 16px;
 }
@@ -775,7 +771,7 @@ h3 { color: #7c3aed; }
   margin: 0;
   font-size: 13px;
   line-height: 1.75;
-  color: #475569;
+  color: var(--color-secondary);
 }
 .trick-card li {
   padding: 3px 0;

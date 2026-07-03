@@ -14,9 +14,9 @@
   <div v-else class="anim-box">
     <div class="anim-header">
       <span class="anim-title">🎬 {{ title }}</span>
-      <div class="anim-controls" v-if="!hideControls">
-        <button class="ctrl-btn" @click="$emit('play')" :disabled="playing">▶ 播放</button>
-        <button class="ctrl-btn" @click="$emit('pause')" :disabled="!playing">⏸ 暂停</button>
+      <div v-if="!hideControls" class="anim-controls">
+        <button class="ctrl-btn" :disabled="playing" @click="$emit('play')">▶ 播放</button>
+        <button class="ctrl-btn" :disabled="!playing" @click="$emit('pause')">⏸ 暂停</button>
         <button class="ctrl-btn" @click="$emit('reset')">↺ 重置</button>
         <button v-if="step" class="ctrl-btn" @click="$emit('step')">⏭ 步进</button>
         <slot name="controls"></slot>
@@ -116,5 +116,9 @@ defineEmits(['play', 'pause', 'reset', 'step'])
   background: var(--color-background);
   color: var(--color-muted-foreground);
   border-top-color: var(--color-border);
+}
+
+@media (max-width: 768px) {
+  .ctrl-btn { min-height: 44px; padding: 10px 16px; }
 }
 </style>

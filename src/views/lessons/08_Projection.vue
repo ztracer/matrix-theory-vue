@@ -214,7 +214,7 @@
       >
         <template #controls>
           <label style="font-size:12px;color:#64748b;display:flex;align-items:center;gap:6px;">
-            斜投影角：<input type="range" v-model.number="obliqueAngle" min="10" max="170" step="1" style="width:100px;">
+            斜投影角：<input v-model.number="obliqueAngle" type="range" min="10" max="170" step="1" style="width:100px;">
             {{ obliqueAngle }}°
           </label>
         </template>
@@ -245,32 +245,39 @@
           <text x="255" y="25" font-size="12" fill="#334155">y</text>
 
           <!-- Subspace L (line through origin at angle lineAngle) -->
-          <line :x1="250 - 200*Math.cos(lineAngleRad)" :y1="300 - 200*Math.sin(lineAngleRad)"
+          <line
+:x1="250 - 200*Math.cos(lineAngleRad)" :y1="300 - 200*Math.sin(lineAngleRad)"
                 :x2="250 + 200*Math.cos(lineAngleRad)" :y2="300 + 200*Math.sin(lineAngleRad)"
                 stroke="#ea580c" stroke-width="2.5" stroke-dasharray="6,3"/>
-          <text :x="250 + 185*Math.cos(lineAngleRad)" :y="300 + 185*Math.sin(lineAngleRad) - 8"
+          <text
+:x="250 + 185*Math.cos(lineAngleRad)" :y="300 + 185*Math.sin(lineAngleRad) - 8"
                 fill="#ea580c" font-size="13" font-weight="600">L</text>
 
           <!-- Original vector x (animated) -->
-          <line x1="250" y1="300" :x2="250 + px" :y2="300 - py"
+          <line
+x1="250" y1="300" :x2="250 + px" :y2="300 - py"
                 stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
           <text :x="250 + px + 8" :y="300 - py" fill="#2563eb" font-size="13" font-weight="600">x</text>
 
           <!-- Orthogonal projection -->
-          <line x1="250" y1="300" :x2="250 + opx" :y2="300 - opy"
+          <line
+x1="250" y1="300" :x2="250 + opx" :y2="300 - opy"
                 stroke="#10b981" stroke-width="2.5" marker-end="url(#arrowOrtho)"/>
           <!-- Dashed perpendicular line from x to orthogonal projection -->
-          <line :x1="250 + px" :y1="300 - py" :x2="250 + opx" :y2="300 - opy"
+          <line
+:x1="250 + px" :y1="300 - py" :x2="250 + opx" :y2="300 - opy"
                 stroke="#10b981" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.7"/>
           <text :x="250 + opx - 5" :y="300 - opy - 10" fill="#10b981" font-size="12" font-weight="600">P_ortho·x</text>
           <!-- Right angle marker -->
           <rect :x="250 + opx - 6" :y="300 - opy - 6" width="8" height="8" fill="none" stroke="#10b981" stroke-width="1" transform="rotate(0)"/>
 
           <!-- Oblique projection -->
-          <line x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
+          <line
+x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
                 stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arrowOblique)"/>
           <!-- Oblique projection direction line from x to oblique projection -->
-          <line :x1="250 + px" :y1="300 - py" :x2="250 + obpx" :y2="300 - obpy"
+          <line
+:x1="250 + px" :y1="300 - py" :x2="250 + obpx" :y2="300 - obpy"
                 stroke="#7c3aed" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.7"/>
           <text :x="250 + obpx + 5" :y="300 - obpy + 15" fill="#7c3aed" font-size="12" font-weight="600">P_oblq·x</text>
 
@@ -363,21 +370,25 @@
           <text x="455" y="290" fill="#ea580c" font-size="13" font-weight="600">L = R(P)</text>
 
           <!-- Vector x -->
-          <line x1="250" y1="300" :x2="250 + x2px" :y2="300 - x2py"
+          <line
+x1="250" y1="300" :x2="250 + x2px" :y2="300 - x2py"
                 stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrowX2)"/>
           <text :x="250 + x2px + 8" :y="300 - x2py" fill="#2563eb" font-size="13" font-weight="700">x</text>
 
           <!-- First projection Px (animates along projection) -->
-          <line x1="250" y1="300" :x2="250 + px1x" :y2="300 - px1y"
+          <line
+x1="250" y1="300" :x2="250 + px1x" :y2="300 - px1y"
                 stroke="#ea580c" stroke-width="2.5" :opacity="projAlpha1" marker-end="url(#arrowPx)"/>
           <text v-if="projAlpha1 > 0.3" :x="250 + px1x - 5" :y="300 - px1y - 12" fill="#ea580c" font-size="12" font-weight="600">Px</text>
 
           <!-- Projection path from x to Px -->
-          <line v-if="stage2 >= 1" :x1="250 + x2px" :y1="300 - x2py" :x2="250 + px1x" :y2="300 - px1y"
+          <line
+v-if="stage2 >= 1" :x1="250 + x2px" :y1="300 - x2py" :x2="250 + px1x" :y2="300 - px1y"
                 stroke="#ea580c" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.6"/>
 
           <!-- Second projection P(Px) -->
-          <line x1="250" y1="300" :x2="250 + ppx" :y2="300 - ppy"
+          <line
+x1="250" y1="300" :x2="250 + ppx" :y2="300 - ppy"
                 stroke="#7c3aed" stroke-width="3" :opacity="projAlpha2" marker-end="url(#arrowPPx)"/>
           <text v-if="projAlpha2 > 0.3" :x="250 + ppx - 20" :y="300 - ppy + 25" fill="#7c3aed" font-size="12" font-weight="700">P(Px)=Px</text>
 
@@ -443,25 +454,29 @@
           <text x="235" y="218" font-size="11" fill="#334155">O</text>
 
           <!-- Vector x -->
-          <line x1="250" y1="200" :x2="250 + x3x" :y2="200 - x3y"
+          <line
+x1="250" y1="200" :x2="250 + x3x" :y2="200 - x3y"
                 stroke="#2563eb" stroke-width="2.5"/>
           <polygon :points="arrowHead(250+x3x, 200-x3y, Math.atan2(-x3y, x3x), '#2563eb')" fill="#2563eb"/>
           <text :x="250 + x3x + 8" :y="200 - x3y" fill="#2563eb" font-size="14" font-weight="700">x</text>
 
           <!-- Px component (in R(P), orange) -->
-          <line v-if="decomp3 > 0.3" x1="250" y1="200" :x2="250 + px3" :y2="200"
+          <line
+v-if="decomp3 > 0.3" x1="250" y1="200" :x2="250 + px3" :y2="200"
                 stroke="#ea580c" stroke-width="3" :opacity="Math.min(decomp3, 1)"/>
           <polygon v-if="decomp3 > 0.5" :points="arrowHead(250+px3, 200, 0, '#ea580c')" fill="#ea580c"/>
           <text v-if="decomp3 > 0.5" :x="250 + px3/2 - 10" y="190" fill="#ea580c" font-size="12" font-weight="600">Px ∈ R(P)</text>
 
           <!-- (I-P)x component (in N(P), purple) -->
-          <line v-if="decomp3 > 0.5" :x1="250 + px3" :y1="200" :x2="250 + x3x" :y2="200 - x3y"
+          <line
+v-if="decomp3 > 0.5" :x1="250 + px3" :y1="200" :x2="250 + x3x" :y2="200 - x3y"
                 stroke="#7c3aed" stroke-width="2.5" :opacity="Math.min((decomp3-0.5)*2, 1)"/>
           <polygon v-if="decomp3 > 0.7" :points="arrowHead(250+x3x, 200-x3y, Math.atan2(-(x3y), x3x-px3), '#7c3aed')" fill="#7c3aed"/>
           <text v-if="decomp3 > 0.7" :x="250 + px3 + 15" :y="200 - x3y/2" fill="#7c3aed" font-size="11" font-weight="600">(I-P)x ∈ N(P)</text>
 
           <!-- Parallelogram (dashed) -->
-          <line v-if="decomp3 > 0.8" x1="250" y1="200" :x2="250 + (x3x-px3)" :y2="200 - x3y"
+          <line
+v-if="decomp3 > 0.8" x1="250" y1="200" :x2="250 + (x3x-px3)" :y2="200 - x3y"
                 stroke="#7c3aed" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
 
           <!-- Formula text -->
@@ -597,7 +612,8 @@
         </template>
       </ExampleBox>
 
-      <Steps :steps="[
+      <Steps
+:steps="[
         '识别投影类型：正交投影(<span class=&quot;formula-inline&quot;>P^{\\mathsf{T}}=P</span>)还是斜投影？目标子空间是什么？投影方向是什么？',
         '正交投影到列空间<span class=&quot;formula-inline&quot;>R(A)</span>：直接套公式 <span class=&quot;formula-inline&quot;>P = A(A^{\\mathsf{T}}A)^{-1}A^{\\mathsf{T}}</span>，注意A必须列满秩',
         '一维正交投影：<span class=&quot;formula-inline&quot;>P = uu^{\\mathsf{T}}/(u^{\\mathsf{T}}u)</span>，这是最简单的投影矩阵',
@@ -609,7 +625,7 @@
 
     <!-- WeekQuizBank -->
     <Section title="🗂️ 真题与习题汇总">
-      <WeekQuizBank :quizzes="quizzes" weekLabel="第3周" />
+      <WeekQuizBank :quizzes="quizzes" week-label="第3周" />
     </Section>
 
     <Section title="📝 课后作业" :num="10">

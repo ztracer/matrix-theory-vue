@@ -632,16 +632,16 @@ const hideTip = () => { tipShow.value = false }
 }
 
 /* Section base */
-.section { padding: 88px 0; }
-.section-header { text-align:left; margin-bottom:40px; display:grid; grid-template-columns: 280px 1fr; gap:32px; align-items:start; }
+.section { padding: 64px 0; }
+.section-header { text-align:left; margin-bottom:28px; display:grid; grid-template-columns: 280px 1fr; gap:20px; align-items:start; }
 .section-tag {
   display:inline-block; font-size:12px; font-weight:700;
   text-transform:uppercase; letter-spacing:.18em;
-  color:var(--color-accent); margin-top:10px;
+  color:var(--color-accent); margin-top:6px;
 }
 .section-header h2 {
   font-size:clamp(32px,4vw,48px); font-weight:700;
-  color:var(--color-foreground); margin-bottom:12px;
+  color:var(--color-foreground); margin-bottom:8px;
 }
 .section-desc { color:var(--color-muted-foreground); font-size:15px; max-width:680px; margin:0; grid-column: 1 / -1; }
 

@@ -39,7 +39,7 @@ export function useScrollReveal(target) {
       })
     }, {
       root: null,
-      rootMargin: '0px 0px -40px 0px',
+      rootMargin: '0px 0px 120px 0px',
       threshold: 0.01
     })
 

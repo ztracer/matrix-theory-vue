@@ -510,8 +510,8 @@ const hideTip = () => { tipShow.value = false }
 /* Scroll reveal */
 :global(.scroll-reveal-enabled) .reveal {
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 350ms var(--ease-out-strong), transform 350ms var(--ease-out-strong);
+  transform: translateY(28px);
+  transition: opacity 400ms var(--ease-out-strong), transform 400ms var(--ease-out-strong);
 }
 :global(.scroll-reveal-enabled) .reveal.revealed {
   opacity: 1;
@@ -519,8 +519,8 @@ const hideTip = () => { tipShow.value = false }
 }
 :global(.scroll-reveal-enabled) .card.reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition-delay: calc(var(--i, 0) * 60ms);
+  transform: translateY(32px);
+  transition-delay: calc(var(--i, 0) * 80ms);
 }
 :global(.scroll-reveal-enabled) .card.reveal.revealed {
   opacity: 1;
@@ -528,8 +528,8 @@ const hideTip = () => { tipShow.value = false }
 }
 :global(.scroll-reveal-enabled) .path-item.reveal {
   opacity: 0;
-  transform: translateX(-12px);
-  transition-delay: calc(var(--i, 0) * 80ms);
+  transform: translateX(-20px);
+  transition-delay: calc(var(--i, 0) * 100ms);
 }
 :global(.scroll-reveal-enabled) .path-item.reveal.revealed {
   opacity: 1;
@@ -537,7 +537,7 @@ const hideTip = () => { tipShow.value = false }
 }
 :global(.scroll-reveal-enabled) .section-header.reveal {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(20px);
 }
 :global(.scroll-reveal-enabled) .section-header.reveal.revealed {
   opacity: 1;

@@ -527,6 +527,11 @@ const hideTip = () => { tipShow.value = false }
   opacity: .045;
   color: var(--color-on-primary);
   pointer-events: none;
+  animation: float 20s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(20px, -20px) rotate(5deg); }
 }
 .hero-content { text-align: left; position: relative; z-index:1; display:grid; grid-template-columns: 1.35fr .65fr; gap:48px; align-items:end; }
 .hero-badge {

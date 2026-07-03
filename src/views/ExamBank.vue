@@ -168,7 +168,7 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 /* ===== Nav ===== */
 .exam-nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(255,255,255,.94);
+  background: color-mix(in srgb, var(--color-card) 94%, transparent);
   border-bottom: 1px solid var(--color-border);
   backdrop-filter: blur(12px);
 }
@@ -261,7 +261,7 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 .week-title-bar h2 {
   margin: 0; font-size: 22px; color: var(--color-on-primary); font-weight: 700;
 }
-.week-count { margin: 4px 0 0; font-size: 13px; color: #cbd5e1; }
+.week-count { margin: 4px 0 0; font-size: 13px; color: var(--color-muted-foreground); }
 
 .topic-card {
   background: var(--color-card);
@@ -314,8 +314,8 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 }
 .footer-btn:hover { transform: translateY(-1px); }
 .footer-copy {
-  font-size: 12px; color: #94a3b8; margin-top: 20px;
-  border-top: 1px solid rgba(255,255,255,.1); padding-top: 16px;
+  font-size: 12px; color: var(--color-muted-foreground); margin-top: 20px;
+  border-top: 1px solid color-mix(in srgb, var(--color-on-primary) 10%, transparent); padding-top: 16px;
 }
 
 @media (max-width: 768px) {

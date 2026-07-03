@@ -247,7 +247,7 @@ onUnmounted(() => {
 
 .lesson-nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(255,255,255,.94);
+  background: color-mix(in srgb, var(--color-card) 94%, transparent);
   border-bottom: 1px solid var(--color-border);
   backdrop-filter: blur(12px);
 }
@@ -417,7 +417,7 @@ onUnmounted(() => {
 }
 .footer-card:hover {
   transform: translateY(-1px);
-  border-color: #cbd5e1;
+  border-color: var(--color-muted-foreground);
 }
 .footer-card.prev { text-align: left; }
 .footer-card.next { text-align: right; }

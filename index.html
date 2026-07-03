@@ -12,6 +12,13 @@
     <meta property="og:description" content="通过Vue驱动的SVG/Canvas动画，直观理解矩阵论的几何意义与代数本质。" />
     <meta property="og:type" content="website" />
     <title>矩阵论可视化交互学习</title>
+    <script>
+      (function() {
+        var t = localStorage.getItem('matrix-theme');
+        if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
   </head>
   <body>
     <a href="#app" class="skip-to-main">跳到主内容</a>

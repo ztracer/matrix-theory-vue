@@ -83,8 +83,8 @@ watch(show, () => {
   color: var(--color-on-primary); font-weight: 700; font-size: 13px;
   padding: 4px 0;
 }
-.quiz-source { color: #cbd5e1; font-size: 13px; }
-.quiz-id { color: #94a3b8; font-size: 12px; margin-left: auto; }
+.quiz-source { color: var(--color-muted-foreground); font-size: 13px; }
+.quiz-id { color: var(--color-muted-foreground); font-size: 12px; margin-left: auto; }
 .quiz-problem {
   padding: 14px 16px;
   font-size: 15px; line-height: 1.75; color: var(--color-secondary);

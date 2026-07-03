@@ -214,21 +214,20 @@ html {
 [data-theme="dark"] {
   --color-primary: #F8FAFC;
   --color-on-primary: #0F172A;
-  --color-secondary: #94A3B8;
+  --color-secondary: #CBD5E1;
   --color-on-secondary: #0F172A;
   --color-accent: #38BDF8;
   --color-on-accent: #0F172A;
-  --color-background: #0F172A;
+  --color-background: #0B1220;
   --color-foreground: #F1F5F9;
   --color-card: #1E293B;
   --color-card-foreground: #F1F5F9;
-  --color-muted: #1E293B;
+  --color-muted: #334155;
   --color-muted-foreground: #94A3B8;
   --color-border: #334155;
   --color-destructive: #EF4444;
   --color-ring: #38BDF8;
 
-  /* Legacy aliases update for dark */
   --primary: var(--color-primary);
   --primary-dark: var(--color-primary);
   --primary-light: var(--color-accent);
@@ -250,27 +249,6 @@ html {
   color-scheme: dark;
 }
 
-/* Dark mode specific overrides for fixed elements */
-[data-theme="dark"] .lesson-nav {
-  background: rgba(15, 23, 42, .94);
-  border-bottom-color: var(--color-border);
-}
-
-[data-theme="dark"] .exam-nav {
-  background: rgba(15, 23, 42, .94);
-  border-bottom-color: var(--color-border);
-}
-
-[data-theme="dark"] .hero {
-  background: #020617;
-}
-
-[data-theme="dark"] .stat {
-  background: rgba(15, 23, 42, .92);
-}
-
-[data-theme="dark"] .kg-filter:hover,
-[data-theme="dark"] .kg-filter.active {
-  color: var(--color-on-primary);
-  background: var(--color-primary);
-}
+[data-theme="dark"] ::-webkit-scrollbar-track { background: #1E293B; }
+[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #475569; }
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: #64748B; }

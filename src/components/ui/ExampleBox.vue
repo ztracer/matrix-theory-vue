@@ -46,7 +46,7 @@ defineProps({
   font-size: 14px;
   padding: 4px 0;
 }
-.example-source { color: #cbd5e1; font-size: 13px; }
+.example-source { color: var(--color-muted-foreground); font-size: 13px; }
 .example-problem {
   padding: 16px 20px;
   font-size: 15px;

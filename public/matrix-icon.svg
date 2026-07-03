@@ -1,46 +1,56 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254" role="img" aria-labelledby="title desc">
-  <title id="title">Matrix Theory Visual Interactive Learning System icon</title>
-  <desc id="desc">A polished slate and blue academic icon combining matrix brackets, a transformation grid, eigenvalue nodes, and a rising vector.</desc>
+  <title id="title">矩阵论可视化交互学习系统</title>
+  <desc id="desc">A clean recreation of the original icon: dark coordinate axes, a blue diagonal transformation vector, and a green mathematical curve on a light slate field.</desc>
+
   <defs>
-    <linearGradient id="bg" x1="188" y1="104" x2="1072" y2="1130" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#1E293B"/>
-      <stop offset="1" stop-color="#0F172A"/>
+    <linearGradient id="blue" x1="340" y1="1030" x2="1020" y2="250" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0369A1"/>
+      <stop offset=".55" stop-color="#0EA5E9"/>
+      <stop offset="1" stop-color="#38BDF8"/>
     </linearGradient>
-    <linearGradient id="axis" x1="258" y1="936" x2="1010" y2="214" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#38BDF8"/>
-      <stop offset="1" stop-color="#0369A1"/>
+    <linearGradient id="green" x1="390" y1="980" x2="885" y2="330" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#15803D"/>
+      <stop offset=".48" stop-color="#16A34A"/>
+      <stop offset="1" stop-color="#65A30D"/>
     </linearGradient>
-    <filter id="shadow" x="-15%" y="-15%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="24" stdDeviation="30" flood-color="#020617" flood-opacity=".35"/>
-    </filter>
   </defs>
 
-  <rect width="1254" height="1254" rx="244" fill="url(#bg)"/>
-  <path d="M166 1014V240c0-42 32-76 74-76h192v106H284v714h148v106H240c-42 0-74-34-74-76Zm922 0c0 42-32 76-74 76H822V984h148V270H822V164h192c42 0 74 34 74 76v774Z" fill="#F8FAFC" opacity=".96"/>
+  <rect width="1254" height="1254" fill="#F8FAFC"/>
 
-  <g filter="url(#shadow)">
-    <path d="M335 811 535 450l214 254 191-351" fill="none" stroke="#F8FAFC" stroke-width="68" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/>
-    <path d="M335 811 535 450l214 254 191-351" fill="none" stroke="url(#axis)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M876 347h95v95" fill="none" stroke="#38BDF8" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
-
-  <g fill="none" stroke="#F8FAFC" stroke-width="22" opacity=".35" stroke-linecap="round">
-    <path d="M397 334h456M397 518h456M397 702h456M397 886h456"/>
-    <path d="M397 334v552M549 334v552M701 334v552M853 334v552"/>
+  <!-- Coordinate frame from the original icon -->
+  <g fill="#1E293B">
+    <path d="M118 1070V244h92v826z"/>
+    <path d="M72 256 164 72l94 184z"/>
+    <path d="M118 1031h912v92H118z"/>
+    <path d="M1006 985 1190 1077l-184 94z"/>
   </g>
 
-  <g fill="#0F172A" stroke="#F8FAFC" stroke-width="24">
-    <circle cx="535" cy="450" r="82"/>
-    <circle cx="749" cy="704" r="74"/>
+  <!-- Main blue transformation arrow -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M289 1035 1002 286" stroke="#0F172A" stroke-width="126" opacity=".08"/>
+    <path d="M289 1035 1002 286" stroke="url(#blue)" stroke-width="96"/>
   </g>
-  <g fill="#38BDF8">
-    <circle cx="535" cy="450" r="32"/>
-    <circle cx="749" cy="704" r="28"/>
+  <path d="M936 229 1138 116 1048 329z" fill="#38BDF8"/>
+  <path d="M955 249 1088 175 1029 315z" fill="#0369A1" opacity=".38"/>
+
+  <!-- Green curve / trajectory, rebuilt as smooth mathematical strokes -->
+  <g fill="none" stroke="url(#green)" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M305 1042C372 837 466 602 554 401c44-101 143-123 207-55 59 63 35 178-51 222-70 35-153-4-171-77-20-83 48-171 140-170 112 2 187 109 164 220-21 105-116 188-229 274-103 78-184 160-238 254" stroke-width="82"/>
+    <path d="M851 1051c-25-132 10-251 96-363" stroke-width="72"/>
   </g>
 
-  <g fill="#F8FAFC" opacity=".92">
-    <rect x="374" y="858" width="94" height="94" rx="20"/>
-    <rect x="791" y="300" width="72" height="72" rx="18"/>
+  <!-- Inner light cuts preserve the airy loop visible in the PNG at small sizes -->
+  <g fill="none" stroke="#F8FAFC" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M582 408c45-67 139-54 165 17 23 63-27 126-91 123-57-3-99-52-90-107" stroke-width="42"/>
+    <path d="M711 635c-63 54-147 116-209 191" stroke-width="34" opacity=".9"/>
   </g>
-  <path d="M296 1002h662" stroke="#0369A1" stroke-width="34" stroke-linecap="round" opacity=".9"/>
+
+  <!-- Clean terminals and small original-style axis accents -->
+  <g fill="#1E293B">
+    <circle cx="164" cy="1077" r="47"/>
+    <path d="M1026 1031h80v92h-80z"/>
+  </g>
+  <g fill="#F8FAFC" opacity=".96">
+    <circle cx="164" cy="1077" r="19"/>
+  </g>
 </svg>

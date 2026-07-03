@@ -1,4 +1,4 @@
-<img align="right" width="128" height="128" src="./public/matrix-icon.png" alt="矩阵论图标" />
+<img align="right" width="128" height="128" src="./public/matrix-full.png" alt="矩阵论图标" />
 
 # 矩阵论可视化交互学习系统
 

@@ -1,0 +1,35 @@
+id: "08-3"
+source: "2025年期末真题"
+lesson: 8
+knowledge:
+  - 矩阵方程
+  - 广义逆
+  - 相容性
+  - 通解
+problem: |
+  \text{设 } A=\begin{pmatrix}1&0\\0&0\end{pmatrix},\; B=\begin{pmatrix}0&0\\0&1\end{pmatrix},\; D=\begin{pmatrix}0&2\\0&0\end{pmatrix}.\; \text{判定矩阵方程 } AXB=D \text{ 的相容性；若相容，求其通解。}
+steps:
+  - title: '\text{计算 } A^+, B^+'
+    content: |
+      A=\operatorname{diag}(1,0),\; B=\operatorname{diag}(0,1).\; \text{对角矩阵的M-P广义逆：非零元取倒数、零元保持为零。故 } A^+=\operatorname{diag}(1,0)=A,\; B^+=\operatorname{diag}(0,1)=B.
+  - title: '\text{相容性判定}'
+    content: |
+      \text{矩阵方程 } AXB=D \text{ 相容的充要条件为 } AA^+DB^+B=D.\; \text{今 } AA^+=\operatorname{diag}(1,0),\; B^+B=\operatorname{diag}(0,1),\; AA^+DB^+B=\operatorname{diag}(1,0)\begin{pmatrix}0&2\\0&0\end{pmatrix}\operatorname{diag}(0,1)=\begin{pmatrix}0&2\\0&0\end{pmatrix}=D.\; \text{故方程相容。}
+  - title: '\text{特解 } X_0=A^+DB^+'
+    content: |
+      X_0=A^+DB^+=\begin{pmatrix}0&2\\0&0\end{pmatrix}.\; \text{验证}:\; AX_0B=D.\;\checkmark
+  - title: '\text{齐次部分结构}'
+    content: |
+      \text{令 } P_A=A^+A=\operatorname{diag}(1,0),\; P_B=BB^+=\operatorname{diag}(0,1).\; \text{对任意 } Y=\begin{pmatrix}y_{11}&y_{12}\\y_{21}&y_{22}\end{pmatrix},\; Y-A^+AYBB^+=Y-P_AYP_B=\begin{pmatrix}y_{11}&0\\y_{21}&y_{22}\end{pmatrix}.\; \text{（}P_A\text{ 抹去第2行，}P_B\text{ 抹去第1列。）}
+  - title: '\text{通解}'
+    content: |
+      X=X_0+(Y-A^+AYBB^+)=\begin{pmatrix}y_{11}&2\\y_{21}&y_{22}\end{pmatrix},\; y_{11},y_{21},y_{22}\in\R.\; \text{验证}:\; AXB=D\text{ 对所有此类 }X\text{ 成立。}
+  - title: '\text{📖 从 } Ax=b \text{ 到 } AXB=D'
+    content: |
+      \text{一维方程 }Ax=b\text{ 相容}\iff AA^+b=b\text{，通解 }x=A^+b+(I-A^+A)z.\; \text{矩阵方程 }AXB=D\text{ 是双边推广：左乘}A\text{ 作用在行空间，右乘}B\text{ 作用在列空间。相容条件变为 }AA^+DB^+B=D\text{（两端各加投影）；通解变为 }X=A^+DB^++(Y-A^+AYBB^+).
+  - title: '\text{📖 相容条件推导}'
+    content: |
+      \text{若 }AXB=D\text{ 有解 }X_0\text{，左乘 }AA^+\text{、右乘 }B^+B:\; AA^+(AX_0B)B^+B=(AA^+A)X_0(BB^+B)=AX_0B=D.\; \text{即 }AA^+DB^+B=D.\; \text{反之若该条件成立，取 }X_0=A^+DB^+,\text{ 则由Penrose方程可证 }AX_0B=D.\; \text{（本题中 }A,B\text{ 恰为投影矩阵：}A^2=A,\;B^2=B\text{。）}
+  - title: '\text{📖 通解公式推导}'
+    content: |
+      \text{特解}+\text{齐次通解}.\; \text{齐次方程 }A\Delta X B=0.\; \text{对任意 }Y,\; \Delta X=Y-A^+AYBB^+\text{ 满足 }A\Delta X B=AYB-A(A^+A)Y(BB^+)B=AYB-(AA^+A)Y(BB^+B)=0.\; \text{故通解 }X=A^+DB^++(Y-A^+AYBB^+).\; A^+A\text{ 投影到 }\mathcal{R}(A^T),\; BB^+\text{ 投影到 }\mathcal{R}(B).

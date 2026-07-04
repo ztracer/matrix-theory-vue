@@ -341,10 +341,10 @@ x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
         @pause="pause2"
         @reset="reset2"
       >
-        <svg ref="svg2" viewBox="0 0 500 340" class="responsive-svg">
+        <svg ref="svg2" viewBox="0 0 500 320" class="responsive-svg projection-clean-svg">
           <defs>
             <marker id="arrow2a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-              <polygon points="0 0, 8 3, 0 6" fill="#334155"/>
+              <polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/>
             </marker>
             <marker id="arrowX2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <polygon points="0 0, 8 3, 0 6" fill="#2563eb"/>
@@ -352,24 +352,25 @@ x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
             <marker id="arrowPx" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <polygon points="0 0, 8 3, 0 6" fill="#ea580c"/>
             </marker>
-            <marker id="arrowPPx" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-              <polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/>
-            </marker>
           </defs>
+          <rect x="34" y="28" width="432" height="260" rx="18" fill="#f8fafc" stroke="#e2e8f0"/>
+
           <!-- Axes -->
-          <line :x1="origin2.x" y1="42" :x2="origin2.x" y2="298" stroke="#cbd5e1" stroke-width="1.2" marker-end="url(#arrow2a)"/>
-          <line x1="64" :y1="origin2.y" x2="448" :y2="origin2.y" stroke="#cbd5e1" stroke-width="1.2" marker-end="url(#arrow2a)"/>
+          <line :x1="origin2.x" :y1="origin2.y" :x2="origin2.x" y2="66" stroke="#94a3b8" stroke-width="1.3" marker-end="url(#arrow2a)"/>
+          <line :x1="origin2.x" :y1="origin2.y" x2="422" :y2="origin2.y" stroke="#94a3b8" stroke-width="1.3" marker-end="url(#arrow2a)"/>
+          <text :x="origin2.x - 20" y="72" font-size="12" fill="#94a3b8" font-weight="700">e₂</text>
+          <text x="414" :y="origin2.y - 10" font-size="12" fill="#94a3b8" font-weight="700">e₁</text>
 
           <!-- Range R(P) -->
-          <line x1="64" :y1="origin2.y" x2="448" :y2="origin2.y" stroke="#ea580c" stroke-width="6" stroke-linecap="round" opacity="0.24"/>
-          <text x="358" :y="origin2.y - 12" fill="#ea580c" font-size="13" font-weight="700">R(P)：投影后停留的子空间</text>
+          <line x1="72" :y1="origin2.y" x2="422" :y2="origin2.y" stroke="#ea580c" stroke-width="8" stroke-linecap="round" opacity="0.2"/>
+          <text x="318" :y="origin2.y - 16" fill="#ea580c" font-size="13" font-weight="700">R(P)</text>
           <circle :cx="origin2.x" :cy="origin2.y" r="4" fill="#334155"/>
-          <text :x="origin2.x - 16" :y="origin2.y + 20" font-size="12" fill="#334155">O</text>
+          <text :x="origin2.x - 18" :y="origin2.y + 22" font-size="12" fill="#334155" font-weight="700">O</text>
 
           <!-- Vector x -->
           <line
             :x1="origin2.x" :y1="origin2.y" :x2="origin2.x + x2px" :y2="origin2.y - x2py"
-                stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrowX2)"/>
+                stroke="#2563eb" stroke-width="3" marker-end="url(#arrowX2)"/>
           <text :x="origin2.x + x2px + 8" :y="origin2.y - x2py" fill="#2563eb" font-size="14" font-weight="700">x</text>
 
           <!-- First projection Px -->
@@ -377,7 +378,7 @@ x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
             :x1="origin2.x" :y1="origin2.y" :x2="origin2.x + px1x" :y2="origin2.y - px1y"
             stroke="#ea580c" stroke-width="3" :opacity="projAlpha1" marker-end="url(#arrowPx)"/>
           <circle v-if="projAlpha1 > 0.98" :cx="origin2.x + x2px" :cy="origin2.y" r="5" fill="#ea580c"/>
-          <text v-if="projAlpha1 > 0.25" :x="origin2.x + px1x - 10" :y="origin2.y - px1y - 14" fill="#ea580c" font-size="13" font-weight="700">Px</text>
+          <text v-if="projAlpha1 > 0.25" :x="origin2.x + px1x - 10" :y="origin2.y - px1y - 16" fill="#ea580c" font-size="13" font-weight="700">Px</text>
 
           <!-- Projection path from x to Px, drawn vertically for this orthogonal example -->
           <line
@@ -388,17 +389,14 @@ x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
 
           <!-- Second projection is shown as a small pulse at Px, not a competing arrow -->
           <g v-if="stage2 >= 2" :opacity="projAlpha2">
-            <circle :cx="origin2.x + x2px" :cy="origin2.y" :r="8 + 6 * projPulse2" fill="none" stroke="#7c3aed" stroke-width="2"/>
-            <path
-              :d="`M ${origin2.x + x2px - 28} ${origin2.y + 22} C ${origin2.x + x2px - 8} ${origin2.y + 40}, ${origin2.x + x2px + 28} ${origin2.y + 38}, ${origin2.x + x2px + 34} ${origin2.y + 6}`"
-              fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowPPx)"/>
-            <text :x="origin2.x + x2px + 16" :y="origin2.y + 32" fill="#7c3aed" font-size="13" font-weight="700">P(Px)=Px，不再移动</text>
+            <circle :cx="origin2.x + x2px" :cy="origin2.y" :r="10 + 5 * projPulse2" fill="none" stroke="#7c3aed" stroke-width="2"/>
+            <text :x="origin2.x + x2px + 16" :y="origin2.y + 28" fill="#7c3aed" font-size="13" font-weight="700">P(Px)=Px</text>
           </g>
 
           <!-- Step caption -->
           <g>
-            <rect x="92" y="24" width="316" height="46" rx="8" fill="#fff" stroke="#e2e8f0"/>
-            <text x="250" y="52" text-anchor="middle" font-size="14" font-weight="700" fill="#334155">{{ idemStepText }}</text>
+            <rect x="88" y="244" width="324" height="34" rx="8" fill="#fff" stroke="#e2e8f0"/>
+            <text x="250" y="266" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">{{ idemStepText }}</text>
           </g>
         </svg>
       </AnimationBox>
@@ -436,10 +434,10 @@ x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
         @pause="pause3"
         @reset="reset3"
       >
-        <svg ref="svg3" viewBox="0 0 500 360" class="responsive-svg">
+        <svg ref="svg3" viewBox="0 0 500 340" class="responsive-svg projection-clean-svg">
           <defs>
             <marker id="arrow3a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-              <polygon points="0 0, 8 3, 0 6" fill="#334155"/>
+              <polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/>
             </marker>
             <marker id="arrow3x" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <polygon points="0 0, 8 3, 0 6" fill="#2563eb"/>
@@ -451,18 +449,22 @@ x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
               <polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/>
             </marker>
           </defs>
+          <rect x="34" y="28" width="432" height="280" rx="18" fill="#f8fafc" stroke="#e2e8f0"/>
+
           <!-- Coordinate axes -->
-          <line :x1="origin3.x" y1="42" :x2="origin3.x" y2="316" stroke="#cbd5e1" stroke-width="1.2" marker-end="url(#arrow3a)"/>
-          <line x1="64" :y1="origin3.y" x2="448" :y2="origin3.y" stroke="#cbd5e1" stroke-width="1.2" marker-end="url(#arrow3a)"/>
+          <line :x1="origin3.x" :y1="origin3.y" :x2="origin3.x" y2="62" stroke="#94a3b8" stroke-width="1.3" marker-end="url(#arrow3a)"/>
+          <line :x1="origin3.x" :y1="origin3.y" x2="422" :y2="origin3.y" stroke="#94a3b8" stroke-width="1.3" marker-end="url(#arrow3a)"/>
+          <text :x="origin3.x - 20" y="68" font-size="12" fill="#94a3b8" font-weight="700">e₂</text>
+          <text x="414" :y="origin3.y - 10" font-size="12" fill="#94a3b8" font-weight="700">e₁</text>
 
           <!-- R(P) subspace (green line) -->
-          <line x1="64" :y1="origin3.y" x2="448" :y2="origin3.y" stroke="#10b981" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
-          <text x="390" :y="origin3.y - 14" fill="#059669" font-size="13" font-weight="700">R(P)</text>
+          <line x1="72" :y1="origin3.y" x2="422" :y2="origin3.y" stroke="#10b981" stroke-width="8" stroke-linecap="round" opacity="0.22"/>
+          <text x="374" :y="origin3.y - 14" fill="#059669" font-size="13" font-weight="700">R(P)</text>
 
           <!-- N(P) subspace (pink line, not a filled plane) -->
-          <line :x1="origin3.x - n3dx * 2" :y1="origin3.y + n3dy * 2" :x2="origin3.x + n3dx * 2" :y2="origin3.y - n3dy * 2"
-                stroke="#db2777" stroke-width="3" stroke-dasharray="8,6" opacity="0.78"/>
-          <text :x="origin3.x - n3dx * 1.85 - 4" :y="origin3.y + n3dy * 1.85 - 10" fill="#db2777" font-size="13" font-weight="700">N(P)</text>
+          <line :x1="origin3.x" :y1="origin3.y + n3dy * 2" :x2="origin3.x" :y2="origin3.y - n3dy * 2"
+                stroke="#db2777" stroke-width="3" stroke-dasharray="8,7" opacity="0.72"/>
+          <text :x="origin3.x - 55" :y="origin3.y - n3dy * 1.6" fill="#db2777" font-size="13" font-weight="700">N(P)</text>
 
           <!-- Origin -->
           <circle :cx="origin3.x" :cy="origin3.y" r="4" fill="#334155"/>
@@ -471,7 +473,7 @@ x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
           <!-- Vector x -->
           <line
             :x1="origin3.x" :y1="origin3.y" :x2="origin3.x + x3x" :y2="origin3.y - x3y"
-            stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow3x)"/>
+            stroke="#2563eb" stroke-width="3" marker-end="url(#arrow3x)"/>
           <text :x="origin3.x + x3x + 8" :y="origin3.y - x3y" fill="#2563eb" font-size="14" font-weight="700">x</text>
 
           <!-- Px component (in R(P), orange) -->
@@ -490,16 +492,22 @@ x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
             stroke="#7c3aed" stroke-width="2.8" :opacity="Math.min((decomp3-0.45)*1.8, 1)" marker-end="url(#arrow3n)"/>
           <text v-if="decomp3 > 0.65" :x="origin3.x + x3x + 14" :y="origin3.y - x3y/2" fill="#7c3aed" font-size="12" font-weight="700">(I-P)x ∈ N(P)</text>
 
+          <!-- A copy of the null-space component placed at the origin -->
+          <line
+            v-if="decomp3 > 0.65"
+            :x1="origin3.x" :y1="origin3.y"
+            :x2="origin3.x" :y2="origin3.y - nComp3"
+            stroke="#7c3aed" stroke-width="2" stroke-dasharray="5,4" opacity="0.55"/>
+
           <!-- Decomposition guide lines -->
           <g v-if="decomp3 > 0.75" opacity="0.55">
             <line :x1="origin3.x" :y1="origin3.y - x3y" :x2="origin3.x + x3x" :y2="origin3.y - x3y" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="5,4"/>
-            <line :x1="origin3.x" :y1="origin3.y" :x2="origin3.x" :y2="origin3.y - x3y" stroke="#db2777" stroke-width="1.2" stroke-dasharray="5,4"/>
           </g>
 
           <!-- Formula text -->
           <g>
-            <rect x="100" y="24" width="300" height="46" rx="8" fill="#fff" stroke="#e2e8f0"/>
-            <text x="250" y="52" text-anchor="middle" font-size="14" font-weight="700" fill="#334155">{{ decompStepText }}</text>
+            <rect x="92" y="264" width="316" height="34" rx="8" fill="#fff" stroke="#e2e8f0"/>
+            <text x="250" y="286" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">{{ decompStepText }}</text>
           </g>
         </svg>
       </AnimationBox>
@@ -1083,7 +1091,6 @@ const origin3 = { x: 170, y: 230 }
 const x3x = 120
 const x3y = 80
 const nComp3 = computed(() => x3y * decomp3.value)
-const n3dx = 0
 const n3dy = 60
 const px3 = ref(0)
 const decompStepText = computed(() => {

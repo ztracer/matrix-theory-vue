@@ -1,0 +1,36 @@
+id: "07-6"
+source: "满秩分解与MP逆综合题"
+lesson: 7
+knowledge:
+  - 满秩分解
+  - Moore-Penrose
+  - 广义逆
+  - 极小范数最小二乘解
+  - 不相容方程组
+problem: |
+  \text{设 } A=\begin{pmatrix}1&1\\1&1\\0&0\end{pmatrix},\; b=\begin{pmatrix}1\\2\\0\end{pmatrix}.\; \text{用满秩分解求 } A^+,\; \text{并求 } Ax=b \text{ 的极小范数最小二乘解 } x_0=A^+b,\; \text{判断方程组的相容性。}
+steps:
+  - title: '\text{行变换求秩}'
+    content: |
+      A=\begin{pmatrix}1&1\\1&1\\0&0\end{pmatrix}\xrightarrow{r_2-r_1}\begin{pmatrix}1&1\\0&0\\0&0\end{pmatrix}.\; \text{非零行数为1，故 }\operatorname{rank}(A)=1.
+  - title: '\text{满秩分解 } A=FG'
+    content: |
+      \text{取 } A \text{ 的第一个线性无关列 } F=\begin{pmatrix}1\\1\\0\end{pmatrix}\text{（列满秩），行最简形非零行 } G=\begin{pmatrix}1&1\end{pmatrix}\text{（行满秩）。验证}:\; FG=A.\;\checkmark
+  - title: '\text{计算 } A^+=G^T(GG^T)^{-1}(F^TF)^{-1}F^T'
+    content: |
+      GG^T=2,\;(GG^T)^{-1}=\tfrac{1}{2};\; F^TF=2,\;(F^TF)^{-1}=\tfrac{1}{2}.\; A^+=\tfrac{1}{4}\begin{pmatrix}1\\1\end{pmatrix}\begin{pmatrix}1&1&0\end{pmatrix}=\begin{pmatrix}1/4&1/4&0\\1/4&1/4&0\end{pmatrix}.
+  - title: '\text{计算 } x_0=A^+b'
+    content: |
+      x_0=A^+b=\begin{pmatrix}1/4&1/4&0\\1/4&1/4&0\end{pmatrix}\begin{pmatrix}1\\2\\0\end{pmatrix}=\begin{pmatrix}3/4\\3/4\end{pmatrix}.
+  - title: '\text{相容性判定}'
+    content: |
+      Ax_0=\begin{pmatrix}3/2\\3/2\\0\end{pmatrix}\neq b.\; \text{方程组不相容，} x_0 \text{ 是极小范数最小二乘解。}
+  - title: '\text{📖 “最小二乘”的含义}'
+    content: |
+      \text{残差 } r=Ax_0-b=(1/2,-1/2,0)^T,\; \|r\|_2=\sqrt{1/2}\approx0.707.\; \text{任取另一最小二乘解 } x'=(3/2,0)^T:\; Ax'=(3/2,3/2,0)^T,\; \text{残差范数同为 } \sqrt{1/2}\text{（二者都使误差达到最小）。}
+  - title: '\text{📖 “极小范数”的含义}'
+    content: |
+      \text{最小二乘解集 }=\{x:A^TAx=A^Tb\}=\{(3/2-\tau,\tau):\tau\in\R\}.\; \|x_0\|_2^2=9/8=1.125,\; \|x'\|_2^2=9/4=2.25.\; x_0 \text{ 是范数最小的最小二乘解（} x_0\in\mathcal{R}(A^T)\text{，唯一）。}
+  - title: '\text{📖 考试三步走}'
+    content: |
+      \text{① 满秩分解 } A=FG\;(r=\operatorname{rank}A);\; \text{② 套公式 } A^+=G^T(GG^T)^{-1}(F^TF)^{-1}F^T;\; \text{③ } x_0=A^+b.\; \text{判定}:\; Ax_0=b\text{→相容},\; Ax_0\neq b\text{→不相容（最小二乘解）。}

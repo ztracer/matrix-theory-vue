@@ -39,66 +39,16 @@
         @pause="pause1"
         @reset="reset1"
       >
-        <svg viewBox="0 0 520 400" class="responsive-svg">
-          <defs>
-            <marker id="arr-b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-              <polygon points="0 0,8 3,0 6" fill="#2563eb"/>
-            </marker>
-            <marker id="arr-p" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-              <polygon points="0 0,8 3,0 6" fill="#ea580c"/>
-            </marker>
-            <marker id="arr-r" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-              <polygon points="0 0,8 3,0 6" fill="#dc2626"/>
-            </marker>
-            <marker id="arr-a1" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-              <polygon points="0 0,7 2.5,0 5" fill="#0d9488"/>
-            </marker>
-            <marker id="arr-a2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-              <polygon points="0 0,7 2.5,0 5" fill="#14b8a6"/>
-            </marker>
-          </defs>
-
-          <!-- Phase 0: plane R(A) with O as vertex -->
-          <polygon :points="planePoly" :fill="'#fed7aa'" :opacity="0.35 * op1(0)" stroke="#ea580c" stroke-width="1.5"/>
-          <text :x="raLabel.x" :y="raLabel.y" :text-anchor="raLabel.anchor" fill="#ea580c" font-size="13" font-weight="700" :opacity="op1(0)">R(A)</text>
-          <circle :cx="P.O.x" :cy="P.O.y" r="3" fill="#334155"/>
-          <text :x="P.O.x - 14" :y="P.O.y + 16" font-size="11" fill="#334155">O</text>
-
-          <!-- Phase 1: a1, a2 -->
-          <g :opacity="op1(1)">
-            <line :x1="P.O.x" :y1="P.O.y" :x2="P.a1.x" :y2="P.a1.y" stroke="#0d9488" stroke-width="2.5" marker-end="url(#arr-a1)"/>
-            <text :x="P.a1.x + 6" :y="P.a1.y + 4" fill="#0d9488" font-size="13" font-weight="700">a₁</text>
-            <line :x1="P.O.x" :y1="P.O.y" :x2="P.a2.x" :y2="P.a2.y" stroke="#14b8a6" stroke-width="2.5" marker-end="url(#arr-a2)"/>
-            <text :x="P.a2.x - 18" :y="P.a2.y - 6" fill="#14b8a6" font-size="13" font-weight="700">a₂</text>
-          </g>
-
-          <!-- Phase 2: b above plane -->
-          <g :opacity="op1(2)">
-            <line :x1="P.O.x" :y1="P.O.y" :x2="P.b.x" :y2="P.b.y" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-b)"/>
-            <text :x="P.b.x + 6" :y="P.b.y - 6" fill="#2563eb" font-size="13" font-weight="700">b</text>
-          </g>
-
-          <!-- Phase 3: Pb = Ax* -->
-          <g :opacity="op1(3)">
-            <line :x1="P.O.x" :y1="P.O.y" :x2="P.p.x" :y2="P.p.y" stroke="#ea580c" stroke-width="3" marker-end="url(#arr-p)"/>
-            <circle :cx="P.p.x" :cy="P.p.y" r="4" fill="#ea580c"/>
-            <text :x="P.p.x + 6" :y="P.p.y + 14" fill="#ea580c" font-size="12" font-weight="600">Pb = Ax*</text>
-          </g>
-
-          <!-- Phase 4: residual r = b-Pb with right-angle -->
-          <g :opacity="op1(4)">
-            <line :x1="P.p.x" :y1="P.p.y" :x2="P.b.x" :y2="P.b.y" stroke="#dc2626" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#arr-r)"/>
-            <text :x="(P.p.x + P.b.x) / 2 + 8" :y="(P.p.y + P.b.y) / 2" fill="#dc2626" font-size="12" font-weight="600">r = b − Pb</text>
-            <polygon :points="raSquare" fill="none" stroke="#dc2626" stroke-width="1.2"/>
-          </g>
-
-          <!-- Phase 5: conclusion -->
-          <g v-if="phase1 >= 5">
-            <rect x="120" y="18" width="280" height="54" rx="10" fill="#fff" stroke="#e2e8f0"/>
-            <text x="260" y="40" text-anchor="middle" font-size="13" font-weight="600" fill="#ea580c">r ⊥ R(A) ⟹ Aᵀr = 0</text>
-            <text x="260" y="60" text-anchor="middle" font-size="12" fill="#64748b">残差垂直于列空间中所有向量</text>
-          </g>
-        </svg>
+        <div class="ls3d-stage">
+          <div ref="projViewport" class="ls3d-viewport" aria-label="b orthogonal projection to column-space plane"></div>
+          <div class="ls3d-legend">
+            <span><i class="ls3d-key ls3d-key-plane"></i>R(A)</span>
+            <span><i class="ls3d-key ls3d-key-b"></i>b</span>
+            <span><i class="ls3d-key ls3d-key-p"></i>Pb = Ax*</span>
+            <span><i class="ls3d-key ls3d-key-r"></i>r = b - Pb</span>
+            <strong>{{ projStepText }}</strong>
+          </div>
+        </div>
       </AnimationBox>
     </Section>
 
@@ -129,68 +79,16 @@
         @pause="pause2"
         @reset="reset2"
       >
-        <svg viewBox="0 0 520 400" class="responsive-svg">
-          <defs>
-            <marker id="arr2-a1" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-              <polygon points="0 0,7 2.5,0 5" fill="#0d9488"/>
-            </marker>
-            <marker id="arr2-a2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-              <polygon points="0 0,7 2.5,0 5" fill="#14b8a6"/>
-            </marker>
-            <marker id="arr2-p" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-              <polygon points="0 0,8 3,0 6" fill="#ea580c"/>
-            </marker>
-            <marker id="arr2-b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-              <polygon points="0 0,8 3,0 6" fill="#2563eb"/>
-            </marker>
-            <marker id="arr2-r" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-              <polygon points="0 0,8 3,0 6" fill="#dc2626"/>
-            </marker>
-          </defs>
-
-          <!-- Phase 0: plane -->
-          <polygon :points="planePoly" :fill="'#ccfbf1'" :opacity="0.4 * op2(0)" stroke="#0d9488" stroke-width="1.5"/>
-          <text :x="raLabel.x" :y="raLabel.y" :text-anchor="raLabel.anchor" fill="#0d9488" font-size="12" font-weight="600" :opacity="op2(0)">R(A) = span{a₁,a₂}</text>
-          <circle :cx="P.O.x" :cy="P.O.y" r="3" fill="#334155"/>
-          <text :x="P.O.x - 14" :y="P.O.y + 16" font-size="11" fill="#334155">O</text>
-
-          <!-- Phase 1: a1, a2 -->
-          <g :opacity="op2(1)">
-            <line :x1="P.O.x" :y1="P.O.y" :x2="P.a1.x" :y2="P.a1.y" stroke="#0d9488" stroke-width="2.5" marker-end="url(#arr2-a1)"/>
-            <text :x="P.a1.x + 6" :y="P.a1.y + 4" fill="#0d9488" font-size="13" font-weight="700">a₁</text>
-            <line :x1="P.O.x" :y1="P.O.y" :x2="P.a2.x" :y2="P.a2.y" stroke="#14b8a6" stroke-width="2.5" marker-end="url(#arr2-a2)"/>
-            <text :x="P.a2.x - 18" :y="P.a2.y - 6" fill="#14b8a6" font-size="13" font-weight="700">a₂</text>
-          </g>
-
-          <!-- Phase 2: b above plane -->
-          <g :opacity="op2(2)">
-            <line :x1="P.O.x" :y1="P.O.y" :x2="P.b.x" :y2="P.b.y" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr2-b)"/>
-            <text :x="P.b.x + 6" :y="P.b.y - 6" fill="#2563eb" font-size="13" font-weight="700">b</text>
-          </g>
-
-          <!-- Phase 3: Ax* in plane -->
-          <g :opacity="op2(3)">
-            <line :x1="P.O.x" :y1="P.O.y" :x2="P.p.x" :y2="P.p.y" stroke="#ea580c" stroke-width="2.2" marker-end="url(#arr2-p)"/>
-            <circle :cx="P.p.x" :cy="P.p.y" r="4" fill="#ea580c"/>
-            <text :x="P.p.x + 6" :y="P.p.y + 14" fill="#ea580c" font-size="11" font-weight="600">Ax*</text>
-          </g>
-
-          <!-- Phase 4: r perpendicular -->
-          <g :opacity="op2(4)">
-            <line :x1="P.p.x" :y1="P.p.y" :x2="P.b.x" :y2="P.b.y" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#arr2-r)"/>
-            <text :x="(P.p.x + P.b.x) / 2 + 8" :y="(P.p.y + P.b.y) / 2" fill="#dc2626" font-size="12" font-weight="600">r = b − Ax*</text>
-          </g>
-
-          <!-- Phase 5: right-angle marks + conclusion -->
-          <g :opacity="op2(5)">
-            <polygon :points="raA1Tip" fill="none" stroke="#dc2626" stroke-width="1.2"/>
-            <polygon :points="raA2Tip" fill="none" stroke="#dc2626" stroke-width="1.2"/>
-            <rect x="120" y="18" width="280" height="62" rx="10" fill="#fff" stroke="#e2e8f0"/>
-            <text x="260" y="38" text-anchor="middle" font-size="13" font-weight="600" fill="#dc2626">a₁ᵀr = 0 ✓   a₂ᵀr = 0 ✓</text>
-            <text x="260" y="56" text-anchor="middle" font-size="12" fill="#64748b">r ⊥ R(A) ⟹ Aᵀr = 0</text>
-            <text x="260" y="72" text-anchor="middle" font-size="12" fill="#64748b">⟹ AᵀAx* = Aᵀb（正规方程）</text>
-          </g>
-        </svg>
+        <div class="ls3d-stage">
+          <div ref="orthoViewport" class="ls3d-viewport" aria-label="residual orthogonal to column vectors"></div>
+          <div class="ls3d-legend">
+            <span><i class="ls3d-key ls3d-key-a1"></i>a1, a2</span>
+            <span><i class="ls3d-key ls3d-key-p"></i>Ax*</span>
+            <span><i class="ls3d-key ls3d-key-r"></i>r</span>
+            <span><i class="ls3d-key ls3d-key-note"></i>A^T r = 0</span>
+            <strong>{{ orthoStepText }}</strong>
+          </div>
+        </div>
       </AnimationBox>
     </Section>
 
@@ -458,118 +356,424 @@ import QuizProblem from '../../components/quiz/QuizProblem.vue'
 import { quizBank } from '../../data/quizBank'
 import { homeworkBank } from '../../data/homeworkBank'
 import { useKatex } from '../../composables/useKatex'
-import { ref, computed, onUnmounted } from 'vue'
+import { ref, computed, onMounted, nextTick, onUnmounted } from 'vue'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { CSS2DObject, CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 
 const quizzes = (quizBank[9] || []).map(q => ({ ...q, lessonNum: '09', lessonTitle: '最小二乘与范数' }))
 const hwQuizzes = computed(() => (homeworkBank[9] || []).map(q => ({ ...q })))
 
 const renderTrigger = ref(0)
-const { renderMath } = useKatex(renderTrigger)
+useKatex(renderTrigger)
 
 // ====== Vector math library ======
 function vecAdd(a, b) { return a.map((v, i) => v + b[i]) }
-function vecSub(a, b) { return a.map((v, i) => v - b[i]) }
 function vecScale(a, s) { return a.map(v => v * s) }
 function vecDot(a, b) { return a.reduce((s, v, i) => s + v * b[i], 0) }
 function vecCross(a, b) {
   return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]
 }
 function vecNorm(a) { return Math.sqrt(vecDot(a, a)) }
-
-// ====== 3D → 2D isometric projection ======
-const ISO = { ex: [22, -22, 0], ey: [-9, -9, -26], ox: 90, oy: 330 }
-function project2D(v) {
-  return {
-    x: ISO.ox + v[0]*ISO.ex[0] + v[1]*ISO.ex[1] + v[2]*ISO.ex[2],
-    y: ISO.oy + v[0]*ISO.ey[0] + v[1]*ISO.ey[1] + v[2]*ISO.ey[2]
-  }
+function vecUnit(a) {
+  const n = vecNorm(a)
+  return n < 0.0001 ? [0, 0, 0] : vecScale(a, 1 / n)
 }
+function vecLerp(a, b, t) { return a.map((v, i) => v + (b[i] - v) * t) }
 
 // ====== Shared geometry (computed once, never mutated) ======
 const GEOM = (() => {
-  const a1 = [2.2, 0.2, 0.0]
-  const a2 = [0.6, 2.0, 0.0]
-  const n  = vecCross(a1, a2)
-  const p  = vecAdd(vecScale(a1, 0.9), vecScale(a2, 0.7))
-  const r  = vecScale(n, 0.045)
+  const a1 = [2.65, 0.35, 0]
+  const a2 = [0.55, 2.25, 0]
+  const n = vecUnit(vecCross(a1, a2))
+  const p = vecAdd(vecScale(a1, 0.72), vecScale(a2, 0.62))
+  const r = vecScale(n, 1.55)
   const b  = vecAdd(p, r)
-  const raSize = 0.35
-  const inPlaneDir = vecScale(a1, 1 / vecNorm(a1))
-  const upDir = vecScale(n, 1 / vecNorm(n))
-  const raBase = p
-  const raP1 = vecAdd(raBase, vecScale(inPlaneDir, raSize))
-  const raP2 = vecAdd(raP1, vecScale(upDir, raSize))
-  const raP3 = vecAdd(raBase, vecScale(upDir, raSize))
-  return { a1, a2, n, p, r, b, raBase, raP1, raP2, raP3 }
+  const planeCorners = [
+    vecAdd(vecScale(a1, -0.2), vecScale(a2, -0.2)),
+    vecAdd(vecScale(a1, 1.25), vecScale(a2, -0.2)),
+    vecAdd(vecScale(a1, 1.25), vecScale(a2, 1.12)),
+    vecAdd(vecScale(a1, -0.2), vecScale(a2, 1.12))
+  ]
+  return { a1, a2, n, p, r, b, planeCorners }
 })()
 
-// ====== Project all points once ======
-const P = {
-  O: project2D([0,0,0]), a1: project2D(GEOM.a1), a2: project2D(GEOM.a2),
-  a1a2: project2D(vecAdd(GEOM.a1, GEOM.a2)),
-  p: project2D(GEOM.p), b: project2D(GEOM.b),
-  raBase: project2D(GEOM.raBase), raP1: project2D(GEOM.raP1),
-  raP2: project2D(GEOM.raP2), raP3: project2D(GEOM.raP3)
+function toVector3(v) {
+  return new THREE.Vector3(v[0], v[2], v[1])
 }
-const planePoly = `${P.O.x},${P.O.y} ${P.a1.x},${P.a1.y} ${P.a1a2.x},${P.a1a2.y} ${P.a2.x},${P.a2.y}`
-const raLabel = { x: P.a1a2.x, y: P.a1a2.y - 10, anchor: 'end' }
-const raSquare = `${P.raBase.x},${P.raBase.y} ${P.raP1.x},${P.raP1.y} ${P.raP2.x},${P.raP2.y} ${P.raP3.x},${P.raP3.y}`
 
 // ====== Animation 1: b → plane projection ======
 const playing1 = ref(false)
-let rafId1 = null, t1 = 0
-const phase1 = ref(0)
-const op1 = (start) => Math.min(1, Math.max(0, phase1.value - start))
-const PHASE1_DUR = [0.5, 0.9, 1.3, 1.7, 2.1, 2.5]
-function phaseFromT(t, cuts) {
-  for (let i = 0; i < cuts.length; i++) if (t < cuts[i]) return i
-  return cuts.length
-}
-const animate1 = () => {
-  t1 += 1/60
-  const top = PHASE1_DUR[PHASE1_DUR.length-1]
-  const eased = easeOutCubic(Math.min(t1/top, 1))
-  phase1.value = phaseFromT(eased * top, PHASE1_DUR)
-  if (t1 >= top) { phase1.value = PHASE1_DUR.length; playing1.value = false; return }
-  rafId1 = requestAnimationFrame(animate1)
-}
-const play1 = () => { if (!playing1.value) { playing1.value = true; t1 = 0; phase1.value = 0; animate1() } }
-const pause1 = () => { playing1.value = false; if (rafId1) cancelAnimationFrame(rafId1) }
-const reset1 = () => { pause1(); t1 = 0; phase1.value = 0 }
+const projStepText = ref('点击播放：从 b 垂直落到列空间 R(A)')
+const projViewport = ref(null)
+let projCtx = null
+let projTimer = null
+let projTweenRaf = null
 
 // ====== Animation 2: residual orthogonality ======
 const playing2 = ref(false)
-let rafId2 = null, t2 = 0
-const phase2 = ref(0)
-const op2 = (start) => Math.min(1, Math.max(0, phase2.value - start))
-const PHASE2_DUR = [0.5, 0.9, 1.3, 1.7, 2.1, 2.5]
+const orthoStepText = ref('点击播放：观察 r 与 a1、a2 同时正交')
+const orthoViewport = ref(null)
+let orthoCtx = null
+let orthoTimer = null
 
-// Right-angle marks at a1/a2 tips
-const ra2Size = 0.3
-const _dA1 = vecScale(GEOM.a1, 1/vecNorm(GEOM.a1))
-const _dA2 = vecScale(GEOM.a2, 1/vecNorm(GEOM.a2))
-const _dN  = vecScale(GEOM.n, 1/vecNorm(GEOM.n))
-function rightAngleAt(base, dirA, dirB) {
-  const a = vecAdd(base, vecScale(dirA, ra2Size))
-  const c = vecAdd(base, vecScale(dirB, ra2Size))
-  const b2 = vecAdd(a, vecScale(dirB, ra2Size))
-  const pa = project2D(a), pb = project2D(b2), pc = project2D(c), p0 = project2D(base)
-  return `${p0.x},${p0.y} ${pa.x},${pa.y} ${pb.x},${pb.y} ${pc.x},${pc.y}`
-}
-const raA1Tip = rightAngleAt(GEOM.a1, _dA1, _dN)
-const raA2Tip = rightAngleAt(GEOM.a2, _dA2, _dN)
+const PROJ_STEPS = [
+  '列空间 R(A) 是由 a1、a2 张成的过原点平面',
+  'b 不在 R(A) 内，方程 Ax = b 无精确解',
+  'Pb = Ax* 是 b 在 R(A) 上的正交投影',
+  '残差 r = b - Pb 垂直于 R(A)，所以 Pb 是最近点'
+]
+const ORTHO_STEPS = [
+  '列向量 a1、a2 都在 R(A) 平面内',
+  '最小二乘把 b 分解成 Ax* + r',
+  'r 沿平面法向量方向离开 R(A)',
+  '因此 a1^T r = 0，a2^T r = 0，也就是 A^T r = 0'
+]
 
-const animate2 = () => {
-  t2 += 1/60
-  const top = PHASE2_DUR[PHASE2_DUR.length-1]
-  const eased = easeOutCubic(Math.min(t2/top, 1))
-  phase2.value = phaseFromT(eased * top, PHASE2_DUR)
-  if (t2 >= top) { phase2.value = PHASE2_DUR.length; playing2.value = false; return }
-  rafId2 = requestAnimationFrame(animate2)
+function makeLabel(text, className = '') {
+  const el = document.createElement('div')
+  el.className = `ls3d-label ${className}`
+  el.textContent = text
+  return new CSS2DObject(el)
 }
-const play2 = () => { if (!playing2.value) { playing2.value = true; t2 = 0; phase2.value = 0; animate2() } }
-const pause2 = () => { playing2.value = false; if (rafId2) cancelAnimationFrame(rafId2) }
-const reset2 = () => { pause2(); t2 = 0; phase2.value = 0 }
+
+function addLabel(ctx, text, position, className = '') {
+  const label = makeLabel(text, className)
+  label.position.copy(position)
+  ctx.layer.add(label)
+  return label
+}
+
+function addArrow(ctx, from, to, color, label = '', options = {}) {
+  const start = toVector3(from)
+  const end = toVector3(to)
+  const diff = end.clone().sub(start)
+  if (diff.length() < 0.0001) return null
+  const arrow = new THREE.ArrowHelper(
+    diff.clone().normalize(),
+    start,
+    diff.length(),
+    color,
+    options.headLength ?? 0.18,
+    options.headWidth ?? 0.1
+  )
+  arrow.line.material.linewidth = options.lineWidth ?? 3
+  arrow.line.material.transparent = true
+  arrow.line.material.opacity = options.opacity ?? 1
+  arrow.cone.material.transparent = true
+  arrow.cone.material.opacity = options.opacity ?? 1
+  ctx.layer.add(arrow)
+  if (label) {
+    const labelPos = start.clone().lerp(end, options.labelAt ?? 0.9).add(new THREE.Vector3(0.08, 0.1, 0.06))
+    addLabel(ctx, label, labelPos, options.labelClass ?? '')
+  }
+  return arrow
+}
+
+function addVector(ctx, v, color, label, options = {}) {
+  return addArrow(ctx, [0, 0, 0], v, color, label, options)
+}
+
+function addDashedLine(ctx, from, to, color, label = '', options = {}) {
+  const points = [toVector3(from), toVector3(to)]
+  const geometry = new THREE.BufferGeometry().setFromPoints(points)
+  const material = new THREE.LineDashedMaterial({
+    color,
+    dashSize: options.dashSize ?? 0.12,
+    gapSize: options.gapSize ?? 0.08,
+    transparent: true,
+    opacity: options.opacity ?? 0.78
+  })
+  const line = new THREE.Line(geometry, material)
+  line.computeLineDistances()
+  ctx.layer.add(line)
+  if (label) {
+    const labelPos = points[0].clone().lerp(points[1], options.labelAt ?? 0.5).add(new THREE.Vector3(0.08, 0.1, 0.05))
+    addLabel(ctx, label, labelPos, options.labelClass ?? '')
+  }
+  return line
+}
+
+function addPoint(ctx, point, color, label = '', options = {}) {
+  const geometry = new THREE.SphereGeometry(options.radius ?? 0.055, 24, 16)
+  const material = new THREE.MeshStandardMaterial({ color, roughness: 0.5, metalness: 0.05 })
+  const mesh = new THREE.Mesh(geometry, material)
+  mesh.position.copy(toVector3(point))
+  ctx.layer.add(mesh)
+  if (label) {
+    addLabel(ctx, label, mesh.position.clone().add(new THREE.Vector3(0.08, 0.12, 0.06)), options.labelClass ?? '')
+  }
+  return mesh
+}
+
+function addColumnPlane(ctx, color = 0xfed7aa, edge = 0xea580c) {
+  const corners = GEOM.planeCorners.map(toVector3)
+  const geometry = new THREE.BufferGeometry().setFromPoints(corners)
+  geometry.setIndex([0, 1, 2, 0, 2, 3])
+  geometry.computeVertexNormals()
+  const material = new THREE.MeshBasicMaterial({
+    color,
+    transparent: true,
+    opacity: 0.38,
+    side: THREE.DoubleSide,
+    depthWrite: false
+  })
+  const plane = new THREE.Mesh(geometry, material)
+  ctx.layer.add(plane)
+
+  const lineGeometry = new THREE.BufferGeometry().setFromPoints([...corners, corners[0]])
+  const line = new THREE.Line(
+    lineGeometry,
+    new THREE.LineBasicMaterial({ color: edge, transparent: true, opacity: 0.8 })
+  )
+  ctx.layer.add(line)
+
+  addLabel(ctx, 'R(A) = span{a1,a2}', corners[2].clone().add(new THREE.Vector3(0.08, 0.1, 0)), 'ls3d-label-plane')
+}
+
+function addRightAngle(ctx, base, dirA, dirB, color = 0xdc2626, size = 0.24) {
+  const a = vecAdd(base, vecScale(dirA, size))
+  const c = vecAdd(base, vecScale(dirB, size))
+  const b = vecAdd(a, vecScale(dirB, size))
+  const points = [base, a, b, c, base].map(toVector3)
+  const geometry = new THREE.BufferGeometry().setFromPoints(points)
+  const material = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.88 })
+  const line = new THREE.Line(geometry, material)
+  ctx.layer.add(line)
+  return line
+}
+
+function clearLayer(ctx) {
+  if (!ctx?.layer) return
+  while (ctx.layer.children.length) {
+    const child = ctx.layer.children[0]
+    ctx.layer.remove(child)
+    child.traverse?.((obj) => {
+      obj.geometry?.dispose?.()
+      if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose?.())
+      else obj.material?.dispose?.()
+    })
+  }
+}
+
+function renderProjectionScene(step = 0, dropPoint = null) {
+  if (!projCtx) return
+  clearLayer(projCtx)
+  addColumnPlane(projCtx, 0xfed7aa, 0xea580c)
+  addPoint(projCtx, [0, 0, 0], 0x334155, 'O', { labelClass: 'ls3d-label-axis', radius: 0.04 })
+  addVector(projCtx, GEOM.a1, 0x0d9488, 'a1', { labelClass: 'ls3d-label-a' })
+  addVector(projCtx, GEOM.a2, 0x14b8a6, 'a2', { labelClass: 'ls3d-label-a' })
+
+  if (step >= 1) {
+    addVector(projCtx, GEOM.b, 0x2563eb, 'b', { labelClass: 'ls3d-label-b', headLength: 0.22, headWidth: 0.12 })
+    addPoint(projCtx, GEOM.b, 0x2563eb)
+  }
+  if (step >= 2) {
+    const current = dropPoint ?? GEOM.p
+    addDashedLine(projCtx, GEOM.b, current, 0x2563eb, 'orthogonal drop', { opacity: 0.45, labelClass: 'ls3d-label-b' })
+    addVector(projCtx, current, 0xea580c, 'Pb = Ax*', { labelClass: 'ls3d-label-p', headLength: 0.2, headWidth: 0.12 })
+    addPoint(projCtx, current, 0xea580c)
+  }
+  if (step >= 3) {
+    addArrow(projCtx, GEOM.p, GEOM.b, 0xdc2626, 'r = b - Pb', { labelClass: 'ls3d-label-r', labelAt: 0.52 })
+    addRightAngle(projCtx, GEOM.p, vecUnit(GEOM.a1), GEOM.n)
+    addLabel(projCtx, 'r ⟂ R(A)  =>  A^T r = 0', new THREE.Vector3(-1.15, 2.35, -1.15), 'ls3d-label-note')
+  }
+  projStepText.value = PROJ_STEPS[Math.min(step, PROJ_STEPS.length - 1)]
+}
+
+function renderOrthogonalityScene(step = 0) {
+  if (!orthoCtx) return
+  clearLayer(orthoCtx)
+  addColumnPlane(orthoCtx, 0xccfbf1, 0x0d9488)
+  addPoint(orthoCtx, [0, 0, 0], 0x334155, 'O', { labelClass: 'ls3d-label-axis', radius: 0.04 })
+  addVector(orthoCtx, GEOM.a1, 0x0d9488, 'a1', { labelClass: 'ls3d-label-a' })
+  addVector(orthoCtx, GEOM.a2, 0x14b8a6, 'a2', { labelClass: 'ls3d-label-a' })
+
+  if (step >= 1) {
+    addVector(orthoCtx, GEOM.b, 0x2563eb, 'b', { labelClass: 'ls3d-label-b', opacity: 0.82 })
+    addVector(orthoCtx, GEOM.p, 0xea580c, 'Ax*', { labelClass: 'ls3d-label-p' })
+    addPoint(orthoCtx, GEOM.p, 0xea580c)
+  }
+  if (step >= 2) {
+    addArrow(orthoCtx, GEOM.p, GEOM.b, 0xdc2626, 'r', { labelClass: 'ls3d-label-r', labelAt: 0.55 })
+    addDashedLine(orthoCtx, GEOM.b, GEOM.p, 0xdc2626, '', { opacity: 0.35 })
+  }
+  if (step >= 3) {
+    addRightAngle(orthoCtx, GEOM.p, vecUnit(GEOM.a1), GEOM.n)
+    addRightAngle(orthoCtx, GEOM.p, vecUnit(GEOM.a2), GEOM.n, 0xdc2626, 0.19)
+    addLabel(orthoCtx, 'a1^T r = 0', toVector3(vecAdd(GEOM.p, vecAdd(vecScale(vecUnit(GEOM.a1), 0.68), vecScale(GEOM.n, 0.35)))), 'ls3d-label-note')
+    addLabel(orthoCtx, 'a2^T r = 0', toVector3(vecAdd(GEOM.p, vecAdd(vecScale(vecUnit(GEOM.a2), 0.62), vecScale(GEOM.n, 0.62)))), 'ls3d-label-note')
+    addLabel(orthoCtx, 'A^T r = 0  =>  A^T A x* = A^T b', new THREE.Vector3(-1.2, 2.35, -1.15), 'ls3d-label-note')
+  }
+  orthoStepText.value = ORTHO_STEPS[Math.min(step, ORTHO_STEPS.length - 1)]
+}
+
+function resizeScene(ctx) {
+  if (!ctx?.viewport?.value || !ctx.camera || !ctx.renderer || !ctx.labelRenderer) return
+  const rect = ctx.viewport.value.getBoundingClientRect()
+  const width = Math.max(rect.width, 320)
+  const height = Math.max(rect.height, 360)
+  ctx.camera.aspect = width / height
+  ctx.camera.updateProjectionMatrix()
+  ctx.renderer.setSize(width, height)
+  ctx.labelRenderer.setSize(width, height)
+}
+
+function drawFrame(ctx) {
+  if (!ctx?.renderer || !ctx.scene || !ctx.camera) return
+  ctx.controls?.update()
+  ctx.renderer.render(ctx.scene, ctx.camera)
+  ctx.labelRenderer?.render(ctx.scene, ctx.camera)
+  ctx.raf = requestAnimationFrame(() => drawFrame(ctx))
+}
+
+function initScene(viewport) {
+  if (!viewport.value) return null
+  const scene = new THREE.Scene()
+  scene.background = new THREE.Color(0xf8fafc)
+  const camera = new THREE.PerspectiveCamera(44, 1, 0.1, 100)
+  camera.position.set(5.2, 4.2, 6.2)
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  renderer.domElement.className = 'ls3d-canvas'
+  viewport.value.appendChild(renderer.domElement)
+
+  const labelRenderer = new CSS2DRenderer()
+  labelRenderer.domElement.className = 'ls3d-label-layer'
+  viewport.value.appendChild(labelRenderer.domElement)
+
+  const controls = new OrbitControls(camera, renderer.domElement)
+  controls.enableDamping = true
+  controls.dampingFactor = 0.08
+  controls.target.set(1.25, 0.45, 1.1)
+  controls.minDistance = 3.2
+  controls.maxDistance = 13
+  controls.enablePan = true
+
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xdbeafe, 2.3))
+  scene.add(new THREE.DirectionalLight(0xffffff, 1.2))
+  const grid = new THREE.GridHelper(6, 12, 0xcbd5e1, 0xe2e8f0)
+  grid.position.y = -0.03
+  scene.add(grid)
+
+  const axes = [
+    { v: [3, 0, 0], color: 0x94a3b8, label: 'x1' },
+    { v: [0, 3, 0], color: 0x94a3b8, label: 'x3' },
+    { v: [0, 0, 3], color: 0x94a3b8, label: 'x2' }
+  ]
+  axes.forEach(axis => {
+    const end = new THREE.Vector3(...axis.v)
+    scene.add(new THREE.ArrowHelper(end.clone().normalize(), new THREE.Vector3(0, 0, 0), end.length(), axis.color, 0.12, 0.08))
+    const label = makeLabel(axis.label, 'ls3d-label-axis')
+    label.position.copy(end.multiplyScalar(1.05))
+    scene.add(label)
+  })
+
+  const layer = new THREE.Group()
+  scene.add(layer)
+  const ctx = { viewport, scene, camera, renderer, labelRenderer, controls, layer, observer: null, raf: null }
+  ctx.observer = new ResizeObserver(() => resizeScene(ctx))
+  ctx.observer.observe(viewport.value)
+  resizeScene(ctx)
+  drawFrame(ctx)
+  return ctx
+}
+
+function disposeScene(ctx) {
+  if (!ctx) return
+  if (ctx.raf) cancelAnimationFrame(ctx.raf)
+  ctx.observer?.disconnect()
+  ctx.controls?.dispose()
+  clearLayer(ctx)
+  ctx.scene?.traverse((obj) => {
+    obj.geometry?.dispose?.()
+    if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose?.())
+    else obj.material?.dispose?.()
+  })
+  ctx.renderer?.dispose()
+  ctx.renderer?.domElement?.remove()
+  ctx.labelRenderer?.domElement?.remove()
+}
+
+function animateDrop(duration = 1200) {
+  if (projTweenRaf) cancelAnimationFrame(projTweenRaf)
+  return new Promise(resolve => {
+    const start = performance.now()
+    function tick(now) {
+      if (!playing1.value) { resolve(false); return }
+      const t = easeOutCubic(Math.min((now - start) / duration, 1))
+      renderProjectionScene(2, vecLerp(GEOM.b, GEOM.p, t))
+      if (t < 1) projTweenRaf = requestAnimationFrame(tick)
+      else {
+        projTweenRaf = null
+        resolve(true)
+      }
+    }
+    projTweenRaf = requestAnimationFrame(tick)
+  })
+}
+
+async function playProjectionSequence() {
+  renderProjectionScene(0)
+  await delay(800, () => playing1.value)
+  if (!playing1.value) return
+  renderProjectionScene(1)
+  await delay(900, () => playing1.value)
+  if (!playing1.value) return
+  const dropped = await animateDrop()
+  if (!dropped || !playing1.value) return
+  renderProjectionScene(3)
+  playing1.value = false
+}
+
+function play1() {
+  if (playing1.value) return
+  playing1.value = true
+  playProjectionSequence()
+}
+function pause1() {
+  playing1.value = false
+  if (projTimer) clearTimeout(projTimer)
+  if (projTweenRaf) cancelAnimationFrame(projTweenRaf)
+  projTweenRaf = null
+}
+function reset1() {
+  pause1()
+  renderProjectionScene(0)
+}
+
+async function playOrthogonalitySequence() {
+  for (let step = 0; step <= 3; step++) {
+    if (!playing2.value) return
+    renderOrthogonalityScene(step)
+    if (step < 3) await delay(900, () => playing2.value, 'ortho')
+  }
+  playing2.value = false
+}
+
+function play2() {
+  if (playing2.value) return
+  playing2.value = true
+  playOrthogonalitySequence()
+}
+function pause2() {
+  playing2.value = false
+  if (orthoTimer) clearTimeout(orthoTimer)
+}
+function reset2() {
+  pause2()
+  renderOrthogonalityScene(0)
+}
+
+function delay(ms, shouldContinue, which = 'proj') {
+  return new Promise(resolve => {
+    const timer = setTimeout(() => resolve(shouldContinue()), ms)
+    if (which === 'proj') projTimer = timer
+    else orthoTimer = timer
+  })
+}
 
 // ====== Animation 3: Unit balls ======
 const playing3 = ref(false)
@@ -620,17 +824,22 @@ const pause3 = () => { playing3.value = false; if (rafId3) cancelAnimationFrame(
 const reset3 = () => { pause3(); t3 = 0; ballProg.value = 0; rotAngle.value = 0 }
 
 function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3) }
-function ah(x, y, angle, color) {
-  const s = 8
-  const a1 = angle + Math.PI - 0.4
-  const a2 = angle + Math.PI + 0.4
-  return `${x},${y} ${x+s*Math.cos(a1)},${y+s*Math.sin(a1)} ${x+s*Math.cos(a2)},${y+s*Math.sin(a2)}`
-}
+
+onMounted(() => {
+  nextTick(() => {
+    projCtx = initScene(projViewport)
+    orthoCtx = initScene(orthoViewport)
+    renderProjectionScene(0)
+    renderOrthogonalityScene(0)
+  })
+})
 
 onUnmounted(() => {
-  if (rafId1) cancelAnimationFrame(rafId1)
-  if (rafId2) cancelAnimationFrame(rafId2)
+  pause1()
+  pause2()
   if (rafId3) cancelAnimationFrame(rafId3)
+  disposeScene(projCtx)
+  disposeScene(orthoCtx)
 })
 </script>
 
@@ -640,4 +849,105 @@ onUnmounted(() => {
 h3 { color: #7c3aed; }
 .responsive-svg { max-width: 100%; height: auto; display: block; }
 :deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
+
+.ls3d-stage {
+  width: min(100%, 980px);
+  margin: 0 auto;
+}
+.ls3d-viewport {
+  position: relative;
+  height: clamp(380px, 54vw, 560px);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-background);
+  touch-action: none;
+}
+.ls3d-canvas,
+.ls3d-label-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.ls3d-label-layer {
+  pointer-events: none;
+}
+:deep(.ls3d-label) {
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: rgba(248, 250, 252, 0.9);
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 1px 5px rgba(15, 23, 42, 0.1);
+  user-select: none;
+}
+:deep(.ls3d-label-plane) { color: #c2410c; }
+:deep(.ls3d-label-a) { color: #0f766e; }
+:deep(.ls3d-label-b) { color: #2563eb; }
+:deep(.ls3d-label-p) { color: #ea580c; }
+:deep(.ls3d-label-r),
+:deep(.ls3d-label-note) { color: #dc2626; }
+:deep(.ls3d-label-axis) {
+  background: transparent;
+  color: #64748b;
+  box-shadow: none;
+  font-size: 13px;
+}
+.ls3d-legend {
+  display: grid;
+  grid-template-columns: repeat(4, auto) minmax(220px, 1fr);
+  align-items: center;
+  gap: 14px;
+  margin: 12px 0 0;
+  padding: 14px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-card);
+  color: var(--color-secondary);
+  font-size: 13px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+.ls3d-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.ls3d-legend strong {
+  color: #0f172a;
+  font-size: 14px;
+  text-align: right;
+}
+.ls3d-key {
+  width: 30px;
+  height: 4px;
+  display: inline-block;
+  border-radius: 999px;
+}
+.ls3d-key-plane { background: #fed7aa; border: 1px solid #ea580c; }
+.ls3d-key-b { background: #2563eb; }
+.ls3d-key-p { background: #ea580c; }
+.ls3d-key-r {
+  height: 0;
+  border-top: 3px dashed #dc2626;
+  background: transparent;
+}
+.ls3d-key-a1 { background: #0d9488; }
+.ls3d-key-note { background: #dc2626; }
+
+@media (max-width: 760px) {
+  .ls3d-viewport {
+    height: 380px;
+  }
+  .ls3d-legend {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ls3d-legend strong {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+}
 </style>

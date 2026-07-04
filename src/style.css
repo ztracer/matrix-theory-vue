@@ -129,7 +129,6 @@ h1, h2, h3, h4, h5, h6 {
 /* 确保KaTeX内容不被截断 */
 .katex {
   font-size: 1.05em;
-  white-space: normal;
 }
 
 /* 让定理框/步骤框内的公式可滚动 */

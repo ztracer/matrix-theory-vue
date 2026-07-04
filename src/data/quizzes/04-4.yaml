@@ -1,0 +1,39 @@
+id: "04-4"
+source: "矩阵函数综合题"
+lesson: 4
+knowledge:
+  - 矩阵指数
+  - 微分方程
+  - 常数变易
+  - 非齐次
+  - 对角矩阵
+problem: |
+  \text{设 } A=\operatorname{diag}(1,2,2),\; f(t)=\begin{pmatrix}e^t\\0\\0\end{pmatrix},\; x(0)=\begin{pmatrix}1\\1\\1\end{pmatrix}.\; \text{求解非齐次微分方程组 } x'=Ax+f(t),\; x(0)=x_0.
+steps:
+  - title: '\text{求 } e^{At}'
+    content: |
+      A \text{ 为对角矩阵，故 } e^{At}=\operatorname{diag}\!\left(e^{t}, e^{2t}, e^{2t}\right).\; \text{（对角元的指数分别取 } e^{\lambda_i t}\text{。）}
+  - title: '\text{齐次解 } e^{At}x(0)'
+    content: |
+      e^{At}x(0)=\operatorname{diag}\!\left(e^{t}, e^{2t}, e^{2t}\right)\begin{pmatrix}1\\1\\1\end{pmatrix}=\begin{pmatrix}e^{t}\\ e^{2t}\\ e^{2t}\end{pmatrix}.
+  - title: '\text{特解：卷积积分}'
+    content: |
+      \text{由常数变易公式，特解为 } \int_0^t e^{A(t-\tau)}f(\tau)\,d\tau.\; e^{A(t-\tau)}=\operatorname{diag}\!\left(e^{t-\tau}, e^{2(t-\tau)}, e^{2(t-\tau)}\right),\; f(\tau)=\begin{pmatrix}e^{\tau}\\0\\0\end{pmatrix}.
+  - title: '\text{逐分量积分}'
+    content: |
+      \text{第1分量}:\; \int_0^t e^{t-\tau}\cdot e^{\tau}\,d\tau=\int_0^t e^{t}\,d\tau=t\,e^{t}.\; \text{第2、3分量}:\; \int_0^t e^{2(t-\tau)}\cdot 0\,d\tau=0.\; \text{故特解}=\begin{pmatrix}t\,e^{t}\\0\\0\end{pmatrix}.
+  - title: '\text{最终解 } x(t)'
+    content: |
+      x(t)=e^{At}x(0)+\int_0^t e^{A(t-\tau)}f(\tau)\,d\tau=\begin{pmatrix}e^{t}\\ e^{2t}\\ e^{2t}\end{pmatrix}+\begin{pmatrix}t\,e^{t}\\0\\0\end{pmatrix}=\begin{pmatrix}(1+t)\,e^{t}\\ e^{2t}\\ e^{2t}\end{pmatrix}.
+  - title: '\text{校验}'
+    content: |
+      \text{第1分量}:\; x_1=(1+t)e^{t},\; x_1'=e^{t}+(1+t)e^{t}=(2+t)e^{t};\; (Ax+f)_1=1\cdot(1+t)e^{t}+e^{t}=(2+t)e^{t}\;\checkmark.\; \text{第2、3分量}:\; x_2'=2e^{2t}=2\cdot e^{2t}=(Ax)_2\;\checkmark.\; \text{初值}:\; x(0)=(1,1,1)^T\;\checkmark.
+  - title: '\text{📖 从一维标量方程理解积分因子法}'
+    content: |
+      \text{考虑标量方程 } x'=a x+g(t),\; x(0)=x_0.\; \text{两边乘积分因子 } e^{-at}:\; e^{-at}x'-a e^{-at}x=e^{-at}g(t),\; \text{即 } \tfrac{d}{dt}\!\left[e^{-at}x\right]=e^{-at}g(t).\; \text{从 }0\text{ 到 }t\text{ 积分}:\; e^{-at}x(t)-x_0=\int_0^t e^{-a\tau}g(\tau)\,d\tau.\; \text{故 } x(t)=e^{at}x_0+\int_0^t e^{a(t-\tau)}g(\tau)\,d\tau.
+  - title: '\text{📖 矩阵情形的类比}'
+    content: |
+      \text{矩阵方程 } x'=Ax+f(t),\; x(0)=x_0.\; \text{积分因子取 } e^{-At}.\; \text{关键：导数性质 } \tfrac{d}{dt}e^{At}=A\,e^{At}=e^{At}\,A\;(\text{因 }A\text{ 与 }e^{At}\text{ 可交换}).\; \text{于是 } \tfrac{d}{dt}\!\left[e^{-At}x\right]=e^{-At}f(t).\; \text{积分得 } x(t)=e^{At}x_0+\int_0^t e^{A(t-\tau)}f(\tau)\,d\tau.\; \text{与标量形式逐字对应，仅将标量 }a\text{ 换成矩阵 }A.
+  - title: '\text{📖 公式两部分的物理意义}'
+    content: |
+      \text{第一项 } e^{At}x_0\text{ 为零输入响应：无外部激励时，系统按自身动力学演化。}\; \text{第二项 } \int_0^t e^{A(t-\tau)}f(\tau)\,d\tau\text{ 为零状态响应：初始静止时，外部输入 }f\text{ 累积作用的结果。}\; \text{卷积核 } e^{A(t-\tau)}\text{ 是状态转移矩阵，刻画 } \tau\text{ 时刻的输入对 }t\text{ 时刻状态的影响权重。}\; \text{线性系统满足叠加原理：总响应}=\text{零输入}+\text{零状态。}

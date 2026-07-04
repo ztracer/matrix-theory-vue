@@ -23,9 +23,13 @@ async function ensureKatexCss() {
     const link = document.createElement('link')
     link.id = 'katex-css'
     link.rel = 'stylesheet'
-    // Local copy in public/ (copied via postinstall from node_modules/katex)
     link.href = import.meta.env.BASE_URL + 'katex.min.css'
-    document.head.appendChild(link)
+    // Wait for the stylesheet to actually load before rendering
+    await new Promise((resolve) => {
+      link.onload = resolve
+      link.onerror = resolve  // don't block rendering on error
+      document.head.appendChild(link)
+    })
   }
   cssLoaded = true
 }

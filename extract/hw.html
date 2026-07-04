@@ -1,7 +1,9 @@
-# 矩阵论课后作业
-
-<style>
-/* === 矩阵论课后作业 - 打印样式 === */
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>矩阵论课后作业</title>
+<style>/* === 矩阵论课后作业 - 打印样式 === */
 
 :root {
   --ink: #111;
@@ -127,14 +129,13 @@ h2 {
     background: #fff;
   }
 }
-
 </style>
-
-> 共 62 道题目，覆盖 10 个课程章节
-
+</head>
+<body>
+<h1>矩阵论课后作业</h1>
+<p class="summary">共 62 道题目，覆盖 10 个课程章节</p>
 <div class="lesson-section">
-## 线性空间与线性子空间
-
+<h2>线性空间与线性子空间</h2>
 <div class="problem">
 <div class="problem-header">
 <span class="problem-id">hw-001</span>
@@ -297,8 +298,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 
 <div class="lesson-section">
-## 线性变换及其矩阵
-
+<h2>线性变换及其矩阵</h2>
 <div class="problem">
 <div class="problem-header">
 <span class="problem-id">hw-010</span>
@@ -391,8 +391,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 
 <div class="lesson-section">
-## 对角化与Jordan标准形
-
+<h2>对角化与Jordan标准形</h2>
 <div class="problem">
 <div class="problem-header">
 <span class="problem-id">hw-015</span>
@@ -404,7 +403,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-对于矩阵 A=\begin{pmatrix}2&2&-2\\2&5&-4\\-2&-4&5\end{pmatrix}，求正交矩阵 P，使 P^{-1}AP 为对角矩阵。
+对于矩阵 A=\begin{pmatrix}2&amp;2&amp;-2\\2&amp;5&amp;-4\\-2&amp;-4&amp;5\end{pmatrix}，求正交矩阵 P，使 P^{-1}AP 为对角矩阵。
 
 </div>
 </div>
@@ -421,7 +420,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-对于矩阵 A=\begin{pmatrix}0&j&1\\-j&0&0\\1&0&0\end{pmatrix}，求酉矩阵 P，使 P^{-1}AP 为对角矩阵。
+对于矩阵 A=\begin{pmatrix}0&amp;j&amp;1\\-j&amp;0&amp;0\\1&amp;0&amp;0\end{pmatrix}，求酉矩阵 P，使 P^{-1}AP 为对角矩阵。
 
 </div>
 </div>
@@ -437,7 +436,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-求矩阵 A=\begin{pmatrix}1&2&0\\0&2&0\\-2&-1&-1\end{pmatrix} 的 Jordan 标准形。
+求矩阵 A=\begin{pmatrix}1&amp;2&amp;0\\0&amp;2&amp;0\\-2&amp;-1&amp;-1\end{pmatrix} 的 Jordan 标准形。
 
 </div>
 </div>
@@ -454,7 +453,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-求矩阵 A=\begin{pmatrix}3&1&0&0\\-4&-1&0&0\\7&1&2&1\\-7&-6&-1&0\end{pmatrix} 的 Jordan 标准形。
+求矩阵 A=\begin{pmatrix}3&amp;1&amp;0&amp;0\\-4&amp;-1&amp;0&amp;0\\7&amp;1&amp;2&amp;1\\-7&amp;-6&amp;-1&amp;0\end{pmatrix} 的 Jordan 标准形。
 
 </div>
 </div>
@@ -462,8 +461,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 
 <div class="lesson-section">
-## 矩阵函数与矩阵微分方程
-
+<h2>矩阵函数与矩阵微分方程</h2>
 <div class="problem">
 <div class="problem-header">
 <span class="problem-id">hw-019</span>
@@ -510,7 +508,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-设 A=\begin{pmatrix}2&1&0\\0&0&1\\0&1&0\end{pmatrix}，求 e^A、e^{tA}(t\in\mathbb{R})、\sin A。
+设 A=\begin{pmatrix}2&amp;1&amp;0\\0&amp;0&amp;1\\0&amp;1&amp;0\end{pmatrix}，求 e^A、e^{tA}(t\in\mathbb{R})、\sin A。
 
 </div>
 </div>
@@ -594,7 +592,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-设 f(z)=\ln z，求 f(A)，其中 A=\begin{pmatrix}1&0&0&0\\1&1&0&0\\0&1&1&0\\0&0&1&1\end{pmatrix}。
+设 f(z)=\ln z，求 f(A)，其中 A=\begin{pmatrix}1&amp;0&amp;0&amp;0\\1&amp;1&amp;0&amp;0\\0&amp;1&amp;1&amp;0\\0&amp;0&amp;1&amp;1\end{pmatrix}。
 
 </div>
 </div>
@@ -610,7 +608,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-设 f(z)=\ln z，求 f(A)，其中 A=\begin{pmatrix}2&1&0&0\\0&2&0&0\\0&0&1&1\\0&0&0&1\end{pmatrix}。
+设 f(z)=\ln z，求 f(A)，其中 A=\begin{pmatrix}2&amp;1&amp;0&amp;0\\0&amp;2&amp;0&amp;0\\0&amp;0&amp;1&amp;1\\0&amp;0&amp;0&amp;1\end{pmatrix}。
 
 </div>
 </div>
@@ -618,8 +616,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 
 <div class="lesson-section">
-## 三角分解与QR分解
-
+<h2>三角分解与QR分解</h2>
 <div class="problem">
 <div class="problem-header">
 <span class="problem-id">hw-028</span>
@@ -631,7 +628,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-求矩阵 A=\begin{pmatrix}5&2&-4&0\\2&1&-2&1\\-4&-2&5&0\\0&1&0&2\end{pmatrix} 的 LDU 分解和 Doolittle 分解。
+求矩阵 A=\begin{pmatrix}5&amp;2&amp;-4&amp;0\\2&amp;1&amp;-2&amp;1\\-4&amp;-2&amp;5&amp;0\\0&amp;1&amp;0&amp;2\end{pmatrix} 的 LDU 分解和 Doolittle 分解。
 
 </div>
 </div>
@@ -647,7 +644,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-求对称正定矩阵 A=\begin{pmatrix}5&2&-4\\2&1&-2\\-4&-2&5\end{pmatrix} 的 Cholesky 分解。
+求对称正定矩阵 A=\begin{pmatrix}5&amp;2&amp;-4\\2&amp;1&amp;-2\\-4&amp;-2&amp;5\end{pmatrix} 的 Cholesky 分解。
 
 </div>
 </div>
@@ -663,7 +660,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-用 Schmidt 正交化方法求矩阵 A=\begin{pmatrix}0&1&1\\1&1&0\\1&0&1\end{pmatrix} 的 QR 分解。
+用 Schmidt 正交化方法求矩阵 A=\begin{pmatrix}0&amp;1&amp;1\\1&amp;1&amp;0\\1&amp;0&amp;1\end{pmatrix} 的 QR 分解。
 
 </div>
 </div>
@@ -679,7 +676,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-用 Givens 变换求矩阵 A=\begin{pmatrix}2&2&1\\0&2&2\\2&1&2\end{pmatrix} 的 QR 分解。
+用 Givens 变换求矩阵 A=\begin{pmatrix}2&amp;2&amp;1\\0&amp;2&amp;2\\2&amp;1&amp;2\end{pmatrix} 的 QR 分解。
 
 </div>
 </div>
@@ -695,7 +692,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-用 Householder 变换求矩阵 A=\begin{pmatrix}0&4&1\\1&1&1\\0&3&2\end{pmatrix} 的 QR 分解。
+用 Householder 变换求矩阵 A=\begin{pmatrix}0&amp;4&amp;1\\1&amp;1&amp;1\\0&amp;3&amp;2\end{pmatrix} 的 QR 分解。
 
 </div>
 </div>
@@ -703,8 +700,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 
 <div class="lesson-section">
-## SVD奇异值分解
-
+<h2>SVD奇异值分解</h2>
 <div class="problem">
 <div class="problem-header">
 <span class="problem-id">hw-033</span>
@@ -716,7 +712,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-求 A=\begin{pmatrix}1&0\\0&1\\1&1\end{pmatrix} 的奇异值分解。
+求 A=\begin{pmatrix}1&amp;0\\0&amp;1\\1&amp;1\end{pmatrix} 的奇异值分解。
 
 </div>
 </div>
@@ -724,8 +720,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 
 <div class="lesson-section">
-## 满秩分解与MP逆
-
+<h2>满秩分解与MP逆</h2>
 <div class="problem">
 <div class="problem-header">
 <span class="problem-id">hw-034</span>
@@ -738,7 +733,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-求矩阵 A=\begin{pmatrix}1&2&3&0\\0&2&1&-1\\1&0&2&1\end{pmatrix} 的满秩分解。
+求矩阵 A=\begin{pmatrix}1&amp;2&amp;3&amp;0\\0&amp;2&amp;1&amp;-1\\1&amp;0&amp;2&amp;1\end{pmatrix} 的满秩分解。
 
 </div>
 </div>
@@ -755,7 +750,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-求矩阵 A=\begin{pmatrix}1&-1&1&1\\-1&1&-1&-1\\-1&-1&1&1\\1&1&-1&-1\end{pmatrix} 的满秩分解。
+求矩阵 A=\begin{pmatrix}1&amp;-1&amp;1&amp;1\\-1&amp;1&amp;-1&amp;-1\\-1&amp;-1&amp;1&amp;1\\1&amp;1&amp;-1&amp;-1\end{pmatrix} 的满秩分解。
 
 </div>
 </div>
@@ -772,7 +767,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-设 B\in\mathbb R_r^{m\times r} (r>0)，证明 B^{\mathrm T}B 非奇异。
+设 B\in\mathbb R_r^{m\times r} (r&gt;0)，证明 B^{\mathrm T}B 非奇异。
 
 </div>
 </div>
@@ -789,7 +784,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 </div>
 <div class="problem-body">
 
-已知 A=\begin{pmatrix}0&-a_3&a_2\\a_3&0&-a_1\\-a_2&a_1&0\end{pmatrix}，证明 X=-(a_1^2+a_2^2+a_3^2)^{-1}A 是 A 的\{1\}-逆。
+已知 A=\begin{pmatrix}0&amp;-a_3&amp;a_2\\a_3&amp;0&amp;-a_1\\-a_2&amp;a_1&amp;0\end{pmatrix}，证明 X=-(a_1^2+a_2^2+a_3^2)^{-1}A 是 A 的\{1\}-逆。
 
 </div>
 </div>
@@ -857,7 +852,7 @@ y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
 <div class="problem-body">
 
 已知矩阵
-A = \begin{pmatrix} 1 & 0 & 0 & 1 \\ 1 & 1 & 0 & 0 \\ 0 & 1 & 1 & 0 \\ 0 & 0 & 1 & 1 \end{pmatrix}
+A = \begin{pmatrix} 1 &amp; 0 &amp; 0 &amp; 1 \\ 1 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 1 \end{pmatrix}
 (1) 求 A 的 Hermite 标准形，利用式 (6.3.3) 求 A 的 1-逆和 2-逆；
 (2) 构造 A 的满秩分解，利用定理 6.15 之 (5) 求 A^+。
 
@@ -968,8 +963,7 @@ A = \begin{pmatrix} 1 & 0 & 0 & 1 \\ 1 & 1 & 0 & 0 \\ 0 & 1 & 1 & 0 \\ 0 & 0 & 1
 </div>
 
 <div class="lesson-section">
-## 投影矩阵与应用
-
+<h2>投影矩阵与应用</h2>
 <div class="problem">
 <div class="problem-header">
 <span class="problem-id">hw-048</span>
@@ -1102,8 +1096,7 @@ A = \begin{pmatrix} 1 & 0 & 0 & 1 \\ 1 & 1 & 0 & 0 \\ 0 & 1 & 1 & 0 \\ 0 & 0 & 1
 </div>
 
 <div class="lesson-section">
-## 最小二乘与范数
-
+<h2>最小二乘与范数</h2>
 <div class="problem">
 <div class="problem-header">
 <span class="problem-id">hw-056</span>
@@ -1116,7 +1109,7 @@ A = \begin{pmatrix} 1 & 0 & 0 & 1 \\ 1 & 1 & 0 & 0 \\ 0 & 1 & 1 & 0 \\ 0 & 0 & 1
 <div class="problem-body">
 
 证明向量 x 是方程组 Ax=b 的最小二乘解的充要条件是，存在向量 y 使得向量 \begin{pmatrix} y \\ x \end{pmatrix} 为
-\begin{pmatrix} I & A \\ A^H & O \end{pmatrix}\begin{pmatrix} y \\ x \end{pmatrix} = \begin{pmatrix} b \\ 0 \end{pmatrix}
+\begin{pmatrix} I &amp; A \\ A^H &amp; O \end{pmatrix}\begin{pmatrix} y \\ x \end{pmatrix} = \begin{pmatrix} b \\ 0 \end{pmatrix}
 的解。
 
 </div>
@@ -1163,8 +1156,7 @@ x = A^{(1,4)}b + (I - A^{(1,4)}A)a,
 </div>
 
 <div class="lesson-section">
-## 特征值估计
-
+<h2>特征值估计</h2>
 <div class="problem">
 <div class="problem-header">
 <span class="problem-id">hw-059</span>
@@ -1195,7 +1187,7 @@ x = A^{(1,4)}b + (I - A^{(1,4)}A)a,
 </div>
 <div class="problem-body">
 
-设 A\in\mathbb C^{n\times n} 可逆，B\in\mathbb C^{n\times n}，若对某种矩阵范数有 \|B\| < \frac{1}{\|A^{-1}\|}，则 A+B 可逆。
+设 A\in\mathbb C^{n\times n} 可逆，B\in\mathbb C^{n\times n}，若对某种矩阵范数有 \|B\| &lt; \frac{1}{\|A^{-1}\|}，则 A+B 可逆。
 
 </div>
 </div>
@@ -1212,7 +1204,7 @@ x = A^{(1,4)}b + (I - A^{(1,4)}A)a,
 <div class="problem-body">
 
 应用 Gerschgorin 定理，隔离矩阵
-A = \begin{pmatrix} 20 & 3 & 1 \\ 2 & 10 & 2 \\ 8 & 1 & 0 \end{pmatrix}
+A = \begin{pmatrix} 20 &amp; 3 &amp; 1 \\ 2 &amp; 10 &amp; 2 \\ 8 &amp; 1 &amp; 0 \end{pmatrix}
 的特征值；再应用实矩阵特征值的性质，改进得出的结果。
 
 </div>
@@ -1231,7 +1223,7 @@ A = \begin{pmatrix} 20 & 3 & 1 \\ 2 & 10 & 2 \\ 8 & 1 & 0 \end{pmatrix}
 <div class="problem-body">
 
 证明矩阵
-A = \begin{pmatrix} 2 & \frac{2}{n} & \frac{1}{n} & \cdots & \frac{1}{n} \\ \frac{1}{n} & 4 & \frac{1}{n} & \cdots & \frac{1}{n} \\ \vdots & \vdots & \vdots & & \vdots \\ \frac{1}{n} & \frac{1}{n} & \frac{1}{n} & \cdots & 2n \end{pmatrix}
+A = \begin{pmatrix} 2 &amp; \frac{2}{n} &amp; \frac{1}{n} &amp; \cdots &amp; \frac{1}{n} \\ \frac{1}{n} &amp; 4 &amp; \frac{1}{n} &amp; \cdots &amp; \frac{1}{n} \\ \vdots &amp; \vdots &amp; \vdots &amp; &amp; \vdots \\ \frac{1}{n} &amp; \frac{1}{n} &amp; \frac{1}{n} &amp; \cdots &amp; 2n \end{pmatrix}
 能够相似于对角矩阵，且 A 的特征值都是实数。
 
 </div>
@@ -1239,3 +1231,6 @@ A = \begin{pmatrix} 2 & \frac{2}{n} & \frac{1}{n} & \cdots & \frac{1}{n} \\ \fra
 
 </div>
 
+
+</body>
+</html>

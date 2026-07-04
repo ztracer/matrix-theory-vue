@@ -15,29 +15,9 @@ export const katexMacros = {
   "\\H": "^\\mathsf{H}"
 }
 
-// E1: CSS is loaded once on first KaTeX render (was eagerly imported in main.js)
-let cssLoaded = false
-async function ensureKatexCss() {
-  if (cssLoaded) return
-  if (!document.querySelector('#katex-css')) {
-    const link = document.createElement('link')
-    link.id = 'katex-css'
-    link.rel = 'stylesheet'
-    link.href = import.meta.env.BASE_URL + 'katex.min.css'
-    // Wait for the stylesheet to actually load before rendering
-    await new Promise((resolve) => {
-      link.onload = resolve
-      link.onerror = resolve  // don't block rendering on error
-      document.head.appendChild(link)
-    })
-  }
-  cssLoaded = true
-}
-
 // E2: shared element-scoped renderer (replaces duplicate logic in QuizProblem.vue)
 export async function renderMathInElement(el) {
   if (!el) return
-  await ensureKatexCss()
   const katex = (await import('katex')).default
   await nextTick()
   el.querySelectorAll('.formula-block, .formula-inline, [data-katex]').forEach(node => {
@@ -59,7 +39,6 @@ export async function renderMathInElement(el) {
 export function useKatex(renderTrigger) {
   // E1 + F5: async, dynamic katex import, nextTick + rAF timing
   const renderMath = async () => {
-    await ensureKatexCss()
     const katex = (await import('katex')).default
     await nextTick()
     requestAnimationFrame(() => {

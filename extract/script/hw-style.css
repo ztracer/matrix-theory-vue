@@ -1,4 +1,4 @@
-/* === 矩阵论课后作业 - 打印样式 === */
+/* === 矩阵论课后作业 - 紧凑打印样式 === */
 
 :root {
   --ink: #111;
@@ -9,118 +9,74 @@
 
 body {
   font-family: "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
-  font-size: 12pt;
-  line-height: 1.85;
+  font-size: 11pt;
+  line-height: 1.7;
   color: var(--ink);
-  max-width: 180mm;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 15mm 20mm;
+  padding: 8mm 12mm;
 }
 
 h1 {
   font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
-  font-size: 22pt;
+  font-size: 18pt;
   font-weight: 700;
-  border-bottom: 2px solid var(--ink);
-  padding-bottom: 8pt;
-  margin-bottom: 16pt;
-  letter-spacing: 0.5pt;
+  border-bottom: 1.5px solid var(--ink);
+  padding-bottom: 4pt;
+  margin-bottom: 10pt;
 }
 
 h2 {
   font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
-  font-size: 16pt;
+  font-size: 13pt;
   font-weight: 700;
-  margin-top: 24pt;
-  margin-bottom: 12pt;
-  page-break-after: avoid;
+  margin-top: 14pt;
+  margin-bottom: 8pt;
 }
 
 .lesson-section {
-  page-break-before: always;
-}
-.lesson-section:first-of-type {
-  page-break-before: auto;
+  /* no page break between lessons */
 }
 
 .problem {
-  margin-bottom: 18pt;
-  padding: 10pt 0;
+  margin-bottom: 12pt;
+  padding: 6pt 0;
   border-bottom: 0.5pt solid var(--border);
-  page-break-inside: avoid;
 }
 
 .problem-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 4pt;
+  margin-bottom: 2pt;
 }
 
 .problem-id {
   font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
-  font-size: 11pt;
+  font-size: 10pt;
   font-weight: 700;
   color: var(--ink);
 }
 
 .problem-source {
-  font-size: 9pt;
+  font-size: 8pt;
   color: var(--muted);
 }
 
-.problem-tags {
-  margin-bottom: 6pt;
-}
+.problem-tags { margin-bottom: 4pt; }
 
 .tag {
   display: inline-block;
-  font-size: 8pt;
+  font-size: 7pt;
   background: var(--tag-bg);
   border: 0.5pt solid var(--border);
-  border-radius: 3pt;
-  padding: 1pt 6pt;
-  margin-right: 4pt;
+  border-radius: 2pt;
+  padding: 1pt 4pt;
+  margin-right: 3pt;
   color: var(--muted);
   font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
 }
 
-.problem-body {
-  margin-top: 6pt;
-}
-
-.problem-body p {
-  margin: 4pt 0;
-  text-indent: 0;
-}
-
-/* KaTeX-like styling for math display */
-.problem-body img[src*="katex"],
+.problem-body { margin-top: 4pt; }
+.problem-body p { margin: 2pt 0; text-indent: 0; }
 .katex { max-width: 100%; }
-
-/* Print-specific */
-@media print {
-  body {
-    font-size: 11pt;
-    padding: 10mm 15mm;
-  }
-  .lesson-section {
-    page-break-before: always;
-  }
-  .problem {
-    page-break-inside: avoid;
-  }
-  h1 {
-    font-size: 20pt;
-  }
-  h2 {
-    font-size: 14pt;
-    margin-top: 18pt;
-  }
-}
-
-@media screen {
-  body {
-    background: #fff;
-  }
-}

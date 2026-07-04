@@ -8,7 +8,7 @@ knowledge:
   - Jordan标准形
   - Jordan块
 problem: |
-  \text{（知识拓展卡片，配合 }\#01-4\text{ 阅读）设 }A\text{ 为 }n\text{ 阶方阵，}\lambda_0\text{ 是 }A\text{ 的特征值。解释代数重数与几何重数的概念，并说明如何由二者确定 Jordan 块的结构。}
+  \text{（知识拓展卡片）设 }A\text{ 为 }n\text{ 阶方阵，}\lambda_0\text{ 是 }A\text{ 的特征值。解释代数重数与几何重数的概念，并说明如何由二者确定 Jordan 块的结构。}
 steps:
   - title: "代数重数"
     content: |

@@ -341,7 +341,7 @@ x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
         @pause="pause2"
         @reset="reset2"
       >
-        <svg ref="svg2" viewBox="0 0 500 400" class="responsive-svg">
+        <svg ref="svg2" viewBox="0 0 500 340" class="responsive-svg">
           <defs>
             <marker id="arrow2a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <polygon points="0 0, 8 3, 0 6" fill="#334155"/>
@@ -356,47 +356,49 @@ x1="250" y1="300" :x2="250 + obpx" :y2="300 - obpy"
               <polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/>
             </marker>
           </defs>
-          <!-- Grid -->
-          <g opacity="0.1">
-            <line v-for="i in 20" :key="'gv2'+i" :x1="i*25" y1="0" :x2="i*25" y2="400" stroke="#94a3b8" stroke-width="0.5"/>
-            <line v-for="i in 16" :key="'gh2'+i" x1="0" :y1="i*25" :x2="500" :y2="i*25" stroke="#94a3b8" stroke-width="0.5"/>
-          </g>
           <!-- Axes -->
-          <line x1="250" y1="20" x2="250" y2="380" stroke="#334155" stroke-width="1" marker-end="url(#arrow2a)"/>
-          <line x1="20" y1="300" x2="480" y2="300" stroke="#334155" stroke-width="1" marker-end="url(#arrow2a)"/>
+          <line :x1="origin2.x" y1="42" :x2="origin2.x" y2="298" stroke="#cbd5e1" stroke-width="1.2" marker-end="url(#arrow2a)"/>
+          <line x1="64" :y1="origin2.y" x2="448" :y2="origin2.y" stroke="#cbd5e1" stroke-width="1.2" marker-end="url(#arrow2a)"/>
 
-          <!-- Subspace L (x-axis, i.e. y=0 in screen coords) -->
-          <rect x="20" y="295" width="460" height="10" rx="5" fill="#fed7aa" opacity="0.5"/>
-          <text x="455" y="290" fill="#ea580c" font-size="13" font-weight="600">L = R(P)</text>
+          <!-- Range R(P) -->
+          <line x1="64" :y1="origin2.y" x2="448" :y2="origin2.y" stroke="#ea580c" stroke-width="6" stroke-linecap="round" opacity="0.24"/>
+          <text x="358" :y="origin2.y - 12" fill="#ea580c" font-size="13" font-weight="700">R(P)：投影后停留的子空间</text>
+          <circle :cx="origin2.x" :cy="origin2.y" r="4" fill="#334155"/>
+          <text :x="origin2.x - 16" :y="origin2.y + 20" font-size="12" fill="#334155">O</text>
 
           <!-- Vector x -->
           <line
-x1="250" y1="300" :x2="250 + x2px" :y2="300 - x2py"
+            :x1="origin2.x" :y1="origin2.y" :x2="origin2.x + x2px" :y2="origin2.y - x2py"
                 stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrowX2)"/>
-          <text :x="250 + x2px + 8" :y="300 - x2py" fill="#2563eb" font-size="13" font-weight="700">x</text>
+          <text :x="origin2.x + x2px + 8" :y="origin2.y - x2py" fill="#2563eb" font-size="14" font-weight="700">x</text>
 
-          <!-- First projection Px (animates along projection) -->
+          <!-- First projection Px -->
           <line
-x1="250" y1="300" :x2="250 + px1x" :y2="300 - px1y"
-                stroke="#ea580c" stroke-width="2.5" :opacity="projAlpha1" marker-end="url(#arrowPx)"/>
-          <text v-if="projAlpha1 > 0.3" :x="250 + px1x - 5" :y="300 - px1y - 12" fill="#ea580c" font-size="12" font-weight="600">Px</text>
+            :x1="origin2.x" :y1="origin2.y" :x2="origin2.x + px1x" :y2="origin2.y - px1y"
+            stroke="#ea580c" stroke-width="3" :opacity="projAlpha1" marker-end="url(#arrowPx)"/>
+          <circle v-if="projAlpha1 > 0.98" :cx="origin2.x + x2px" :cy="origin2.y" r="5" fill="#ea580c"/>
+          <text v-if="projAlpha1 > 0.25" :x="origin2.x + px1x - 10" :y="origin2.y - px1y - 14" fill="#ea580c" font-size="13" font-weight="700">Px</text>
 
-          <!-- Projection path from x to Px -->
+          <!-- Projection path from x to Px, drawn vertically for this orthogonal example -->
           <line
-v-if="stage2 >= 1" :x1="250 + x2px" :y1="300 - x2py" :x2="250 + px1x" :y2="300 - px1y"
-                stroke="#ea580c" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.6"/>
+            v-if="stage2 >= 1"
+            :x1="origin2.x + x2px" :y1="origin2.y - x2py"
+            :x2="origin2.x + x2px" :y2="origin2.y"
+            stroke="#ea580c" stroke-width="1.5" stroke-dasharray="6,5" opacity="0.7"/>
 
-          <!-- Second projection P(Px) -->
-          <line
-x1="250" y1="300" :x2="250 + ppx" :y2="300 - ppy"
-                stroke="#7c3aed" stroke-width="3" :opacity="projAlpha2" marker-end="url(#arrowPPx)"/>
-          <text v-if="projAlpha2 > 0.3" :x="250 + ppx - 20" :y="300 - ppy + 25" fill="#7c3aed" font-size="12" font-weight="700">P(Px)=Px</text>
+          <!-- Second projection is shown as a small pulse at Px, not a competing arrow -->
+          <g v-if="stage2 >= 2" :opacity="projAlpha2">
+            <circle :cx="origin2.x + x2px" :cy="origin2.y" :r="8 + 6 * projPulse2" fill="none" stroke="#7c3aed" stroke-width="2"/>
+            <path
+              :d="`M ${origin2.x + x2px - 28} ${origin2.y + 22} C ${origin2.x + x2px - 8} ${origin2.y + 40}, ${origin2.x + x2px + 28} ${origin2.y + 38}, ${origin2.x + x2px + 34} ${origin2.y + 6}`"
+              fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowPPx)"/>
+            <text :x="origin2.x + x2px + 16" :y="origin2.y + 32" fill="#7c3aed" font-size="13" font-weight="700">P(Px)=Px，不再移动</text>
+          </g>
 
-          <!-- Check mark when done -->
-          <g v-if="stage2 >= 2">
-            <circle cx="250" cy="50" r="22" fill="#10b981" opacity="0.9"/>
-            <path d="M240,50 L248,58 L262,42" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <text x="280" y="55" font-size="13" fill="#10b981" font-weight="600">P² = P 验证完毕！</text>
+          <!-- Step caption -->
+          <g>
+            <rect x="92" y="24" width="316" height="46" rx="8" fill="#fff" stroke="#e2e8f0"/>
+            <text x="250" y="52" text-anchor="middle" font-size="14" font-weight="700" fill="#334155">{{ idemStepText }}</text>
           </g>
         </svg>
       </AnimationBox>
@@ -429,60 +431,75 @@ x1="250" y1="300" :x2="250 + ppx" :y2="300 - ppy"
       <AnimationBox
         title="直和分解可视化：x = Px + (I-P)x"
         :playing="playing3"
-        description="绿色子空间为值域 R(P)，粉色子空间为零空间 N(P)。蓝色向量 x 被唯一分解为橙色(Px)和紫色((I-P)x)分量，二者分别属于两个子空间。"
+        description="绿色直线为值域 R(P)，粉色虚线为零空间 N(P)。蓝色向量 x 被唯一分解为橙色(Px)和紫色((I-P)x)分量，二者分别属于两个子空间。"
         @play="play3"
         @pause="pause3"
         @reset="reset3"
       >
-        <svg ref="svg3" viewBox="0 0 500 400" class="responsive-svg">
+        <svg ref="svg3" viewBox="0 0 500 360" class="responsive-svg">
           <defs>
             <marker id="arrow3a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <polygon points="0 0, 8 3, 0 6" fill="#334155"/>
             </marker>
+            <marker id="arrow3x" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#2563eb"/>
+            </marker>
+            <marker id="arrow3p" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#ea580c"/>
+            </marker>
+            <marker id="arrow3n" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/>
+            </marker>
           </defs>
-          <!-- R(P) subspace (green, horizontal) -->
-          <rect x="20" y="193" width="460" height="14" rx="7" fill="#d1fae5" opacity="0.6"/>
-          <text x="440" y="188" fill="#059669" font-size="13" font-weight="700">R(P)</text>
+          <!-- Coordinate axes -->
+          <line :x1="origin3.x" y1="42" :x2="origin3.x" y2="316" stroke="#cbd5e1" stroke-width="1.2" marker-end="url(#arrow3a)"/>
+          <line x1="64" :y1="origin3.y" x2="448" :y2="origin3.y" stroke="#cbd5e1" stroke-width="1.2" marker-end="url(#arrow3a)"/>
 
-          <!-- N(P) subspace (pink, oblique) -->
-          <polygon points="250,20 100,380 400,380" fill="#fce7f3" opacity="0.5"/>
-          <text x="100" y="50" fill="#db2777" font-size="13" font-weight="700">N(P)</text>
-          <line x1="250" y1="30" x2="250" y2="370" stroke="#db2777" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <!-- R(P) subspace (green line) -->
+          <line x1="64" :y1="origin3.y" x2="448" :y2="origin3.y" stroke="#10b981" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
+          <text x="390" :y="origin3.y - 14" fill="#059669" font-size="13" font-weight="700">R(P)</text>
+
+          <!-- N(P) subspace (pink line, not a filled plane) -->
+          <line :x1="origin3.x - n3dx * 2" :y1="origin3.y + n3dy * 2" :x2="origin3.x + n3dx * 2" :y2="origin3.y - n3dy * 2"
+                stroke="#db2777" stroke-width="3" stroke-dasharray="8,6" opacity="0.78"/>
+          <text :x="origin3.x - n3dx * 1.85 - 4" :y="origin3.y + n3dy * 1.85 - 10" fill="#db2777" font-size="13" font-weight="700">N(P)</text>
 
           <!-- Origin -->
-          <circle cx="250" cy="200" r="4" fill="#334155"/>
-          <text x="235" y="218" font-size="11" fill="#334155">O</text>
+          <circle :cx="origin3.x" :cy="origin3.y" r="4" fill="#334155"/>
+          <text :x="origin3.x - 16" :y="origin3.y + 20" font-size="12" fill="#334155">O</text>
 
           <!-- Vector x -->
           <line
-x1="250" y1="200" :x2="250 + x3x" :y2="200 - x3y"
-                stroke="#2563eb" stroke-width="2.5"/>
-          <polygon :points="arrowHead(250+x3x, 200-x3y, Math.atan2(-x3y, x3x), '#2563eb')" fill="#2563eb"/>
-          <text :x="250 + x3x + 8" :y="200 - x3y" fill="#2563eb" font-size="14" font-weight="700">x</text>
+            :x1="origin3.x" :y1="origin3.y" :x2="origin3.x + x3x" :y2="origin3.y - x3y"
+            stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow3x)"/>
+          <text :x="origin3.x + x3x + 8" :y="origin3.y - x3y" fill="#2563eb" font-size="14" font-weight="700">x</text>
 
           <!-- Px component (in R(P), orange) -->
           <line
-v-if="decomp3 > 0.3" x1="250" y1="200" :x2="250 + px3" :y2="200"
-                stroke="#ea580c" stroke-width="3" :opacity="Math.min(decomp3, 1)"/>
-          <polygon v-if="decomp3 > 0.5" :points="arrowHead(250+px3, 200, 0, '#ea580c')" fill="#ea580c"/>
-          <text v-if="decomp3 > 0.5" :x="250 + px3/2 - 10" y="190" fill="#ea580c" font-size="12" font-weight="600">Px ∈ R(P)</text>
+            v-if="decomp3 > 0.18"
+            :x1="origin3.x" :y1="origin3.y" :x2="origin3.x + px3" :y2="origin3.y"
+            stroke="#ea580c" stroke-width="3" :opacity="decomp3" marker-end="url(#arrow3p)"/>
+          <circle v-if="decomp3 > 0.5" :cx="origin3.x + x3x" :cy="origin3.y" r="5" fill="#ea580c"/>
+          <text v-if="decomp3 > 0.45" :x="origin3.x + px3/2 - 8" :y="origin3.y - 14" fill="#ea580c" font-size="12" font-weight="700">Px ∈ R(P)</text>
 
           <!-- (I-P)x component (in N(P), purple) -->
           <line
-v-if="decomp3 > 0.5" :x1="250 + px3" :y1="200" :x2="250 + x3x" :y2="200 - x3y"
-                stroke="#7c3aed" stroke-width="2.5" :opacity="Math.min((decomp3-0.5)*2, 1)"/>
-          <polygon v-if="decomp3 > 0.7" :points="arrowHead(250+x3x, 200-x3y, Math.atan2(-(x3y), x3x-px3), '#7c3aed')" fill="#7c3aed"/>
-          <text v-if="decomp3 > 0.7" :x="250 + px3 + 15" :y="200 - x3y/2" fill="#7c3aed" font-size="11" font-weight="600">(I-P)x ∈ N(P)</text>
+            v-if="decomp3 > 0.45"
+            :x1="origin3.x + x3x" :y1="origin3.y"
+            :x2="origin3.x + x3x" :y2="origin3.y - nComp3"
+            stroke="#7c3aed" stroke-width="2.8" :opacity="Math.min((decomp3-0.45)*1.8, 1)" marker-end="url(#arrow3n)"/>
+          <text v-if="decomp3 > 0.65" :x="origin3.x + x3x + 14" :y="origin3.y - x3y/2" fill="#7c3aed" font-size="12" font-weight="700">(I-P)x ∈ N(P)</text>
 
-          <!-- Parallelogram (dashed) -->
-          <line
-v-if="decomp3 > 0.8" x1="250" y1="200" :x2="250 + (x3x-px3)" :y2="200 - x3y"
-                stroke="#7c3aed" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <!-- Decomposition guide lines -->
+          <g v-if="decomp3 > 0.75" opacity="0.55">
+            <line :x1="origin3.x" :y1="origin3.y - x3y" :x2="origin3.x + x3x" :y2="origin3.y - x3y" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="5,4"/>
+            <line :x1="origin3.x" :y1="origin3.y" :x2="origin3.x" :y2="origin3.y - x3y" stroke="#db2777" stroke-width="1.2" stroke-dasharray="5,4"/>
+          </g>
 
           <!-- Formula text -->
-          <g v-if="decomp3 >= 1">
-            <rect x="120" y="340" width="260" height="36" rx="8" fill="#fff" stroke="#e2e8f0"/>
-            <text x="250" y="363" text-anchor="middle" font-size="15" font-weight="700" fill="#7c3aed">x = Px + (I-P)x</text>
+          <g>
+            <rect x="100" y="24" width="300" height="46" rx="8" fill="#fff" stroke="#e2e8f0"/>
+            <text x="250" y="52" text-anchor="middle" font-size="14" font-weight="700" fill="#334155">{{ decompStepText }}</text>
           </g>
         </svg>
       </AnimationBox>
@@ -998,39 +1015,53 @@ const reset1 = () => {
 const playing2 = ref(false)
 let rafId2 = null
 const stage2 = ref(0)
+const origin2 = { x: 160, y: 230 }
 const x2px = 140
-const x2py = 100
-const x2Vec = { x: 140, y: 100 }
+const x2py = 86
+const x2Vec = { x: x2px, y: x2py }
 const px1x = ref(0)
 const px1y = ref(0)
-const ppx = ref(0)
-const ppy = ref(0)
 const projAlpha1 = ref(0)
 const projAlpha2 = ref(0)
+const projPulse2 = ref(0)
+const idemStepText = ref('先看原向量 x')
 let t2 = 0
 
 const animate2 = () => {
-  t2 += 0.015
-  if (t2 < 1) {
+  t2 += 0.008
+  if (t2 < 0.55) {
+    stage2.value = 0
+    px1x.value = 0
+    px1y.value = 0
+    projAlpha1.value = 0
+    projAlpha2.value = 0
+    projPulse2.value = 0
+    idemStepText.value = '先看原向量 x'
+  } else if (t2 < 1.65) {
     stage2.value = 1
-    const progress = Math.min(t2, 1)
+    const progress = Math.min((t2 - 0.55) / 1.1, 1)
     px1x.value = x2Vec.x
     px1y.value = x2Vec.y * (1 - easeOutCubic(progress))
     projAlpha1.value = easeOutCubic(progress)
-    ppx.value = 0; ppy.value = 0; projAlpha2.value = 0
-  } else if (t2 < 2) {
+    projAlpha2.value = 0
+    projPulse2.value = 0
+    idemStepText.value = '第一次投影：x 被压到 R(P)，得到 Px'
+  } else if (t2 < 2.7) {
     stage2.value = 2
     projAlpha1.value = 1
     px1x.value = x2Vec.x; px1y.value = 0
-    const progress = easeOutCubic(Math.min((t2 - 1), 1))
-    ppx.value = x2Vec.x * progress
-    ppy.value = 0
-    projAlpha2.value = progress
+    const progress = Math.min((t2 - 1.65) / 1.05, 1)
+    projAlpha2.value = easeOutCubic(progress)
+    projPulse2.value = Math.sin(progress * Math.PI) * 0.8
+    idemStepText.value = '第二次投影：Px 已经在 R(P) 中，所以不再移动'
   } else {
     stage2.value = 2
     projAlpha1.value = 1; projAlpha2.value = 1
     px1x.value = x2Vec.x; px1y.value = 0
-    ppx.value = x2Vec.x; ppy.value = 0
+    projPulse2.value = 0
+    idemStepText.value = '结论：P(Px)=Px，也就是 P²=P'
+    playing2.value = false
+    return
   }
   rafId2 = requestAnimationFrame(animate2)
 }
@@ -1038,8 +1069,9 @@ const play2 = () => { if (!playing2.value) { playing2.value = true; t2 = 0; anim
 const pause2 = () => { playing2.value = false; if (rafId2) cancelAnimationFrame(rafId2) }
 const reset2 = () => {
   pause2(); t2 = 0; stage2.value = 0
-  px1x.value = 0; px1y.value = 0; ppx.value = 0; ppy.value = 0
-  projAlpha1.value = 0; projAlpha2.value = 0
+  px1x.value = 0; px1y.value = 0
+  projAlpha1.value = 0; projAlpha2.value = 0; projPulse2.value = 0
+  idemStepText.value = '先看原向量 x'
 }
 
 // ====== Animation 3: Direct sum decomposition ======
@@ -1047,15 +1079,29 @@ const playing3 = ref(false)
 let rafId3 = null
 let t3 = 0
 const decomp3 = ref(0)
+const origin3 = { x: 170, y: 230 }
 const x3x = 120
 const x3y = 80
+const nComp3 = computed(() => x3y * decomp3.value)
+const n3dx = 0
+const n3dy = 60
 const px3 = ref(0)
+const decompStepText = computed(() => {
+  if (decomp3.value < 0.3) return 'x 将被拆成两个分量'
+  if (decomp3.value < 0.65) return 'Px 落在 R(P) 中'
+  if (decomp3.value < 0.95) return '(I-P)x 沿 N(P) 补回 x'
+  return 'x = Px + (I-P)x，且分解唯一'
+})
 
 const animate3 = () => {
-  t3 += 0.012
+  t3 += 0.008
   const p = Math.min(t3, 1)
   decomp3.value = easeOutCubic(p)
   px3.value = x3x * decomp3.value
+  if (p >= 1) {
+    playing3.value = false
+    return
+  }
   rafId3 = requestAnimationFrame(animate3)
 }
 const play3 = () => { if (!playing3.value) { playing3.value = true; t3 = 0; animate3() } }
@@ -1066,17 +1112,6 @@ const reset3 = () => {
 
 // Helper
 function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3) }
-
-function arrowHead(x, y, angle, color) {
-  const size = 8
-  const a1 = angle + Math.PI - 0.4
-  const a2 = angle + Math.PI + 0.4
-  const p1x = x + size * Math.cos(a1)
-  const p1y = y + size * Math.sin(a1)
-  const p2x = x + size * Math.cos(a2)
-  const p2y = y + size * Math.sin(a2)
-  return `${x},${y} ${p1x},${p1y} ${p2x},${p2y}`
-}
 
 onUnmounted(() => {
   if (rafId1) cancelAnimationFrame(rafId1)

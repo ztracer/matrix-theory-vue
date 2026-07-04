@@ -4,8 +4,8 @@ import router from '@/router'
 describe('Router', () => {
   const routes = router.getRoutes()
 
-  it('has at least 14 routes', () => {
-    expect(routes.length).toBeGreaterThanOrEqual(14)
+  it('has at least 15 routes', () => {
+    expect(routes.length).toBeGreaterThanOrEqual(15)
   })
 
   it('has home route', () => {

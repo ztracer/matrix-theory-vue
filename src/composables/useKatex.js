@@ -23,8 +23,8 @@ async function ensureKatexCss() {
     const link = document.createElement('link')
     link.id = 'katex-css'
     link.rel = 'stylesheet'
-    // CDN matches the local dependency version (katex@0.17.0 in package.json)
-    link.href = 'https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css'
+    // Local copy in public/ (copied via postinstall from node_modules/katex)
+    link.href = import.meta.env.BASE_URL + 'katex.min.css'
     document.head.appendChild(link)
   }
   cssLoaded = true

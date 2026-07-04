@@ -8,17 +8,17 @@ knowledge:
   - Jordan标准形
   - Jordan块
 problem: |
-  （知识拓展卡片，配合 #01-4 阅读）设 A 为 n 阶方阵，\lambda_0 是 A 的特征值。解释代数重数与几何重数的概念，并说明如何由二者确定 Jordan 块的结构。
+  \text{（知识拓展卡片，配合 }\#01-4\text{ 阅读）设 }A\text{ 为 }n\text{ 阶方阵，}\lambda_0\text{ 是 }A\text{ 的特征值。解释代数重数与几何重数的概念，并说明如何由二者确定 Jordan 块的结构。}
 steps:
   - title: "代数重数"
     content: |
-      代数重数 m_a(\lambda_0)：\lambda_0 作为特征多项式 \det(\lambda I-A)=0 的根的重数，即在特征多项式中因子 (\lambda-\lambda_0) 的幂指数。它反映 \lambda_0 在谱中“出现多少次”。
+      \text{代数重数 }m_a(\lambda_0)\text{：}\lambda_0\text{ 作为特征多项式 }\det(\lambda I-A)=0\text{ 的根的重数，即在特征多项式中因子 }(\lambda-\lambda_0)\text{ 的幂指数。它反映 }\lambda_0\text{ 在谱中“出现多少次”。}
   - title: "几何重数"
     content: |
-      几何重数 m_g(\lambda_0)=\dim\ker(\lambda_0 I-A)=n-\operatorname{rank}(\lambda_0 I-A)，即属于 \lambda_0 的线性无关特征向量的最大个数，亦即 \lambda_0 对应的 Jordan 块的“个数”。恒有 1\le m_g(\lambda_0)\le m_a(\lambda_0)。
+      \text{几何重数 }m_g(\lambda_0)=\dim\ker(\lambda_0 I-A)=n-\operatorname{rank}(\lambda_0 I-A)\text{，即属于 }\lambda_0\text{ 的线性无关特征向量的最大个数，亦即 }\lambda_0\text{ 对应的 Jordan 块的“个数”。恒有 }1\le m_g(\lambda_0)\le m_a(\lambda_0)\text{。}
   - title: "由二者确定Jordan块结构"
     content: |
-      \lambda_0 对应的 Jordan 块总数 = m_g(\lambda_0)；这些块的阶数之和 = m_a(\lambda_0)。当 m_g=m_a 时，\lambda_0 对应 m_a 个 1 阶块（即对角化）；当 m_g=1 时，\lambda_0 对应一个 m_a 阶块（不可对角）。例：m_a=3,m_g=2 \Rightarrow 块阶数组合为 (2,1)，即 J_2(\lambda_0)\oplus J_1(\lambda_0)。
+      \lambda_0\text{ 对应的 Jordan 块总数}=m_g(\lambda_0)\text{；这些块的阶数之和}=m_a(\lambda_0)\text{。当 }m_g=m_a\text{ 时，}\lambda_0\text{ 对应 }m_a\text{ 个 1 阶块（即对角化）；当 }m_g=1\text{ 时，}\lambda_0\text{ 对应一个 }m_a\text{ 阶块（不可对角）。例：}m_a=3,m_g=2\Rightarrow\text{ 块阶数组合为 }(2,1)\text{，即 }J_2(\lambda_0)\oplus J_1(\lambda_0)\text{。}
   - title: "📖 口诀与判据"
     content: |
-      口诀：“代数定总量、几何定块数、差值定阶数”。判据：A 可对角化 \iff 对每个特征值 \lambda 都有 m_a(\lambda)=m_g(\lambda)。注：几何重数等于块数、代数重数等于全块阶数之和，二者差值决定最大块的阶数。
+      \text{口诀：“代数定总量、几何定块数、差值定阶数”。判据：}A\text{ 可对角化 }\iff\text{ 对每个特征值 }\lambda\text{ 都有 }m_a(\lambda)=m_g(\lambda)\text{。注：几何重数等于块数、代数重数等于全块阶数之和，二者差值决定最大块的阶数。}

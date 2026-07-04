@@ -654,9 +654,6 @@ function initScene(viewport) {
 
   scene.add(new THREE.HemisphereLight(0xffffff, 0xdbeafe, 2.3))
   scene.add(new THREE.DirectionalLight(0xffffff, 1.2))
-  const grid = new THREE.GridHelper(6, 12, 0xcbd5e1, 0xe2e8f0)
-  grid.position.y = -0.03
-  scene.add(grid)
 
   const axes = [
     { v: [3, 0, 0], color: 0x94a3b8, label: 'x1' },

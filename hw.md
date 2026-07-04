@@ -1,0 +1,1241 @@
+# 矩阵论课后作业
+
+<style>
+/* === 矩阵论课后作业 - 打印样式 === */
+
+:root {
+  --ink: #111;
+  --muted: #555;
+  --border: #ccc;
+  --tag-bg: #f0f0f0;
+}
+
+body {
+  font-family: "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  font-size: 12pt;
+  line-height: 1.85;
+  color: var(--ink);
+  max-width: 180mm;
+  margin: 0 auto;
+  padding: 15mm 20mm;
+}
+
+h1 {
+  font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
+  font-size: 22pt;
+  font-weight: 700;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 8pt;
+  margin-bottom: 16pt;
+  letter-spacing: 0.5pt;
+}
+
+h2 {
+  font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
+  font-size: 16pt;
+  font-weight: 700;
+  margin-top: 24pt;
+  margin-bottom: 12pt;
+  page-break-after: avoid;
+}
+
+.lesson-section {
+  page-break-before: always;
+}
+.lesson-section:first-of-type {
+  page-break-before: auto;
+}
+
+.problem {
+  margin-bottom: 18pt;
+  padding: 10pt 0;
+  border-bottom: 0.5pt solid var(--border);
+  page-break-inside: avoid;
+}
+
+.problem-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4pt;
+}
+
+.problem-id {
+  font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.problem-source {
+  font-size: 9pt;
+  color: var(--muted);
+}
+
+.problem-tags {
+  margin-bottom: 6pt;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 8pt;
+  background: var(--tag-bg);
+  border: 0.5pt solid var(--border);
+  border-radius: 3pt;
+  padding: 1pt 6pt;
+  margin-right: 4pt;
+  color: var(--muted);
+  font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
+}
+
+.problem-body {
+  margin-top: 6pt;
+}
+
+.problem-body p {
+  margin: 4pt 0;
+  text-indent: 0;
+}
+
+/* KaTeX-like styling for math display */
+.problem-body img[src*="katex"],
+.katex { max-width: 100%; }
+
+/* Print-specific */
+@media print {
+  body {
+    font-size: 11pt;
+    padding: 10mm 15mm;
+  }
+  .lesson-section {
+    page-break-before: always;
+  }
+  .problem {
+    page-break-inside: avoid;
+  }
+  h1 {
+    font-size: 20pt;
+  }
+  h2 {
+    font-size: 14pt;
+    margin-top: 18pt;
+  }
+}
+
+@media screen {
+  body {
+    background: #fff;
+  }
+}
+
+</style>
+
+> 共 62 道题目，覆盖 10 个课程章节
+
+<div class="lesson-section">
+## 线性空间与线性子空间
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-001</span>
+<span class="problem-source">教材习题p1-3</span>
+</div>
+<div class="problem-tags">
+<span class="tag">线性空间</span>
+<span class="tag">子空间判定</span>
+<span class="tag">公理</span>
+<span class="tag">基与维数</span>
+</div>
+<div class="problem-body">
+
+判别下列集合对所指运算是否构成 \mathbb{R} 上的线性空间：
+(1) 次数等于 m(m \ge 1) 的实系数多项式的集合，对于多项式的加法和数与多项式的乘法；
+(2) 实对称矩阵的集合，对于矩阵的加法和实数与矩阵的乘法；
+(3) 平面上全体向量的集合，对于通常的加法和如下定义的数乘运算 k \circ x = 0。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-002</span>
+<span class="problem-source">教材习题p1-4</span>
+</div>
+<div class="problem-tags">
+<span class="tag">线性空间</span>
+<span class="tag">子空间判定</span>
+<span class="tag">公理</span>
+</div>
+<div class="problem-body">
+
+证明：在实函数空间中，1, \cos^2 t, \cos 2t 是线性相关的。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-003</span>
+<span class="problem-source">教材习题p1-5</span>
+</div>
+<div class="problem-tags">
+<span class="tag">线性空间</span>
+<span class="tag">基与维数</span>
+</div>
+<div class="problem-body">
+
+求习题 3 之 (2) 中线性空间的维数与基。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-004</span>
+<span class="problem-source">教材习题p1-6</span>
+</div>
+<div class="problem-tags">
+<span class="tag">基与维数</span>
+<span class="tag">坐标</span>
+</div>
+<div class="problem-body">
+
+求 \mathbb{R}^3 中向量 x=(3,7,1)^T 对基 x_1=(1,3,5)^T, x_2=(6,3,2)^T, x_3=(3,1,0)^T 的坐标。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-005</span>
+<span class="problem-source">教材习题p1-7</span>
+</div>
+<div class="problem-tags">
+<span class="tag">基与维数</span>
+<span class="tag">坐标</span>
+</div>
+<div class="problem-body">
+
+求 P_2 中向量 1+t+t^2 对基 1,\; t-1,\; (t-2)(t-1) 的坐标。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-006</span>
+<span class="problem-source">教材习题p3-9</span>
+</div>
+<div class="problem-tags">
+<span class="tag">基与维数</span>
+<span class="tag">坐标</span>
+</div>
+<div class="problem-body">
+
+在 \mathbb{R}^4 中有两个基：
+x_1=e_1,\; x_2=e_2,\; x_3=e_3,\; x_4=e_4
+y_1=(2,1,-1,1)^T,\; y_2=(0,3,1,0)^T,\; y_3=(5,3,2,1)^T,\; y_4=(6,6,1,3)^T
+(1) 求由前一基改变为后一基的过渡矩阵；
+(2) 求向量 x=(\xi_1,\xi_2,\xi_3,\xi_4)^T 对后一基的坐标；
+(3) 求对两个基有相同坐标的非零向量。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-007</span>
+<span class="problem-source">教材习题p5-11</span>
+</div>
+<div class="problem-tags">
+<span class="tag">子空间判定</span>
+<span class="tag">基与维数</span>
+</div>
+<div class="problem-body">
+
+求 \mathbb{R}^4 的子空间 V_1=\{(\xi_1,\xi_2,\xi_3,\xi_4)\mid \xi_1-\xi_2+\xi_3-\xi_4=0\} 与 V_2=\{(\xi_1,\xi_2,\xi_3,\xi_4)\mid \xi_1+\xi_2+\xi_3+\xi_4=0\} 的交 V_1\cap V_2 的基。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-008</span>
+<span class="problem-source">教材习题p6-12</span>
+</div>
+<div class="problem-tags">
+<span class="tag">线性空间</span>
+<span class="tag">子空间判定</span>
+<span class="tag">基与维数</span>
+</div>
+<div class="problem-body">
+
+给定 \mathbb{R}^{2\times 2} 的子集 V=\{A=(a_{ij})_{2\times 2}\mid a_{ij}\in\mathbb{R} \text{ 且 } a_{11}+a_{22}=0\}。
+(1) 证明 V 是 \mathbb{R}^{2\times 2} 的子空间；
+(2) 求 V 的维数和一个基。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-009</span>
+<span class="problem-source">教材习题p7-13</span>
+</div>
+<div class="problem-tags">
+<span class="tag">线性空间</span>
+<span class="tag">子空间判定</span>
+<span class="tag">直和</span>
+</div>
+<div class="problem-body">
+
+试证明所有二阶矩阵之集合形成的实线性空间，是所有二阶实对称矩阵之集合形成的子空间与所有二阶反对称矩阵之集合形成的子空间的直和。
+
+</div>
+</div>
+
+</div>
+
+<div class="lesson-section">
+## 线性变换及其矩阵
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-010</span>
+<span class="problem-source">教材习题p8-1</span>
+</div>
+<div class="problem-tags">
+<span class="tag">线性变换</span>
+<span class="tag">欧氏空间</span>
+<span class="tag">内积</span>
+</div>
+<div class="problem-body">
+
+判别下列变换中哪些是线性变换：
+(1) 在 \mathbb{R}^3 中，设 x=(\xi_1,\xi_2,\xi_3)^T，Tx=(\xi_1^2,\xi_1+\xi_2,\xi_3)^T；
+(2) 在矩阵空间 \mathbb{R}^{n\times n} 中，TX=BXC，这里 B,C 是固定矩阵；
+(3) 在线性空间 P_n 中，Tf(t)=f(t+1)。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-011</span>
+<span class="problem-source">教材习题p8-2</span>
+</div>
+<div class="problem-tags">
+<span class="tag">线性变换</span>
+<span class="tag">欧氏空间</span>
+<span class="tag">内积</span>
+</div>
+<div class="problem-body">
+
+在 \mathbb{R}^2 中，设 x=(\xi_1,\xi_2)^T，证明 T_1x=(\xi_2,-\xi_1)^T 与 T_2x=(\xi_1,-\xi_2)^T 是 \mathbb{R}^2 的两个线性变换，并求 T_1+T_2、T_1T_2 及 T_2T_1。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-012</span>
+<span class="problem-source">教材习题p20-2</span>
+</div>
+<div class="problem-tags">
+<span class="tag">欧氏空间</span>
+<span class="tag">内积</span>
+</div>
+<div class="problem-body">
+
+设 x_1,x_2,\dots,x_n 是实线性空间 V^n 的基，向量 x=\sum \xi_i x_i，y=\sum \eta_i x_i 对应于实数 (x,y)=\sum_{i=1}^n i\xi_i\eta_i。试问 V^n 是否是欧氏空间。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-013</span>
+<span class="problem-source">教材习题p21-5</span>
+</div>
+<div class="problem-tags">
+<span class="tag">欧氏空间</span>
+<span class="tag">内积</span>
+<span class="tag">Gram-Schmidt</span>
+<span class="tag">标准正交基</span>
+</div>
+<div class="problem-body">
+
+设 x_1,x_2,x_3,x_4,x_5 是欧氏空间 V^5 的一个标准正交基。V_1=L(y_1,y_2,y_3)，其中 y_1=x_1+x_5，y_2=x_1-x_2+x_4，y_3=2x_1+x_2+x_3，求 V_1 的一个标准正交基。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-014</span>
+<span class="problem-source">教材习题p22-10</span>
+</div>
+<div class="problem-tags">
+<span class="tag">线性变换</span>
+<span class="tag">欧氏空间</span>
+<span class="tag">内积</span>
+<span class="tag">Gram-Schmidt</span>
+</div>
+<div class="problem-body">
+
+设 T 是欧氏空间 V 中的线性变换，且对 x,y\in V，有 (Tx,y)=-(x,Ty)，则称 T 为反对称变换。证明 T 为反对称变换的充要条件是，T 在 V 的标准正交基下的矩阵 A 为反对称矩阵，即有 A^T=-A。
+
+</div>
+</div>
+
+</div>
+
+<div class="lesson-section">
+## 对角化与Jordan标准形
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-015</span>
+<span class="problem-source">教材习题p28-11(1)</span>
+</div>
+<div class="problem-tags">
+<span class="tag">对角化</span>
+<span class="tag">正交矩阵</span>
+</div>
+<div class="problem-body">
+
+对于矩阵 A=\begin{pmatrix}2&2&-2\\2&5&-4\\-2&-4&5\end{pmatrix}，求正交矩阵 P，使 P^{-1}AP 为对角矩阵。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-016</span>
+<span class="problem-source">教材习题p28-11(2)</span>
+</div>
+<div class="problem-tags">
+<span class="tag">对角化</span>
+<span class="tag">酉矩阵</span>
+<span class="tag">Hermite</span>
+</div>
+<div class="problem-body">
+
+对于矩阵 A=\begin{pmatrix}0&j&1\\-j&0&0\\1&0&0\end{pmatrix}，求酉矩阵 P，使 P^{-1}AP 为对角矩阵。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-017</span>
+<span class="problem-source">教材习题p31-19(1)</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Jordan标准形</span>
+<span class="tag">对角化</span>
+</div>
+<div class="problem-body">
+
+求矩阵 A=\begin{pmatrix}1&2&0\\0&2&0\\-2&-1&-1\end{pmatrix} 的 Jordan 标准形。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-018</span>
+<span class="problem-source">教材习题p31-19(3)</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Jordan标准形</span>
+<span class="tag">对角化</span>
+<span class="tag">正交矩阵</span>
+</div>
+<div class="problem-body">
+
+求矩阵 A=\begin{pmatrix}3&1&0&0\\-4&-1&0&0\\7&1&2&1\\-7&-6&-1&0\end{pmatrix} 的 Jordan 标准形。
+
+</div>
+</div>
+
+</div>
+
+<div class="lesson-section">
+## 矩阵函数与矩阵微分方程
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-019</span>
+<span class="problem-source">教材习题p38-3</span>
+</div>
+<div class="problem-tags">
+<span class="tag">矩阵指数</span>
+<span class="tag">矩阵函数</span>
+<span class="tag">导数</span>
+</div>
+<div class="problem-body">
+
+若 A 为实反对称矩阵 (A^T=-A)，则 e^A 为正交矩阵。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-020</span>
+<span class="problem-source">教材习题p38-4</span>
+</div>
+<div class="problem-tags">
+<span class="tag">矩阵指数</span>
+<span class="tag">矩阵函数</span>
+<span class="tag">导数</span>
+</div>
+<div class="problem-body">
+
+若 A 是 Hermite 矩阵，则 e^{jA} 是酉矩阵。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-021</span>
+<span class="problem-source">教材习题p39-5</span>
+</div>
+<div class="problem-tags">
+<span class="tag">矩阵指数</span>
+<span class="tag">矩阵函数</span>
+<span class="tag">导数</span>
+</div>
+<div class="problem-body">
+
+设 A=\begin{pmatrix}2&1&0\\0&0&1\\0&1&0\end{pmatrix}，求 e^A、e^{tA}(t\in\mathbb{R})、\sin A。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-022</span>
+<span class="problem-source">教材习题p47-5</span>
+</div>
+<div class="problem-tags">
+<span class="tag">导数</span>
+<span class="tag">矩阵函数</span>
+<span class="tag">矩阵指数</span>
+</div>
+<div class="problem-body">
+
+若 A=A(t)=(a_{ij}(t))_{n\times n} 非奇异，证明 \dfrac{d}{dt}A^{-1} = -A^{-1}\dfrac{dA}{dt}A^{-1}。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-023</span>
+<span class="problem-source">教材习题p47-9</span>
+</div>
+<div class="problem-tags">
+<span class="tag">导数</span>
+<span class="tag">矩阵函数</span>
+<span class="tag">矩阵指数</span>
+</div>
+<div class="problem-body">
+
+举例说明关系式 \dfrac{d}{dt}(A(t))^m = m(A(t))^{m-1}\dfrac{dA}{dt} 一般不成立，此处 A(t)=(a_{ij}(t))_{n\times n}，又在什么条件下，它才能够成立？
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-024</span>
+<span class="problem-source">教材习题p48-3</span>
+</div>
+<div class="problem-tags">
+<span class="tag">矩阵指数</span>
+<span class="tag">导数</span>
+<span class="tag">幂级数</span>
+<span class="tag">微分方程</span>
+</div>
+<div class="problem-body">
+
+求微分方程组 \dfrac{d\xi_1}{dt}=-2\xi_1+\xi_2+1，\dfrac{d\xi_2}{dt}=-4\xi_1+2\xi_2+2，\dfrac{d\xi_3}{dt}=\xi_1+\xi_3+e^t-1，满足初始条件 \xi_1(0)=1,\xi_2(0)=1,\xi_3(0)=-1 的解。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-025</span>
+<span class="problem-source">教材习题p50-4</span>
+</div>
+<div class="problem-tags">
+<span class="tag">微分方程</span>
+<span class="tag">对数函数</span>
+</div>
+<div class="problem-body">
+
+设 A=(a_{ij})_{n\times n} 为常数矩阵，X=(\xi_{ij}(t))_{n\times n}，a 为常数，试证明 Cauchy 微分方程组 \dfrac{dX}{dt}=\dfrac{A}{t-a}X 可简化为 \dfrac{dX}{du}=AX，其中 u=\ln(t-a)。并进而证明其通解为 X=(t-a)^A C，其中 C 为 n 阶常数矩阵。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-026</span>
+<span class="problem-source">教材习题p42 第6题(1)</span>
+</div>
+<div class="problem-tags">
+<span class="tag">幂级数</span>
+<span class="tag">对数函数</span>
+</div>
+<div class="problem-body">
+
+设 f(z)=\ln z，求 f(A)，其中 A=\begin{pmatrix}1&0&0&0\\1&1&0&0\\0&1&1&0\\0&0&1&1\end{pmatrix}。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-027</span>
+<span class="problem-source">教材习题p42 第6题(2)</span>
+</div>
+<div class="problem-tags">
+<span class="tag">矩阵函数</span>
+<span class="tag">对数函数</span>
+</div>
+<div class="problem-body">
+
+设 f(z)=\ln z，求 f(A)，其中 A=\begin{pmatrix}2&1&0&0\\0&2&0&0\\0&0&1&1\\0&0&0&1\end{pmatrix}。
+
+</div>
+</div>
+
+</div>
+
+<div class="lesson-section">
+## 三角分解与QR分解
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-028</span>
+<span class="problem-source">教材习题p71 第1题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">LU分解</span>
+<span class="tag">Doolittle</span>
+</div>
+<div class="problem-body">
+
+求矩阵 A=\begin{pmatrix}5&2&-4&0\\2&1&-2&1\\-4&-2&5&0\\0&1&0&2\end{pmatrix} 的 LDU 分解和 Doolittle 分解。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-029</span>
+<span class="problem-source">教材习题p72 第4题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">QR分解</span>
+<span class="tag">Cholesky</span>
+</div>
+<div class="problem-body">
+
+求对称正定矩阵 A=\begin{pmatrix}5&2&-4\\2&1&-2\\-4&-2&5\end{pmatrix} 的 Cholesky 分解。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-030</span>
+<span class="problem-source">教材习题p75 第1题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">QR分解</span>
+<span class="tag">Schmidt</span>
+</div>
+<div class="problem-body">
+
+用 Schmidt 正交化方法求矩阵 A=\begin{pmatrix}0&1&1\\1&1&0\\1&0&1\end{pmatrix} 的 QR 分解。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-031</span>
+<span class="problem-source">教材习题p76 第7题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">QR分解</span>
+<span class="tag">Givens</span>
+</div>
+<div class="problem-body">
+
+用 Givens 变换求矩阵 A=\begin{pmatrix}2&2&1\\0&2&2\\2&1&2\end{pmatrix} 的 QR 分解。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-032</span>
+<span class="problem-source">教材习题p77 第8题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">QR分解</span>
+<span class="tag">Householder</span>
+</div>
+<div class="problem-body">
+
+用 Householder 变换求矩阵 A=\begin{pmatrix}0&4&1\\1&1&1\\0&3&2\end{pmatrix} 的 QR 分解。
+
+</div>
+</div>
+
+</div>
+
+<div class="lesson-section">
+## SVD奇异值分解
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-033</span>
+<span class="problem-source">教材习题p79 第4题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">SVD</span>
+<span class="tag">奇异值分解</span>
+</div>
+<div class="problem-body">
+
+求 A=\begin{pmatrix}1&0\\0&1\\1&1\end{pmatrix} 的奇异值分解。
+
+</div>
+</div>
+
+</div>
+
+<div class="lesson-section">
+## 满秩分解与MP逆
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-034</span>
+<span class="problem-source">教材习题p79 第1题(1)</span>
+</div>
+<div class="problem-tags">
+<span class="tag">满秩分解</span>
+<span class="tag">Moore-Penrose</span>
+<span class="tag">广义逆</span>
+</div>
+<div class="problem-body">
+
+求矩阵 A=\begin{pmatrix}1&2&3&0\\0&2&1&-1\\1&0&2&1\end{pmatrix} 的满秩分解。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-035</span>
+<span class="problem-source">教材习题p79 第1题(2)</span>
+</div>
+<div class="problem-tags">
+<span class="tag">满秩分解</span>
+<span class="tag">Moore-Penrose</span>
+<span class="tag">广义逆</span>
+</div>
+<div class="problem-body">
+
+求矩阵 A=\begin{pmatrix}1&-1&1&1\\-1&1&-1&-1\\-1&-1&1&1\\1&1&-1&-1\end{pmatrix} 的满秩分解。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-036</span>
+<span class="problem-source">教材习题p79 第2题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Moore-Penrose</span>
+<span class="tag">广义逆</span>
+<span class="tag">Penrose方程</span>
+</div>
+<div class="problem-body">
+
+设 B\in\mathbb R_r^{m\times r} (r>0)，证明 B^{\mathrm T}B 非奇异。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-037</span>
+<span class="problem-source">教材习题p89 第4题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">广义逆</span>
+<span class="tag">Moore-Penrose</span>
+<span class="tag">Penrose方程</span>
+</div>
+<div class="problem-body">
+
+已知 A=\begin{pmatrix}0&-a_3&a_2\\a_3&0&-a_1\\-a_2&a_1&0\end{pmatrix}，证明 X=-(a_1^2+a_2^2+a_3^2)^{-1}A 是 A 的\{1\}-逆。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-038</span>
+<span class="problem-source">教材习题p90 第9题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Moore-Penrose</span>
+<span class="tag">Penrose方程</span>
+</div>
+<div class="problem-body">
+
+设 A\in\mathbb C^{m\times n}，又设 U\in\mathbb C^{m\times m} 和 V\in\mathbb C^{n\times n} 均为酉矩阵，证明 (UAV)^+=V^{\mathrm H}A^+U^{\mathrm H}。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-039</span>
+<span class="problem-source">教材习题p91 第11题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Moore-Penrose</span>
+<span class="tag">Penrose方程</span>
+<span class="tag">幂等矩阵</span>
+</div>
+<div class="problem-body">
+
+设 H 是幂等 Hermite 矩阵，证明 H^+=H。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-040</span>
+<span class="problem-source">教材习题p91 第12题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Penrose方程</span>
+<span class="tag">幂等矩阵</span>
+</div>
+<div class="problem-body">
+
+证明：H^+=H 的充要条件是 H^2 为幂等 Hermite 矩阵且 \mathrm{rank}H^2=\mathrm{rank}H。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-041</span>
+<span class="problem-source">教材习题p119</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Moore-Penrose</span>
+<span class="tag">广义逆</span>
+<span class="tag">Penrose方程</span>
+<span class="tag">满秩分解</span>
+</div>
+<div class="problem-body">
+
+已知矩阵
+A = \begin{pmatrix} 1 & 0 & 0 & 1 \\ 1 & 1 & 0 & 0 \\ 0 & 1 & 1 & 0 \\ 0 & 0 & 1 & 1 \end{pmatrix}
+(1) 求 A 的 Hermite 标准形，利用式 (6.3.3) 求 A 的 1-逆和 2-逆；
+(2) 构造 A 的满秩分解，利用定理 6.15 之 (5) 求 A^+。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-042</span>
+<span class="problem-source">教材习题p140</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Moore-Penrose</span>
+<span class="tag">广义逆</span>
+<span class="tag">Penrose方程</span>
+</div>
+<div class="problem-body">
+
+(1) 请分别给出 Penrose 广义逆和 Moore 广义逆的定义。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-043</span>
+<span class="problem-source">教材习题p140</span>
+</div>
+<div class="problem-tags">
+<span class="tag">广义逆</span>
+<span class="tag">Penrose方程</span>
+</div>
+<div class="problem-body">
+
+(2A) 请证明 Penrose 广义逆的存在性和唯一性。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-044</span>
+<span class="problem-source">教材习题p140</span>
+</div>
+<div class="problem-tags">
+<span class="tag">广义逆</span>
+<span class="tag">Penrose方程</span>
+<span class="tag">幂等矩阵</span>
+</div>
+<div class="problem-body">
+
+(2B) 请证明 Penrose 广义逆和 Moore 广义逆的等价性。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-045</span>
+<span class="problem-source">教材习题p135</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Moore-Penrose</span>
+<span class="tag">广义逆</span>
+<span class="tag">Penrose方程</span>
+<span class="tag">幂等矩阵</span>
+</div>
+<div class="problem-body">
+
+设 H^2 是幂等 Hermite 矩阵，且 \operatorname{rank}(H^2) = \operatorname{rank}(H)，证明 H = H^+。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-046</span>
+<span class="problem-source">教材习题p136</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Moore-Penrose</span>
+<span class="tag">Penrose方程</span>
+<span class="tag">幂等矩阵</span>
+</div>
+<div class="problem-body">
+
+设 H 是幂等 Hermite 矩阵，证明 H^+ = H。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-047</span>
+<span class="problem-source">教材习题p136</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Penrose方程</span>
+<span class="tag">幂等矩阵</span>
+</div>
+<div class="problem-body">
+
+证明：H^+ = H 的充要条件是 H^2 为幂等 Hermite 矩阵且 \operatorname{rank}(H^2) = \operatorname{rank}(H)。
+
+</div>
+</div>
+
+</div>
+
+<div class="lesson-section">
+## 投影矩阵与应用
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-048</span>
+<span class="problem-source">教材习题p87 定理3</span>
+</div>
+<div class="problem-tags">
+<span class="tag">投影矩阵</span>
+<span class="tag">斜投影</span>
+<span class="tag">幂等性</span>
+</div>
+<div class="problem-body">
+
+证明：n 阶方阵 P 成为投影矩阵的充要条件是 P 为幂等矩阵。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-049</span>
+<span class="problem-source">教材习题p94 第1题</span>
+</div>
+<div class="problem-tags">
+<span class="tag">投影矩阵</span>
+<span class="tag">斜投影</span>
+</div>
+<div class="problem-body">
+
+设 L,M 是 \mathbb C^n 的子空间，且 L\oplus M=\mathbb C^n。证明投影算子 P_{L,M} 是线性算子。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-050</span>
+<span class="problem-source">教材习题p95 第4题(1)</span>
+</div>
+<div class="problem-tags">
+<span class="tag">投影矩阵</span>
+<span class="tag">幂等性</span>
+</div>
+<div class="problem-body">
+
+设 P_1,P_2 均为投影矩阵，证明：P=P_1+P_2 是投影矩阵的充要条件是 P_1P_2=P_2P_1=O。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-051</span>
+<span class="problem-source">教材习题p95 第4题(2)</span>
+</div>
+<div class="problem-tags">
+<span class="tag">投影矩阵</span>
+<span class="tag">幂等性</span>
+</div>
+<div class="problem-body">
+
+设 P_1,P_2 均为投影矩阵，证明：P=P_1-P_2 是投影矩阵的充要条件是 P_1P_2=P_2P_1=P_2。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-052</span>
+<span class="problem-source">教材习题p95 第4题(3)</span>
+</div>
+<div class="problem-tags">
+<span class="tag">投影矩阵</span>
+<span class="tag">幂等性</span>
+</div>
+<div class="problem-body">
+
+设 P_1,P_2 均为投影矩阵，若 P_1P_2=P_2P_1，证明 P=P_1P_2 是投影矩阵。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-053</span>
+<span class="problem-source">教材习题p141</span>
+</div>
+<div class="problem-tags">
+<span class="tag">投影矩阵</span>
+<span class="tag">斜投影</span>
+</div>
+<div class="problem-body">
+
+设 \mathbb R^3 的子空间 L 由向量 (1,0,0)^T 张成，若子空间 M 由向量 (1,1,0)^T 和向量 (0,1,1)^T 张成，求投影矩阵 P_{L,M}，以及向量 (2,2,1)^T 沿着 M 到 L 的投影。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-054</span>
+<span class="problem-source">教材习题p141</span>
+</div>
+<div class="problem-tags">
+<span class="tag">投影矩阵</span>
+<span class="tag">正交投影</span>
+</div>
+<div class="problem-body">
+
+设 \mathbb R^3 的子空间 L 由向量 (1,0,0)^T 张成，求正交投影矩阵 P_L 和向量 (2,2,1)^T 在 L 上的正交投影。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-055</span>
+<span class="problem-source">教材习题p144</span>
+</div>
+<div class="problem-tags">
+<span class="tag">投影矩阵</span>
+<span class="tag">斜投影</span>
+</div>
+<div class="problem-body">
+
+设 L 是由向量 (1,0)^T 张成的子空间，M 是由向量 (1,-1)^T 张成的子空间。求 \mathbb R^2 上沿着 M 到 L 的投影矩阵。
+
+</div>
+</div>
+
+</div>
+
+<div class="lesson-section">
+## 最小二乘与范数
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-056</span>
+<span class="problem-source">教材习题p122</span>
+</div>
+<div class="problem-tags">
+<span class="tag">最小二乘</span>
+<span class="tag">正规方程</span>
+</div>
+<div class="problem-body">
+
+证明向量 x 是方程组 Ax=b 的最小二乘解的充要条件是，存在向量 y 使得向量 \begin{pmatrix} y \\ x \end{pmatrix} 为
+\begin{pmatrix} I & A \\ A^H & O \end{pmatrix}\begin{pmatrix} y \\ x \end{pmatrix} = \begin{pmatrix} b \\ 0 \end{pmatrix}
+的解。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-057</span>
+<span class="problem-source">教材习题p123</span>
+</div>
+<div class="problem-tags">
+<span class="tag">最小二乘</span>
+<span class="tag">正规方程</span>
+</div>
+<div class="problem-body">
+
+设 A\in\mathbb C^{m\times n}，列向量 b_1,b_2,\dots,b_k\in\mathbb C^m。证明向量 x 使得
+\min_{x\in\mathbb C^n} \sum_{i=1}^k \|Ax - b_i\|^2
+成立的充要条件是，x 为方程
+Ax = \frac1k\sum_{i=1}^k b_i
+的最小二乘解。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-058</span>
+<span class="problem-source">教材习题p124</span>
+</div>
+<div class="problem-tags">
+<span class="tag">范数</span>
+<span class="tag">极小范数</span>
+</div>
+<div class="problem-body">
+
+设 A\in\mathbb C^{m\times n}，b\in\mathbb C^m，a\in\mathbb C^n。若方程组 Ax=b 相容，证明：使得 \min_{Ax=b}\|x-a\| 成立的唯一解是
+x = A^{(1,4)}b + (I - A^{(1,4)}A)a,
+其中 A^{(1,4)}\in A\{1,4\}。
+
+</div>
+</div>
+
+</div>
+
+<div class="lesson-section">
+## 特征值估计
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-059</span>
+<span class="problem-source">教材习题p125</span>
+</div>
+<div class="problem-tags">
+<span class="tag">谱半径</span>
+<span class="tag">Gershgorin</span>
+<span class="tag">盖尔圆盘</span>
+</div>
+<div class="problem-body">
+
+设矩阵 A 非奇异，\lambda 是它的任意一个特征值，证明
+|\lambda| \ge \frac{1}{\|A^{-1}\|}.
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-060</span>
+<span class="problem-source">教材习题p126</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Gershgorin</span>
+<span class="tag">盖尔圆盘</span>
+<span class="tag">谱半径</span>
+</div>
+<div class="problem-body">
+
+设 A\in\mathbb C^{n\times n} 可逆，B\in\mathbb C^{n\times n}，若对某种矩阵范数有 \|B\| < \frac{1}{\|A^{-1}\|}，则 A+B 可逆。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-061</span>
+<span class="problem-source">教材习题p131</span>
+</div>
+<div class="problem-tags">
+<span class="tag">Gershgorin</span>
+<span class="tag">盖尔圆盘</span>
+</div>
+<div class="problem-body">
+
+应用 Gerschgorin 定理，隔离矩阵
+A = \begin{pmatrix} 20 & 3 & 1 \\ 2 & 10 & 2 \\ 8 & 1 & 0 \end{pmatrix}
+的特征值；再应用实矩阵特征值的性质，改进得出的结果。
+
+</div>
+</div>
+
+<div class="problem">
+<div class="problem-header">
+<span class="problem-id">hw-062</span>
+<span class="problem-source">教材习题p131</span>
+</div>
+<div class="problem-tags">
+<span class="tag">相似</span>
+<span class="tag">Gershgorin</span>
+<span class="tag">盖尔圆盘</span>
+</div>
+<div class="problem-body">
+
+证明矩阵
+A = \begin{pmatrix} 2 & \frac{2}{n} & \frac{1}{n} & \cdots & \frac{1}{n} \\ \frac{1}{n} & 4 & \frac{1}{n} & \cdots & \frac{1}{n} \\ \vdots & \vdots & \vdots & & \vdots \\ \frac{1}{n} & \frac{1}{n} & \frac{1}{n} & \cdots & 2n \end{pmatrix}
+能够相似于对角矩阵，且 A 的特征值都是实数。
+
+</div>
+</div>
+
+</div>
+

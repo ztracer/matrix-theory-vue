@@ -39,7 +39,7 @@
         @pause="pause1"
         @reset="reset1"
       >
-        <svg ref="svg1" viewBox="0 0 520 400" class="responsive-svg">
+        <svg viewBox="0 0 520 400" class="responsive-svg">
           <defs>
             <marker id="arr-b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <polygon points="0 0,8 3,0 6" fill="#2563eb"/>
@@ -50,51 +50,52 @@
             <marker id="arr-r" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <polygon points="0 0,8 3,0 6" fill="#dc2626"/>
             </marker>
+            <marker id="arr-a1" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+              <polygon points="0 0,7 2.5,0 5" fill="#0d9488"/>
+            </marker>
+            <marker id="arr-a2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+              <polygon points="0 0,7 2.5,0 5" fill="#14b8a6"/>
+            </marker>
           </defs>
 
-          <!-- 3D-like plane (parallelogram) R(A) -->
-          <polygon :points="planePoints" fill="#fed7aa" opacity="0.35" stroke="#ea580c" stroke-width="1.5"/>
-          <text :x="planeLabels[0]" :y="planeLabels[1]" fill="#ea580c" font-size="13" font-weight="700">R(A)</text>
+          <!-- Phase 0: plane R(A) with O as vertex -->
+          <polygon :points="planePoly" :fill="'#fed7aa'" :opacity="0.35 * op1(0)" stroke="#ea580c" stroke-width="1.5"/>
+          <text :x="raLabel.x" :y="raLabel.y" :text-anchor="raLabel.anchor" fill="#ea580c" font-size="13" font-weight="700" :opacity="op1(0)">R(A)</text>
+          <circle :cx="P.O.x" :cy="P.O.y" r="3" fill="#334155"/>
+          <text :x="P.O.x - 14" :y="P.O.y + 16" font-size="11" fill="#334155">O</text>
 
-          <!-- Coordinate axes (isometric-ish) -->
-          <line x1="60" y1="350" x2="480" y2="350" stroke="#94a3b8" stroke-width="1"/>
-          <line x1="60" y1="350" x2="140" y2="120" stroke="#94a3b8" stroke-width="1"/>
-          <line x1="60" y1="350" x2="280" y2="380" stroke="#94a3b8" stroke-width="1"/>
-          <text x="485" y="355" font-size="11" fill="#94a3b8">x₁</text>
-          <text x="130" y="115" font-size="11" fill="#94a3b8">x₂</text>
-          <text x="285" y="395" font-size="11" fill="#94a3b8">x₃</text>
-          <circle cx="60" cy="350" r="3" fill="#334155"/>
-          <text x="42" y="365" font-size="11" fill="#334155">O</text>
-
-          <!-- Vector b (blue, animated) -->
-          <line
-x1="60" y1="350" :x2="60 + bx" :y2="350 - by"
-                stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-b)"/>
-          <text :x="60 + bx + 5" :y="350 - by - 5" fill="#2563eb" font-size="13" font-weight="700">b</text>
-
-          <!-- Projection Pb (orange) -->
-          <line
-v-if="lsProg > 0.1" x1="60" y1="350" :x2="60 + pbx" :y2="350 - pby"
-                stroke="#ea580c" stroke-width="3" :opacity="lsProg" marker-end="url(#arr-p)"/>
-          <text v-if="lsProg > 0.5" :x="60 + pbx + 5" :y="350 - pby - 5" fill="#ea580c" font-size="12" font-weight="600">Pb=Ax*</text>
-
-          <!-- Residual r = b - Pb (red, perpendicular) -->
-          <line
-v-if="lsProg > 0.5" :x1="60 + pbx" :y1="350 - pby" :x2="60 + bx" :y2="350 - by"
-                stroke="#dc2626" stroke-width="2" :opacity="(lsProg-0.5)*2" stroke-dasharray="5,3" marker-end="url(#arr-r)"/>
-          <text v-if="lsProg > 0.8" :x="60 + (bx+pbx)/2 + 8" :y="350 - (by+pby)/2" fill="#dc2626" font-size="12" font-weight="600">r=b-Pb</text>
-
-          <!-- Right angle mark -->
-          <g v-if="lsProg > 0.9">
-            <rect
-:x="60+pbx-5" :y="350-pby-5" width="8" height="8" fill="none" stroke="#dc2626" stroke-width="1"
-                  transform="rotate(0)"/>
+          <!-- Phase 1: a1, a2 -->
+          <g :opacity="op1(1)">
+            <line :x1="P.O.x" :y1="P.O.y" :x2="P.a1.x" :y2="P.a1.y" stroke="#0d9488" stroke-width="2.5" marker-end="url(#arr-a1)"/>
+            <text :x="P.a1.x + 6" :y="P.a1.y + 4" fill="#0d9488" font-size="13" font-weight="700">a₁</text>
+            <line :x1="P.O.x" :y1="P.O.y" :x2="P.a2.x" :y2="P.a2.y" stroke="#14b8a6" stroke-width="2.5" marker-end="url(#arr-a2)"/>
+            <text :x="P.a2.x - 18" :y="P.a2.y - 6" fill="#14b8a6" font-size="13" font-weight="700">a₂</text>
           </g>
 
-          <!-- Info box -->
-          <g v-if="lsProg >= 1">
-            <rect x="130" y="20" width="260" height="50" rx="10" fill="#fff" stroke="#e2e8f0"/>
-            <text x="260" y="42" text-anchor="middle" font-size="13" font-weight="600" fill="#ea580c">r ⊥ R(A) ⟹ Aᵀr = 0</text>
+          <!-- Phase 2: b above plane -->
+          <g :opacity="op1(2)">
+            <line :x1="P.O.x" :y1="P.O.y" :x2="P.b.x" :y2="P.b.y" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-b)"/>
+            <text :x="P.b.x + 6" :y="P.b.y - 6" fill="#2563eb" font-size="13" font-weight="700">b</text>
+          </g>
+
+          <!-- Phase 3: Pb = Ax* -->
+          <g :opacity="op1(3)">
+            <line :x1="P.O.x" :y1="P.O.y" :x2="P.p.x" :y2="P.p.y" stroke="#ea580c" stroke-width="3" marker-end="url(#arr-p)"/>
+            <circle :cx="P.p.x" :cy="P.p.y" r="4" fill="#ea580c"/>
+            <text :x="P.p.x + 6" :y="P.p.y + 14" fill="#ea580c" font-size="12" font-weight="600">Pb = Ax*</text>
+          </g>
+
+          <!-- Phase 4: residual r = b-Pb with right-angle -->
+          <g :opacity="op1(4)">
+            <line :x1="P.p.x" :y1="P.p.y" :x2="P.b.x" :y2="P.b.y" stroke="#dc2626" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#arr-r)"/>
+            <text :x="(P.p.x + P.b.x) / 2 + 8" :y="(P.p.y + P.b.y) / 2" fill="#dc2626" font-size="12" font-weight="600">r = b − Pb</text>
+            <polygon :points="raSquare" fill="none" stroke="#dc2626" stroke-width="1.2"/>
+          </g>
+
+          <!-- Phase 5: conclusion -->
+          <g v-if="phase1 >= 5">
+            <rect x="120" y="18" width="280" height="54" rx="10" fill="#fff" stroke="#e2e8f0"/>
+            <text x="260" y="40" text-anchor="middle" font-size="13" font-weight="600" fill="#ea580c">r ⊥ R(A) ⟹ Aᵀr = 0</text>
             <text x="260" y="60" text-anchor="middle" font-size="12" fill="#64748b">残差垂直于列空间中所有向量</text>
           </g>
         </svg>
@@ -128,56 +129,66 @@ v-if="lsProg > 0.5" :x1="60 + pbx" :y1="350 - pby" :x2="60 + bx" :y2="350 - by"
         @pause="pause2"
         @reset="reset2"
       >
-        <svg ref="svg2" viewBox="0 0 500 380" class="responsive-svg">
+        <svg viewBox="0 0 520 400" class="responsive-svg">
           <defs>
-            <marker id="arr-a1" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+            <marker id="arr2-a1" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
               <polygon points="0 0,7 2.5,0 5" fill="#0d9488"/>
             </marker>
-            <marker id="arr-a2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+            <marker id="arr2-a2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
               <polygon points="0 0,7 2.5,0 5" fill="#14b8a6"/>
             </marker>
+            <marker id="arr2-p" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0,8 3,0 6" fill="#ea580c"/>
+            </marker>
+            <marker id="arr2-b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0,8 3,0 6" fill="#2563eb"/>
+            </marker>
+            <marker id="arr2-r" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0,8 3,0 6" fill="#dc2626"/>
+            </marker>
           </defs>
-          <!-- R(A) plane -->
-          <polygon points="80,300 420,260 440,120 100,100" fill="#ccfbf1" opacity="0.4" stroke="#0d9488" stroke-width="1.5"/>
-          <text x="430" y="115" fill="#0d9488" font-size="12" font-weight="600">R(A) = span{a₁,a₂}</text>
 
-          <!-- Origin -->
-          <circle cx="150" cy="250" r="3" fill="#334155"/>
-          <text x="135" y="270" font-size="11" fill="#334155">O</text>
+          <!-- Phase 0: plane -->
+          <polygon :points="planePoly" :fill="'#ccfbf1'" :opacity="0.4 * op2(0)" stroke="#0d9488" stroke-width="1.5"/>
+          <text :x="raLabel.x" :y="raLabel.y" :text-anchor="raLabel.anchor" fill="#0d9488" font-size="12" font-weight="600" :opacity="op2(0)">R(A) = span{a₁,a₂}</text>
+          <circle :cx="P.O.x" :cy="P.O.y" r="3" fill="#334155"/>
+          <text :x="P.O.x - 14" :y="P.O.y + 16" font-size="11" fill="#334155">O</text>
 
-          <!-- a1 vector -->
-          <line x1="150" y1="250" :x2="150 + a1x" :y2="250 - a1y" stroke="#0d9488" stroke-width="2.5" marker-end="url(#arr-a1)"/>
-          <text :x="150 + a1x + 5" :y="250 - a1y" fill="#0d9488" font-size="13" font-weight="700">a₁</text>
+          <!-- Phase 1: a1, a2 -->
+          <g :opacity="op2(1)">
+            <line :x1="P.O.x" :y1="P.O.y" :x2="P.a1.x" :y2="P.a1.y" stroke="#0d9488" stroke-width="2.5" marker-end="url(#arr2-a1)"/>
+            <text :x="P.a1.x + 6" :y="P.a1.y + 4" fill="#0d9488" font-size="13" font-weight="700">a₁</text>
+            <line :x1="P.O.x" :y1="P.O.y" :x2="P.a2.x" :y2="P.a2.y" stroke="#14b8a6" stroke-width="2.5" marker-end="url(#arr2-a2)"/>
+            <text :x="P.a2.x - 18" :y="P.a2.y - 6" fill="#14b8a6" font-size="13" font-weight="700">a₂</text>
+          </g>
 
-          <!-- a2 vector -->
-          <line x1="150" y1="250" :x2="150 + a2x" :y2="250 - a2y" stroke="#14b8a6" stroke-width="2.5" marker-end="url(#arr-a2)"/>
-          <text :x="150 + a2x - 15" :y="250 - a2y - 8" fill="#14b8a6" font-size="13" font-weight="700">a₂</text>
+          <!-- Phase 2: b above plane -->
+          <g :opacity="op2(2)">
+            <line :x1="P.O.x" :y1="P.O.y" :x2="P.b.x" :y2="P.b.y" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr2-b)"/>
+            <text :x="P.b.x + 6" :y="P.b.y - 6" fill="#2563eb" font-size="13" font-weight="700">b</text>
+          </g>
 
-          <!-- Pb point on plane -->
-          <circle v-if="orthoProg > 0.3" :cx="150 + p2x" :cy="250 - p2y" r="4" fill="#ea580c"/>
-          <line v-if="orthoProg > 0.3" x1="150" y1="250" :x2="150 + p2x" :y2="250 - p2y" stroke="#ea580c" stroke-width="2"/>
-          <text v-if="orthoProg > 0.5" :x="150 + p2x + 5" :y="250 - p2y - 5" fill="#ea580c" font-size="11">Ax*</text>
+          <!-- Phase 3: Ax* in plane -->
+          <g :opacity="op2(3)">
+            <line :x1="P.O.x" :y1="P.O.y" :x2="P.p.x" :y2="P.p.y" stroke="#ea580c" stroke-width="2.2" marker-end="url(#arr2-p)"/>
+            <circle :cx="P.p.x" :cy="P.p.y" r="4" fill="#ea580c"/>
+            <text :x="P.p.x + 6" :y="P.p.y + 14" fill="#ea580c" font-size="11" font-weight="600">Ax*</text>
+          </g>
 
-          <!-- b vector -->
-          <line v-if="orthoProg > 0.1" x1="150" y1="250" :x2="150 + b2x" :y2="250 - b2y" stroke="#2563eb" stroke-width="2.5"/>
-          <polygon :points="ah(150+b2x, 250-b2y, Math.atan2(-b2y, b2x), '#2563eb')" fill="#2563eb"/>
-          <text :x="150 + b2x + 5" :y="250 - b2y" fill="#2563eb" font-size="13" font-weight="700">b</text>
+          <!-- Phase 4: r perpendicular -->
+          <g :opacity="op2(4)">
+            <line :x1="P.p.x" :y1="P.p.y" :x2="P.b.x" :y2="P.b.y" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#arr2-r)"/>
+            <text :x="(P.p.x + P.b.x) / 2 + 8" :y="(P.p.y + P.b.y) / 2" fill="#dc2626" font-size="12" font-weight="600">r = b − Ax*</text>
+          </g>
 
-          <!-- Residual r (perpendicular to plane) -->
-          <line
-v-if="orthoProg > 0.5" :x1="150 + p2x" :y1="250 - p2y" :x2="150 + b2x" :y2="250 - b2y"
-                stroke="#dc2626" stroke-width="2.5" stroke-dasharray="5,3"/>
-          <polygon v-if="orthoProg > 0.7" :points="ah(150+b2x, 250-b2y, Math.atan2(-(b2y-p2y), b2x-p2x), '#dc2626')" fill="#dc2626"/>
-          <text v-if="orthoProg > 0.7" :x="150 + (b2x+p2x)/2 + 10" :y="250 - (b2y+p2y)/2" fill="#dc2626" font-size="12" font-weight="600">r</text>
-
-          <!-- Right angle with a1 -->
-          <g v-if="orthoProg > 0.9">
-            <rect
-x="150" :y="250 - 12" width="12" height="12" fill="none" stroke="#dc2626" stroke-width="1" opacity="0.7"
-                  transform="skewX(-15)"/>
-            <text x="100" y="100" font-size="12" fill="#dc2626" font-weight="600">a₁ᵀr = 0 ✓</text>
-            <text x="100" y="120" font-size="12" fill="#dc2626" font-weight="600">a₂ᵀr = 0 ✓</text>
-            <text x="100" y="140" font-size="12" fill="#dc2626" font-weight="600">Aᵀr = 0 ⟹ AᵀAx*=Aᵀb</text>
+          <!-- Phase 5: right-angle marks + conclusion -->
+          <g :opacity="op2(5)">
+            <polygon :points="raA1Tip" fill="none" stroke="#dc2626" stroke-width="1.2"/>
+            <polygon :points="raA2Tip" fill="none" stroke="#dc2626" stroke-width="1.2"/>
+            <rect x="120" y="18" width="280" height="62" rx="10" fill="#fff" stroke="#e2e8f0"/>
+            <text x="260" y="38" text-anchor="middle" font-size="13" font-weight="600" fill="#dc2626">a₁ᵀr = 0 ✓   a₂ᵀr = 0 ✓</text>
+            <text x="260" y="56" text-anchor="middle" font-size="12" fill="#64748b">r ⊥ R(A) ⟹ Aᵀr = 0</text>
+            <text x="260" y="72" text-anchor="middle" font-size="12" fill="#64748b">⟹ AᵀAx* = Aᵀb（正规方程）</text>
           </g>
         </svg>
       </AnimationBox>
@@ -455,46 +466,110 @@ const hwQuizzes = computed(() => (homeworkBank[9] || []).map(q => ({ ...q })))
 const renderTrigger = ref(0)
 const { renderMath } = useKatex(renderTrigger)
 
-// ====== Animation 1: 3D projection to plane ======
+// ====== Vector math library ======
+function vecAdd(a, b) { return a.map((v, i) => v + b[i]) }
+function vecSub(a, b) { return a.map((v, i) => v - b[i]) }
+function vecScale(a, s) { return a.map(v => v * s) }
+function vecDot(a, b) { return a.reduce((s, v, i) => s + v * b[i], 0) }
+function vecCross(a, b) {
+  return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]
+}
+function vecNorm(a) { return Math.sqrt(vecDot(a, a)) }
+
+// ====== 3D → 2D isometric projection ======
+const ISO = { ex: [22, -22, 0], ey: [-9, -9, -26], ox: 90, oy: 330 }
+function project2D(v) {
+  return {
+    x: ISO.ox + v[0]*ISO.ex[0] + v[1]*ISO.ex[1] + v[2]*ISO.ex[2],
+    y: ISO.oy + v[0]*ISO.ey[0] + v[1]*ISO.ey[1] + v[2]*ISO.ey[2]
+  }
+}
+
+// ====== Shared geometry (computed once, never mutated) ======
+const GEOM = (() => {
+  const a1 = [2.2, 0.2, 0.0]
+  const a2 = [0.6, 2.0, 0.0]
+  const n  = vecCross(a1, a2)
+  const p  = vecAdd(vecScale(a1, 0.9), vecScale(a2, 0.7))
+  const r  = vecScale(n, 0.045)
+  const b  = vecAdd(p, r)
+  const raSize = 0.35
+  const inPlaneDir = vecScale(a1, 1 / vecNorm(a1))
+  const upDir = vecScale(n, 1 / vecNorm(n))
+  const raBase = p
+  const raP1 = vecAdd(raBase, vecScale(inPlaneDir, raSize))
+  const raP2 = vecAdd(raP1, vecScale(upDir, raSize))
+  const raP3 = vecAdd(raBase, vecScale(upDir, raSize))
+  return { a1, a2, n, p, r, b, raBase, raP1, raP2, raP3 }
+})()
+
+// ====== Project all points once ======
+const P = {
+  O: project2D([0,0,0]), a1: project2D(GEOM.a1), a2: project2D(GEOM.a2),
+  a1a2: project2D(vecAdd(GEOM.a1, GEOM.a2)),
+  p: project2D(GEOM.p), b: project2D(GEOM.b),
+  raBase: project2D(GEOM.raBase), raP1: project2D(GEOM.raP1),
+  raP2: project2D(GEOM.raP2), raP3: project2D(GEOM.raP3)
+}
+const planePoly = `${P.O.x},${P.O.y} ${P.a1.x},${P.a1.y} ${P.a1a2.x},${P.a1a2.y} ${P.a2.x},${P.a2.y}`
+const raLabel = { x: P.a1a2.x, y: P.a1a2.y - 10, anchor: 'end' }
+const raSquare = `${P.raBase.x},${P.raBase.y} ${P.raP1.x},${P.raP1.y} ${P.raP2.x},${P.raP2.y} ${P.raP3.x},${P.raP3.y}`
+
+// ====== Animation 1: b → plane projection ======
 const playing1 = ref(false)
 let rafId1 = null, t1 = 0
-const lsProg = ref(0)
-const bx = ref(200), by = ref(220)
-const pbx = computed(() => 180 * lsProg.value)
-const pby = computed(() => 120 * lsProg.value)
-const planePoints = '80,350 420,310 440,170 100,150'
-const planeLabels = [420, 165]
-
+const phase1 = ref(0)
+const op1 = (start) => Math.min(1, Math.max(0, phase1.value - start))
+const PHASE1_DUR = [0.5, 0.9, 1.3, 1.7, 2.1, 2.5]
+function phaseFromT(t, cuts) {
+  for (let i = 0; i < cuts.length; i++) if (t < cuts[i]) return i
+  return cuts.length
+}
 const animate1 = () => {
-  t1 += 0.012
-  lsProg.value = Math.min(easeOutCubic(t1), 1)
-  const ang = t1 * 0.3
-  bx.value = 200 + 30 * Math.sin(ang)
-  by.value = 220 + 20 * Math.cos(ang * 0.7)
+  t1 += 1/60
+  const top = PHASE1_DUR[PHASE1_DUR.length-1]
+  const eased = easeOutCubic(Math.min(t1/top, 1))
+  phase1.value = phaseFromT(eased * top, PHASE1_DUR)
+  if (t1 >= top) { phase1.value = PHASE1_DUR.length; playing1.value = false; return }
   rafId1 = requestAnimationFrame(animate1)
 }
-const play1 = () => { if (!playing1.value) { playing1.value = true; t1 = 0; animate1() } }
+const play1 = () => { if (!playing1.value) { playing1.value = true; t1 = 0; phase1.value = 0; animate1() } }
 const pause1 = () => { playing1.value = false; if (rafId1) cancelAnimationFrame(rafId1) }
-const reset1 = () => { pause1(); t1 = 0; lsProg.value = 0; bx.value = 200; by.value = 220 }
+const reset1 = () => { pause1(); t1 = 0; phase1.value = 0 }
 
-// ====== Animation 2: Residual orthogonality ======
+// ====== Animation 2: residual orthogonality ======
 const playing2 = ref(false)
 let rafId2 = null, t2 = 0
-const orthoProg = ref(0)
-const a1x = 200, a1y = 30
-const a2x = 100, a2y = -10
-const b2x = 220, b2y = 130
-const p2x = computed(() => 190 * orthoProg.value)
-const p2y = computed(() => 35 * orthoProg.value)
+const phase2 = ref(0)
+const op2 = (start) => Math.min(1, Math.max(0, phase2.value - start))
+const PHASE2_DUR = [0.5, 0.9, 1.3, 1.7, 2.1, 2.5]
+
+// Right-angle marks at a1/a2 tips
+const ra2Size = 0.3
+const _dA1 = vecScale(GEOM.a1, 1/vecNorm(GEOM.a1))
+const _dA2 = vecScale(GEOM.a2, 1/vecNorm(GEOM.a2))
+const _dN  = vecScale(GEOM.n, 1/vecNorm(GEOM.n))
+function rightAngleAt(base, dirA, dirB) {
+  const a = vecAdd(base, vecScale(dirA, ra2Size))
+  const c = vecAdd(base, vecScale(dirB, ra2Size))
+  const b2 = vecAdd(a, vecScale(dirB, ra2Size))
+  const pa = project2D(a), pb = project2D(b2), pc = project2D(c), p0 = project2D(base)
+  return `${p0.x},${p0.y} ${pa.x},${pa.y} ${pb.x},${pb.y} ${pc.x},${pc.y}`
+}
+const raA1Tip = rightAngleAt(GEOM.a1, _dA1, _dN)
+const raA2Tip = rightAngleAt(GEOM.a2, _dA2, _dN)
 
 const animate2 = () => {
-  t2 += 0.01
-  orthoProg.value = Math.min(easeOutCubic(t2), 1)
+  t2 += 1/60
+  const top = PHASE2_DUR[PHASE2_DUR.length-1]
+  const eased = easeOutCubic(Math.min(t2/top, 1))
+  phase2.value = phaseFromT(eased * top, PHASE2_DUR)
+  if (t2 >= top) { phase2.value = PHASE2_DUR.length; playing2.value = false; return }
   rafId2 = requestAnimationFrame(animate2)
 }
-const play2 = () => { if (!playing2.value) { playing2.value = true; t2 = 0; animate2() } }
+const play2 = () => { if (!playing2.value) { playing2.value = true; t2 = 0; phase2.value = 0; animate2() } }
 const pause2 = () => { playing2.value = false; if (rafId2) cancelAnimationFrame(rafId2) }
-const reset2 = () => { pause2(); t2 = 0; orthoProg.value = 0 }
+const reset2 = () => { pause2(); t2 = 0; phase2.value = 0 }
 
 // ====== Animation 3: Unit balls ======
 const playing3 = ref(false)

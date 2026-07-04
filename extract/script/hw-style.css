@@ -1,0 +1,126 @@
+/* === 矩阵论课后作业 - 打印样式 === */
+
+:root {
+  --ink: #111;
+  --muted: #555;
+  --border: #ccc;
+  --tag-bg: #f0f0f0;
+}
+
+body {
+  font-family: "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  font-size: 12pt;
+  line-height: 1.85;
+  color: var(--ink);
+  max-width: 180mm;
+  margin: 0 auto;
+  padding: 15mm 20mm;
+}
+
+h1 {
+  font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
+  font-size: 22pt;
+  font-weight: 700;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 8pt;
+  margin-bottom: 16pt;
+  letter-spacing: 0.5pt;
+}
+
+h2 {
+  font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
+  font-size: 16pt;
+  font-weight: 700;
+  margin-top: 24pt;
+  margin-bottom: 12pt;
+  page-break-after: avoid;
+}
+
+.lesson-section {
+  page-break-before: always;
+}
+.lesson-section:first-of-type {
+  page-break-before: auto;
+}
+
+.problem {
+  margin-bottom: 18pt;
+  padding: 10pt 0;
+  border-bottom: 0.5pt solid var(--border);
+  page-break-inside: avoid;
+}
+
+.problem-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4pt;
+}
+
+.problem-id {
+  font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.problem-source {
+  font-size: 9pt;
+  color: var(--muted);
+}
+
+.problem-tags {
+  margin-bottom: 6pt;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 8pt;
+  background: var(--tag-bg);
+  border: 0.5pt solid var(--border);
+  border-radius: 3pt;
+  padding: 1pt 6pt;
+  margin-right: 4pt;
+  color: var(--muted);
+  font-family: "Noto Sans CJK SC", "PingFang SC", "Heiti SC", "SimHei", sans-serif;
+}
+
+.problem-body {
+  margin-top: 6pt;
+}
+
+.problem-body p {
+  margin: 4pt 0;
+  text-indent: 0;
+}
+
+/* KaTeX-like styling for math display */
+.problem-body img[src*="katex"],
+.katex { max-width: 100%; }
+
+/* Print-specific */
+@media print {
+  body {
+    font-size: 11pt;
+    padding: 10mm 15mm;
+  }
+  .lesson-section {
+    page-break-before: always;
+  }
+  .problem {
+    page-break-inside: avoid;
+  }
+  h1 {
+    font-size: 20pt;
+  }
+  h2 {
+    font-size: 14pt;
+    margin-top: 18pt;
+  }
+}
+
+@media screen {
+  body {
+    background: #fff;
+  }
+}

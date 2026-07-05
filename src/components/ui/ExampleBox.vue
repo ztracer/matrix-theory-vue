@@ -40,18 +40,18 @@ defineProps({
   align-items: center;
   gap: 12px;
   padding: 14px 20px;
-  background: var(--color-primary);
+  background: var(--color-brand);
   min-width: 0;
   flex-wrap: wrap;
 }
 .example-badge {
-  color: var(--color-on-primary);
+  color: var(--color-on-brand);
   font-weight: 700;
   font-size: 14px;
   padding: 4px 0;
   overflow-wrap: anywhere;
 }
-.example-source { color: var(--color-muted-foreground); font-size: 13px; }
+.example-source { color: var(--color-on-brand-muted); font-size: 13px; }
 .example-problem {
   padding: 16px 20px;
   font-size: 15px;
@@ -100,7 +100,7 @@ details[open] .solution-toggle::before { content: '▼ '; }
 }
 .solution-content :deep(.step-num) {
   min-width: 28px; height: 28px;
-  background: var(--color-primary); color: var(--color-on-primary);
+  background: var(--color-brand); color: var(--color-on-brand);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 13px; flex-shrink: 0;

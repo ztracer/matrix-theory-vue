@@ -872,8 +872,8 @@ h3 { color: #7c3aed; }
 :deep(.ls3d-label) {
   padding: 3px 7px;
   border-radius: 6px;
-  background: rgba(248, 250, 252, 0.9);
-  color: #0f172a;
+  background: color-mix(in srgb, var(--color-card) 90%, transparent);
+  color: var(--color-foreground);
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
@@ -915,7 +915,7 @@ h3 { color: #7c3aed; }
   white-space: nowrap;
 }
 .ls3d-legend strong {
-  color: #0f172a;
+  color: var(--color-foreground);
   font-size: 14px;
   text-align: right;
 }

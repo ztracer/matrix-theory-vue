@@ -73,18 +73,21 @@ watch(show, () => {
   border: 1px solid var(--color-border);
   overflow: hidden;
   background: var(--color-card);
+  color: var(--color-card-foreground);
+  min-width: 0;
+  max-width: 100%;
 }
 .quiz-header {
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   padding: 12px 16px;
-  background: var(--color-primary);
+  background: var(--color-brand);
 }
 .quiz-badge {
-  color: var(--color-on-primary); font-weight: 700; font-size: 13px;
+  color: var(--color-on-brand); font-weight: 700; font-size: 13px;
   padding: 4px 0;
 }
-.quiz-source { color: var(--color-muted-foreground); font-size: 13px; }
-.quiz-id { color: var(--color-muted-foreground); font-size: 12px; margin-left: auto; }
+.quiz-source { color: var(--color-on-brand-muted); font-size: 13px; }
+.quiz-id { color: var(--color-on-brand-muted); font-size: 12px; margin-left: auto; }
 .quiz-problem {
   padding: 14px 16px;
   font-size: 15px; line-height: 1.75; color: var(--color-secondary);
@@ -109,7 +112,7 @@ watch(show, () => {
 .quiz-option.correct {
   background: var(--color-muted);
   border-color: var(--color-accent);
-  color: var(--color-primary);
+  color: var(--color-foreground);
   font-weight: 600;
 }
 .option-label { font-weight: 700; margin-right: 8px; color: var(--color-foreground); }
@@ -145,7 +148,7 @@ watch(show, () => {
 }
 .step-num-circle {
   min-width: 28px; height: 28px;
-  background: var(--color-primary); color:var(--color-on-primary);
+  background: var(--color-brand); color: var(--color-on-brand);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 13px; flex-shrink: 0;

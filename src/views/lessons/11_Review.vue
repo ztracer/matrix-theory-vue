@@ -681,7 +681,7 @@ h3 { color: var(--color-primary); }
 }
 .t-card-header {
   padding: 12px 16px;
-  color: var(--color-on-primary);
+  color: var(--color-on-brand);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -736,8 +736,8 @@ h3 { color: var(--color-primary); }
 }
 .p-idx {
   width: 28px; height: 28px;
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   font-weight: 800; font-size: 14px;

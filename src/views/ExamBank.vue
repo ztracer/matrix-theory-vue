@@ -255,13 +255,13 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
   display: flex; align-items: center; gap: 16px;
   padding: 20px 24px; border-radius: 16px 16px 0 0;
   margin-bottom: 0;
-  background: var(--color-primary);
+  background: var(--color-brand);
 }
 .week-icon { font-size: 24px; opacity: .85; }
 .week-title-bar h2 {
-  margin: 0; font-size: 22px; color: var(--color-on-primary); font-weight: 700;
+  margin: 0; font-size: 22px; color: var(--color-on-brand); font-weight: 700;
 }
-.week-count { margin: 4px 0 0; font-size: 13px; color: var(--color-muted-foreground); }
+.week-count { margin: 4px 0 0; font-size: 13px; color: var(--color-on-brand-muted); }
 
 .topic-card {
   background: var(--color-card);
@@ -282,8 +282,8 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 .topic-num {
   display: inline-block; padding: 3px 10px;
   border-radius: 8px; font-weight: 700; font-size: 12px;
-  color: var(--color-on-primary); margin-right: 8px;
-  background: var(--color-primary);
+  color: var(--color-on-brand); margin-right: 8px;
+  background: var(--color-brand);
 }
 .topic-title { font-size: 16px; font-weight: 700; color: var(--color-foreground); }
 .topic-quiz-count {
@@ -304,18 +304,18 @@ const totalQuizzes = computed(() => Object.values(quizBank).reduce((s, q) => s +
 
 /* ===== Footer ===== */
 .exam-footer {
-  background: var(--color-primary); padding: 40px 24px; text-align: center;
+  background: var(--color-brand); padding: 40px 24px; text-align: center;
 }
 .footer-btn {
   display: inline-block; padding: 12px 28px;
-  background: var(--color-on-primary);
-  color: var(--color-primary); border-radius: 10px; text-decoration: none;
+  background: var(--color-on-brand);
+  color: var(--color-brand); border-radius: 10px; text-decoration: none;
   font-weight: 700; font-size: 15px; transition: all .18s ease;
 }
 .footer-btn:hover { transform: translateY(-1px); }
 .footer-copy {
-  font-size: 12px; color: var(--color-muted-foreground); margin-top: 20px;
-  border-top: 1px solid color-mix(in srgb, var(--color-on-primary) 10%, transparent); padding-top: 16px;
+  font-size: 12px; color: var(--color-on-brand-muted); margin-top: 20px;
+  border-top: 1px solid color-mix(in srgb, var(--color-on-brand) 18%, transparent); padding-top: 16px;
 }
 
 @media (max-width: 768px) {

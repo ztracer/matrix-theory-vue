@@ -5,20 +5,41 @@
 }
 
 :root {
-  --color-primary: #0F172A;
-  --color-on-primary: #F8FAFC;
-  --color-secondary: #334155;
-  --color-accent: #0369A1;
-  --color-on-accent: #FFFFFF;
   --color-background: #F8FAFC;
   --color-foreground: #0F172A;
   --color-card: #FFFFFF;
   --color-card-foreground: #0F172A;
+  --color-surface: #FFFFFF;
+  --color-surface-subtle: #F1F5F9;
+  --color-surface-elevated: #FFFFFF;
+  --color-surface-inset: #F8FAFC;
+  --color-primary: #0F172A;
+  --color-on-primary: #F8FAFC;
+  --color-secondary: #334155;
+  --color-brand: #0F172A;
+  --color-on-brand: #F8FAFC;
+  --color-on-brand-muted: #CBD5E1;
+  --color-brand-muted: #E8ECF1;
+  --color-accent: #0369A1;
+  --color-on-accent: #FFFFFF;
   --color-muted: #E8ECF1;
   --color-muted-foreground: #64748B;
   --color-border: #E2E8F0;
   --color-destructive: #DC2626;
   --color-ring: #0F172A;
+  --color-info-surface: #F0F9FF;
+  --color-info-border: #BAE6FD;
+  --color-info-text: #0369A1;
+  --color-success-surface: #F0FDF4;
+  --color-success-border: #BBF7D0;
+  --color-success-text: #047857;
+  --color-warning-surface: #FEFCE8;
+  --color-warning-border: #FDE68A;
+  --color-warning-text: #92400E;
+  --color-danger-surface: #FEF2F2;
+  --color-danger-border: #FECACA;
+  --color-danger-text: #B91C1C;
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
 
   /* Legacy aliases retained for existing components */
   --primary: var(--color-primary);
@@ -38,6 +59,8 @@
   --success: var(--color-accent);
   --warning: var(--color-secondary);
   --danger: var(--color-destructive);
+  --surface: var(--color-surface);
+  --surface-subtle: var(--color-surface-subtle);
 
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   font-size: 16px;
@@ -140,11 +163,160 @@ h1, h2, h3, h4, h5, h6 {
   overflow-x: auto;
 }
 
+/* ========== Reusable lesson primitives ========== */
+.lesson-panel,
+.lesson-note,
+.lesson-control-bar,
+.lesson-legend,
+.lesson-data-card {
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-secondary);
+}
+
+.lesson-panel,
+.lesson-note,
+.lesson-data-card {
+  border-radius: 10px;
+}
+
+.lesson-note {
+  margin: 12px 0;
+  padding: 14px 16px;
+  line-height: 1.75;
+}
+
+.lesson-note strong,
+.lesson-data-card strong {
+  color: var(--color-foreground);
+}
+
+.lesson-note.info {
+  background: var(--color-info-surface);
+  border-color: var(--color-info-border);
+}
+
+.lesson-note.info strong {
+  color: var(--color-info-text);
+}
+
+.lesson-note.success {
+  background: var(--color-success-surface);
+  border-color: var(--color-success-border);
+}
+
+.lesson-note.success strong {
+  color: var(--color-success-text);
+}
+
+.lesson-note.warning {
+  background: var(--color-warning-surface);
+  border-color: var(--color-warning-border);
+}
+
+.lesson-note.warning strong {
+  color: var(--color-warning-text);
+}
+
+.lesson-control-bar,
+.lesson-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin: 12px 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--color-surface-inset);
+}
+
+.lesson-control-bar label,
+.lesson-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--color-secondary);
+}
+
+.lesson-control-bar select,
+.lesson-control-bar input[type="range"],
+.lesson-main select,
+.lesson-main input[type="range"] {
+  accent-color: var(--color-accent);
+}
+
+.lesson-control-bar select,
+.lesson-main select {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-card);
+  color: var(--color-foreground);
+}
+
+.lesson-data-card {
+  padding: 14px;
+}
+
+.lesson-data-card.info {
+  background: var(--color-info-surface);
+  border-color: var(--color-info-border);
+}
+
+.lesson-data-card.info > :first-child {
+  color: var(--color-info-text);
+}
+
+.lesson-data-card.success {
+  background: var(--color-success-surface);
+  border-color: var(--color-success-border);
+}
+
+.lesson-data-card.success > :first-child {
+  color: var(--color-success-text);
+}
+
+.lesson-data-card.warning {
+  background: var(--color-warning-surface);
+  border-color: var(--color-warning-border);
+}
+
+.lesson-data-card.warning > :first-child {
+  color: var(--color-warning-text);
+}
+
+.note-title {
+  margin: 0 0 12px;
+  color: var(--color-foreground);
+  font-weight: 700;
+}
+
+.note-steps {
+  margin-left: 8px;
+}
+
+.note-step-text {
+  margin: 2px 0 8px 16px;
+  color: var(--color-secondary);
+}
+
+.note-step-text.compact {
+  margin-bottom: 4px;
+}
+
+.note-conclusion {
+  margin: 8px 0 0;
+  color: var(--color-info-text);
+  font-weight: 700;
+}
+
 /* ========== Scrollbar ========== */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+::-webkit-scrollbar-track { background: var(--color-surface-subtle); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-muted-foreground); }
 
 /* 横向滚动条美化 */
 ::-webkit-scrollbar:horizontal { height: 8px; }
@@ -227,8 +399,8 @@ svg { max-width: 100%; height: auto; }
   top: -100%;
   left: 12px;
   padding: 10px 18px;
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
   border-radius: 8px;
   font-size: 14px;
   font-weight: 700;
@@ -286,6 +458,13 @@ html {
   .lesson-main label {
     min-height: 44px;
   }
+  .lesson-note {
+    padding: 12px;
+  }
+  .lesson-control-bar,
+  .lesson-legend {
+    padding: 12px;
+  }
   .nav-link, .kg-filter, .quiz-toggle, .ctrl-btn, .btn {
     min-height: 44px;
     padding: 10px 16px;
@@ -294,21 +473,42 @@ html {
 
 /* ===== Dark Mode ===== */
 [data-theme="dark"] {
-  --color-primary: #F8FAFC;
-  --color-on-primary: #0F172A;
+  --color-primary: #E2E8F0;
+  --color-on-primary: #0B1220;
   --color-secondary: #CBD5E1;
   --color-on-secondary: #0F172A;
+  --color-brand: #38BDF8;
+  --color-on-brand: #082F49;
+  --color-on-brand-muted: #0C4A6E;
+  --color-brand-muted: #0F2A3A;
   --color-accent: #38BDF8;
   --color-on-accent: #0F172A;
   --color-background: #0B1220;
   --color-foreground: #F1F5F9;
   --color-card: #1E293B;
   --color-card-foreground: #F1F5F9;
+  --color-surface: #1E293B;
+  --color-surface-subtle: #0F172A;
+  --color-surface-elevated: #263449;
+  --color-surface-inset: #111827;
   --color-muted: #334155;
   --color-muted-foreground: #94A3B8;
   --color-border: #334155;
   --color-destructive: #EF4444;
   --color-ring: #38BDF8;
+  --color-info-surface: #082F49;
+  --color-info-border: #075985;
+  --color-info-text: #7DD3FC;
+  --color-success-surface: #052E2B;
+  --color-success-border: #0F766E;
+  --color-success-text: #5EEAD4;
+  --color-warning-surface: #3B2F0B;
+  --color-warning-border: #A16207;
+  --color-warning-text: #FDE68A;
+  --color-danger-surface: #3F1518;
+  --color-danger-border: #991B1B;
+  --color-danger-text: #FCA5A5;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.3);
 
   --primary: var(--color-primary);
   --primary-dark: var(--color-primary);
@@ -327,6 +527,8 @@ html {
   --success: var(--color-accent);
   --warning: var(--color-secondary);
   --danger: var(--color-destructive);
+  --surface: var(--color-surface);
+  --surface-subtle: var(--color-surface-subtle);
 
   color-scheme: dark;
 }

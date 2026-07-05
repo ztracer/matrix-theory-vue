@@ -1145,15 +1145,15 @@ h3 { color: #7c3aed; }
   min-width: 0;
   padding: 16px 18px;
   border-radius: 12px;
-  border: 1.5px solid #e2e8f0;
-  background: #fff;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-card);
 }
-.cp-card-ortho { border-color: #10b981; background: #f0fdf6; }
-.cp-card-oblq { border-color: #8b5cf6; background: #faf5ff; }
+.cp-card-ortho { border-color: var(--color-success-border); background: var(--color-success-surface); }
+.cp-card-oblq { border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border)); background: color-mix(in srgb, var(--color-accent) 10%, var(--color-card)); }
 .cp-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-.cp-card-ortho .cp-title { color: #059669; }
-.cp-card-oblq .cp-title { color: #7c3aed; }
-.cp-detail { font-size: 13px; color: #475569; margin: 4px 0; }
+.cp-card-ortho .cp-title { color: var(--color-success-text); }
+.cp-card-oblq .cp-title { color: var(--color-accent); }
+.cp-detail { font-size: 13px; color: var(--color-secondary); margin: 4px 0; }
 .cp-detail .formula-inline { font-size: 13px; }
 
 /* 3D 投影动画 */
@@ -1166,9 +1166,9 @@ h3 { color: #7c3aed; }
   position: relative;
   height: clamp(360px, 52vw, 520px);
   overflow: hidden;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
-  background: #f8fafc;
+  background: var(--color-surface-inset);
   touch-action: none;
 }
 .proj3d-canvas,
@@ -1187,10 +1187,10 @@ h3 { color: #7c3aed; }
   gap: 16px;
   margin: 12px 0 0;
   padding: 14px 18px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
-  background: rgba(248, 250, 252, 0.93);
-  color: #475569;
+  background: color-mix(in srgb, var(--color-card) 94%, transparent);
+  color: var(--color-secondary);
   font-size: 13px;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
   min-width: 0;
@@ -1226,17 +1226,17 @@ h3 { color: #7c3aed; }
 }
 .proj3d-mode-control {
   font-size: 12px;
-  color: #64748b;
+  color: var(--color-muted-foreground);
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 .proj3d-select {
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 4px 8px;
-  background: #fff;
-  color: #334155;
+  background: var(--color-card);
+  color: var(--color-foreground);
   font-size: 12px;
   cursor: pointer;
 }
@@ -1245,8 +1245,8 @@ h3 { color: #7c3aed; }
 :deep(.proj3d-label) {
   padding: 2px 7px;
   border-radius: 6px;
-  background: rgba(248, 250, 252, 0.88);
-  color: #0f172a;
+  background: color-mix(in srgb, var(--color-card) 88%, transparent);
+  color: var(--color-foreground);
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
@@ -1254,7 +1254,7 @@ h3 { color: #7c3aed; }
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
   user-select: none;
 }
-:deep(.proj3d-lbl) { color: #1e293b; }
+:deep(.proj3d-lbl) { color: var(--color-foreground); }
 :deep(.proj3d-lbl-m) { color: #be123c; font-size: 11px; }
 :deep(.proj3d-lbl-axis) {
   background: transparent; color: #94a3b8; box-shadow: none; font-size: 14px;

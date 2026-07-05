@@ -644,8 +644,8 @@ onUnmounted(() => {
   position: relative;
 }
 .pm-center {
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
   padding: 14px 36px;
   border-radius: 28px;
   font-size: 22px;
@@ -711,8 +711,8 @@ onUnmounted(() => {
   box-shadow: 0 1px 6px rgba(0,0,0,.06);
 }
 .compare-table thead th {
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
   padding: 12px 14px;
   font-weight: 600;
   text-align: left;
@@ -756,9 +756,9 @@ onUnmounted(() => {
   min-width: 90px;
   background: var(--color-card);
 }
-.fr-n { border-color: #f59e0b; background: #fffbeb; }
-.fr-r { border-color: #059669; background: #ecfdf5; }
-.fr-m { border-color: #3b82f6; background: #eff6ff; }
+.fr-n { border-color: var(--color-warning-border); background: var(--color-warning-surface); }
+.fr-r { border-color: var(--color-success-border); background: var(--color-success-surface); }
+.fr-m { border-color: var(--color-info-border); background: var(--color-info-surface); }
 .fr-ball {
   width: 50px; height: 50px;
   border-radius: 50%;
@@ -810,8 +810,8 @@ onUnmounted(() => {
 .fr-eq {
   margin-left: 12px;
   padding: 8px 20px;
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
   border-radius: 12px;
   font-size: 18px;
   font-weight: 700;

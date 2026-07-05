@@ -696,9 +696,9 @@ const hideTip = () => { tipShow.value = false }
 }
 .kg-filter:hover,
 .kg-filter.active {
-  color:var(--color-on-primary);
-  background:var(--color-primary);
-  border-color:var(--color-primary);
+  color: var(--color-on-brand);
+  background: var(--color-brand);
+  border-color: var(--color-brand);
 }
 .kg-scroll {
   overflow-x:auto;
@@ -758,7 +758,7 @@ const hideTip = () => { tipShow.value = false }
   opacity:1;
 }
 .mm-tooltip {
-  position:absolute; background:var(--color-primary); color:var(--color-on-primary);
+  position:absolute; background: var(--color-brand); color: var(--color-on-brand);
   padding:12px 16px; border-radius:10px; font-size:13px;
   max-width:320px; pointer-events:none; opacity:0;
   transition:opacity .15s; z-index:10; line-height:1.7;
@@ -861,17 +861,17 @@ const hideTip = () => { tipShow.value = false }
 
 /* Footer */
 .home-footer {
-  background:var(--color-primary); color: var(--color-muted-foreground);
+  background: var(--color-brand); color: var(--color-on-brand-muted);
   padding:48px 24px 28px; text-align:center;
 }
-.home-footer h3 { color:var(--color-on-primary); font-size:20px; margin-bottom:10px; }
+.home-footer h3 { color: var(--color-on-brand); font-size:20px; margin-bottom:10px; }
 .home-footer p { font-size:14px; margin-bottom:20px; opacity:.8; }
 .footer-tech { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:24px; }
 .footer-tech span {
-  background: color-mix(in srgb, var(--color-on-primary) 6%, transparent); padding:6px 14px;
-  border-radius:8px; font-size:13px; border: 1px solid color-mix(in srgb, var(--color-on-primary) 12%, transparent);
+  background: color-mix(in srgb, var(--color-on-brand) 6%, transparent); padding:6px 14px;
+  border-radius:8px; font-size:13px; border: 1px solid color-mix(in srgb, var(--color-on-brand) 18%, transparent);
 }
-.footer-copy { font-size:12px; opacity:.5; border-top: 1px solid color-mix(in srgb, var(--color-on-primary) 10%, transparent); padding-top:20px; }
+.footer-copy { font-size:12px; opacity:.72; border-top: 1px solid color-mix(in srgb, var(--color-on-brand) 18%, transparent); padding-top:20px; }
 
 @media (max-width:768px) {
   .hero { min-height:auto; }

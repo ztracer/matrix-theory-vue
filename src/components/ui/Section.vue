@@ -45,8 +45,8 @@ defineProps({
   align-items: center;
   justify-content: center;
   min-width: 32px; height: 32px;
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
   border-radius: 8px;
   font-size: 14px;
   font-weight: 700;

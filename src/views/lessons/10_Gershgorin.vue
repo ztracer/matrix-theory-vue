@@ -534,8 +534,20 @@ onUnmounted(() => {
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; }
 h3 { color: #7c3aed; }
-.responsive-svg { max-width: 100%; height: auto; display: block; }
+.responsive-svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  background: var(--color-surface-inset);
+  border-radius: 8px;
+}
 :deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
+
+select {
+  background: var(--color-card) !important;
+  color: var(--color-foreground);
+  border-color: var(--color-border) !important;
+}
 
 @media (max-width: 760px) {
   label {

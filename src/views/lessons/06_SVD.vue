@@ -6,7 +6,7 @@
       <Theorem title="有了特征值分解（EVD），为什么还要 SVD？" type="tip" icon="💡">
         <p><strong>特征值分解的局限性：</strong>EVD 要求矩阵是 <strong>方阵</strong>（<span class="formula-inline">n \times n</span>）且<strong>可对角化</strong>。面对一个 <span class="formula-inline">1080 \times 1920</span> 的非方阵图像，EVD 直接失效。</p>
         <p><strong>SVD 的降维打击：</strong>任何形状的矩阵 <span class="formula-inline">A \in \R^{m \times n}</span>（长方的、方的、哪怕只有一行/一列），<strong>百分之百存在 SVD</strong>。它的巧妙之处在于：把非方阵映射问题，转化成我们最熟悉的对称方阵问题——去研究 <span class="formula-inline">A\T A</span>（<span class="formula-inline">n \times n</span> 对称）和 <span class="formula-inline">AA\T</span>（<span class="formula-inline">m \times m</span> 对称），这两个矩阵一定可以对角化。</p>
-        <p style="margin:0.5rem 0 0;color:#065f46;"><strong>一句话：</strong>EVD 是方阵的"特权"，SVD 是全体矩阵的"通用语言"——它把 EVD 推广到了任意形状矩阵，是线性代数的终极分解定理。</p>
+        <p class="svd-key-line"><strong>一句话：</strong>EVD 是方阵的"特权"，SVD 是全体矩阵的"通用语言"——它把 EVD 推广到了任意形状矩阵，是线性代数的终极分解定理。</p>
       </Theorem>
 
       <Theorem title="奇异值定义" type="definition" icon="📖">
@@ -197,8 +197,8 @@
         </svg>
       </AnimationBox>
 
-      <div class="svd-intuition" style="margin-top: 1rem; padding: 1rem 1.2rem; background: #f0fdfa; border: 1px solid #ccfbf1; border-radius: 8px; font-size: 0.94rem; line-height: 1.75;">
-        <strong style="color:#0f766e;">🧐 怎么直观理解 <span class="formula-inline">A = U\Sigma V\T</span>？</strong>
+      <div class="svd-intuition lesson-note success">
+        <strong>🧐 怎么直观理解 <span class="formula-inline">A = U\Sigma V\T</span>？</strong>
         <p style="margin:0.5rem 0 0 0;">
           任何一个复杂的矩阵映射 <span class="formula-inline">A</span>，都可以拆解为三步：<br/>
           1. <strong><span class="formula-inline">V\T</span>（旋转）</strong>：在原空间里找到一组最完美的<strong>标准正交基</strong>，把它旋转到和坐标轴对齐。<br/>
@@ -224,8 +224,8 @@
         <Formula>\|A - A_k\|_F^2 = \min_{\rank(B)\leq k} \|A - B\|_F^2 = \sigma_{k+1}^2 + \cdots + \sigma_r^2</Formula>
       </Theorem>
 
-      <div class="svd-intuition" style="margin-top: 0.8rem; padding: 1rem 1.2rem; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; font-size: 0.94rem; line-height: 1.75;">
-        <strong style="color:#92400e;">🖼️ 图像压缩的本质：</strong>
+      <div class="svd-intuition lesson-note warning">
+        <strong>🖼️ 图像压缩的本质：</strong>
         <p style="margin:0.5rem 0 0 0;">
           上面公式 <span class="formula-inline">A = \sum_{i=1}^{r} \sigma_i u_i v_i\T</span> 告诉我们：矩阵 <span class="formula-inline">A</span> 可以写成 <span class="formula-inline">r</span> 个"秩为 1 的小矩阵"叠加。每一项 <span class="formula-inline">u_i v_i\T</span> 都是一张"基础纹理图"，<span class="formula-inline">\sigma_i</span> 是该纹理的"能量权重"。<br/>
           由于奇异值 <span class="formula-inline">\sigma_i</span> 衰减极快（往往前 10% 的奇异值聚集了 90% 以上的画面能量，构成图像的大轮廓），后面的奇异值全是噪点和微小细节。所谓<strong>压缩</strong>，就是只保留前 <span class="formula-inline">k</span> 项（主要的"网格"），后面的直接抹成 0：<br/>
@@ -664,6 +664,10 @@ onUnmounted(() => {
 <style scoped>
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; margin: 12px 0; }
+.svd-key-line {
+  margin: 0.5rem 0 0;
+  color: var(--color-success-text);
+}
 
 /* Bilibili 视频嵌入 */
 .bilibili-video {
@@ -709,9 +713,9 @@ onUnmounted(() => {
   display: flex; align-items: center; gap: 8px;
   padding: 6px 12px;
   border-radius: 999px;
-  background: #ffffff;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
-  font-size: 13px; font-weight: 650; color: #334155;
+  background: var(--color-card);
+  box-shadow: var(--shadow-soft);
+  font-size: 13px; font-weight: 650; color: var(--color-secondary);
   min-width: 0;
 }
 .svd-slider-name { white-space: nowrap; }
@@ -765,8 +769,8 @@ onUnmounted(() => {
 .sf-num {
   width: 28px; height: 28px;
   border-radius: 50%;
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
   display: flex;
   align-items: center;
   justify-content: center;

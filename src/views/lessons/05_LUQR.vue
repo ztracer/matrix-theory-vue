@@ -1606,6 +1606,11 @@ onUnmounted(() => {
 <style scoped>
 .formula-inline { display: inline; }
 .formula-block { display: block; text-align: center; margin: 12px 0; }
+.summary-box {
+  background: var(--color-info-surface) !important;
+  border-color: var(--color-info-border) !important;
+  color: var(--color-secondary);
+}
 
 .gs-stage {
   width: min(100%, 920px);
@@ -1632,8 +1637,8 @@ onUnmounted(() => {
 :deep(.gs-label) {
   padding: 2px 6px;
   border-radius: 6px;
-  background: rgba(248, 250, 252, 0.86);
-  color: #0f172a;
+  background: color-mix(in srgb, var(--color-card) 88%, transparent);
+  color: var(--color-foreground);
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
@@ -1709,9 +1714,9 @@ onUnmounted(() => {
   font-family: inherit;
 }
 .ctrl-btn:hover:not(:disabled) {
-  background: var(--color-primary);
-  color: var(--color-on-primary);
-  border-color: var(--color-primary);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
+  border-color: var(--color-brand);
 }
 .ctrl-btn:disabled {
   opacity: .4;
@@ -1728,8 +1733,8 @@ onUnmounted(() => {
   gap: 22px;
 }
 .cm-root {
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
   padding: 12px 28px;
   border-radius: 8px;
   font-size: 18px;
@@ -1751,8 +1756,8 @@ onUnmounted(() => {
   flex-direction: column;
   gap: 14px;
 }
-.cm-family-lu { border-color: #bfdbfe; background: #f8fbff; }
-.cm-family-qr { border-color: #a7f3d0; background: #f7fffb; }
+.cm-family-lu { border-color: var(--color-info-border); background: var(--color-info-surface); }
+.cm-family-qr { border-color: var(--color-success-border); background: var(--color-success-surface); }
 .cm-family-title {
   font-size: 15px;
   font-weight: 800;
@@ -1786,11 +1791,11 @@ onUnmounted(() => {
   font-weight: 500;
   color: var(--color-muted-foreground);
 }
-.cm-family-lu .cm-node { border-color: #93c5fd; color: #1d4ed8; }
-.cm-family-qr .cm-node { border-color: #6ee7b7; color: #047857; }
+.cm-family-lu .cm-node { border-color: var(--color-info-border); color: var(--color-info-text); }
+.cm-family-qr .cm-node { border-color: var(--color-success-border); color: var(--color-success-text); }
 .cm-node-result {
-  border-color: #10b981;
-  background: #ecfdf5;
+  border-color: var(--color-success-border);
+  background: var(--color-success-surface);
 }
 .cm-arrow,
 .cm-merge {
@@ -1886,7 +1891,7 @@ onUnmounted(() => {
 
 /* ── QR method cards ── */
 .qr-method-card {
-  --method-color: #0d9488; --method-soft: #ccfbf1; --method-tint: #f0fdfa;
+  --method-color: var(--color-success-text); --method-soft: var(--color-success-border); --method-tint: var(--color-success-surface);
   position: relative; margin: 8px 0 10px; padding: clamp(20px,3vw,30px); overflow: hidden;
   border: 1px solid var(--method-soft); border-radius: 24px;
   background: var(--color-card);
@@ -1901,9 +1906,9 @@ onUnmounted(() => {
   border: 1px solid color-mix(in srgb, var(--method-color) 34%, transparent); border-radius: 999px;
   background: color-mix(in srgb, var(--method-color) 8%, transparent); pointer-events: none;
 }
-.qr-method-gs { --method-color: #0d9488; --method-soft: #99f6e4; --method-tint: #f0fdfa; }
-.qr-method-hh { --method-color: #3b82f6; --method-soft: #bfdbfe; --method-tint: #eff6ff; }
-.qr-method-givens { --method-color: #8b5cf6; --method-soft: #ddd6fe; --method-tint: #faf5ff; }
+.qr-method-gs { --method-color: var(--color-success-text); --method-soft: var(--color-success-border); --method-tint: var(--color-success-surface); }
+.qr-method-hh { --method-color: var(--color-info-text); --method-soft: var(--color-info-border); --method-tint: var(--color-info-surface); }
+.qr-method-givens { --method-color: var(--color-accent); --method-soft: color-mix(in srgb, var(--color-accent) 42%, var(--color-border)); --method-tint: color-mix(in srgb, var(--color-accent) 10%, var(--color-card)); }
 .qr-method-header {
   position: relative; z-index: 1; display: grid;
   grid-template-columns: minmax(0,1fr) auto; gap: 18px; align-items: start; margin-bottom: 22px;
@@ -1913,7 +1918,7 @@ onUnmounted(() => {
 .qr-method-kicker { color: var(--method-color); }
 .qr-stability-badge {
   min-width: 132px; padding: 12px 14px; border: 1px solid var(--method-soft); border-radius: 16px;
-  background: rgba(255,255,255,0.76); text-align: center; box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+  background: color-mix(in srgb, var(--color-card) 86%, transparent); text-align: center; box-shadow: var(--shadow-soft);
 }
 .qr-stability-badge span { display: block; margin-bottom: 4px; color: var(--color-muted-foreground); font-size: 12px; font-weight: 700; }
 .qr-stability-badge strong { color: var(--method-color); font-size: 18px; letter-spacing: 0.04em; }

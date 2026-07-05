@@ -41,7 +41,7 @@ defineProps({
 }
 .step-num {
   min-width: 26px; height: 26px;
-  background: var(--color-primary); color: var(--color-on-primary);
+  background: var(--color-brand); color: var(--color-on-brand);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 13px; flex-shrink: 0;

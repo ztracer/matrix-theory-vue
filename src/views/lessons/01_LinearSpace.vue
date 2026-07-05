@@ -188,37 +188,37 @@ title="基扩定理：从子空间基扩充到全空间" mode="interactive" :pla
 
       <p style="margin-top:16px;"><strong>为什么维数公式成立？—— 一个基于"基扩定理"的严格证明：</strong></p>
 
-      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px; margin:12px 0;">
-        <p style="margin:0 0 12px 0; font-weight:600; color:#1e293b;">📐 证明思路：从交空间的基出发 → 向两边扩充 → 合并得到和空间的基 → 数向量个数</p>
+      <div class="lesson-note">
+        <p class="note-title">📐 证明思路：从交空间的基出发 → 向两边扩充 → 合并得到和空间的基 → 数向量个数</p>
 
-        <div style="margin-left:8px;">
+        <div class="note-steps">
           <p style="margin:6px 0;"><strong>步骤 1：寻找交空间的基</strong></p>
-          <p style="margin:2px 0 8px 16px; color:#475569;">
+          <p class="note-step-text">
             设 <span class="formula-inline">\dim(W_1\cap W_2)=r</span>，取一组基：<span class="formula-inline">\gamma_1,\gamma_2,\dots,\gamma_r</span>
           </p>
 
           <p style="margin:6px 0;"><strong>步骤 2：扩充为 W₁ 的基（基扩定理）</strong></p>
-          <p style="margin:2px 0 8px 16px; color:#475569;">
+          <p class="note-step-text">
             设 <span class="formula-inline">\dim W_1=r+p</span>，扩充后 W₁ 的基为：<span class="formula-inline">\gamma_1,\dots,\gamma_r,\alpha_1,\dots,\alpha_p</span>
           </p>
 
           <p style="margin:6px 0;"><strong>步骤 3：扩充为 W₂ 的基（基扩定理）</strong></p>
-          <p style="margin:2px 0 8px 16px; color:#475569;">
+          <p class="note-step-text">
             设 <span class="formula-inline">\dim W_2=r+q</span>，扩充后 W₂ 的基为：<span class="formula-inline">\gamma_1,\dots,\gamma_r,\beta_1,\dots,\beta_q</span>
           </p>
 
           <p style="margin:6px 0;"><strong>步骤 4：合并，证明是 W₁+W₂ 的基</strong></p>
-          <p style="margin:2px 0 4px 16px; color:#475569;">
+          <p class="note-step-text compact">
             考虑向量组：<span class="formula-inline">\{\gamma_1,\dots,\gamma_r,\alpha_1,\dots,\alpha_p,\beta_1,\dots,\beta_q\}</span>
           </p>
-          <p style="margin:2px 0 4px 16px; color:#475569;">可以证明：这组向量既能线性表出 W₁+W₂ 中的任意向量（张成性），又是线性无关的（独立性）。</p>
+          <p class="note-step-text compact">可以证明：这组向量既能线性表出 W₁+W₂ 中的任意向量（张成性），又是线性无关的（独立性）。</p>
 
           <p style="margin:6px 0;"><strong>步骤 5：数个数 = 代入公式验证</strong></p>
-          <p style="margin:2px 0 4px 16px; color:#475569;">
+          <p class="note-step-text compact">
             向量总数为 <span class="formula-inline">r+p+q</span>。代入公式：
           </p>
           <Formula display>\begin{aligned} \dim(W_1+W_2) &= r+p+q \\ \dim W_1+\dim W_2-\dim(W_1\cap W_2) &= (r+p)+(r+q)-r = r+p+q \end{aligned}</Formula>
-          <p style="margin:4px 0 0 16px; color:#475569;">两边相等，证毕 ✓</p>
+          <p class="note-step-text compact">两边相等，证毕 ✓</p>
         </div>
       </div>
 
@@ -384,13 +384,13 @@ title="直和中的唯一分解" :playing="playing3" description="点击播放�
 
       <p style="margin-top:16px;"><strong>证明 N(A) 是 Rⁿ 的子空间：</strong>只需验证加法和数乘的封闭性。</p>
 
-      <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:6px; padding:14px 16px; margin:10px 0;">
+      <div class="lesson-note info">
         <p style="margin:4px 0;"><strong>加法封闭：</strong>若 <span class="formula-inline">x_1,x_2\in N(A)</span>，则 <span class="formula-inline">Ax_1=0,\ Ax_2=0</span>。</p>
-        <p style="margin:4px 0 4px 16px; color:#475569;">
+        <p class="note-step-text compact">
           <span class="formula-inline">A(x_1+x_2)=Ax_1+Ax_2=0+0=0</span> → 所以 <span class="formula-inline">x_1+x_2\in N(A)</span> ✓
         </p>
         <p style="margin:4px 0;"><strong>数乘封闭：</strong><span class="formula-inline">A(kx_1)=k(Ax_1)=k\cdot0=0</span> → 所以 <span class="formula-inline">kx_1\in N(A)</span> ✓</p>
-        <p style="margin:8px 0 0 0; font-weight:600; color:#0369a1;">结论：N(A) 是 Rⁿ 的子空间 ✓</p>
+        <p class="note-conclusion">结论：N(A) 是 Rⁿ 的子空间 ✓</p>
       </div>
 
       <Theorem title="秩-零度定理 (Rank-Nullity Theorem)" type="theorem">
@@ -402,7 +402,7 @@ title="直和中的唯一分解" :playing="playing3" description="点击播放�
       <p>一个 <span class="formula-inline">m\times n</span> 的矩阵代表 <span class="formula-inline">n</span> 个未知数的方程组。矩阵的秩 <span class="formula-inline">\operatorname{rank}(A)</span> 是<strong>"真正起作用的独立约束方程个数"</strong>——这些约束把 <span class="formula-inline">\operatorname{rank}(A)</span> 个未知数"死死绑架"了（变成了主元变量）。剩下的 <span class="formula-inline">n-\operatorname{rank}(A)</span> 个未知数就是可以自由取值的<strong>自由变量</strong>。</p>
       <p>而零空间的维数 <span class="formula-inline">\dim N(A)</span> = 自由变量的个数 = 基础解系中向量的个数。</p>
 
-      <div style="background:#fefce8; border:1px solid #fde68a; border-radius:6px; padding:12px 16px; margin:12px 0;">
+      <div class="lesson-note warning">
         <p style="margin:0;"><strong>💡 一句话记牢：</strong>秩 = "被管死的维度"，零度 = "自由好动的维度"，两者加起来刚好等于总维度 <span class="formula-inline">n</span>。</p>
       </div>
 
@@ -467,12 +467,12 @@ title="秩-零度定理：空间被压扁，零空间接住消失的维度" mode
       <h3 style="font-size:16px; color:#4338ca; margin:16px 0 6px 0;">一、代数深意：有效信息的"去重计数器"</h3>
       <p>矩阵的<strong>初等行变换</strong>本质上就是一台"自动废话粉碎机"。无论你写了多少个方程，所有冗余的行（可由其他行线性表出的行）在消元过程中都会变成全零行。最后死活抹不掉的非零行数量，就是<strong>秩（Rank）</strong>——它告诉你这个系统里<strong>有效信息的绝对数量</strong>。</p>
 
-      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px; margin:10px 0;">
+      <div class="lesson-note">
         <p style="margin:0 0 6px 0; font-weight:600;">📋 例子：</p>
         <p style="margin:2px 0; font-family:monospace; font-size:13px;">
           x+y=5,  x−y=1,  2x=6  → 第三个方程 = 前两个相加，是<strong>废话</strong>！
         </p>
-        <p style="margin:4px 0 0 0; color:#475569;">消元后只留下 2 个非零行 → rank = 2。100 个方程里可能只有 3 个真正管用的约束。</p>
+        <p style="margin:4px 0 0 0;">消元后只留下 2 个非零行 → rank = 2。100 个方程里可能只有 3 个真正管用的约束。</p>
       </div>
 
       <h3 class="rank-geo-heading">二、几何深意：空间的"降维打击器"</h3>
@@ -514,13 +514,13 @@ title="秩-零度定理：空间被压扁，零空间接住消失的维度" mode
 
       <h3 style="font-size:16px; color:#059669; margin:16px 0 6px 0;">三、总结：秩的终极奥义</h3>
       <div class="rank-summary-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-        <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:14px;">
-          <p style="margin:0; font-weight:600; color:#0369a1;">🔢 在代数上</p>
-          <p style="margin:6px 0 0 0; color:#475569; font-size:14px;">秩是斩断废话后，真正说了算、能绑架未知数的<strong>独立判官的个数</strong>。</p>
+        <div class="lesson-data-card info">
+          <p style="margin:0; font-weight:600;">🔢 在代数上</p>
+          <p style="margin:6px 0 0 0; font-size:14px;">秩是斩断废话后，真正说了算、能绑架未知数的<strong>独立判官的个数</strong>。</p>
         </div>
-        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:14px;">
-          <p style="margin:0; font-weight:600; color:#047857;">📐 在几何上</p>
-          <p style="margin:6px 0 0 0; color:#475569; font-size:14px;">秩是矩阵变形空间后，新空间所能保持的<strong>最高维度</strong>。</p>
+        <div class="lesson-data-card success">
+          <p style="margin:0; font-weight:600;">📐 在几何上</p>
+          <p style="margin:6px 0 0 0; font-size:14px;">秩是矩阵变形空间后，新空间所能保持的<strong>最高维度</strong>。</p>
         </div>
       </div>
     </Section>

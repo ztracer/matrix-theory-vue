@@ -84,9 +84,9 @@ defineEmits(['play', 'pause', 'reset', 'step'])
   font-family: inherit;
 }
 .ctrl-btn:hover:not(:disabled) {
-  background: var(--color-primary);
-  color: var(--color-on-primary);
-  border-color: var(--color-primary);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
+  border-color: var(--color-brand);
 }
 .ctrl-btn:disabled { opacity: .4; cursor: not-allowed; }
 .anim-canvas-wrap {

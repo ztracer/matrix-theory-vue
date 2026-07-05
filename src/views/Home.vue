@@ -266,16 +266,46 @@
           <h2>🗺️ 推荐学习路径</h2>
           <p class="section-desc">从基础到应用，循序渐进掌握矩阵论</p>
         </div>
-        <div class="path-timeline">
-          <div class="path-line"></div>
-          <div v-for="(s, i) in path" :key="i" class="path-item reveal" :style="{ '--i': i }">
-            <div class="path-dot" :class="'w' + Math.ceil((i+1)/4)">{{ i+1 }}</div>
-            <router-link :to="s.path" class="path-content">
-              <div class="path-step">{{ s.step }}</div>
-              <div class="path-name">{{ s.name }}</div>
-              <div class="path-desc">{{ s.desc }}</div>
-            </router-link>
-          </div>
+        <div class="path-map">
+          <section
+            v-for="(phase, phaseIndex) in pathPhases"
+            :key="phase.name"
+            class="path-phase reveal"
+            :class="'phase-' + (phaseIndex + 1)"
+            :style="{ '--i': phaseIndex }"
+          >
+            <div class="phase-meta">
+              <div class="phase-kicker">{{ phase.range }}</div>
+              <h3>{{ phase.name }}</h3>
+              <p>{{ phase.goal }}</p>
+              <div class="phase-check">{{ phase.check }}</div>
+            </div>
+
+            <div class="phase-lessons">
+              <router-link
+                v-for="(s, lessonIndex) in phase.lessons"
+                :key="s.lesson"
+                :to="s.path"
+                class="path-node"
+                :class="{ 'is-read': isPathRead(s), 'is-next': nextPathLesson?.lesson === s.lesson }"
+                :style="{ '--i': lessonIndex }"
+              >
+                <div class="path-node-top">
+                  <span class="path-lesson">L{{ s.lesson }}</span>
+                  <span class="path-token">{{ s.token }}</span>
+                </div>
+                <div class="path-step">{{ s.step }}</div>
+                <div class="path-name">{{ s.name }}</div>
+                <div class="path-desc">{{ s.desc }}</div>
+                <div class="path-outcome">{{ s.outcome }}</div>
+                <div class="path-node-footer">
+                  <span v-for="tag in s.tags" :key="tag" class="path-tag">{{ tag }}</span>
+                  <span v-if="isPathRead(s)" class="path-state">已读</span>
+                  <span v-else-if="nextPathLesson?.lesson === s.lesson" class="path-state next">继续</span>
+                </div>
+              </router-link>
+            </div>
+          </section>
         </div>
       </div>
     </section>
@@ -477,19 +507,57 @@ const week1 = computed(() => lessonMeta.filter(l => l.week === 1))
 const week2 = computed(() => lessonMeta.filter(l => l.week === 2))
 const week3 = computed(() => lessonMeta.filter(l => l.week === 3))
 
+const phaseCopy = {
+  concept: {
+    name: '概念建模',
+    range: '01-04',
+    goal: '主线：空间提供对象，线性变换提供作用，标准形揭示结构，矩阵函数处理演化。',
+    check: '典型任务：子空间判定、换基矩阵、Jordan 块、e^A'
+  },
+  decomposition: {
+    name: '分解工具',
+    range: '05-07',
+    goal: '主线：LU 来自消元，QR 来自正交化，SVD 来自主轴拉伸，MP 逆延伸求解边界。',
+    check: '典型任务：消元分解、正交化、低秩逼近、MP 逆'
+  },
+  geometry: {
+    name: '几何与应用',
+    range: '08-10',
+    goal: '主线：投影描述子空间分量，最小二乘刻画误差正交，圆盘定理给出谱位置。',
+    check: '典型任务：投影矩阵、正规方程、范数估计、圆盘定位'
+  },
+  review: {
+    name: '考前整合',
+    range: '11',
+    goal: '主线：按题型整理计算入口、证明条件和易错边界，形成考前检索表。',
+    check: '典型任务：综合计算、证明模板、真题拆解'
+  }
+}
+
 const path = [
-  {step:'基础概念',name:'线性空间与子空间',desc:'公理体系、子空间、基维数、直和',path:'/lesson/01'},
-  {step:'映射观点',name:'线性变换及其矩阵',desc:'矩阵表示、相似、核与像',path:'/lesson/02'},
-  {step:'特征分析',name:'Jordan标准形',desc:'特征值、重数、Jordan块',path:'/lesson/03'},
-  {step:'动态系统',name:'矩阵函数与微分方程',desc:'矩阵指数、相图、稳定性',path:'/lesson/04'},
-  {step:'基本分解',name:'LU与QR分解',desc:'Gauss消元、正交化、反射',path:'/lesson/05'},
-  {step:'核心分解',name:'SVD奇异值分解',desc:'旋转-拉伸-旋转、低秩逼近',path:'/lesson/06'},
-  {step:'分解与逆',name:'满秩分解与MP逆',desc:'满秩分解、Penrose方程、广义逆双重角色',path:'/lesson/07'},
-  {step:'几何应用',name:'投影矩阵',desc:'正交投影、斜投影、幂等性',path:'/lesson/08'},
-  {step:'数据拟合',name:'最小二乘与范数',desc:'正规方程、残差正交、范数',path:'/lesson/09'},
-  {step:'特征值界',name:'盖尔圆盘估计',desc:'圆盘定理、隔离、Rayleigh商',path:'/lesson/10'},
-  {step:'冲刺备考',name:'考前复习与真题',desc:'模板总结、解题流程、易错点',path:'/lesson/11'},
+  {lesson:'01', phase:'concept', step:'空间对象', name:'线性空间与子空间', desc:'封闭性决定子空间，基与维数描述空间规模，直和刻画分解方式。', token:'V', outcome:'子空间判定、基与维数、直和分解', tags:['判定', '维数'], path:'/lesson/01'},
+  {lesson:'02', phase:'concept', step:'变换表示', name:'线性变换及其矩阵', desc:'矩阵表示记录变换在一组基下的坐标作用，核、像和秩描述结构信息。', token:'[T]', outcome:'矩阵表示、换基关系、核与像', tags:['矩阵表示', '换基'], path:'/lesson/02'},
+  {lesson:'03', phase:'concept', step:'标准形', name:'Jordan标准形', desc:'特征值给出不变方向，重数差异解释对角化条件，Jordan 链补足缺失方向。', token:'J', outcome:'可对角化判定、小阶 Jordan 形构造', tags:['重数', 'Jordan链'], path:'/lesson/03'},
+  {lesson:'04', phase:'concept', step:'函数演化', name:'矩阵函数与微分方程', desc:'C-H 降阶、Jordan 分块和幂级数提供 f(A) 与 e^A 的三条计算路径。', token:'e^A', outcome:'矩阵函数计算、线性微分方程解', tags:['C-H', '矩阵指数'], path:'/lesson/04'},
+  {lesson:'05', phase:'decomposition', step:'消元与正交', name:'LU与QR分解', desc:'LU 记录行消元过程，QR 记录正交基构造，两者分别服务求解和稳定计算。', token:'QR', outcome:'三阶 LU/QR、Gram-Schmidt、Householder', tags:['消元', '正交化'], path:'/lesson/05'},
+  {lesson:'06', phase:'decomposition', step:'主轴分解', name:'SVD奇异值分解', desc:'奇异值来自 AᵀA 的谱结构，左右奇异向量给出输入和输出的主方向。', token:'SVD', outcome:'奇异值、低秩逼近、几何解释', tags:['奇异值', '低秩'], path:'/lesson/06'},
+  {lesson:'07', phase:'decomposition', step:'广义求解', name:'满秩分解与MP逆', desc:'满秩分解揭示秩结构，Penrose 方程刻画 MP 逆的唯一性和最小范数性质。', token:'A+', outcome:'一类逆、MP 逆、最小范数解', tags:['广义逆', 'Penrose'], path:'/lesson/07'},
+  {lesson:'08', phase:'geometry', step:'子空间投影', name:'投影矩阵', desc:'投影由目标子空间和补空间共同决定，正交投影额外满足对称性。', token:'P²', outcome:'列空间投影矩阵、幂等性验证', tags:['投影', '幂等'], path:'/lesson/08'},
+  {lesson:'09', phase:'geometry', step:'误差正交', name:'最小二乘与范数', desc:'正规方程来自残差与列空间正交，范数选择决定误差度量方式。', token:'AᵀA', outcome:'正规方程、残差正交、范数比较', tags:['正规方程', '残差'], path:'/lesson/09'},
+  {lesson:'10', phase:'geometry', step:'谱位置', name:'盖尔圆盘估计', desc:'行圆盘给出特征值粗定位，隔离定理和 Rayleigh 商提供进一步约束。', token:'Gᵢ', outcome:'圆盘绘制、隔离判定、谱半径估计', tags:['圆盘', 'Rayleigh'], path:'/lesson/10'},
+  {lesson:'11', phase:'review', step:'题型索引', name:'考前复习与真题', desc:'计算题关注入口公式，证明题关注条件链，综合题关注章节之间的连接点。', token:'Exam', outcome:'题型索引、证明条件、易错边界', tags:['真题', '模板'], path:'/lesson/11'},
 ]
+
+const pathPhases = computed(() => {
+  return Object.entries(phaseCopy).map(([key, meta]) => ({
+    ...meta,
+    lessons: path.filter(item => item.phase === key)
+  }))
+})
+
+const isPathRead = (item) => readLessons.value.has(Number(item.lesson))
+
+const nextPathLesson = computed(() => path.find(item => !isPathRead(item)) || null)
 
 const go = (p) => { if(p) router.push(p) }
 
@@ -545,14 +613,14 @@ const hideTip = () => { tipShow.value = false }
   opacity: 1;
   transform: translateY(0);
 }
-:global(.scroll-reveal-enabled) .path-item.reveal {
+:global(.scroll-reveal-enabled) .path-phase.reveal {
   opacity: 0;
-  transform: translateX(-20px);
-  transition-delay: calc(var(--i, 0) * 100ms);
+  transform: translateY(24px);
+  transition-delay: calc(var(--i, 0) * 90ms);
 }
-:global(.scroll-reveal-enabled) .path-item.reveal.revealed {
+:global(.scroll-reveal-enabled) .path-phase.reveal.revealed {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
 }
 :global(.scroll-reveal-enabled) .section-header.reveal {
   opacity: 0;
@@ -833,31 +901,271 @@ const hideTip = () => { tipShow.value = false }
 .card-arrow { font-size:20px; transition:transform .18s ease; color:var(--color-accent); }
 .card:hover .card-arrow { transform:translateX(4px); }
 
-/* Path timeline */
-.path-section { background:var(--color-card); border-top:1px solid var(--color-border); }
-.path-timeline { position:relative; max-width:760px; margin:0 auto; }
-.path-line {
-  position:absolute; left:24px; top:0; bottom:0; width:3px;
-  background:var(--color-border);
-  border-radius:2px;
+/* Path map */
+.path-section {
+  background:
+    radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 24%),
+    linear-gradient(180deg, var(--color-card), var(--color-background));
+  border-top:1px solid var(--color-border);
 }
-.path-item { display:flex; gap:20px; margin-bottom:20px; position:relative; }
-.path-dot {
-  width:48px; height:48px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  color:var(--color-primary); font-weight:700; flex-shrink:0; z-index:1;
-  background:var(--color-card); border:1px solid var(--color-border);
+.path-map {
+  display:grid;
+  gap:18px;
+  position:relative;
 }
-
-.path-content {
-  background:var(--color-card); border-radius:12px; padding:16px 20px;
-  border:1px solid var(--color-border); flex:1; transition:all .18s ease;
-  color:var(--color-foreground); text-decoration:none; display:block;
+.path-phase {
+  --phase-accent: var(--color-accent);
+  display:grid;
+  grid-template-columns:minmax(240px, 300px) minmax(0, 1fr);
+  align-items:stretch;
+  min-width:0;
+  border:1px solid var(--color-border);
+  border-radius:16px;
+  background:var(--color-card);
+  overflow:hidden;
 }
-.path-content:hover { border-color: var(--color-muted-foreground); transform:translateX(4px); text-decoration:none; }
-.path-step { font-size:11px; font-weight:650; color:var(--color-muted-foreground); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
-.path-name { font-size:16px; font-weight:700; margin-bottom:4px; }
-.path-desc { font-size:13px; color:var(--color-muted-foreground); }
+.path-phase.phase-2 { --phase-accent: #0d9488; }
+.path-phase.phase-3 { --phase-accent: #ea580c; }
+.path-phase.phase-4 { --phase-accent: #7c3aed; }
+.phase-meta {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:22px;
+  border-right:1px solid var(--color-border);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--phase-accent) 11%, transparent), transparent 58%),
+    var(--color-surface-inset);
+  min-width:0;
+}
+.phase-kicker {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:30px;
+  min-width:84px;
+  padding:4px 12px;
+  border-radius:8px;
+  background:color-mix(in srgb, var(--phase-accent) 14%, var(--color-card));
+  border:1px solid color-mix(in srgb, var(--phase-accent) 34%, var(--color-border));
+  color:var(--phase-accent);
+  font-size:13px;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+.phase-meta h3 {
+  position:relative;
+  margin:0;
+  font-size:clamp(24px, 3vw, 34px);
+  color:var(--color-foreground);
+}
+.phase-meta p {
+  position:relative;
+  margin:0;
+  color:var(--color-secondary);
+  line-height:1.6;
+  font-size:14px;
+}
+.phase-check {
+  position:relative;
+  margin-top:auto;
+  padding:12px;
+  border-left:3px solid var(--phase-accent);
+  background:color-mix(in srgb, var(--phase-accent) 8%, transparent);
+  color:var(--color-muted-foreground);
+  font-size:13px;
+  line-height:1.55;
+}
+.phase-lessons {
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(4, minmax(150px, 1fr));
+  gap:12px;
+  min-width:0;
+  align-content:start;
+  padding:22px;
+  background:var(--color-card);
+}
+.phase-lessons::before {
+  content:'';
+  position:absolute;
+  left:40px;
+  right:40px;
+  top:45px;
+  height:3px;
+  border-radius:999px;
+  background:linear-gradient(90deg, var(--phase-accent), color-mix(in srgb, var(--phase-accent) 18%, transparent));
+  pointer-events:none;
+}
+.phase-2 .phase-lessons,
+.phase-3 .phase-lessons {
+  grid-template-columns:repeat(3, minmax(170px, 1fr));
+}
+.phase-4 .phase-lessons {
+  grid-template-columns:minmax(220px, 300px);
+}
+.path-node {
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:172px;
+  margin:0;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid color-mix(in srgb, var(--color-border) 92%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--phase-accent) 9%, transparent), transparent 46%),
+    var(--color-card);
+  color:var(--color-card-foreground);
+  text-decoration:none;
+  transition:transform .2s var(--ease-out-strong), border-color .2s ease, background-color .2s ease;
+}
+.path-node:nth-child(even) {
+  margin-top:0;
+}
+.path-node::before {
+  content:none;
+}
+.path-node:hover {
+  transform:translateY(-3px);
+  border-color:color-mix(in srgb, var(--phase-accent) 58%, var(--color-border));
+  text-decoration:none;
+}
+.path-node:active {
+  transform:translateY(-1px) scale(.99);
+}
+.path-node:focus-visible {
+  outline:3px solid color-mix(in srgb, var(--phase-accent) 38%, transparent);
+  outline-offset:3px;
+}
+.path-node.is-read {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--phase-accent) 5%, transparent), transparent 48%),
+    var(--color-surface-inset);
+}
+.path-node.is-next {
+  border-color:color-mix(in srgb, var(--phase-accent) 74%, var(--color-border));
+  box-shadow:0 16px 34px color-mix(in srgb, var(--phase-accent) 13%, transparent);
+}
+.path-node-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+.path-lesson {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--phase-accent);
+  font-size:15px;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+.path-lesson::before {
+  content:'';
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--phase-accent);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--phase-accent) 14%, transparent);
+}
+.path-token {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:38px;
+  height:30px;
+  padding:0 8px;
+  border-radius:8px;
+  background:color-mix(in srgb, var(--phase-accent) 13%, var(--color-card));
+  border:1px solid color-mix(in srgb, var(--phase-accent) 28%, var(--color-border));
+  color:var(--phase-accent);
+  font-family:"Cambria Math", "STIX Two Math", math, serif;
+  font-size:14px;
+  font-weight:800;
+  line-height:1;
+  white-space:nowrap;
+}
+.path-step {
+  color:var(--color-muted-foreground);
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:4px;
+}
+.path-name {
+  color:var(--color-foreground);
+  font-size:17px;
+  font-weight:800;
+  line-height:1.35;
+  margin-bottom:6px;
+  text-wrap:balance;
+}
+.path-desc {
+  color:var(--color-secondary);
+  font-size:12px;
+  line-height:1.55;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.path-outcome {
+  margin-top:auto;
+  padding-top:10px;
+  border-top:1px solid var(--color-border);
+  color:var(--color-muted-foreground);
+  font-size:12px;
+  line-height:1.5;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.path-outcome::before {
+  content:'信号：';
+  color:var(--phase-accent);
+  font-weight:800;
+}
+.path-node-footer {
+  display:flex;
+  align-items:center;
+  gap:5px;
+  flex-wrap:wrap;
+  margin-top:8px;
+  padding-top:0;
+}
+.path-tag,
+.path-state {
+  display:inline-flex;
+  align-items:center;
+  min-height:24px;
+  padding:3px 7px;
+  border-radius:7px;
+  border:1px solid var(--color-border);
+  background:var(--color-muted);
+  color:var(--color-secondary);
+  font-size:11px;
+  font-weight:700;
+}
+.path-tag {
+  display:none;
+}
+.path-state {
+  margin-left:auto;
+  color:var(--color-accent);
+  background:color-mix(in srgb, var(--color-accent) 9%, var(--color-card));
+  border-color:color-mix(in srgb, var(--color-accent) 24%, var(--color-border));
+}
+.path-state.next {
+  color:var(--phase-accent);
+  background:color-mix(in srgb, var(--phase-accent) 13%, var(--color-card));
+  border-color:color-mix(in srgb, var(--phase-accent) 34%, var(--color-border));
+}
 
 /* Footer */
 .home-footer {
@@ -873,6 +1181,43 @@ const hideTip = () => { tipShow.value = false }
 }
 .footer-copy { font-size:12px; opacity:.72; border-top: 1px solid color-mix(in srgb, var(--color-on-brand) 18%, transparent); padding-top:20px; }
 
+@media (max-width:1024px) {
+  .path-phase {
+    grid-template-columns:1fr;
+  }
+  .phase-meta {
+    display:grid;
+    grid-template-columns:auto minmax(0, 1fr);
+    gap:8px 14px;
+    align-items:start;
+    border-right:0;
+    border-bottom:1px solid var(--color-border);
+  }
+  .phase-kicker {
+    grid-row:1;
+  }
+  .phase-meta h3 {
+    grid-row:1;
+    margin:0;
+  }
+  .phase-meta p {
+    grid-column:1 / -1;
+    max-width:60ch;
+  }
+  .phase-check {
+    grid-column:1 / -1;
+    margin-top:0;
+  }
+  .phase-lessons,
+  .phase-2 .phase-lessons,
+  .phase-3 .phase-lessons {
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+  .phase-4 .phase-lessons {
+    grid-template-columns:minmax(0, 1fr);
+  }
+}
+
 @media (max-width:768px) {
   .hero { min-height:auto; }
   .hero-content { grid-template-columns:1fr; text-align:left; }
@@ -882,5 +1227,68 @@ const hideTip = () => { tipShow.value = false }
   .week-header { flex-wrap:wrap; gap:12px; }
   .cards { grid-template-columns:1fr; }
   .mindmap-card { padding:12px; }
+  .path-section {
+    background:var(--color-card);
+  }
+  .path-map {
+    gap:18px;
+  }
+  .phase-meta {
+    display:grid;
+    grid-template-columns:1fr;
+    padding:18px;
+    border-radius:14px;
+  }
+  .phase-kicker,
+  .phase-meta h3,
+  .phase-meta p,
+  .phase-check {
+    grid-column:1;
+  }
+  .phase-meta h3 {
+    margin:0;
+  }
+  .phase-meta p {
+    max-width:none;
+    font-size:14px;
+  }
+  .phase-lessons,
+  .phase-2 .phase-lessons,
+  .phase-3 .phase-lessons,
+  .phase-4 .phase-lessons {
+    grid-template-columns:1fr;
+    gap:12px;
+    padding:18px 18px 18px 34px;
+  }
+  .phase-lessons::before {
+    left:22px;
+    right:auto;
+    top:28px;
+    bottom:28px;
+    width:2px;
+    height:auto;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--phase-accent) 38%, transparent), color-mix(in srgb, var(--phase-accent) 8%, transparent));
+  }
+  .path-node,
+  .path-node:nth-child(even) {
+    margin-top:0;
+  }
+  .path-node {
+    min-height:0;
+    padding:14px;
+    border-radius:13px;
+  }
+  .path-node:hover {
+    transform:translateY(-2px);
+  }
+  .path-name {
+    font-size:17px;
+  }
+  .path-node-footer {
+    align-items:flex-start;
+  }
+  .path-state {
+    margin-left:0;
+  }
 }
 </style>

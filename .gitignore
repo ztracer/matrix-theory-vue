@@ -12,6 +12,10 @@ node_modules
 dist
 dist-ssr
 
+# Local Codex skills
+.agents/
+skills-lock.json
+
 # Local env files
 *.local
 .env

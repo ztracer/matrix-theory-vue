@@ -98,8 +98,9 @@ matrix-theory-vue/
 ├── public/
 │   └── matrix-icon.svg            # 项目图标 / favicon
 ├── src/
-│   ├── __tests__/                 # 冒烟测试
+│   ├── __tests__/                 # 冒烟测试 + 响应式回归测试
 │   │   ├── components.test.js
+│   │   ├── lesson-responsive.test.js
 │   │   └── router.test.js
 │   ├── assets/                    # 静态资源
 │   ├── components/
@@ -169,7 +170,7 @@ npm run dev
 | `npm run dev` | 启动开发服务器 |
 | `npm run build` | 生产构建 |
 | `npm run preview` | 预览生产构建 |
-| `npm run test` | 运行冒烟测试（7 用例） |
+| `npm run test` | 运行冒烟测试与响应式回归测试 |
 | `npm run lint` | ESLint 代码检查 |
 | `npm run lint:fix` | ESLint 自动修复 |
 | `npm run format` | Prettier 格式化 |

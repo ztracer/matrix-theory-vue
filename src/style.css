@@ -424,6 +424,9 @@ html {
 }
 
 @media (max-width: 768px) {
+  html {
+    scroll-padding-top: 64px;
+  }
   .container { padding: 0 16px; }
   .katex { font-size: 0.95em; }
   .formula-block {

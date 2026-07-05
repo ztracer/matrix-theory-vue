@@ -8,11 +8,11 @@
           <span>{{ title }}</span>
         </router-link>
         <div class="nav-links">
-          <router-link to="/" class="nav-link">← 返回首页</router-link>
-          <router-link v-if="prevLesson" :to="prevLesson.path" class="nav-link">
+          <router-link to="/" class="nav-link nav-home">← 首页</router-link>
+          <router-link v-if="prevLesson" :to="prevLesson.path" class="nav-link nav-prev">
             ← 上一课：{{ prevLesson.title }}
           </router-link>
-          <router-link v-if="nextLesson" :to="nextLesson.path" class="nav-link">
+          <router-link v-if="nextLesson" :to="nextLesson.path" class="nav-link nav-next">
             下一课：{{ nextLesson.title }} →
           </router-link>
         </div>
@@ -441,31 +441,74 @@ onUnmounted(() => {
 .footer-title { font-weight: 700; font-size: 15px; overflow-wrap: anywhere; }
 
 @media (max-width: 768px) {
-  .nav-inner { flex-wrap: wrap; gap: 8px; padding: 10px 14px; }
-  .nav-brand { min-width: 0; flex: 1 1 auto; }
-  .nav-brand span:last-child { max-width: min(260px, 58vw); }
-  .nav-links { margin-left: 0; width: 100%; }
+  .lesson-nav {
+    min-height: 59px;
+  }
+  .nav-inner {
+    display: grid;
+    grid-template-columns: minmax(68px, max-content) minmax(0, 1fr) 44px;
+    align-items: center;
+    gap: 8px;
+    height: 56px;
+    padding: 0 12px;
+  }
+  .nav-brand {
+    grid-row: 1;
+    grid-column: 2;
+    justify-content: center;
+    min-width: 0;
+    font-size: 15px;
+  }
+  .brand-icon {
+    display: none;
+  }
+  .nav-brand span:last-child {
+    max-width: 52vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .nav-links {
+    display: contents;
+  }
   .nav-link {
-    flex: 1 1 min(100%, 160px);
-    font-size: 12px;
+    font-size: 13px;
     min-height: 44px;
-    padding: 10px 12px;
+    padding: 0 10px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 8px;
+  }
+  .nav-home {
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: start;
+  }
+  .nav-prev,
+  .nav-next {
+    display: none;
   }
   .theme-toggle {
+    grid-row: 1;
+    grid-column: 3;
+    justify-self: end;
+    width: 44px;
+    height: 44px;
     min-width: 44px;
     min-height: 44px;
     margin-left: 0;
-    padding: 8px 10px;
+    padding: 0;
   }
-  .lesson-header { padding: 40px 14px 28px; }
-  .lesson-header h1 { font-size: clamp(26px, 8vw, 34px); overflow-wrap: anywhere; }
+  .lesson-header {
+    display: none;
+  }
   .lesson-main {
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    padding: 24px 14px;
+    padding: 20px 14px 24px;
   }
   .lesson-content-wrap {
     width: 100%;

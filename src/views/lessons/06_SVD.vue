@@ -703,6 +703,7 @@ onUnmounted(() => {
   background: var(--color-muted);
   border: 1px solid var(--color-border);
   font-size: 13px;
+  min-width: 0;
 }
 .svd-slider-label {
   display: flex; align-items: center; gap: 8px;
@@ -711,6 +712,7 @@ onUnmounted(() => {
   background: #ffffff;
   box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
   font-size: 13px; font-weight: 650; color: #334155;
+  min-width: 0;
 }
 .svd-slider-name { white-space: nowrap; }
 .svd-sigma-val {
@@ -774,4 +776,26 @@ onUnmounted(() => {
 }
 .sf-text { font-size: 13px; color: var(--color-secondary); line-height: 1.4; }
 .sf-arrow { font-size: 20px; color: var(--color-muted-foreground); opacity: 1; }
+
+@media (max-width: 760px) {
+  .svd-sliders {
+    width: 100%;
+    border-radius: 16px;
+  }
+
+  .svd-slider-label {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    border-radius: 12px;
+  }
+
+  .svd-sliders input[type="range"] {
+    width: min(100%, 180px);
+    flex: 1 1 140px;
+  }
+
+  .svd-ratio-pill {
+    white-space: normal;
+  }
+}
 </style>

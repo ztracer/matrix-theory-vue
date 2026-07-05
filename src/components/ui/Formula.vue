@@ -20,6 +20,9 @@ defineProps({
   border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow-x: auto;
+  overflow-y: visible;
+  max-width: 100%;
+  min-width: 0;
 }
 .formula-box.inline {
   display: inline-block;
@@ -29,6 +32,24 @@ defineProps({
 }
 .formula-content {
   font-size: 16px;
+  max-width: 100%;
 }
 :deep(.katex-display) { margin: 0; }
+
+@media (max-width: 600px) {
+  .formula-box {
+    margin: 12px 0;
+    padding: 12px;
+    border-radius: 10px;
+  }
+  .formula-box.inline {
+    max-width: 100%;
+    padding: 1px 4px;
+    margin: 0 2px;
+    vertical-align: baseline;
+  }
+  .formula-content {
+    font-size: 15px;
+  }
+}
 </style>

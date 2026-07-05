@@ -24,6 +24,8 @@ defineProps({
   padding: 32px;
   margin-bottom: 24px;
   border: 1px solid var(--color-border);
+  min-width: 0;
+  max-width: 100%;
 }
 .section-title {
   font-size: 24px;
@@ -35,6 +37,8 @@ defineProps({
   align-items: center;
   gap: 12px;
   font-weight: 700;
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
 }
 .section-num {
   display: inline-flex;
@@ -47,7 +51,14 @@ defineProps({
   font-size: 14px;
   font-weight: 700;
 }
-.section-body { font-size: 15px; line-height: 1.75; color: var(--color-secondary); }
+.section-body {
+  min-width: 0;
+  max-width: 100%;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--color-secondary);
+  overflow-wrap: break-word;
+}
 .section-body :deep(p) { margin: 0 0 12px; }
 .section-body :deep(ul), .section-body :deep(ol) { padding-left: 24px; margin: 12px 0; }
 .section-body :deep(li) { margin: 6px 0; }
@@ -57,6 +68,15 @@ defineProps({
   font-weight: 700;
 }
 @media (max-width: 600px) {
-  .section-card { padding: 20px; }
+  .section-card { padding: 16px; border-radius: 12px; }
+  .section-title {
+    font-size: 20px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .section-num {
+    min-width: 28px;
+    height: 28px;
+  }
 }
 </style>

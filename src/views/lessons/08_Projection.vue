@@ -1138,9 +1138,11 @@ h3 { color: #7c3aed; }
   display: flex;
   gap: 16px;
   margin: 18px 0;
+  min-width: 0;
 }
 .cp-card {
   flex: 1;
+  min-width: 0;
   padding: 16px 18px;
   border-radius: 12px;
   border: 1.5px solid #e2e8f0;
@@ -1158,6 +1160,7 @@ h3 { color: #7c3aed; }
 .proj3d-stage {
   width: min(100%, 920px);
   margin: 0 auto;
+  min-width: 0;
 }
 .proj3d-viewport {
   position: relative;
@@ -1190,6 +1193,7 @@ h3 { color: #7c3aed; }
   color: #475569;
   font-size: 13px;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  min-width: 0;
 }
 .proj3d-legend span {
   display: inline-flex;
@@ -1254,5 +1258,37 @@ h3 { color: #7c3aed; }
 :deep(.proj3d-lbl-m) { color: #be123c; font-size: 11px; }
 :deep(.proj3d-lbl-axis) {
   background: transparent; color: #94a3b8; box-shadow: none; font-size: 14px;
+}
+
+@media (max-width: 760px) {
+  .compare-project {
+    flex-direction: column;
+  }
+
+  .cp-card {
+    padding: 14px;
+  }
+
+  .proj3d-viewport {
+    height: 380px;
+  }
+
+  .proj3d-legend {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
+    padding: 12px;
+  }
+
+  .proj3d-legend strong,
+  .proj3d-legend em,
+  .proj3d-mode-control {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+
+  .proj3d-mode-control,
+  .proj3d-select {
+    max-width: 100%;
+  }
 }
 </style>

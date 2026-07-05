@@ -23,6 +23,8 @@ defineProps({
   background: var(--color-card);
   border-radius: 12px;
   border: 1px solid var(--color-border);
+  min-width: 0;
+  max-width: 100%;
 }
 .steps-title {
   margin: 0 0 12px;
@@ -35,6 +37,7 @@ defineProps({
   display: flex;
   gap: 12px;
   align-items: flex-start;
+  min-width: 0;
 }
 .step-num {
   min-width: 26px; height: 26px;
@@ -43,6 +46,26 @@ defineProps({
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 13px; flex-shrink: 0;
 }
-.step-text { font-size: 14px; color: var(--color-secondary); line-height: 1.6; padding-top: 2px; overflow-x: auto; }
+.step-text {
+  min-width: 0;
+  max-width: 100%;
+  font-size: 14px;
+  color: var(--color-secondary);
+  line-height: 1.6;
+  padding-top: 2px;
+  overflow-x: auto;
+  overflow-y: visible;
+  overflow-wrap: break-word;
+}
 .step-text :deep(.formula-inline) { white-space: nowrap; }
+
+@media (max-width: 600px) {
+  .steps-box {
+    padding: 14px;
+    border-radius: 10px;
+  }
+  .step-item {
+    gap: 10px;
+  }
+}
 </style>

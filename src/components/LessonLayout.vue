@@ -243,7 +243,13 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.lesson-page { min-height: 100vh; background: var(--color-background); padding-bottom: 40px; color: var(--color-foreground); }
+.lesson-page {
+  min-height: 100vh;
+  background: var(--color-background);
+  padding-bottom: 40px;
+  color: var(--color-foreground);
+  overflow-x: clip;
+}
 
 .lesson-nav {
   position: sticky; top: 0; z-index: 100;
@@ -252,9 +258,11 @@ onUnmounted(() => {
   backdrop-filter: blur(12px);
 }
 .nav-inner {
+  width: 100%;
   max-width: 1200px; margin: 0 auto;
   display: flex; align-items: center; gap: 24px;
   padding: 14px 24px;
+  min-width: 0;
 }
 
 .nav-brand {
@@ -265,11 +273,12 @@ onUnmounted(() => {
 .nav-brand span {
   max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.nav-links { display: flex; gap: 12px; margin-left: auto; flex-wrap: wrap; }
+.nav-links { display: flex; gap: 12px; margin-left: auto; flex-wrap: wrap; min-width: 0; }
 .nav-link {
   color: var(--color-secondary); text-decoration: none;
   padding: 7px 12px; border-radius: 8px; font-size: 14px;
   transition: background .18s ease, color .18s ease;
+  overflow-wrap: anywhere;
 }
 .nav-link:hover { background: var(--color-muted); color: var(--color-primary); }
 
@@ -317,11 +326,15 @@ onUnmounted(() => {
 .lesson-content-wrap {
   display: grid;
   grid-template-columns: 1fr;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  min-width: 0;
 }
 
 .lesson-toc {
+  width: calc(100% - 48px);
+  min-width: 0;
   background: var(--color-card);
   border: 1px solid var(--color-border);
   border-radius: 12px;
@@ -400,9 +413,7 @@ onUnmounted(() => {
   }
 }
 
-.lesson-footer {
-  margin-top: 60px; padding: 24px;
-}
+.lesson-footer { margin-top: 60px; padding: 24px; }
 .footer-nav {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -414,6 +425,7 @@ onUnmounted(() => {
   background: var(--color-card); border: 1px solid var(--color-border); border-radius: 12px;
   text-decoration: none; color: var(--color-foreground);
   transition: transform .18s ease, border-color .18s ease;
+  min-width: 0;
 }
 .footer-card:hover {
   transform: translateY(-1px);
@@ -426,13 +438,61 @@ onUnmounted(() => {
   display: block; font-size: 12px; color: var(--color-muted-foreground);
   margin-bottom: 4px;
 }
-.footer-title { font-weight: 700; font-size: 15px; }
+.footer-title { font-weight: 700; font-size: 15px; overflow-wrap: anywhere; }
 
 @media (max-width: 768px) {
-  .nav-inner { flex-wrap: wrap; gap: 8px; padding: 10px 16px; }
+  .nav-inner { flex-wrap: wrap; gap: 8px; padding: 10px 14px; }
+  .nav-brand { min-width: 0; flex: 1 1 auto; }
+  .nav-brand span:last-child { max-width: min(260px, 58vw); }
   .nav-links { margin-left: 0; width: 100%; }
-  .nav-link { font-size: 12px; min-height: 44px; padding: 10px 16px; }
+  .nav-link {
+    flex: 1 1 min(100%, 160px);
+    font-size: 12px;
+    min-height: 44px;
+    padding: 10px 12px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .theme-toggle {
+    min-width: 44px;
+    min-height: 44px;
+    margin-left: 0;
+    padding: 8px 10px;
+  }
+  .lesson-header { padding: 40px 14px 28px; }
+  .lesson-header h1 { font-size: clamp(26px, 8vw, 34px); overflow-wrap: anywhere; }
+  .lesson-main {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 24px 14px;
+  }
+  .lesson-content-wrap {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+  .lesson-toc {
+    width: auto;
+    max-width: calc(100% - 28px);
+    margin: 0 14px 24px;
+  }
+  .toc-toggle {
+    min-height: 44px;
+    padding: 12px 14px;
+  }
+  .toc-item {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+  }
+  .lesson-footer {
+    margin-top: 32px;
+    padding: 18px 14px;
+  }
   .footer-nav { grid-template-columns: 1fr; }
+  .footer-card { padding: 16px; }
   .footer-card.prev, .footer-card.next, .footer-card.home { text-align: center; }
 }
 </style>

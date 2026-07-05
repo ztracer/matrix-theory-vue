@@ -906,6 +906,7 @@ h3 { color: #7c3aed; }
   color: var(--color-secondary);
   font-size: 13px;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  min-width: 0;
 }
 .ls3d-legend span {
   display: inline-flex;
@@ -941,6 +942,8 @@ h3 { color: #7c3aed; }
   }
   .ls3d-legend {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
+    padding: 12px;
   }
   .ls3d-legend strong {
     grid-column: 1 / -1;

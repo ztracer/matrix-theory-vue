@@ -9,7 +9,7 @@
       </p>
 
       <Theorem title="线性空间八条公理" type="definition" icon="📐">
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px 20px; font-size:14px;">
+        <div class="axiom-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:8px 20px; font-size:14px;">
           <div><strong>加法：</strong></div><div></div>
           <div>(A1) 交换律：<span class="formula-inline">\alpha+\beta=\beta+\alpha</span></div>
           <div>(A2) 结合律：<span class="formula-inline">(\alpha+\beta)+\gamma=\alpha+(\beta+\gamma)</span></div>
@@ -513,7 +513,7 @@ title="秩-零度定理：空间被压扁，零空间接住消失的维度" mode
       </Theorem>
 
       <h3 style="font-size:16px; color:#059669; margin:16px 0 6px 0;">三、总结：秩的终极奥义</h3>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div class="rank-summary-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
         <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:14px;">
           <p style="margin:0; font-weight:600; color:#0369a1;">🔢 在代数上</p>
           <p style="margin:6px 0 0 0; color:#475569; font-size:14px;">秩是斩断废话后，真正说了算、能绑架未知数的<strong>独立判官的个数</strong>。</p>
@@ -1161,6 +1161,7 @@ onUnmounted(() => {
 .lesson1-board {
   width: 100%;
   max-width: 760px;
+  height: auto;
   background: #fbfdff;
 }
 
@@ -1195,5 +1196,25 @@ onUnmounted(() => {
 }
 .rank-geo-table tr:last-child {
   border-bottom: none;
+}
+
+@media (max-width: 760px) {
+  .axiom-grid,
+  .rank-summary-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .lesson1-board {
+    max-width: 100%;
+  }
+
+  .rank-geo-box {
+    padding: 12px;
+  }
+
+  .rank-geo-table {
+    display: block;
+    overflow-x: auto;
+  }
 }
 </style>

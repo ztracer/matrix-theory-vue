@@ -669,7 +669,7 @@ h3 { color: var(--color-primary); }
 
 .template-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
   gap: 16px;
 }
 .template-card {
@@ -749,7 +749,7 @@ h3 { color: var(--color-primary); }
 
 .trick-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
   gap: 14px;
 }
 .trick-card {

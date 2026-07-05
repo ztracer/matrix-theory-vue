@@ -48,6 +48,8 @@ defineEmits(['play', 'pause', 'reset', 'step'])
   border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
 }
 .anim-box.auto-mode {
   border-color: var(--color-border);
@@ -93,7 +95,10 @@ defineEmits(['play', 'pause', 'reset', 'step'])
   justify-content: center;
   align-items: center;
   background: var(--color-card);
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto; /* 允许SVG/Canvas横向滚动 */
+  overflow-y: visible;
 }
 .anim-canvas-wrap :deep(svg), .anim-canvas-wrap :deep(canvas) {
   max-width: 100%;
@@ -119,6 +124,28 @@ defineEmits(['play', 'pause', 'reset', 'step'])
 }
 
 @media (max-width: 768px) {
+  .anim-header {
+    padding: 12px;
+  }
+  .anim-title {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .anim-controls {
+    width: 100%;
+  }
   .ctrl-btn { min-height: 44px; padding: 10px 16px; }
+  .anim-canvas-wrap {
+    padding: 12px;
+    justify-content: flex-start;
+  }
+  .anim-canvas-wrap :deep(svg),
+  .anim-canvas-wrap :deep(canvas) {
+    max-width: 100%;
+  }
+  .anim-desc {
+    padding: 10px 12px;
+    text-align: left;
+  }
 }
 </style>

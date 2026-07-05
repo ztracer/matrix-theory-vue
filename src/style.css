@@ -170,6 +170,57 @@ p, li, td, th {
 /* SVG 响应式 */
 svg { max-width: 100%; height: auto; }
 
+/* Lesson content should shrink to the viewport; oversized math/media scroll inside itself. */
+.lesson-main,
+.lesson-main *,
+.section-card,
+.section-body,
+.theorem-box,
+.example-box,
+.anim-box,
+.formula-box {
+  min-width: 0;
+}
+
+.lesson-main img,
+.lesson-main svg,
+.lesson-main canvas,
+.lesson-main video,
+.lesson-main iframe {
+  max-width: 100%;
+}
+
+.lesson-main svg,
+.lesson-main canvas {
+  height: auto;
+}
+
+.lesson-main table {
+  max-width: 100%;
+}
+
+.lesson-main pre,
+.lesson-main code {
+  max-width: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.lesson-main pre {
+  overflow-x: auto;
+}
+
+.lesson-main .katex-display,
+.lesson-main .formula-block,
+.lesson-main .formula-box,
+.lesson-main .theorem-body,
+.lesson-main .example-problem,
+.lesson-main .solution-content,
+.lesson-main .step-text {
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Skip to main */
 .skip-to-main {
   position: absolute;
@@ -203,6 +254,38 @@ html {
 @media (max-width: 768px) {
   .container { padding: 0 16px; }
   .katex { font-size: 0.95em; }
+  .formula-block {
+    margin: 10px 0;
+    padding: 10px 12px;
+    text-align: left;
+  }
+  .formula-box {
+    padding: 12px;
+  }
+  .lesson-main table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .lesson-main th,
+  .lesson-main td {
+    min-width: 0;
+  }
+  .lesson-main input[type="range"],
+  .lesson-main select {
+    max-width: 100%;
+  }
+  .lesson-main select {
+    min-height: 44px;
+    padding: 8px 10px;
+  }
+  .lesson-main input[type="range"] {
+    min-height: 44px;
+  }
+  .lesson-main label {
+    min-height: 44px;
+  }
   .nav-link, .kg-filter, .quiz-toggle, .ctrl-btn, .btn {
     min-height: 44px;
     padding: 10px 16px;

@@ -536,4 +536,16 @@ onUnmounted(() => {
 h3 { color: #7c3aed; }
 .responsive-svg { max-width: 100%; height: auto; display: block; }
 :deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
+
+@media (max-width: 760px) {
+  label {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  select,
+  input[type="range"] {
+    max-width: 100%;
+  }
+}
 </style>

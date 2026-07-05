@@ -348,13 +348,14 @@ onUnmounted(() => {
 
 <style scoped>
 .key-point {
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
+  background: var(--color-info-surface);
+  border: 1px solid var(--color-info-border);
   border-radius: 8px;
   padding: 14px 18px;
   margin: 16px 0;
+  color: var(--color-secondary);
 }
-.key-point strong { color: #1e40af; }
+.key-point strong { color: var(--color-info-text); }
 .key-point ul { margin: 8px 0 0 0; padding-left: 20px; }
 .key-point li { margin: 4px 0; }
 .flow-diagram {
@@ -365,30 +366,39 @@ onUnmounted(() => {
   padding: 12px;
 }
 .flow-node {
-  background: #f1f5f9;
-  border: 2px solid #cbd5e1;
+  background: var(--color-surface-inset);
+  border: 2px solid var(--color-border);
   border-radius: 10px;
   padding: 10px 20px;
   font-size: 14px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--color-secondary);
   transition: all 0.5s ease;
   max-width: 480px;
   text-align: center;
 }
 .flow-node.active {
-  background: #dbeafe;
-  border-color: #3b82f6;
-  color: #1e40af;
-  box-shadow: 0 0 12px rgba(59,130,246,0.4);
+  background: var(--color-info-surface);
+  border-color: var(--color-accent);
+  color: var(--color-info-text);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 34%, transparent);
   transform: scale(1.03);
 }
 .flow-arrow {
   font-size: 20px;
-  color: #cbd5e1;
+  color: var(--color-border);
   transition: color 0.5s;
 }
-.flow-arrow.active { color: #3b82f6; }
+.flow-arrow.active { color: var(--color-accent); }
+
+:deep(.info-panel) {
+  fill: var(--color-info-surface);
+  stroke: var(--color-info-border);
+}
+
+:deep(.info-text) {
+  fill: var(--color-info-text);
+}
 /* 插值条件动画 */
 .curve-p {
   animation: drawCurve 10s ease-in-out infinite;

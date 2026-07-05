@@ -423,10 +423,21 @@ html {
   scroll-padding-top: 80px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   html {
     scroll-padding-top: 64px;
   }
+  .lesson-main .formula-inline {
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    vertical-align: middle;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 768px) {
   .container { padding: 0 16px; }
   .katex { font-size: 0.95em; }
   .formula-block {

@@ -440,7 +440,7 @@ onUnmounted(() => {
 }
 .footer-title { font-weight: 700; font-size: 15px; overflow-wrap: anywhere; }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .lesson-nav {
     min-height: 59px;
   }
@@ -504,6 +504,18 @@ onUnmounted(() => {
   .lesson-header {
     display: none;
   }
+  .lesson-content-wrap,
+  .lesson-main {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .lesson-main {
+    padding: 24px 24px 40px;
+  }
+}
+
+@media (max-width: 768px) {
   .lesson-main {
     width: 100%;
     max-width: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <div ref="rootEl" class="quiz-card">
+  <div class="quiz-card">
     <div class="quiz-header">
       <span class="quiz-badge">{{ badge || '📝 题目' }}</span>
       <span v-if="quiz.source" class="quiz-source">{{ quiz.source }}</span>
@@ -7,11 +7,11 @@
     </div>
     <div class="quiz-problem">
       <strong>【题目】</strong>
-      <span class="formula-inline">{{ quiz.problem || quiz.question }}</span>
+      <RichMath :text="quiz.problem || quiz.question" />
       <div v-if="quiz.options" class="quiz-options">
         <div v-for="(opt, idx) in quiz.options" :key="idx" class="quiz-option" :class="{ correct: show && idx === quiz.answer }">
           <span class="option-label">{{ String.fromCharCode(65 + idx) }}.</span>
-          <span class="formula-inline">{{ opt }}</span>
+          <RichMath :text="opt" />
         </div>
       </div>
     </div>
@@ -24,9 +24,9 @@
         <div v-for="(step, i) in quiz.steps" :key="i" class="solution-step">
           <div class="step-num-circle">{{ i + 1 }}</div>
           <div class="step-body">
-            <div class="step-title"><span class="formula-inline">{{ step.title }}</span></div>
+            <div class="step-title"><RichMath :text="step.title" /></div>
             <div class="step-content">
-              <span class="formula-inline">{{ step.content }}</span>
+              <RichMath :text="step.content" />
             </div>
           </div>
         </div>
@@ -35,7 +35,7 @@
           <div class="step-body">
             <div class="step-title">解答</div>
             <div class="step-content">
-              <span class="formula-inline">{{ quiz.explanation }}</span>
+              <RichMath :text="quiz.explanation" />
             </div>
           </div>
         </div>
@@ -45,8 +45,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
-import { renderMathInElement } from '@/composables/useKatex.js'
+import { ref } from 'vue'
+import RichMath from '@/components/ui/RichMath.vue'
 
 const props = defineProps({
   quiz: { type: Object, required: true },
@@ -55,15 +55,6 @@ const props = defineProps({
 })
 
 const show = ref(props.defaultOpen)
-const rootEl = ref(null)
-
-onMounted(() => {
-  renderMathInElement(rootEl.value)
-})
-
-watch(show, () => {
-  renderMathInElement(rootEl.value)
-})
 </script>
 
 <style scoped>
@@ -93,7 +84,12 @@ watch(show, () => {
   font-size: 15px; line-height: 1.75; color: var(--color-secondary);
   overflow-x: auto;
 }
-.quiz-problem strong { color: var(--color-foreground); margin-right: 6px; }
+.quiz-problem strong {
+  color: var(--color-foreground);
+  display: inline-block;
+  margin-right: 6px;
+  white-space: nowrap;
+}
 .quiz-options {
   display: flex;
   flex-direction: column;

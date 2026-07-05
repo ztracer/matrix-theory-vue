@@ -1,5 +1,5 @@
 <template>
-  <LessonLayout lesson-id="12" title="课后作业" subtitle="Homework Assignments — All Chapters">
+  <LessonLayout :lesson-id="12" title="课后作业" subtitle="Homework Assignments — All Chapters">
     <div class="homework-overview">
       <p>共 {{ totalCount }} 道课后作业，覆盖第1-10章。</p>
     </div>

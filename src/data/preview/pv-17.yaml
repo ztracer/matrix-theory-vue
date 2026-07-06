@@ -1,0 +1,68 @@
+id: "pv-17"
+source: "考前预测题·第7讲补充"
+lesson: 7
+knowledge:
+  - 广义逆
+  - "{1}-逆"
+  - 矩阵方程
+  - 可解条件
+  - 通解
+problem: |
+  设 A=\begin{pmatrix}1&0\\0&0\end{pmatrix}。
+
+  (1) 求 A 的两个不同的 {1}-逆 A^{-}，即满足 AA^{-}A=A；
+  (2) 说明 {1}-逆一般不唯一；
+  (3) 对矩阵方程 AXB=D，写出用广义逆表示的可解条件与通解公式；
+  (4) 令 B=\begin{pmatrix}1&0\\0&0\end{pmatrix},D=\begin{pmatrix}2&0\\0&0\end{pmatrix}，求 AXB=D 的通解。
+steps:
+  - title: "(1) 构造两个 {1}-逆"
+    content: |
+      设 X=\begin{pmatrix}a&b\\c&d\end{pmatrix}。则
+      AXA=\begin{pmatrix}1&0\\0&0\end{pmatrix}
+      \begin{pmatrix}a&b\\c&d\end{pmatrix}
+      \begin{pmatrix}1&0\\0&0\end{pmatrix}
+      =\begin{pmatrix}a&0\\0&0\end{pmatrix}。
+
+      要使 AXA=A，只需 a=1，b,c,d 任意。
+
+      因此
+      X_1=\begin{pmatrix}1&0\\0&0\end{pmatrix},\quad
+      X_2=\begin{pmatrix}1&2\\3&4\end{pmatrix}
+      都是 A 的 {1}-逆。
+
+  - title: "(2) 不唯一性"
+    content: |
+      由第 (1) 步可见，满足 AA^{-}A=A 的矩阵形如
+      A^{-}=\begin{pmatrix}1&b\\c&d\end{pmatrix}，其中 b,c,d 可任意取值。
+
+      因而 {1}-逆只要求满足第一 Penrose 方程，并没有强制对称性或最小范数性质，所以一般不唯一。
+
+  - title: "(3) AXB=D 的条件与通解"
+    content: |
+      设 A^{-},B^{-} 分别为 A,B 的任意 {1}-逆。
+
+      矩阵方程 AXB=D 可解的充要条件为
+      AA^{-}DB^{-}B=D。
+
+      当可解时，一个特解为 X_0=A^{-}DB^{-}。
+
+      通解可写为
+      X=A^{-}DB^{-}+Y-A^{-}AYBB^{-}，
+      其中 Y 为任意同型矩阵。
+
+      代回可验证：A(Y-A^{-}AYBB^{-})B=AYB-AA^{-}AYBB^{-}B=AYB-AYB=0。
+
+  - title: "(4) 具体求解"
+    content: |
+      本题 A=B=\begin{pmatrix}1&0\\0&0\end{pmatrix}，可取 A^{-}=B^{-}=A。
+
+      可解条件：
+      AA^{-}DB^{-}B=AD A=\begin{pmatrix}1&0\\0&0\end{pmatrix}
+      \begin{pmatrix}2&0\\0&0\end{pmatrix}
+      \begin{pmatrix}1&0\\0&0\end{pmatrix}=D，故可解。
+
+      设 X=\begin{pmatrix}x_{11}&x_{12}\\x_{21}&x_{22}\end{pmatrix}，则
+      AXB=\begin{pmatrix}x_{11}&0\\0&0\end{pmatrix}=D。
+
+      故 x_{11}=2，其余元素任意。通解为
+      X=\begin{pmatrix}2&s\\t&u\end{pmatrix},\quad s,t,u\in\mathbb{R}。

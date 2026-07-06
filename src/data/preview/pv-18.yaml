@@ -1,0 +1,72 @@
+id: "pv-18"
+source: "考前预测题·第8讲补充"
+lesson: 8
+knowledge:
+  - 斜投影
+  - 投影矩阵
+  - Moore-Penrose逆
+  - 正交投影
+  - 广义逆应用
+problem: |
+  (1) 给出沿子空间 M 到子空间 L 的斜投影 P_{L,M} 的定义与判定条件；
+  (2) 证明对任意矩阵 A，P=AA^+ 是到 \operatorname{col}(A) 的正交投影，I-P 是到 \mathcal{N}(A^T) 的正交投影；
+  (3) 对 A=\begin{pmatrix}1\\1\end{pmatrix}，计算 P=AA^+ 并验证 (I-P)A=0；
+  (4) 构造一个非正交的斜投影矩阵并验证它是投影。
+steps:
+  - title: "(1) 斜投影定义"
+    content: |
+      若 V=L\oplus M，则任意 x\in V 可唯一写成 x=l+m，其中 l\in L,m\in M。
+
+      定义 P_{L,M}x=l，称为沿 M 到 L 的斜投影。
+
+      其矩阵判定条件为
+      P^2=P,\quad \mathcal{R}(P)=L,\quad \mathcal{N}(P)=M。
+
+      若进一步 M=L^{\perp}，则投影为正交投影；否则一般是斜投影，矩阵通常不对称。
+
+  - title: "(2) 证明 P=AA^+ 为正交投影"
+    content: |
+      Moore-Penrose 逆满足 Penrose 方程：
+      AA^+A=A，且 (AA^+)^T=AA^+。
+
+      令 P=AA^+。则
+      P^2=AA^+AA^+=A(A^+AA^+)=AA^+=P，
+      且 P^T=P。
+
+      因此 P 是一个对称幂等矩阵，即正交投影矩阵。
+
+      又对任意 y\in\operatorname{col}(A)，存在 x 使 y=Ax，于是
+      Py=AA^+Ax=Ax=y，说明 \operatorname{col}(A) 中向量被保持不变。
+      所以 P 投影到 \operatorname{col}(A)。
+
+      因正交补关系 \operatorname{col}(A)^{\perp}=\mathcal{N}(A^T)，I-P 就是到 \mathcal{N}(A^T) 的正交投影。
+
+  - title: "(3) 具体计算"
+    content: |
+      A=\begin{pmatrix}1\\1\end{pmatrix} 为列满秩矩阵，
+      A^+=(A^TA)^{-1}A^T=\frac12\begin{pmatrix}1&1\end{pmatrix}。
+
+      所以
+      P=AA^+=\begin{pmatrix}1\\1\end{pmatrix}\frac12\begin{pmatrix}1&1\end{pmatrix}
+      =\frac12\begin{pmatrix}1&1\\1&1\end{pmatrix}。
+
+      可验证 P^2=P,P^T=P。
+
+      并且
+      (I-P)A=\left[\begin{pmatrix}1&0\\0&1\end{pmatrix}-\frac12\begin{pmatrix}1&1\\1&1\end{pmatrix}\right]
+      \begin{pmatrix}1\\1\end{pmatrix}=0。
+
+  - title: "(4) 非正交斜投影例子"
+    content: |
+      取
+      P=\begin{pmatrix}1&-1\\0&0\end{pmatrix}。
+
+      计算
+      P^2=\begin{pmatrix}1&-1\\0&0\end{pmatrix}\begin{pmatrix}1&-1\\0&0\end{pmatrix}
+      =\begin{pmatrix}1&-1\\0&0\end{pmatrix}=P。
+
+      因此 P 是投影矩阵。
+
+      其值域为 \operatorname{span}\{(1,0)^T\}，零空间由 x-y=0 给出，即 \operatorname{span}\{(1,1)^T\}。
+
+      但 P^T=\begin{pmatrix}1&0\\-1&0\end{pmatrix}\neq P，所以它不是正交投影，而是沿 \operatorname{span}\{(1,1)^T\} 到 x 轴的斜投影。

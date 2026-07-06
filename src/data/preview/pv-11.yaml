@@ -1,0 +1,67 @@
+id: "pv-11"
+source: "考前预测题·第1讲补充"
+lesson: 1
+knowledge:
+  - 直和分解
+  - 线性无关
+  - 坐标表示
+  - 子空间判定
+problem: |
+  在 V=\mathbb{R}^3 中，设
+  W_1=\operatorname{span}\{(1,0,1)^T,(0,1,1)^T\},\quad W_2=\operatorname{span}\{(1,1,0)^T\}。
+
+  (1) 证明 W_1,W_2 都是 \mathbb{R}^3 的子空间；
+  (2) 判断 \mathbb{R}^3=W_1\oplus W_2 是否成立；
+  (3) 将 v=(3,2,5)^T 唯一分解为 v=w_1+w_2，其中 w_1\in W_1,w_2\in W_2；
+  (4) 判断向量组 \alpha_1=(1,0,1)^T,\alpha_2=(0,1,1)^T,\alpha_3=(1,1,0)^T 是否线性无关，并求 v 在基 B=(\alpha_1,\alpha_2,\alpha_3) 下的坐标。
+steps:
+  - title: "(1) 子空间判定"
+    content: |
+      由定义，W_1 是两个向量的所有线性组合构成的集合，W_2 是一个向量的所有线性组合构成的集合。
+
+      任意向量组的张成空间 \operatorname{span}\{\cdots\} 都含零向量，并且对加法与数乘封闭，因此 W_1,W_2 都是 \mathbb{R}^3 的子空间。
+
+  - title: "(2) 判断是否为直和"
+    content: |
+      记 \alpha_1=(1,0,1)^T,\alpha_2=(0,1,1)^T,\alpha_3=(1,1,0)^T。若 c_1\alpha_1+c_2\alpha_2+c_3\alpha_3=0，则
+      \begin{cases}
+      c_1+c_3=0\\
+      c_2+c_3=0\\
+      c_1+c_2=0
+      \end{cases}
+      由前两式 c_1=c_2=-c_3，代入第三式得 -2c_3=0，故 c_3=0，进而 c_1=c_2=0。
+
+      所以 \alpha_1,\alpha_2,\alpha_3 线性无关，且三个向量在 \mathbb{R}^3 中构成一组基。
+
+      因此 \dim W_1=2,\dim W_2=1，且 W_1\cap W_2=\{0\}。于是
+      \mathbb{R}^3=W_1+W_2,
+      且和为直和：\mathbb{R}^3=W_1\oplus W_2。
+
+  - title: "(3) 求唯一分解"
+    content: |
+      设
+      v=a\alpha_1+b\alpha_2+c\alpha_3
+      =a(1,0,1)^T+b(0,1,1)^T+c(1,1,0)^T。
+
+      与 v=(3,2,5)^T 比较坐标：
+      \begin{cases}
+      a+c=3\\
+      b+c=2\\
+      a+b=5
+      \end{cases}
+      由 a=3-c,b=2-c，代入 a+b=5 得 5-2c=5，故 c=0，a=3,b=2。
+
+      因而
+      w_1=3\alpha_1+2\alpha_2=(3,2,5)^T,\quad w_2=0\cdot\alpha_3=0。
+
+      直和分解决定了这种分解是唯一的。
+
+  - title: "(4) 线性无关与坐标"
+    content: |
+      第 (2) 步已经证明 \alpha_1,\alpha_2,\alpha_3 线性无关，因此 B=(\alpha_1,\alpha_2,\alpha_3) 是 \mathbb{R}^3 的一组基。
+
+      第 (3) 步得到
+      v=3\alpha_1+2\alpha_2+0\alpha_3。
+
+      所以 v 在基 B 下的坐标为
+      [v]_B=\begin{pmatrix}3\\2\\0\end{pmatrix}。

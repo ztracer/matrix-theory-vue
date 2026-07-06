@@ -1,0 +1,68 @@
+id: "pv-16"
+source: "考前预测题·第6讲补充"
+lesson: 6
+knowledge:
+  - SVD
+  - 奇异值
+  - SVD几何意义
+  - 矩阵2范数
+  - 截断SVD
+problem: |
+  设 A=\begin{pmatrix}3&1\\1&3\end{pmatrix}。
+
+  (1) 求 A 的奇异值分解 A=U\Sigma V^T；
+  (2) 解释 A 对单位圆的几何作用；
+  (3) 证明 \|A\|_2=\sigma_{\max}(A)；
+  (4) 求 A 的秩 1 与秩 2 截断 SVD 逼近，并计算 Frobenius 误差。
+steps:
+  - title: "(1) SVD 计算"
+    content: |
+      A 是实对称矩阵，且可正交对角化。求特征值：
+      \det(A-\lambda I)=(3-\lambda)^2-1=0，得 \lambda_1=4,\lambda_2=2。
+
+      对应单位特征向量可取
+      v_1=\frac1{\sqrt2}(1,1)^T,
+      v_2=\frac1{\sqrt2}(1,-1)^T。
+
+      因 A 正定，奇异值就是特征值：\sigma_1=4,\sigma_2=2。
+
+      可取 U=V=\frac1{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}，
+      \Sigma=\begin{pmatrix}4&0\\0&2\end{pmatrix}。
+      因此 A=U\Sigma V^T。
+
+  - title: "(2) 几何解释"
+    content: |
+      SVD 表示
+      A=U\Sigma V^T。
+
+      先由 V^T 对平面旋转或反射，把标准坐标轴转到右奇异向量方向；再由 \Sigma 沿两个主轴分别拉伸 4 倍和 2 倍；最后由 U 再旋转或反射到输出方向。
+
+      因本题 U=V，单位圆在 A 作用下变为一个椭圆，其半轴方向为 \frac1{\sqrt2}(1,1)^T 与 \frac1{\sqrt2}(1,-1)^T，半轴长度分别为 4 和 2。
+
+  - title: '(3) 证明 \|A\|_2=\sigma_{\max}'
+    content: |
+      对任意 x\neq0，令 y=V^Tx。由于 V 正交，\|y\|_2=\|x\|_2。
+
+      有
+      \|Ax\|_2=\|U\Sigma V^Tx\|_2=\|\Sigma y\|_2，
+      因为 U 不改变 2-范数。
+
+      若 \Sigma=\operatorname{diag}(\sigma_1,\dots,\sigma_r)，且 \sigma_1\geq\sigma_2\geq\cdots，则
+      \|\Sigma y\|_2^2=\sum_i\sigma_i^2y_i^2\leq\sigma_1^2\sum_i y_i^2=\sigma_1^2\|y\|_2^2。
+
+      因而 \|Ax\|_2/\|x\|_2\leq\sigma_1。取 y=e_1，即 x=Ve_1 时等号成立。
+      所以 \|A\|_2=\sigma_1=\sigma_{\max}(A)。
+
+  - title: "(4) 截断 SVD 与误差"
+    content: |
+      秩 1 最佳逼近为
+      A_1=\sigma_1u_1v_1^T=4\cdot\frac1{\sqrt2}\begin{pmatrix}1\\1\end{pmatrix}\frac1{\sqrt2}(1,1)
+      =2\begin{pmatrix}1&1\\1&1\end{pmatrix}。
+
+      Frobenius 误差：
+      \|A-A_1\|_F=\sqrt{\sigma_2^2}=2。
+
+      秩 2 逼近为 A_2=A，误差
+      \|A-A_2\|_F=0。
+
+      这体现 Eckart-Young 定理：截断 SVD 是 Frobenius 范数下的最佳低秩逼近。

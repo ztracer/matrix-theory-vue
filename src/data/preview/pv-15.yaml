@@ -1,0 +1,69 @@
+id: "pv-15"
+source: "考前预测题·第5讲补充"
+lesson: 5
+knowledge:
+  - Cholesky分解
+  - 对称正定矩阵
+  - Givens旋转
+  - QR分解
+problem: |
+  设 A=\begin{pmatrix}4&2\\2&3\end{pmatrix}。
+
+  (1) 验证 A 为对称正定矩阵，并求 Cholesky 分解 A=LL^T；
+  (2) 说明对称正定矩阵 Cholesky 分解存在且唯一的理由；
+  (3) 对向量 x=(3,4)^T 构造 Givens 旋转 G，使 Gx=(5,0)^T；
+  (4) 用 Givens 旋转求 M=\begin{pmatrix}3&1\\4&3\end{pmatrix} 的 QR 分解。
+steps:
+  - title: "(1) Cholesky 分解"
+    content: |
+      A 对称。检查顺序主子式：
+      \Delta_1=4>0，\Delta_2=\det A=4\cdot3-2\cdot2=8>0。
+      因此 A 正定。
+
+      设
+      L=\begin{pmatrix}l_{11}&0\\l_{21}&l_{22}\end{pmatrix},\quad
+      LL^T=\begin{pmatrix}l_{11}^2&l_{11}l_{21}\\l_{11}l_{21}&l_{21}^2+l_{22}^2\end{pmatrix}。
+
+      比较元素：l_{11}^2=4，取 l_{11}=2；2l_{21}=2，故 l_{21}=1；
+      1+l_{22}^2=3，故 l_{22}=\sqrt2。
+
+      所以
+      A=LL^T,
+      L=\begin{pmatrix}2&0\\1&\sqrt2\end{pmatrix}。
+
+  - title: "(2) 存在唯一性说明"
+    content: |
+      对称正定矩阵的所有顺序主子式均为正，消元过程中不会出现零主元，并且每一步主元为正。
+
+      Cholesky 分解相当于保持对称结构的 Gauss 消元。若规定 L 的对角元均为正，则每一步
+      l_{kk}=\sqrt{a_{kk}^{(k)}}
+      的正平方根唯一，非对角元素也随之唯一。
+
+      因此正定矩阵存在唯一的 Cholesky 分解 A=LL^T，其中 L 为对角元正的下三角矩阵。
+
+  - title: "(3) 构造 Givens 旋转"
+    content: |
+      对 x=(3,4)^T，令 r=\sqrt{3^2+4^2}=5。
+      取
+      c=\frac{3}{5},\quad s=\frac{4}{5},\quad
+      G=\begin{pmatrix}c&s\\-s&c\end{pmatrix}
+      =\begin{pmatrix}\frac35&\frac45\\-\frac45&\frac35\end{pmatrix}。
+
+      则
+      Gx=\begin{pmatrix}\frac35&\frac45\\-\frac45&\frac35\end{pmatrix}\begin{pmatrix}3\\4\end{pmatrix}
+      =\begin{pmatrix}5\\0\end{pmatrix}。
+
+      G 是正交矩阵，满足 G^TG=I。
+
+  - title: "(4) Givens QR 分解"
+    content: |
+      M 的第一列为 (3,4)^T，使用第 (3) 步的 G：
+      R=GM=\begin{pmatrix}\frac35&\frac45\\-\frac45&\frac35\end{pmatrix}
+      \begin{pmatrix}3&1\\4&3\end{pmatrix}
+      =\begin{pmatrix}5&3\\0&1\end{pmatrix}。
+
+      因 G 正交，M=G^TR。故
+      Q=G^T=\begin{pmatrix}\frac35&-\frac45\\\frac45&\frac35\end{pmatrix},\quad
+      R=\begin{pmatrix}5&3\\0&1\end{pmatrix}。
+
+      验证：QR=M，且 Q^TQ=I，R 为上三角矩阵。

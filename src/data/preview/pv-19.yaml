@@ -1,0 +1,71 @@
+id: "pv-19"
+source: "考前预测题·第9讲补充"
+lesson: 9
+knowledge:
+  - 加权最小二乘
+  - 正规方程
+  - 条件数
+  - 向量范数
+  - 范数不等式
+problem: |
+  (1) 对加权最小二乘问题 \min_x (b-Ax)^TW(b-Ax)，其中 W 为正定对角矩阵，推导加权正规方程；
+  (2) 对 A=\begin{pmatrix}1\\1\end{pmatrix}, b=\begin{pmatrix}1\\3\end{pmatrix}, W=\begin{pmatrix}1&0\\0&4\end{pmatrix}，求最优 x；
+  (3) 定义 \kappa(A)=\|A\|\cdot\|A^{-1}\|，计算 C=\begin{pmatrix}2&0\\0&1\end{pmatrix} 的 \kappa_2(C)，并解释病态；
+  (4) 证明对任意 x\in\mathbb{R}^n，\|x\|_\infty\leq\|x\|_2\leq\sqrt n\|x\|_\infty。
+steps:
+  - title: "(1) 加权正规方程"
+    content: |
+      目标函数
+      f(x)=(b-Ax)^TW(b-Ax)。
+
+      展开：
+      f(x)=b^TWb-2x^TA^TWb+x^TA^TWAx。
+
+      对 x 求梯度并令其为零：
+      \nabla f(x)=-2A^TWb+2A^TWAx=0。
+
+      因此加权正规方程为
+      A^TWA\hat{x}=A^TWb。
+
+      当 A^TWA 可逆时，\hat{x}=(A^TWA)^{-1}A^TWb。
+
+  - title: "(2) 具体加权最小二乘"
+    content: |
+      本题 A=\begin{pmatrix}1\\1\end{pmatrix}，未知量 x 为标量。
+
+      计算：
+      A^TWA=\begin{pmatrix}1&1\end{pmatrix}\begin{pmatrix}1&0\\0&4\end{pmatrix}\begin{pmatrix}1\\1\end{pmatrix}=1+4=5。
+
+      A^TWb=\begin{pmatrix}1&1\end{pmatrix}\begin{pmatrix}1&0\\0&4\end{pmatrix}\begin{pmatrix}1\\3\end{pmatrix}=1+12=13。
+
+      故
+      \hat{x}=\frac{13}{5}。
+
+      由于第二个观测值权重更大，结果 \frac{13}{5}=2.6 更接近 3，而不是普通平均值 2。
+
+  - title: "(3) 条件数计算与解释"
+    content: |
+      C=\begin{pmatrix}2&0\\0&1\end{pmatrix} 的奇异值为 2 和 1。
+
+      因此
+      \|C\|_2=2，\quad \|C^{-1}\|_2=\left\|\begin{pmatrix}\frac12&0\\0&1\end{pmatrix}\right\|_2=1。
+
+      所以
+      \kappa_2(C)=\|C\|_2\|C^{-1}\|_2=2。
+
+      条件数描述输入误差可能被放大的倍数。\kappa(A) 越大，问题越病态；若 \kappa(A) 接近 1，则数值稳定性较好。本题 \kappa_2(C)=2，不算严重病态。
+
+  - title: "(4) 向量范数不等式"
+    content: |
+      设 \|x\|_\infty=\max_i |x_i|。
+
+      首先，存在某个 j 使 |x_j|=\|x\|_\infty，因此
+      \|x\|_2=\sqrt{\sum_{i=1}^n x_i^2}\geq\sqrt{x_j^2}=|x_j|=\|x\|_\infty。
+
+      其次，对每个 i，都有 |x_i|\leq\|x\|_\infty，故
+      \|x\|_2^2=\sum_{i=1}^n x_i^2\leq\sum_{i=1}^n\|x\|_\infty^2=n\|x\|_\infty^2。
+
+      两边开方得到
+      \|x\|_2\leq\sqrt n\|x\|_\infty。
+
+      综上，\|x\|_\infty\leq\|x\|_2\leq\sqrt n\|x\|_\infty。

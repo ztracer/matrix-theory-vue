@@ -1,0 +1,65 @@
+id: "pv-12"
+source: "考前预测题·第2讲补充"
+lesson: 2
+knowledge:
+  - 线性变换
+  - 变换合成
+  - 逆变换
+  - 相似矩阵
+  - 特征多项式
+problem: |
+  在 \mathbb{R}^2 中定义线性变换
+  S(x,y)=(2x+y,x+y),\quad T(x,y)=(x-y,y)。
+
+  (1) 求 S,T 在标准基下的矩阵 A,B；
+  (2) 计算 ST,TS 对应的矩阵，并求 S^{-1}；
+  (3) 证明若 C=P^{-1}AP，则 \operatorname{tr}(C)=\operatorname{tr}(A),\det(C)=\det(A)；
+  (4) 进一步证明 A 与 C 有相同的特征多项式。
+steps:
+  - title: "(1) 标准基下的矩阵"
+    content: |
+      对 S：
+      S(e_1)=S(1,0)=(2,1)^T,
+      S(e_2)=S(0,1)=(1,1)^T，故
+      A=\begin{pmatrix}2&1\\1&1\end{pmatrix}。
+
+      对 T：
+      T(e_1)=(1,0)^T,
+      T(e_2)=(-1,1)^T，故
+      B=\begin{pmatrix}1&-1\\0&1\end{pmatrix}。
+
+  - title: "(2) 合成与逆变换"
+    content: |
+      注意 ST 表示先 T 后 S，其矩阵为 AB：
+      AB=\begin{pmatrix}2&1\\1&1\end{pmatrix}\begin{pmatrix}1&-1\\0&1\end{pmatrix}
+      =\begin{pmatrix}2&-1\\1&0\end{pmatrix}。
+
+      TS 表示先 S 后 T，其矩阵为 BA：
+      BA=\begin{pmatrix}1&-1\\0&1\end{pmatrix}\begin{pmatrix}2&1\\1&1\end{pmatrix}
+      =\begin{pmatrix}1&0\\1&1\end{pmatrix}。
+
+      一般 AB\neq BA，所以线性变换合成通常不可交换。
+
+      \det A=2\cdot1-1\cdot1=1\neq0，故 S 可逆，
+      A^{-1}=\begin{pmatrix}1&-1\\-1&2\end{pmatrix}。
+      因此 S^{-1}(u,v)=(u-v,-u+2v)。
+
+  - title: "(3) 相似矩阵的迹与行列式"
+    content: |
+      设 C=P^{-1}AP，其中 P 可逆。
+
+      行列式：
+      \det C=\det(P^{-1}AP)=\det(P^{-1})\det(A)\det(P)=\frac{1}{\det P}\det(A)\det P=\det(A)。
+
+      迹使用性质 \operatorname{tr}(XY)=\operatorname{tr}(YX)：
+      \operatorname{tr}(C)=\operatorname{tr}(P^{-1}AP)=\operatorname{tr}(APP^{-1})=\operatorname{tr}(A)。
+
+  - title: "(4) 特征多项式相同"
+    content: |
+      C=P^{-1}AP，则
+      \lambda I-C=\lambda I-P^{-1}AP=P^{-1}(\lambda I-A)P。
+
+      因此
+      \det(\lambda I-C)=\det(P^{-1})\det(\lambda I-A)\det(P)=\det(\lambda I-A)。
+
+      所以相似矩阵具有相同的特征多项式，从而有相同的特征值（含代数重数）。

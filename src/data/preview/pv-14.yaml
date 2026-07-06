@@ -1,0 +1,63 @@
+id: "pv-14"
+source: "考前预测题·第4讲补充"
+lesson: 4
+knowledge:
+  - 矩阵函数
+  - 矩阵三角函数
+  - 矩阵指数
+  - 稳定性
+  - 相图分析
+problem: |
+  设 A=\begin{pmatrix}0&-1\\1&0\end{pmatrix}。
+
+  (1) 利用级数定义计算 \cos(At) 与 \sin(At)；
+  (2) 证明 e^{At}=\cos t\,I+\sin t\,A；
+  (3) 对系统 x'=Ax 判断原点平衡点类型；
+  (4) 对 B=\begin{pmatrix}2&0\\0&-1\end{pmatrix}，判断 y'=By 的原点稳定性与相图类型。
+steps:
+  - title: "(1) 计算矩阵三角函数"
+    content: |
+      先观察
+      A^2=\begin{pmatrix}0&-1\\1&0\end{pmatrix}^2=-I。
+      因此 A^{2k}=(-1)^kI，A^{2k+1}=(-1)^kA。
+
+      由定义
+      \cos(At)=\sum_{k=0}^{\infty}\frac{(-1)^k(At)^{2k}}{(2k)!}
+      =\sum_{k=0}^{\infty}\frac{(-1)^k(-1)^k t^{2k}}{(2k)!}I
+      =\cosh t\,I。
+
+      同理
+      \sin(At)=\sum_{k=0}^{\infty}\frac{(-1)^k(At)^{2k+1}}{(2k+1)!}
+      =\sum_{k=0}^{\infty}\frac{t^{2k+1}}{(2k+1)!}A=\sinh t\,A。
+
+      注意：这里是矩阵函数 \cos(At),\sin(At)，与 e^{At} 中出现的标量 \cos t,\sin t 不同。
+
+  - title: "(2) 计算矩阵指数"
+    content: |
+      由矩阵指数级数：
+      e^{At}=\sum_{k=0}^{\infty}\frac{(At)^k}{k!}
+      =\sum_{k=0}^{\infty}\frac{A^{2k}t^{2k}}{(2k)!}+\sum_{k=0}^{\infty}\frac{A^{2k+1}t^{2k+1}}{(2k+1)!}。
+
+      代入 A^{2k}=(-1)^kI,A^{2k+1}=(-1)^kA：
+      e^{At}=\left(\sum_{k=0}^{\infty}\frac{(-1)^k t^{2k}}{(2k)!}\right)I+
+      \left(\sum_{k=0}^{\infty}\frac{(-1)^k t^{2k+1}}{(2k+1)!}\right)A。
+
+      因此
+      e^{At}=\cos t\,I+\sin t\,A
+      =\begin{pmatrix}\cos t&-\sin t\\\sin t&\cos t\end{pmatrix}。
+
+  - title: "(3) x'=Ax 的稳定性"
+    content: |
+      A 的特征值满足 \lambda^2+1=0，故 \lambda=\pm i。
+
+      解为 x(t)=e^{At}x(0)，即绕原点匀速旋转，轨线是圆。
+
+      因特征值纯虚且无实部，原点是\textbf{中心}。它是 Lyapunov 稳定的，但不是渐近稳定的：解不会发散，也不会趋于 0。
+
+  - title: "(4) y'=By 的相图类型"
+    content: |
+      B=\begin{pmatrix}2&0\\0&-1\end{pmatrix} 的特征值为 2 和 -1。
+
+      一个正特征值、一个负特征值，因此原点是\textbf{鞍点}。
+
+      沿 y_1 方向解按 e^{2t} 增长，沿 y_2 方向解按 e^{-t} 衰减。由于存在增长方向，原点不稳定。

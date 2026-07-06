@@ -1,0 +1,79 @@
+id: "pv-20"
+source: "考前预测题·第10讲补充"
+lesson: 10
+knowledge:
+  - Courant-Fischer
+  - Rayleigh商
+  - 对角占优
+  - Gershgorin
+  - 可逆性
+problem: |
+  (1) 叙述 Courant-Fischer 极小极大定理，并用它证明对实对称矩阵 A，有 \lambda_{\min}\leq R(x)\leq\lambda_{\max}；
+  (2) 证明严格行对角占优矩阵可逆；
+  (3) 对 M=\begin{pmatrix}4&1&1\\1&5&1\\1&1&6\end{pmatrix}，用 Gershgorin 定理验证其可逆；
+  (4) 对 H=\begin{pmatrix}3&1\\1&2\end{pmatrix}，不用直接求特征值，利用 Rayleigh 商给出特征值范围。
+steps:
+  - title: "(1) Courant-Fischer 与 Rayleigh 商"
+    content: |
+      设 A 为 n 阶实对称矩阵，特征值按
+      \lambda_1\leq\lambda_2\leq\cdots\leq\lambda_n
+      排列。
+
+      Courant-Fischer 定理可写为
+      \lambda_k=\min_{\dim S=k}\max_{0\neq x\in S}R(x)
+      =\max_{\dim S=n-k+1}\min_{0\neq x\in S}R(x)，
+      其中 R(x)=\frac{x^TAx}{x^Tx}。
+
+      特别地，
+      \lambda_1=\min_{x\neq0}R(x),\quad \lambda_n=\max_{x\neq0}R(x)。
+
+      因而对任意 x\neq0，必有
+      \lambda_{\min}=\lambda_1\leq R(x)\leq\lambda_n=\lambda_{\max}。
+
+  - title: "(2) 严格对角占优推出可逆"
+    content: |
+      若 A=(a_{ij}) 严格行对角占优，即
+      |a_{ii}|>\sum_{j\neq i}|a_{ij}|=R_i，quad i=1,\dots,n。
+
+      第 i 个 Gershgorin 圆盘为
+      |z-a_{ii}|\leq R_i。
+
+      因 |a_{ii}|>R_i，原点 z=0 不在任何一个圆盘中。
+
+      Gershgorin 定理说明 A 的所有特征值都在这些圆盘的并集中，因此 0 不是 A 的特征值。
+
+      所以 \det A\neq0，A 可逆。
+
+  - title: "(3) 具体矩阵的可逆性"
+    content: |
+      对
+      M=\begin{pmatrix}4&1&1\\1&5&1\\1&1&6\end{pmatrix}，行圆盘为：
+      D_1:|z-4|\leq2，区间 [2,6]；
+      D_2:|z-5|\leq2，区间 [3,7]；
+      D_3:|z-6|\leq2，区间 [4,8]。
+
+      三个圆盘都不包含 0。因此 0 不可能是 M 的特征值。
+
+      故 \det M\neq0，M 可逆。
+
+      同时 M 为实对称矩阵，特征值均为实数，并且由圆盘估计可知所有特征值位于 [2,8]。
+
+  - title: "(4) Rayleigh 商给出范围"
+    content: |
+      H=\begin{pmatrix}3&1\\1&2\end{pmatrix} 为实对称矩阵。
+
+      对任意 x=(x_1,x_2)^T\neq0，
+      R(x)=\frac{3x_1^2+2x_1x_2+2x_2^2}{x_1^2+x_2^2}。
+
+      用不等式 2|x_1x_2|\leq x_1^2+x_2^2：
+      x^THx=3x_1^2+2x_1x_2+2x_2^2
+      \leq3x_1^2+|2x_1x_2|+2x_2^2
+      \leq3x_1^2+x_1^2+x_2^2+2x_2^2
+      \leq4(x_1^2+x_2^2)。
+
+      同理
+      x^THx\geq3x_1^2-|2x_1x_2|+2x_2^2
+      \geq3x_1^2-(x_1^2+x_2^2)+2x_2^2
+      =2x_1^2+x_2^2\geq x_1^2+x_2^2。
+
+      因此 1\leq R(x)\leq4。由 Courant-Fischer 定理，H 的两个特征值都落在 [1,4]，且 H 正定。

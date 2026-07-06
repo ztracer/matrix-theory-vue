@@ -14,6 +14,7 @@
 | 交互动画 | 35+ 个（含 3D 可拖拽场景） |
 | 真题例题 | 34 道（含详细解答） |
 | 课后作业 | 62 道（教材习题精解） |
+| 考前预测 | 20 道（期末模拟预测题） |
 
 ## 设计系统
 
@@ -48,6 +49,7 @@
 - **暗色模式**：手动切换 + 跟随系统偏好，localStorage 持久化
 - **真题例题详解**：34 道历年真题，独立汇总页按知识点分类检索
 - **课后作业**：62 道教材习题精解，按章节分组、知识点标签
+- **考前预测**：20 道期末考模拟预测题，每讲 2 道，覆盖计算题与证明题，含完整解答步骤
 - **YAML 数据存储**：新增内容只需添加 YAML 文件，无需改代码
 - **响应式设计**：桌面端 + 移动端，`clamp()` 流式排版 + 44px 触控底线
 - **可访问性**：`prefers-reduced-motion`、skip-to-main、focus-visible、aria-expanded
@@ -88,6 +90,7 @@
 |------|------|------|
 | 课后作业 | `/homework` | 62 道教材习题精解，按章节分组 |
 | 真题汇总 | `/exam` | 34 道历年真题，按知识点分类检索 |
+| 考前预测 | `/preview` | 20 道期末考预测题，每讲 2 道，覆盖全部知识点 |
 
 ## 项目结构
 
@@ -122,6 +125,7 @@ matrix-theory-vue/
 │   ├── data/                      # 数据层（YAML）
 │   │   ├── quizzes/               # 34 个 YAML (真题)
 │   │   ├── homework/              # 62 个 YAML (课后作业)
+│   │   ├── preview/               # 20 个 YAML (考前预测)
 │   │   ├── knowledgeGraph.js      # 首页知识图谱节点与依赖边
 │   │   ├── quizBank.js            # 真题聚合器
 │   │   └── homeworkBank.js        # 课后作业聚合器
@@ -131,6 +135,7 @@ matrix-theory-vue/
 │   │   ├── Home.vue               # 首页
 │   │   ├── ExamBank.vue           # 真题汇总页
 │   │   ├── Week4Homework.vue      # 课后作业页
+│   │   ├── PreviewBank.vue        # 考前预测页
 │   │   ├── NotFound.vue           # 404 兜底页
 │   │   └── lessons/               # 11 个课程页面
 │   │       ├── 01_LinearSpace.vue

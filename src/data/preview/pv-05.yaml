@@ -1,0 +1,90 @@
+id: "pv-05"
+source: "考前预测题·第5讲"
+lesson: 5
+knowledge:
+  - LU分解
+  - Gauss消元
+  - QR分解
+  - Gram-Schmidt正交化
+  - Householder反射
+problem: |
+  设 A=\begin{pmatrix}2&1&1\\4&3&3\\8&7&9\end{pmatrix}
+
+  (1) 求 A 的 LU 分解 A=LU（不进行行交换）；
+  (2) 用 Gram-Schmidt 正交化方法求 A 的 QR 分解 A=QR；
+  (3) 对 A 的第一列 a_1，构造 Householder 反射矩阵 H_1 使得 H_1a_1=\|a_1\|_2e_1，并写出 H_1。
+steps:
+  - title: "(1) LU 分解"
+    content: |
+      A=\begin{pmatrix}2&1&1\\4&3&3\\8&7&9\end{pmatrix}
+
+      消去第 2,3 行第一列：
+      第 2 行减去 2 倍第 1 行，乘子 l_{21}=2
+      第 3 行减去 4 倍第 1 行，乘子 l_{31}=4
+
+      得 \begin{pmatrix}2&1&1\\0&1&1\\0&3&5\end{pmatrix}
+
+      消去第 3 行第二列：
+      第 3 行减去 3 倍第 2 行，乘子 l_{32}=3
+
+      得 U=\begin{pmatrix}2&1&1\\0&1&1\\0&0&2\end{pmatrix}
+
+      L=\begin{pmatrix}1&0&0\\2&1&0\\4&3&1\end{pmatrix}
+
+      验证：LU=\begin{pmatrix}1&0&0\\2&1&0\\4&3&1\end{pmatrix}\begin{pmatrix}2&1&1\\0&1&1\\0&0&2\end{pmatrix}
+      =\begin{pmatrix}2&1&1\\4&3&3\\8&7&9\end{pmatrix}=A\ \checkmark
+
+  - title: "(2) Gram-Schmidt QR 分解"
+    content: |
+      A 的列向量：a_1=(2,4,8)^T,\;a_2=(1,3,7)^T,\;a_3=(1,3,9)^T
+
+      \textbf{正交化：}
+      q_1=\frac{a_1}{\|a_1\|}=\frac{(2,4,8)^T}{\sqrt{4+16+64}}=\frac{(2,4,8)^T}{\sqrt{84}}=\left(\frac{2}{\sqrt{84}},\frac{4}{\sqrt{84}},\frac{8}{\sqrt{84}}\right)^T
+
+      更简洁地，\sqrt{84}=2\sqrt{21}。
+
+      投影：
+      r_{12}=q_1^T a_2=\frac{2\cdot1+4\cdot3+8\cdot7}{\sqrt{84}}=\frac{2+12+56}{\sqrt{84}}=\frac{70}{\sqrt{84}}
+      a_2^\perp=a_2-r_{12}q_1=(1,3,7)^T-\frac{70}{84}(2,4,8)^T
+      =(1,3,7)^T-\left(\frac{5}{3},\frac{10}{3},\frac{20}{3}\right)^T
+      =\left(-\frac{2}{3},-\frac{1}{3},\frac{1}{3}\right)^T
+
+      r_{22}=\|a_2^\perp\|=\sqrt{\frac{4}{9}+\frac{1}{9}+\frac{1}{9}}=\sqrt{\frac{6}{9}}=\frac{\sqrt{6}}{3}
+      q_2=\frac{a_2^\perp}{r_{22}}=\frac{3}{\sqrt{6}}\left(-\frac{2}{3},-\frac{1}{3},\frac{1}{3}\right)^T=\frac{1}{\sqrt{6}}(-2,-1,1)^T
+
+      进一步计算：
+      r_{13}=q_1^T a_3=\frac{2\cdot1+4\cdot3+8\cdot9}{\sqrt{84}}=\frac{2+12+72}{\sqrt{84}}=\frac{86}{\sqrt{84}}
+
+      r_{23}=q_2^T a_3=\frac{1}{\sqrt{6}}(-2,-1,1)\cdot(1,3,9)^T=\frac{1}{\sqrt{6}}(-2-3+9)=\frac{4}{\sqrt{6}}
+
+      a_3^\perp=a_3-r_{13}q_1-r_{23}q_2
+      =(1,3,9)^T-\frac{86}{84}(2,4,8)^T-\frac{4}{\sqrt{6}}\cdot\frac{1}{\sqrt{6}}(-2,-1,1)^T
+      =(1,3,9)^T-\left(\frac{43}{21},\frac{86}{21},\frac{172}{21}\right)^T-\frac{4}{6}(-2,-1,1)^T
+      =\left(-\frac{22}{21},-\frac{23}{21},\frac{12}{21}\right)^T-\left(-\frac{4}{3},-\frac{2}{3},\frac{2}{3}\right)^T
+      =\left(\frac{6}{21},-\frac{9}{21},-\frac{2}{21}\right)^T
+
+      r_{33}=\|a_3^\perp\|=\sqrt{\frac{36+81+4}{441}}=\sqrt{\frac{121}{441}}=\frac{11}{21}
+      q_3=\frac{a_3^\perp}{r_{33}}=\frac{21}{11}\cdot\frac{1}{21}(6,-9,-2)^T=\frac{1}{11}(6,-9,-2)^T
+
+      最终 QR 分解：
+      Q=\begin{pmatrix}\frac{2}{\sqrt{84}}&-\frac{2}{\sqrt{6}}&\frac{6}{11}\\[2mm]\frac{4}{\sqrt{84}}&-\frac{1}{\sqrt{6}}&-\frac{9}{11}\\[2mm]\frac{8}{\sqrt{84}}&\frac{1}{\sqrt{6}}&-\frac{2}{11}\end{pmatrix},\quad
+      R=\begin{pmatrix}\sqrt{84}&\frac{70}{\sqrt{84}}&\frac{86}{\sqrt{84}}\\0&\frac{\sqrt{6}}{3}&\frac{4}{\sqrt{6}}\\0&0&\frac{11}{21}\end{pmatrix}
+
+      验证：Q^TQ=I（正交），R 为上三角且对角线元 r_{11},r_{22},r_{33}>0。
+
+  - title: "(3) Householder 反射"
+    content: |
+      a_1=(2,4,8)^T，\|a_1\|=\sqrt{84}=2\sqrt{21}
+
+      构造反射向量 v=a_1-\|a_1\|e_1=(2-2\sqrt{21},\;4,\;8)^T
+
+      H_1=I-\frac{2vv^T}{v^Tv}
+
+      其中 v^Tv=(2-2\sqrt{21})^2+16+64=84-8\sqrt{21}+4\cdot21+80=84-8\sqrt{21}+84+80=248-8\sqrt{21}
+      =8(31-\sqrt{21})。
+
+      vv^T=\begin{pmatrix}(2-2\sqrt{21})^2&(2-2\sqrt{21})\cdot4&(2-2\sqrt{21})\cdot8\\4(2-2\sqrt{21})&16&32\\8(2-2\sqrt{21})&32&64\end{pmatrix}
+
+      代入 H_1=I-\frac{2vv^T}{v^Tv} 可得 3×3 矩阵。验证：H_1a_1=\|a_1\|e_1=(2\sqrt{21},0,0)^T。
+
+      H_1 是对称正交矩阵，满足 H_1^2=I（对合），且 \det(H_1)=-1。

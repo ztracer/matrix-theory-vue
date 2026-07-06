@@ -1,0 +1,61 @@
+id: "pv-02"
+source: "考前预测题·第2讲"
+lesson: 2
+knowledge:
+  - 线性变换
+  - 矩阵表示
+  - 换基公式
+  - 核与像
+  - 秩-零化度定理
+problem: |
+  定义变换 T:\mathbb{R}^3\to\mathbb{R}^3 如下：
+  T(x_1,x_2,x_3)=(x_1+2x_2,\;2x_1+3x_3,\;x_2+x_3)
+
+  (1) 求 T 在标准基 e_1=(1,0,0)^T,e_2=(0,1,0)^T,e_3=(0,0,1)^T 下的矩阵表示 A；
+  (2) 求 \ker(T) 的一组基和 \dim(\ker(T))，求 \operatorname{Im}(T) 的一组基和 \dim(\operatorname{Im}(T))，验证秩-零化度定理；
+  (3) 对另一组基 \beta_1=(1,1,0)^T,\;\beta_2=(0,1,1)^T,\;\beta_3=(1,0,1)^T，求 T 在基 \{\beta_1,\beta_2,\beta_3\} 下的矩阵 B，并验证 B=P^{-1}AP，其中 P 为换基矩阵。
+steps:
+  - title: "(1) 标准基下矩阵 A"
+    content: |
+      计算 T 在各标准基向量上的像：
+      T(e_1)=T(1,0,0)=(1,2,0)^T
+      T(e_2)=T(0,1,0)=(2,0,1)^T
+      T(e_3)=T(0,0,1)=(0,3,1)^T
+
+      故 A=[T(e_1),T(e_2),T(e_3)]=\begin{pmatrix}1&2&0\\2&0&3\\0&1&1\end{pmatrix}。
+
+  - title: "(2) ker(T) 的基与维数"
+    content: |
+      解 Ax=0：
+
+      \begin{pmatrix}1&2&0\\2&0&3\\0&1&1\end{pmatrix}\xrightarrow{R_2-2R_1}\begin{pmatrix}1&2&0\\0&-4&3\\0&1&1\end{pmatrix}
+      \xrightarrow{R_3+\frac{1}{4}R_2}\begin{pmatrix}1&2&0\\0&-4&3\\0&0&\frac{7}{4}\end{pmatrix}
+
+      r(A)=3，故 \dim(\ker(T))=0，\ker(T)=\{0\}。
+      \ker(T) 无基底（零空间仅含零向量）。维数为 0。
+
+  - title: "(2) Im(T) 的基与维数"
+    content: |
+      由 A 的列向量张成 \operatorname{Im}(T)。r(A)=3，故三列线性无关，即为 \operatorname{Im}(T) 的一组基：
+      \operatorname{Im}(T)=\mathbb{R}^3，一组基为 \{(1,2,0)^T,(2,0,1)^T,(0,3,1)^T\}。
+
+      \dim(\operatorname{Im}(T))=3。
+
+      秩-零化度定理：\dim(\ker(T))+\dim(\operatorname{Im}(T))=0+3=3=\dim(\mathbb{R}^3)\ \checkmark
+
+  - title: "(3) 换基与矩阵 B"
+    content: |
+      换基矩阵 P=[\beta_1,\beta_2,\beta_3]=\begin{pmatrix}1&0&1\\1&1&0\\0&1&1\end{pmatrix}。
+
+      计算 B=P^{-1}AP。先求 P^{-1}：
+      \det(P)=1\cdot(1\cdot1-0\cdot1)-0+1\cdot(1\cdot1-1\cdot0)=1+1=2
+
+      P^{-1}=\frac{1}{2}\begin{pmatrix}1&1&-1\\-1&1&1\\1&-1&1\end{pmatrix}
+
+      则 B=P^{-1}AP=P^{-1}\begin{pmatrix}1&2&0\\2&0&3\\0&1&1\end{pmatrix}\begin{pmatrix}1&0&1\\1&1&0\\0&1&1\end{pmatrix}
+
+      先求 AP=\begin{pmatrix}3&2&1\\2&3&5\\1&2&1\end{pmatrix}，再求 B=P^{-1}(AP)
+      =\frac{1}{2}\begin{pmatrix}1&1&-1\\-1&1&1\\1&-1&1\end{pmatrix}\begin{pmatrix}3&2&1\\2&3&5\\1&2&1\end{pmatrix}
+      =\frac{1}{2}\begin{pmatrix}4&3&5\\0&3&5\\2&1&-3\end{pmatrix}=\begin{pmatrix}2&\frac{3}{2}&\frac{5}{2}\\0&\frac{3}{2}&\frac{5}{2}\\1&\frac{1}{2}&-\frac{3}{2}\end{pmatrix}
+
+      直接验证：在基 \{\beta_i\} 下计算 T(\beta_i)，组合系数构成 B 的各列，应与上式一致。

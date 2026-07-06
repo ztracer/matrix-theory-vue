@@ -1,0 +1,80 @@
+id: "pv-09"
+source: "考前预测题·第9讲"
+lesson: 9
+knowledge:
+  - 最小二乘
+  - 正规方程
+  - 残差正交
+  - 范数公理
+  - 矩阵范数
+problem: |
+  (1) 对于超定方程组 \begin{cases}x_1+x_2=2\\x_1-x_2=0\\x_1=1\end{cases}，写出矩阵形式 Ax=b，用正规方程法求其最小二乘解 \hat{x}；
+
+  (2) 计算残差向量 r=b-A\hat{x}，验证 r\perp\operatorname{col}(A)（残差与 A 的列空间正交）；
+
+  (3)（证明）证明：对于任意相容的矩阵范数 \|\cdot\|，谱半径 \rho(A)\leq\|A\|；
+
+  (4) 计算矩阵 A=\begin{pmatrix}1&2\\3&4\end{pmatrix} 的下列范数：\|A\|_1,\;\|A\|_\infty,\;\|A\|_F。
+steps:
+  - title: "(1) 正规方程求解"
+    content: |
+      写出矩阵形式：
+      A=\begin{pmatrix}1&1\\1&-1\\1&0\end{pmatrix},\quad b=\begin{pmatrix}2\\0\\1\end{pmatrix}
+
+      正规方程：A^TA\hat{x}=A^Tb
+
+      A^TA=\begin{pmatrix}1&1&1\\1&-1&0\end{pmatrix}\begin{pmatrix}1&1\\1&-1\\1&0\end{pmatrix}
+      =\begin{pmatrix}3&0\\0&2\end{pmatrix}
+
+      A^Tb=\begin{pmatrix}1&1&1\\1&-1&0\end{pmatrix}\begin{pmatrix}2\\0\\1\end{pmatrix}
+      =\begin{pmatrix}3\\2\end{pmatrix}
+
+      解：
+      \hat{x}=(A^TA)^{-1}A^Tb=\begin{pmatrix}\frac{1}{3}&0\\0&\frac{1}{2}\end{pmatrix}\begin{pmatrix}3\\2\end{pmatrix}
+      =\begin{pmatrix}1\\1\end{pmatrix}
+
+      所以最小二乘解为 x_1=1,\;x_2=1。
+
+  - title: "(2) 残差与正交性"
+    content: |
+      残差：
+      r=b-A\hat{x}=\begin{pmatrix}2\\0\\1\end{pmatrix}-\begin{pmatrix}1&1\\1&-1\\1&0\end{pmatrix}\begin{pmatrix}1\\1\end{pmatrix}
+      =\begin{pmatrix}2\\0\\1\end{pmatrix}-\begin{pmatrix}2\\0\\1\end{pmatrix}=\begin{pmatrix}0\\0\\0\end{pmatrix}
+
+      r=0（精确解！原方程组恰有精确解 x_1=x_2=1）。
+
+      此时 r\perp\operatorname{col}(A) 显然成立（零向量与任何空间正交）。
+
+      若 r\neq0（如修改 b 使无精确解），则可验证 r^TA=0，即 r 与 A 的每一列正交，
+      这正是正规方程的几何意义：残差垂直于数据空间。
+
+  - title: "(3) 证明谱半径不大于矩阵范数"
+    content: |
+      设 \lambda 为 A 的任意特征值，x\neq0 为对应的特征向量：Ax=\lambda x。
+
+      由矩阵范数与向量范数的相容性：\|Ax\|\leq\|A\|\cdot\|x\|。
+
+      左端 \|Ax\|=\|\lambda x\|=|\lambda|\cdot\|x\|。
+
+      故 |\lambda|\cdot\|x\|\leq\|A\|\cdot\|x\|。除以 \|x\|>0 得 |\lambda|\leq\|A\|。
+
+      由 \lambda 的任意性，\rho(A)=\max|\lambda_i|\leq\|A\|。
+
+      \textbf{证毕。}
+
+  - title: "(4) 三种范数计算"
+    content: |
+      A=\begin{pmatrix}1&2\\3&4\end{pmatrix}
+
+      \textbf{列和范数（1-范数）：}
+      \|A\|_1=\max_j\sum_{i}|a_{ij}|=\max\{|1|+|3|,\;|2|+|4|\}=\max\{4,6\}=6
+
+      \textbf{行和范数（∞-范数）：}
+      \|A\|_\infty=\max_i\sum_{j}|a_{ij}|=\max\{|1|+|2|,\;|3|+|4|\}=\max\{3,7\}=7
+
+      \textbf{Frobenius 范数：}
+      \|A\|_F=\sqrt{\sum_{i,j}|a_{ij}|^2}=\sqrt{1^2+2^2+3^2+4^2}=\sqrt{1+4+9+16}=\sqrt{30}
+
+      注：\|A\|_2=\sigma_{\max}(A)，即为最大的奇异值。对于该矩阵，A^TA=\begin{pmatrix}10&14\\14&20\end{pmatrix}，
+      其特征值约为 0.13 和 29.87，故 \|A\|_2\approx\sqrt{29.87}\approx5.47。
+      可验证 \rho(A)\leq\|A\|_2\leq\|A\|_1,\|A\|_\infty,\|A\|_F。

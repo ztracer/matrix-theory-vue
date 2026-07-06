@@ -253,6 +253,23 @@
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
+            <router-link to="/preview" class="card w4 reveal" :style="{ '--i': 2 }">
+              <div class="card-num">🔮</div>
+              <div class="card-top">
+                <div class="card-icon">🔮</div>
+              </div>
+              <div class="card-title">考前预测</div>
+              <div class="card-en">Exam Prediction</div>
+              <div class="card-desc">10 道期末考预测题，覆盖全部知识点，含计算题与证明题完整解答。</div>
+              <div class="card-tags">
+                <span class="tag">考点预测</span>
+                <span class="tag">综合模拟</span>
+              </div>
+              <div class="card-footer">
+                <span class="card-anim">📝 10 道预测题</span>
+                <span class="card-arrow">→</span>
+              </div>
+            </router-link>
           </div>
         </div>
       </div>

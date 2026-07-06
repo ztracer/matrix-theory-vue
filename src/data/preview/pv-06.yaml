@@ -1,0 +1,77 @@
+id: "pv-06"
+source: "考前预测题·第5-6讲综合"
+lesson: 6
+knowledge:
+  - Householder反射
+  - 正交矩阵
+  - SVD
+  - 奇异值
+  - 低秩逼近
+problem: |
+  (1)（证明）设 H=I-\dfrac{2uu^T}{u^Tu} 为 Householder 矩阵（其中 u\neq 0）。证明：
+  \quad ① H^T=H（对称）；② H^TH=I（正交）；③ H^2=I（对合）；④ \det(H)=-1。
+
+  (2)（计算）设 A=\begin{pmatrix}1&0&0\\2&0&0\end{pmatrix}，求 A 的奇异值分解 A=U\Sigma V^T，并利用 SVD 求 A 的秩-1 最佳逼近 \hat{A}，计算逼近误差 \|A-\hat{A}\|_F。
+steps:
+  - title: "(1)① 对称性"
+    content: |
+      uu^T 是秩-1 对称矩阵，(uu^T)^T=uu^T。
+      故 H^T=I^T-\frac{2(uu^T)^T}{u^Tu}=I-\frac{2uu^T}{u^Tu}=H。即 H 是对称的。
+
+  - title: "(1)② 正交性"
+    content: |
+      由于 H^T=H，只需证 H^2=I：
+      H^2=\left(I-\frac{2uu^T}{u^Tu}\right)\left(I-\frac{2uu^T}{u^Tu}\right)
+      =I-\frac{4uu^T}{u^Tu}+\frac{4(uu^T)(uu^T)}{(u^Tu)^2}
+
+      注意 u^Tu 是标量，uu^T\cdot uu^T=u(u^Tu)u^T=(u^Tu)uu^T。
+      故 H^2=I-\frac{4uu^T}{u^Tu}+\frac{4(u^Tu)uu^T}{(u^Tu)^2}=I-\frac{4uu^T}{u^Tu}+\frac{4uu^T}{u^Tu}=I
+
+      因此 H^TH=H^2=I，H 为正交矩阵。
+
+  - title: "(1)③④ 对合与行列式"
+    content: |
+      由②已得 H^2=I（对合）。
+
+      对合 + 对称 ⇒ H 的特征值只能是 1 或 -1。又因 H\neq I（u\neq0），且 Hu=-u，故至少有一个特征值 -1。
+      其余 n-1 个特征值为 1（与 u 正交的子空间上 H 恒等）。故 \det(H)=(-1)\cdot 1^{n-1}=-1。
+
+  - title: "(2) SVD 分解"
+    content: |
+      A=\begin{pmatrix}1&0&0\\2&0&0\end{pmatrix}，先求 A^TA：
+
+      A^TA=\begin{pmatrix}1&2\\0&0\\0&0\end{pmatrix}\begin{pmatrix}1&0&0\\2&0&0\end{pmatrix}
+      =\begin{pmatrix}5&0&0\\0&0&0\\0&0&0\end{pmatrix}
+
+      特征值：\lambda_1=5,\;\lambda_2=0,\;\lambda_3=0。
+      奇异值：\sigma_1=\sqrt{5},\;\sigma_2=0,\;\sigma_3=0。\operatorname{rank}(A)=1。
+
+      \textbf{右奇异向量（A^TA 的特征向量）：}
+      v_1=(1,0,0)^T（对应 \lambda_1=5），
+      v_2=(0,1,0)^T（对应 \lambda=0），
+      v_3=(0,0,1)^T（对应 \lambda=0）。
+
+      \textbf{左奇异向量：}u_1=\dfrac{Av_1}{\sigma_1}=\dfrac{(1,2)^T}{\sqrt{5}}。
+      u_2 取与 u_1 正交的单位向量：u_2=\dfrac{(2,-1)^T}{\sqrt{5}}。
+
+      SVD：A=U\Sigma V^T，其中
+      U=\begin{pmatrix}\frac{1}{\sqrt{5}}&\frac{2}{\sqrt{5}}\\\frac{2}{\sqrt{5}}&-\frac{1}{\sqrt{5}}\end{pmatrix},\;
+      \Sigma=\begin{pmatrix}\sqrt{5}&0&0\\0&0&0\end{pmatrix},\;
+      V=\begin{pmatrix}1&0&0\\0&1&0\\0&0&1\end{pmatrix}
+
+      验证：U\Sigma V^T=\begin{pmatrix}\frac{1}{\sqrt{5}}&\frac{2}{\sqrt{5}}\\\frac{2}{\sqrt{5}}&-\frac{1}{\sqrt{5}}\end{pmatrix}
+      \begin{pmatrix}\sqrt{5}&0&0\\0&0&0\end{pmatrix}I
+      =\begin{pmatrix}\frac{1}{\sqrt{5}}\cdot\sqrt{5}&0&0\\\frac{2}{\sqrt{5}}\cdot\sqrt{5}&0&0\end{pmatrix}
+      =\begin{pmatrix}1&0&0\\2&0&0\end{pmatrix}=A\ \checkmark
+
+  - title: "(2) 秩-1 逼近与误差"
+    content: |
+      秩-1 最佳逼近（Eckart-Young）：\hat{A}=\sigma_1 u_1 v_1^T
+
+      \hat{A}=\sqrt{5}\cdot\frac{1}{\sqrt{5}}\begin{pmatrix}1\\2\end{pmatrix}(1,0,0)=\begin{pmatrix}1\\2\end{pmatrix}(1,0,0)=\begin{pmatrix}1&0&0\\2&0&0\end{pmatrix}=A
+
+      由于 A 本身就是秩 1 矩阵，最佳秩-1 逼近就是 A 自身！
+
+      误差：\|A-\hat{A}\|_F=0。
+
+      注：若 A 的秩大于 1，则误差 \|A-\hat{A}\|_F^2=\sigma_2^2+\cdots+\sigma_r^2。

@@ -1,0 +1,82 @@
+id: "pv-10"
+source: "考前预测题·第10讲"
+lesson: 10
+knowledge:
+  - 盖尔圆盘
+  - 特征值估计
+  - 隔离定理
+  - Rayleigh商
+  - 谱半径
+problem: |
+  设对称矩阵 A=\begin{pmatrix}5&1&2\\1&6&1\\2&1&7\end{pmatrix}
+
+  (1) 利用 Gershgorin 圆盘定理，画出 A 的 3 个盖尔圆盘，并估计所有特征值的分布范围；
+  (2) 判断各圆盘是否相互隔离？能否据此判定 A 可对角化？
+  (3) 利用 Rayleigh 商估计最大和最小特征值的上下界：
+  \quad R(x)=\dfrac{x^TAx}{x^Tx}，分别取 x=e_1,e_2,e_3,(1,1,1)^T 进行估算；
+  (4) 计算 A 的实际特征值，与上述估计结果比较，并求 \rho(A)。
+steps:
+  - title: "(1) Gershgorin 圆盘"
+    content: |
+      A 的三个盖尔圆盘（按行）：
+
+      G_1：中心 a_{11}=5，半径 R_1=|1|+|2|=3，即 |z-5|\leq3，区间 [2,8]
+      G_2：中心 a_{22}=6，半径 R_2=|1|+|1|=2，即 |z-6|\leq2，区间 [4,8]
+      G_3：中心 a_{33}=7，半径 R_3=|2|+|1|=3，即 |z-7|\leq3，区间 [4,10]
+
+      所有特征值均落在 [2,10]（三个圆盘的并集）。
+
+      由于 A 是对称矩阵，特征值均为实数。结合圆盘估计，\lambda_i\in[2,10]。
+
+  - title: "(2) 隔离分析"
+    content: |
+      检查圆盘相交情况（因特征值为实数，只需看区间重叠）：
+
+      G_1=[2,8]，G_2=[4,8]：有重叠区间 [4,8]
+      G_2=[4,8]，G_3=[4,10]：有重叠区间 [4,8]
+
+      三个圆盘相互有交集，不满足"互不相交"的隔离条件。（不能直接得出三个特征值互异的结论。）
+
+      但因 A 是对称矩阵，对称矩阵一定可对角化（可正交对角化），无需通过圆盘隔离判定。
+
+  - title: "(3) Rayleigh 商估计"
+    content: |
+      R(e_1)=e_1^TAe_1=a_{11}=5
+      R(e_2)=e_2^TAe_2=a_{22}=6
+      R(e_3)=e_3^TAe_3=a_{33}=7
+
+      取 x=(1,1,1)^T：
+      Ax=\begin{pmatrix}5&1&2\\1&6&1\\2&1&7\end{pmatrix}\begin{pmatrix}1\\1\\1\end{pmatrix}=\begin{pmatrix}8\\8\\10\end{pmatrix}
+      R((1,1,1)^T)=\frac{(1,1,1)(8,8,10)^T}{3}=\frac{26}{3}\approx8.67
+
+      由 Rayleigh 商的性质：\lambda_{\min}\leq R(x)\leq\lambda_{\max} 对任意 x\neq0 成立。
+
+      故 \lambda_{\min}\leq5（因为 R(e_1)=5），\lambda_{\max}\geq8.67（因为 R((1,1,1)^T)\approx8.67）。
+
+      结合 Gershgorin 估计：\lambda_{\min}\in[2,8]（在G_1中），\lambda_{\max}\in[4,10]（在G_3中）。
+
+  - title: "(4) 实际特征值与比较"
+    content: |
+      求 A 的特征值：\det(A-\lambda I)=0
+
+      \begin{vmatrix}5-\lambda&1&2\\1&6-\lambda&1\\2&1&7-\lambda\end{vmatrix}=0
+
+      展开：
+      (5-\lambda)[(6-\lambda)(7-\lambda)-1]-1\cdot[1\cdot(7-\lambda)-2]+2\cdot[1-2(6-\lambda)]
+      =(5-\lambda)(\lambda^2-13\lambda+41)-[(7-\lambda)-2]+2\cdot[1-12+2\lambda]
+      =(5-\lambda)(\lambda^2-13\lambda+41)-(5-\lambda)+2(2\lambda-11)
+      =(5-\lambda)(\lambda^2-13\lambda+40)+4\lambda-22
+
+      进一步化简：= -\lambda^3+18\lambda^2-101\lambda+178=0
+
+      即 \lambda^3-18\lambda^2+101\lambda-178=0。
+
+      解三次方程（试根法）：\lambda=3：27-162+303-178=-10\neq0。
+      \lambda=4：64-288+404-178=2\neq0。
+      \lambda=6：216-648+606-178=-4\neq0。
+
+      特征值约为 3.71, 5.40, 8.90（可用数值方法验证）。
+
+      \rho(A)\approx8.90，在 Gershgorin 估计的 [2,10] 范围内 \checkmark。
+
+      Rayleigh 商估计 \lambda_{\min}\leq5（实际 3.71，\leq5 成立），\lambda_{\max}\geq8.67（实际 8.90），估计合理。

@@ -1,0 +1,81 @@
+id: "pv-07"
+source: "考前预测题·第7讲"
+lesson: 7
+knowledge:
+  - 满秩分解
+  - Moore-Penrose逆
+  - Penrose方程
+  - 广义逆
+  - 极小范数最小二乘解
+problem: |
+  设 A=\begin{pmatrix}1&2&1\\0&1&2\\1&3&3\end{pmatrix}
+
+  (1) 求 A 的满秩分解 A=FG（其中 F 列满秩，G 行满秩）；
+  (2) 利用满秩分解公式 A^+=G^T(GG^T)^{-1}(F^TF)^{-1}F^T 求 A 的 M-P 广义逆 A^+；
+  (3) 验证 A^+ 满足 Penrose 方程 AA^+A=A；
+  (4) 对于方程组 Ax=b，其中 b=(1,1,2)^T，求极小范数最小二乘解 x^+=A^+b。
+steps:
+  - title: "(1) 满秩分解"
+    content: |
+      对 A 进行行变换求行最简形：
+      \begin{pmatrix}1&2&1\\0&1&2\\1&3&3\end{pmatrix}
+      \xrightarrow{R_3-R_1}\begin{pmatrix}1&2&1\\0&1&2\\0&1&2\end{pmatrix}
+      \xrightarrow{R_3-R_2}\begin{pmatrix}1&2&1\\0&1&2\\0&0&0\end{pmatrix}
+
+      秩 r(A)=2。主元在第 1、2 列，故取 A 的第 1、2 列构成列满秩矩阵 F：
+      F=\begin{pmatrix}1&2\\0&1\\1&3\end{pmatrix}\quad(\text{列满秩},3\times 2)
+
+      行最简形的非零行（前 r 行）就是行满秩矩阵 G：
+      G=\begin{pmatrix}1&0&-3\\0&1&2\end{pmatrix}\quad(\text{行满秩},2\times 3)
+
+      验证：FG=\begin{pmatrix}1&2\\0&1\\1&3\end{pmatrix}\begin{pmatrix}1&0&-3\\0&1&2\end{pmatrix}
+      =\begin{pmatrix}1&2&-3+4\\0&1&2\\1&3&-3+6\end{pmatrix}
+      =\begin{pmatrix}1&2&1\\0&1&2\\1&3&3\end{pmatrix}=A\ \checkmark
+
+  - title: "(2) 计算 A⁺"
+    content: |
+      计算中间矩阵：
+      GG^T=\begin{pmatrix}1&0&-3\\0&1&2\end{pmatrix}\begin{pmatrix}1&0\\0&1\\-3&2\end{pmatrix}
+      =\begin{pmatrix}10&-6\\-6&5\end{pmatrix}
+
+      (GG^T)^{-1}=\frac{1}{10\cdot5-(-6)(-6)}\begin{pmatrix}5&6\\6&10\end{pmatrix}
+      =\frac{1}{14}\begin{pmatrix}5&6\\6&10\end{pmatrix}
+
+      F^TF=\begin{pmatrix}1&0&1\\2&1&3\end{pmatrix}\begin{pmatrix}1&2\\0&1\\1&3\end{pmatrix}
+      =\begin{pmatrix}2&5\\5&14\end{pmatrix}
+
+      (F^TF)^{-1}=\frac{1}{2\cdot14-25}\begin{pmatrix}14&-5\\-5&2\end{pmatrix}
+      =\frac{1}{3}\begin{pmatrix}14&-5\\-5&2\end{pmatrix}
+
+      则 A^+=G^T(GG^T)^{-1}(F^TF)^{-1}F^T。依次乘出：
+
+      G^T(GG^T)^{-1}=\begin{pmatrix}1&0\\0&1\\-3&2\end{pmatrix}\cdot\frac{1}{14}\begin{pmatrix}5&6\\6&10\end{pmatrix}
+      =\frac{1}{14}\begin{pmatrix}5&6\\6&10\\-3&2\end{pmatrix}
+
+      (F^TF)^{-1}F^T=\frac{1}{3}\begin{pmatrix}14&-5\\-5&2\end{pmatrix}\begin{pmatrix}1&0&1\\2&1&3\end{pmatrix}
+      =\frac{1}{3}\begin{pmatrix}4&-5&-1\\-1&2&1\end{pmatrix}
+
+      A^+=G^T(GG^T)^{-1}\cdot(F^TF)^{-1}F^T
+      =\frac{1}{14}\begin{pmatrix}5&6\\6&10\\-3&2\end{pmatrix}\cdot\frac{1}{3}\begin{pmatrix}4&-5&-1\\-1&2&1\end{pmatrix}
+
+      =\frac{1}{42}\begin{pmatrix}14&-13&1\\14&-10&4\\-14&19&5\end{pmatrix}
+
+  - title: "(3) 验证 Penrose 方程"
+    content: |
+      利用满秩分解 A=FG，A^+ 的公式保证其满足所有四个 Penrose 方程。
+      验证 AA^+A=A：
+      AA^+A=FG\cdot[G^T(GG^T)^{-1}(F^TF)^{-1}F^T]\cdot FG
+      =F(GG^T)(GG^T)^{-1}(F^TF)^{-1}(F^TF)G=FG=A\ \checkmark
+
+      其余三个 Penrose 方程（A^+AA^+=A^+, (AA^+)^T=AA^+, (A^+A)^T=A^+A）由对称性类似可证。
+
+  - title: "(4) 极小范数最小二乘解"
+    content: |
+      因 r(A)=2<3（A 既非列满秩也非行满秩），方程组 Ax=b 可能无解。此时极小范数最小二乘解为 x^+=A^+b。
+
+      代入 b=(1,1,2)^T：
+      x^+=A^+b=\frac{1}{42}\begin{pmatrix}14&-13&1\\14&-10&4\\-14&19&5\end{pmatrix}\begin{pmatrix}1\\1\\2\end{pmatrix}
+      =\frac{1}{42}\begin{pmatrix}3\\12\\15\end{pmatrix}
+      =\begin{pmatrix}\frac{1}{14}\\\frac{2}{7}\\\frac{5}{14}\end{pmatrix}
+
+      几何解释：x^+ 是所有最小二乘解中欧氏范数最小的那个。

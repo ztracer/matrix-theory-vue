@@ -74,6 +74,11 @@ const routes = [
     component: () => import('../views/Week4Homework.vue')
   },
   {
+    path: '/preview',
+    name: 'PreviewBank',
+    component: () => import('../views/PreviewBank.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: NotFound

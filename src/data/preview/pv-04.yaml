@@ -1,0 +1,68 @@
+id: "pv-04"
+source: "考前预测题·第4讲"
+lesson: 4
+knowledge:
+  - 矩阵指数
+  - 对角化
+  - Cayley-Hamilton
+  - 微分方程
+  - 待定系数法
+problem: |
+  设 A=\begin{pmatrix}3&-1\\1&1\end{pmatrix}
+
+  (1) 用对角化方法计算 e^{At}；
+  (2) 用 Cayley-Hamilton 定理验证 (1) 的结果；
+  (3) 求解线性微分方程组 \dfrac{dx}{dt}=Ax 的通解，并求满足初始条件 x(0)=(1,2)^T 的特解。
+steps:
+  - title: "(1) 对角化法求 e^{At}"
+    content: |
+      特征多项式：\det(A-\lambda I)=(3-\lambda)(1-\lambda)+1=\lambda^2-4\lambda+4=(\lambda-2)^2。
+      特征值 \lambda_1=\lambda_2=2（二重根）。
+
+      检查几何重数：A-2I=\begin{pmatrix}1&-1\\1&-1\end{pmatrix}，r(A-2I)=1，g(2)=2-1=1。
+      代数重数 2 > 几何重数 1，A 不可对角化。
+
+      此时需用 Jordan 块方法。A 的 Jordan 标准形：
+      J=\begin{pmatrix}2&1\\0&2\end{pmatrix}
+
+      求广义特征向量：(A-2I)v_1=0 得 v_1=(1,1)^T；
+      (A-2I)v_2=v_1 得 \begin{pmatrix}1&-1\\1&-1\end{pmatrix}v_2=\begin{pmatrix}1\\1\end{pmatrix}，取 v_2=(0,-1)^T。
+
+      P=[v_1,v_2]=\begin{pmatrix}1&0\\1&-1\end{pmatrix}，P^{-1}=\begin{pmatrix}1&0\\1&-1\end{pmatrix}。
+
+      e^{Jt}=\begin{pmatrix}e^{2t}&te^{2t}\\0&e^{2t}\end{pmatrix}
+
+      e^{At}=Pe^{Jt}P^{-1}=\begin{pmatrix}1&0\\1&-1\end{pmatrix}\begin{pmatrix}e^{2t}&te^{2t}\\0&e^{2t}\end{pmatrix}\begin{pmatrix}1&0\\1&-1\end{pmatrix}
+      =\begin{pmatrix}e^{2t}&te^{2t}\\e^{2t}&te^{2t}-e^{2t}\end{pmatrix}\begin{pmatrix}1&0\\1&-1\end{pmatrix}
+      =\begin{pmatrix}e^{2t}+te^{2t}&-te^{2t}\\te^{2t}&e^{2t}-te^{2t}\end{pmatrix}
+
+  - title: "(2) C-H 定理验证"
+    content: |
+      特征多项式 \varphi(\lambda)=\lambda^2-4\lambda+4=(\lambda-2)^2。由 C-H 定理 \varphi(A)=0。
+
+      对二重根 \lambda=2，设 e^{At}=\alpha_0(t)I+\alpha_1(t)(A-2I)。
+
+      对 \lambda=2：r(\lambda)=e^{2t}，故 \alpha_0(t)+\alpha_1(t)(\lambda-2)=\alpha_0(t)=e^{2t}。
+      对 \lambda=2 求导：r'(\lambda)=te^{2t}，故 \alpha_1(t)=te^{2t}。
+
+      因此：
+      e^{At}=e^{2t}\cdot I+ te^{2t}\cdot (A-2I)
+      =e^{2t}\begin{pmatrix}1&0\\0&1\end{pmatrix}+te^{2t}\begin{pmatrix}1&-1\\1&-1\end{pmatrix}
+      =\begin{pmatrix}e^{2t}+te^{2t}&-te^{2t}\\te^{2t}&e^{2t}-te^{2t}\end{pmatrix}
+
+      与 (1) 结果一致 \checkmark。
+
+      C-H 待定系数公式（针对重根）：
+      设 e^{\lambda t} 的 Taylor 展开在特征值 \lambda=2 的零阶和一阶处匹配，得 \alpha_0=e^{2t},\;\alpha_1=te^{2t}。
+
+  - title: "(3) 微分方程组求解"
+    content: |
+      通解：x(t)=e^{At}c，其中 c=(c_1,c_2)^T 为任意常数向量。
+      x(t)=\begin{pmatrix}(e^{2t}+te^{2t})c_1 - te^{2t}c_2\\ te^{2t}c_1 + (e^{2t}-te^{2t})c_2\end{pmatrix}
+      =e^{2t}\begin{pmatrix}c_1+t(c_1-c_2)\\c_2+t(c_1-c_2)\end{pmatrix}
+
+      代入 x(0)=(1,2)^T：
+      \begin{pmatrix}c_1\\c_2\end{pmatrix}=\begin{pmatrix}1\\2\end{pmatrix}
+
+      故特解：
+      x(t)=e^{2t}\begin{pmatrix}1-t\\2-t\end{pmatrix}

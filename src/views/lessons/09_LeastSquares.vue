@@ -94,6 +94,13 @@
 
     <!-- Section 3: 向量范数 -->
     <Section title="向量范数" :num="5">
+      <p>
+        最小二乘问题中，我们<strong>最小化残差的"大小"</strong>，例如
+        <span class="formula-inline">\min_x \|Ax - b\|_2</span>。但"大小"该如何定义？
+        <strong>范数（norm）</strong>就是对向量"长度"的公理化抽象：一旦满足三条基本公理，
+        任何满足它们的函数都可作"长度"使用。范数不仅度量误差，还定义收敛、有界性与扰动界——
+        它是后续矩阵范数、条件数、迭代法收敛性的基石。
+      </p>
       <Theorem title="向量范数三公理" type="definition" icon="📏">
         <p>函数<span class="formula-inline">\|\cdot\|: V \to \mathbb{R}</span>称为向量范数，若满足：</p>
         <ol>
@@ -101,6 +108,16 @@
           <li><strong>齐次性</strong>：<span class="formula-inline">\|\alpha x\| = |\alpha| \cdot \|x\|</span>，对任意<span class="formula-inline">\alpha \in \mathbb{R}(\mathbb{C})</span></li>
           <li><strong>三角不等式</strong>：<span class="formula-inline">\|x + y\| \leq \|x\| + \|y\|</span></li>
         </ol>
+        <p><strong>几何直觉</strong>：</p>
+        <ul>
+          <li><strong>正定性</strong>——只有零向量长度为零（"没有大小"即"什么都没有"）。</li>
+          <li><strong>齐次性</strong>——将向量放缩 <span class="formula-inline">\alpha</span> 倍，长度放缩
+            <span class="formula-inline">|\alpha|</span> 倍；符号（方向）不影响长度。</li>
+          <li><strong>三角不等式</strong>——"绕路不会更近"：<span class="formula-inline">\|x + y\|</span> 是从原点经
+            <span class="formula-inline">x</span> 再到 <span class="formula-inline">x + y</span> 的折线距离，
+            必不短于直达距离 <span class="formula-inline">\|x\| + \|y\|</span>。在 <span class="formula-inline">L^2</span> 下，
+            它正是 Cauchy–Schwarz 不等式的推论（见下文）。</li>
+        </ul>
       </Theorem>
 
       <h3>常用向量范数（<span class="formula-inline">\mathbb{R}^n</span>上）</h3>
@@ -108,10 +125,70 @@
       <Formula display="true">\|x\|_2 = \sqrt{\sum_{i=1}^n |x_i|^2} = \sqrt{x^{\mathsf{T}}x} \quad \text{(L²范数，欧氏距离)}</Formula>
       <Formula display="true">\|x\|_\infty = \max_{1 \leq i \leq n} |x_i| \quad \text{(L∞范数，切比雪夫距离)}</Formula>
 
+      <h3>L<sup>p</sup> 范数族：统一视角</h3>
+      <Formula display="true">\|x\|_p = \left( \sum_{i=1}^n |x_i|^p \right)^{1/p}, \quad p \geq 1</Formula>
+      <p>
+        上述三种范数都是 <span class="formula-inline">L^p</span> 范数的特例：
+        <span class="formula-inline">\|x\|_1 = \|x\|_{p=1}</span>，
+        <span class="formula-inline">\|x\|_2 = \|x\|_{p=2}</span>。
+        条件 <span class="formula-inline">p \geq 1</span> 不可省——它正是
+        <strong>Minkowski 不等式</strong> <span class="formula-inline">\|x + y\|_p \leq \|x\|_p + \|y\|_p</span>
+        成立的临界点，也是三角不等式对 <span class="formula-inline">L^p</span> 成立的保证。当
+        <span class="formula-inline">p \to \infty</span> 时，<span class="formula-inline">L^p</span> 退化为
+        <span class="formula-inline">L^\infty</span>，见下。
+      </p>
+
+      <Theorem title="L∞ 是 Lp 的极限" type="theorem" icon="∞">
+        <p>设 <span class="formula-inline">M = \max_i |x_i|</span>，则：</p>
+        <Formula display="true">\lim_{p \to \infty} \|x\|_p = M = \|x\|_\infty</Formula>
+        <p><strong>推导</strong>：把 <span class="formula-inline">M</span> 提出来，</p>
+        <Formula display="true">\|x\|_p = M \left( \sum_{i=1}^n \left( \frac{|x_i|}{M} \right)^p \right)^{1/p}</Formula>
+        <p>
+          每一项 <span class="formula-inline">(|x_i|/M)^p \in [0, 1]</span>，且至少有一项等于 1（最大者），
+          其余在 <span class="formula-inline">p \to \infty</span> 时趋于 0。括号内的和趋于 1，故
+          <span class="formula-inline">\|x\|_p \to M \cdot 1 = \|x\|_\infty</span>。这解释了为何
+          <span class="formula-inline">L^\infty</span> 与 <span class="formula-inline">L^1, L^2</span> 同属一族。
+        </p>
+      </Theorem>
+
+      <Theorem title="Cauchy–Schwarz 不等式" type="theorem" icon="✛">
+        <p>对任意 <span class="formula-inline">x, y \in \mathbb{R}^n</span>：</p>
+        <Formula display="true">|x^{\mathsf{T}} y| \leq \|x\|_2 \cdot \|y\|_2</Formula>
+        <p>等号成立 <span class="formula-inline">\iff x, y</span> 线性相关。</p>
+        <p><strong>作用</strong>：它直接给出 <span class="formula-inline">L^2</span> 的三角不等式——</p>
+        <Formula display="true">\|x + y\|_2^2 = \|x\|_2^2 + 2 x^{\mathsf{T}} y + \|y\|_2^2 \leq (\|x\|_2 + \|y\|_2)^2</Formula>
+        <p>这正是为什么公理中的"三角不等式"在 <span class="formula-inline">L^2</span> 下自动成立、不必额外验证。</p>
+      </Theorem>
+
       <Theorem title="范数等价性" type="theorem" icon="⚖️">
         <p>有限维空间上所有范数都是等价的：对任意两种范数<span class="formula-inline">\|\cdot\|_\alpha, \|\cdot\|_\beta</span>，存在常数<span class="formula-inline">c_1, c_2 > 0</span>使得</p>
         <Formula>c_1 \|x\|_\alpha \leq \|x\|_\beta \leq c_2 \|x\|_\alpha, \quad \forall x</Formula>
         <p>例如：<span class="formula-inline">\|x\|_\infty \leq \|x\|_2 \leq \sqrt{n}\|x\|_\infty</span>，<span class="formula-inline">\|x\|_\infty \leq \|x\|_1 \leq n\|x\|_\infty</span>。</p>
+        <p><strong>"等价"意味着什么</strong>：等价的范数诱导<strong>相同的拓扑</strong>——相同的开集、
+          相同的收敛序列、相同的有界集。因此在有限维空间里，"按 <span class="formula-inline">L^1</span> 收敛"
+          与"按 <span class="formula-inline">L^2</span> 收敛"是同一件事，范数的选择不影响极限。</p>
+        <p><strong>证明思路</strong>（关键三步）：</p>
+        <ol>
+          <li>只需证 <span class="formula-inline">\|\cdot\|_\beta</span> 被
+            <span class="formula-inline">\|\cdot\|_2</span> 双向夹住（任何范数都可先与 <span class="formula-inline">L^2</span> 比较）。</li>
+          <li><span class="formula-inline">S = \{x : \|x\|_2 = 1\}</span> 是有限维中的<strong>紧集</strong>（闭且有界）。</li>
+          <li>任何范数 <span class="formula-inline">\|\cdot\|_\beta</span> 作为 <span class="formula-inline">x</span> 的函数在
+            <span class="formula-inline">S</span> 上连续，故在紧集上取得最大值 <span class="formula-inline">c_2</span> 与最小值
+            <span class="formula-inline">c_1</span>，给出 <span class="formula-inline">c_1 \leq \|x\|_\beta \leq c_2</span>。</li>
+        </ol>
+        <p>因此 <span class="formula-inline">c_1, c_2</span> 的存在<strong>本质上是有限维紧性</strong>——这也是定理在无穷维空间失效的根本原因。</p>
+      </Theorem>
+
+      <Theorem title="回到最小二乘：范数选择决定问题" type="note" icon="🔄">
+        <p>第 1 节中的 <span class="formula-inline">\|b - Ax\|_2</span> 就是 <span class="formula-inline">L^2</span> 范数。
+          换一种范数，就得到不同的"最佳拟合"问题：</p>
+        <ul>
+          <li><span class="formula-inline">\min \|Ax - b\|_2</span>——最小二乘（本课主线，解析解由正规方程给出）。</li>
+          <li><span class="formula-inline">\min \|Ax - b\|_1</span>——<strong>鲁棒回归</strong>，对离群点不敏感（中位数回归的推广）。</li>
+          <li><span class="formula-inline">\min \|Ax - b\|_\infty</span>——<strong>Chebyshev / 极小极大逼近</strong>，控制最大偏差。</li>
+        </ul>
+        <p>三者在 <span class="formula-inline">\mathbb{R}^n</span> 上等价（见范数等价性），但<strong>最优解不同</strong>——
+          范数等价只保证拓扑相同，不保证最优点相同。</p>
       </Theorem>
     </Section>
 
@@ -189,33 +266,139 @@ x1="250" y1="200" :x2="250 + rvx" :y2="200 - rvy"
 
     <!-- Section 4: 矩阵范数 -->
     <Section title="矩阵范数" :num="7">
+      <p>
+        矩阵不仅是数据，更是<strong>线性算子</strong>——它把向量映射成向量。我们因此要度量"算子的大小"：
+        <span class="formula-inline">A</span> 把单位向量最多放大多少倍？这正是<strong>矩阵范数</strong>的核心动机。
+        它的用途远不止度量：(1) <strong>扰动分析</strong>——<span class="formula-inline">A</span> 或 <span class="formula-inline">b</span> 微扰时解的变化多大；
+        (2) <strong>迭代法收敛性</strong>——<span class="formula-inline">\rho(A) &lt; 1</span> 当且仅当迭代 <span class="formula-inline">x_{k+1} = Ax_k + c</span> 收敛；
+        (3) <strong>条件数</strong> <span class="formula-inline">\kappa(A) = \|A\| \cdot \|A^{-1}\|</span> 衡量解对扰动的敏感度。
+      </p>
       <Theorem title="矩阵范数公理" type="definition" icon="🔢">
         <p>函数<span class="formula-inline">\|\cdot\|: \mathbb{R}^{m \times n} \to \mathbb{R}</span>称为矩阵范数，若满足正定性、齐次性、三角不等式，且满足<strong>相容性</strong>：</p>
         <Formula>\|AB\| \leq \|A\| \cdot \|B\|</Formula>
+        <p><strong>为何要求相容性</strong>：矩阵作用可视为"放大器"，相容性
+          <span class="formula-inline">\|AB\| \leq \|A\| \cdot \|B\|</span> 意为<strong>两级放大器的总增益不超过各自增益之积</strong>。
+          由此可链式放缩：<span class="formula-inline">\|ABx\| \leq \|A\| \cdot \|Bx\| \leq \|A\| \cdot \|B\| \cdot \|x\|</span>。
+          更关键的是，它使 <strong>Neumann 级数</strong> <span class="formula-inline">(I - A)^{-1} = \sum_{k=0}^{\infty} A^k</span>
+          在 <span class="formula-inline">\|A\| &lt; 1</span> 时收敛——这是扰动界
+          <span class="formula-inline">\|(I-A)^{-1}\| \leq \frac{1}{1 - \|A\|}</span> 的来源。
+        </p>
       </Theorem>
 
       <h3>从属范数（算子范数）</h3>
       <p>由向量范数诱导的矩阵范数：</p>
       <Formula>\|A\| = \max_{x \neq 0} \frac{\|Ax\|}{\|x\|} = \max_{\|x\|=1} \|Ax\|</Formula>
 
-      <Theorem title="常用从属范数公式" type="theorem" icon="📐">
-        <ul>
-          <li><strong>列和范数</strong>（L¹诱导）：<span class="formula-inline">\|A\|_1 = \max_j \sum_{i=1}^m |a_{ij}|</span></li>
-          <li><strong>谱范数</strong>（L²诱导）：<span class="formula-inline">\|A\|_2 = \sqrt{\lambda_{\max}(A^{\mathsf{T}}A)} = \sigma_{\max}(A)</span>（最大奇异值）</li>
-          <li><strong>行和范数</strong>（L∞诱导）：<span class="formula-inline">\|A\|_\infty = \max_i \sum_{j=1}^n |a_{ij}|</span></li>
-        </ul>
+      <Theorem title="常用从属范数公式与推导" type="theorem" icon="📐">
+        <h3 style="margin-top:6px;">(1) 列和范数 ||A||₁ = max 列绝对值之和</h3>
+        <Formula display="true">\|A\|_1 = \max_{1 \leq j \leq n} \sum_{i=1}^m |a_{ij}|</Formula>
+        <p><strong>推导</strong>：用 <span class="formula-inline">\|x\|_1 = \sum_j |x_j|</span>，按列分组：</p>
+        <Formula display="true">\|Ax\|_1 = \sum_{i=1}^m \left| \sum_{j=1}^n a_{ij} x_j \right| \leq \sum_{j=1}^n |x_j| \underbrace{\sum_{i=1}^m |a_{ij}|}_{=:\, c_j} \leq \left( \max_j c_j \right) \|x\|_1</Formula>
+        <p>等号可取：设 <span class="formula-inline">c_{j^*} = \max_j c_j</span>，取 <span class="formula-inline">x = e_{j^*}</span>（第 <span class="formula-inline">j^*</span> 个单位坐标向量），
+          则 <span class="formula-inline">\|A e_{j^*}\|_1 = c_{j^*} = \|e_{j^*}\|_1 \cdot c_{j^*}</span>，达到上界。故
+          <span class="formula-inline">\|A\|_1 = \max_j c_j</span>。</p>
+
+        <h3>(2) 行和范数 ||A||∞ = max 行绝对值之和</h3>
+        <Formula display="true">\|A\|_\infty = \max_{1 \leq i \leq m} \sum_{j=1}^n |a_{ij}|</Formula>
+        <p><strong>推导</strong>：用 <span class="formula-inline">\|x\|_\infty = \max_j |x_j|</span>：</p>
+        <Formula display="true">\|Ax\|_\infty = \max_i \left| \sum_j a_{ij} x_j \right| \leq \max_i \sum_j |a_{ij}| \cdot |x_j| \leq \underbrace{\left( \max_i \sum_j |a_{ij}| \right)}_{=:\, r_{\max}} \cdot \|x\|_\infty</Formula>
+        <p>等号可取：设第 <span class="formula-inline">k</span> 行达到 <span class="formula-inline">r_{\max}</span>，取
+          <span class="formula-inline">x_j = \operatorname{sign}(a_{kj})</span>，则该行求和恒正且达到 <span class="formula-inline">r_{\max}</span>，
+          而 <span class="formula-inline">\|x\|_\infty = 1</span>，达到上界。</p>
+
+        <h3>(3) 谱范数 ||A||₂ = 最大奇异值</h3>
+        <Formula display="true">\|A\|_2 = \sqrt{\lambda_{\max}(A^{\mathsf{T}} A)} = \sigma_{\max}(A)</Formula>
+        <p><strong>推导</strong>：因为 <span class="formula-inline">A^{\mathsf{T}} A</span> 对称半正定，可用 <strong>Rayleigh 商</strong>：</p>
+        <Formula display="true">\|A\|_2^2 = \max_{\|x\|_2 = 1} \|Ax\|_2^2 = \max_{\|x\|_2 = 1} x^{\mathsf{T}} A^{\mathsf{T}} A\, x = \lambda_{\max}(A^{\mathsf{T}} A)</Formula>
+        <p>由定义 <span class="formula-inline">\sigma_i^2 = \lambda_i(A^{\mathsf{T}} A)</span>，故
+          <span class="formula-inline">\|A\|_2 = \sigma_{\max}(A)</span>。
+          等号在 <span class="formula-inline">x</span> 取 <span class="formula-inline">A^{\mathsf{T}} A</span> 的最大特征向量时取得。</p>
+        <p><strong>对比三种推导</strong>：1-范数用<span class="formula-inline">L^1</span>-对偶（按列拆 + 单位向量取等）；
+          ∞-范数用逐行放缩 + 符号向量取等；2-范数用对称矩阵的 Rayleigh 商——这是后续 SVD、条件数、低秩近似的共同入口。</p>
       </Theorem>
 
       <h3>Frobenius 范数</h3>
-      <Formula>\|A\|_F = \sqrt{\sum_{i,j} |a_{ij}|^2} = \sqrt{\operatorname{tr}(A^{\mathsf{T}}A)} = \sqrt{\sum_i \sigma_i^2}</Formula>
-      <p>Frobenius范数不是从属范数，但满足相容性，且是酉不变范数。</p>
+      <Formula display="true">\|A\|_F = \sqrt{\sum_{i,j} |a_{ij}|^2} = \sqrt{\operatorname{tr}(A^{\mathsf{T}} A)} = \sqrt{\sum_i \sigma_i^2}</Formula>
+      <p><strong>三种等价视角</strong>：(1) 把矩阵拉直为 <span class="formula-inline">n^2</span> 维向量后的 <span class="formula-inline">L^2</span> 范数；
+        (2) <span class="formula-inline">A^{\mathsf{T}} A</span> 的迹的开方；(3) 所有奇异值的 <span class="formula-inline">L^2</span> 组合。</p>
+
+      <Theorem title="Frobenius 范数的性质" type="note" icon="🔍">
+        <ul>
+          <li><strong>不是从属范数</strong>：任何从属范数都满足 <span class="formula-inline">\|I\| = 1</span>，而
+            <span class="formula-inline">\|I_n\|_F = \sqrt{n} \neq 1</span>（<span class="formula-inline">n > 1</span> 时）。</li>
+          <li><strong>但仍满足相容性</strong>：<span class="formula-inline">\|AB\|_F \leq \|A\|_F \cdot \|B\|_F</span>。</li>
+          <li><strong>酉不变</strong>：对任意正交阵 <span class="formula-inline">U, V</span>，
+            <span class="formula-inline">\|UAV\|_F = \|A\|_F</span>（由迹的循环不变性立得）。</li>
+          <li><strong>与谱范数的夹挤</strong>：设 <span class="formula-inline">r = \operatorname{rank}(A)</span>，</li>
+        </ul>
+        <Formula display="true">\|A\|_2 \leq \|A\|_F \leq \sqrt{r} \cdot \|A\|_2 \leq \sqrt{\min(m,n)} \cdot \|A\|_2</Formula>
+        <p>左端：<span class="formula-inline">\sigma_{\max}^2 \leq \sum \sigma_i^2</span>；右端：<span class="formula-inline">\sum \sigma_i^2 \leq r \cdot \sigma_{\max}^2</span>。
+          当 <span class="formula-inline">A</span> 是秩 1 矩阵时两端相等，<span class="formula-inline">\|A\|_2 = \|A\|_F</span>。</p>
+      </Theorem>
 
       <Theorem title="谱半径与范数的关系" type="theorem" icon="🎯">
         <p>对任意矩阵范数<span class="formula-inline">\|\cdot\|</span>，有：</p>
         <Formula>\rho(A) \leq \|A\|</Formula>
         <p>其中<span class="formula-inline">\rho(A) = \max\{|\lambda| : \lambda \text{ 是 }A\text{ 的特征值}\}</span>为<strong>谱半径</strong>。</p>
         <p>进一步，对任意<span class="formula-inline">\varepsilon > 0</span>，存在矩阵范数使得<span class="formula-inline">\|A\| \leq \rho(A) + \varepsilon</span>。</p>
+        <p><strong>(1) ρ(A) ≤ ||A|| 的证明思路</strong>：取任一特征对
+          <span class="formula-inline">Ax = \lambda x, x \neq 0</span>，两边取范数得
+          <span class="formula-inline">|\lambda| \cdot \|x\| = \|Ax\| \leq \|A\| \cdot \|x\|</span>，
+          故 <span class="formula-inline">|\lambda| \leq \|A\|</span>；取最大即得
+          <span class="formula-inline">\rho(A) \leq \|A\|</span>（详见本课真题 2）。</p>
+        <p><strong>(2) "∃ 范数使 ||A|| ≤ ρ(A) + ε" 的构造</strong>：将
+          <span class="formula-inline">A</span> 化为 Jordan 形 <span class="formula-inline">A = P J P^{-1}</span>，
+          其中 <span class="formula-inline">J = D + N</span>（<span class="formula-inline">D</span> 为对角部分含特征值，
+          <span class="formula-inline">N</span> 为超对角 1 的幂零部分）。构造
+          <span class="formula-inline">S_\varepsilon = \operatorname{diag}(1, \varepsilon, \varepsilon^2, \ldots)</span>，
+          则 <span class="formula-inline">S_\varepsilon J S_\varepsilon^{-1}</span> 中超对角 1 被压缩为
+          <span class="formula-inline">\varepsilon</span>，再用 <span class="formula-inline">\|\cdot\|_\infty</span> 即可控制在
+          <span class="formula-inline">\rho(A) + O(\varepsilon)</span> 内。取 <span class="formula-inline">\varepsilon</span> 足够小即得所需范数。</p>
+        <p><strong>关键推论</strong>：<span class="formula-inline">\rho(A) = \inf_{\|\cdot\|} \|A\|</span>——
+          谱半径是 <span class="formula-inline">A</span> 在<strong>所有矩阵范数下的下确界</strong>。因此
+          <span class="formula-inline">\rho(A) &lt; 1 \iff</span> 存在矩阵范数使
+          <span class="formula-inline">\|A\| &lt; 1</span>，这正是<strong>迭代法 <span class="formula-inline">x_{k+1} = Ax_k + c</span> 收敛</strong>的充要条件。</p>
       </Theorem>
+
+      <h3>实例：四种矩阵范数与谱半径的对比计算</h3>
+      <p>取 <span class="formula-inline">A = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}</span>，逐一计算：</p>
+
+      <div class="step"><div class="step-num">1</div><div>
+        <p><strong>列和范数 ||A||₁</strong>——逐列绝对值求和，取最大：</p>
+        <Formula display="true">\text{列 1}: |1| + |3| = 4, \quad \text{列 2}: |2| + |4| = 6 \implies \|A\|_1 = 6</Formula>
+      </div></div>
+
+      <div class="step"><div class="step-num">2</div><div>
+        <p><strong>行和范数 ||A||∞</strong>——逐行绝对值求和，取最大：</p>
+        <Formula display="true">\text{行 1}: |1| + |2| = 3, \quad \text{行 2}: |3| + |4| = 7 \implies \|A\|_\infty = 7</Formula>
+      </div></div>
+
+      <div class="step"><div class="step-num">3</div><div>
+        <p><strong>Frobenius 范数</strong>——所有元素平方和开方：</p>
+        <Formula display="true">\|A\|_F = \sqrt{1^2 + 2^2 + 3^2 + 4^2} = \sqrt{30} \approx 5.477</Formula>
+      </div></div>
+
+      <div class="step"><div class="step-num">4</div><div>
+        <p><strong>谱范数 ||A||₂</strong>——先算 <span class="formula-inline">A^{\mathsf{T}} A</span>，再求其最大特征值：</p>
+        <Formula display="true">A^{\mathsf{T}} A = \begin{pmatrix} 1 &amp; 3 \\ 2 &amp; 4 \end{pmatrix}\begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix} = \begin{pmatrix} 10 &amp; 14 \\ 14 &amp; 20 \end{pmatrix}</Formula>
+        <p>特征方程：<span class="formula-inline">\lambda^2 - 30 \lambda + (200 - 196) = \lambda^2 - 30\lambda + 4 = 0</span>，</p>
+        <Formula display="true">\lambda = \frac{30 \pm \sqrt{900 - 16}}{2} = 15 \pm \sqrt{221} \implies \|A\|_2 = \sqrt{15 + \sqrt{221}} \approx 5.465</Formula>
+      </div></div>
+
+      <div class="step"><div class="step-num">5</div><div>
+        <p><strong>谱半径 ρ(A)</strong>——<span class="formula-inline">A</span> 本身的特征值：</p>
+        <Formula display="true">\det(A - \lambda I) = (1 - \lambda)(4 - \lambda) - 6 = \lambda^2 - 5\lambda - 2 = 0</Formula>
+        <Formula display="true">\lambda = \frac{5 \pm \sqrt{33}}{2} \implies \rho(A) = \frac{5 + \sqrt{33}}{2} \approx 5.372</Formula>
+      </div></div>
+
+      <div class="step"><div class="step-num">6</div><div>
+        <p><strong>验证所有不等式</strong>：</p>
+        <Formula display="true">\underbrace{\rho(A)}_{\approx 5.372} \leq \underbrace{\|A\|_2}_{\approx 5.465} \leq \underbrace{\|A\|_F}_{\approx 5.477} \leq \sqrt{2}\,\|A\|_2 \approx 7.728</Formula>
+        <Formula display="true">\rho(A) \approx 5.372 \leq \|A\|_1 = 6, \quad \rho(A) \approx 5.372 \leq \|A\|_\infty = 7</Formula>
+        <p>五种"大小"各不相同，但都满足 <span class="formula-inline">\rho(A) \leq \text{任一范数}</span>。
+          注意 <span class="formula-inline">\|A\|_F</span> 与 <span class="formula-inline">\|A\|_2</span> 非常接近——
+          这是因为 <span class="formula-inline">A</span> 只有两个相近量级的奇异值；对秩 1 矩阵两者将完全相等。</p>
+      </div></div>
     </Section>
 
     <!-- 真题例题 -->

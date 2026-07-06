@@ -10,15 +10,15 @@
         <span class="formula-block">f(J_r(\lambda)) = \begin{pmatrix} f(\lambda) & f'(\lambda) & \dfrac{f''(\lambda)}{2!} & \cdots & \dfrac{f^{(r-1)}(\lambda)}{(r-1)!} \\ & f(\lambda) & f'(\lambda) & \cdots & \dfrac{f^{(r-2)}(\lambda)}{(r-2)!} \\ & & \ddots & \ddots & \vdots \\ & & & f(\lambda) & f'(\lambda) \\ & & & & f(\lambda) \end{pmatrix}</span>
       </Theorem>
 
-        <div class="flow-diagram">
-          <div class="flow-node active">① 求A的Jordan标准形 J = P⁻¹AP</div>
-          <div class="flow-arrow active">↓</div>
-          <div class="flow-node active">② 对每个Jordan块 J_r(λ) 计算 f(J_r(λ))</div>
-          <div class="flow-arrow active">↓</div>
-          <div class="flow-node active">③ 组装 f(J) = diag(f(J_{r₁}),…,f(J_{rk}))</div>
-          <div class="flow-arrow active">↓</div>
-          <div class="flow-node active">④ f(A) = P·f(J)·P⁻¹</div>
-        </div>
+      <div class="flow-diagram">
+        <div class="flow-node active">① 求A的Jordan标准形 J = P⁻¹AP</div>
+        <div class="flow-arrow active">↓</div>
+        <div class="flow-node active">② 对每个Jordan块 J_r(λ) 计算 f(J_r(λ))</div>
+        <div class="flow-arrow active">↓</div>
+        <div class="flow-node active">③ 组装 f(J) = diag(f(J_{r₁}),…,f(J_{rk}))</div>
+        <div class="flow-arrow active">↓</div>
+        <div class="flow-node active">④ f(A) = P·f(J)·P⁻¹</div>
+      </div>
 
       <Theorem title="常用矩阵函数：级数定义 → 计算展开式" type="theorem" icon="📊">
         <p>由 Jordan 表示法得：对每个函数，先给出<strong>定义（级数形式）</strong>，再给出<strong>计算展开式</strong>（应用 <span class="formula-inline">A = PJP^{-1}</span> 后的实用结果）。</p>

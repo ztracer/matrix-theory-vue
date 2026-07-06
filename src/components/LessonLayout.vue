@@ -244,6 +244,7 @@ onUnmounted(() => {
 
 <style scoped>
 .lesson-page {
+  --lesson-nav-height: 66px;
   min-height: 100vh;
   background: var(--color-background);
   padding-bottom: 40px;
@@ -333,7 +334,7 @@ onUnmounted(() => {
 }
 
 .lesson-toc {
-  width: calc(100% - 48px);
+  width: 100%;
   min-width: 0;
   background: var(--color-card);
   border: 1px solid var(--color-border);
@@ -370,7 +371,7 @@ onUnmounted(() => {
 
 .toc-list {
   padding: 8px;
-  max-height: calc(100vh - 240px);
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
 }
 
@@ -396,20 +397,30 @@ onUnmounted(() => {
 }
 
 /* Desktop: two-column grid with sticky TOC sidebar */
-@media (min-width: 1280px) {
+@media (min-width: 1366px) {
   .lesson-content-wrap {
     grid-template-columns: 1fr 200px;
     gap: 32px;
     padding: 0 24px;
     align-items: start;
   }
-  .lesson-main { padding-left: 0; padding-right: 0; }
+  .lesson-main { padding-left: 0; padding-right: 0; min-width: 0; }
   .lesson-toc {
     position: sticky;
-    top: 88px;
-    max-height: calc(100vh - 120px);
+    top: calc(var(--lesson-nav-height) + 8px);
+    max-height: calc(100vh - 88px - 48px);
     align-self: start;
     margin: 40px 0 0;
+    z-index: 10;
+  }
+}
+
+/* Tablet: center the TOC between breakpoints */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .lesson-toc {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 

@@ -120,23 +120,25 @@
         </ul>
       </Theorem>
 
-      <h3>常用向量范数（<span class="formula-inline">\mathbb{R}^n</span>上）</h3>
-      <Formula display="true">\|x\|_1 = \sum_{i=1}^n |x_i| \quad \text{(L¹范数，曼哈顿距离)}</Formula>
-      <Formula display="true">\|x\|_2 = \sqrt{\sum_{i=1}^n |x_i|^2} = \sqrt{x^{\mathsf{T}}x} \quad \text{(L²范数，欧氏距离)}</Formula>
-      <Formula display="true">\|x\|_\infty = \max_{1 \leq i \leq n} |x_i| \quad \text{(L∞范数，切比雪夫距离)}</Formula>
+      <Theorem title="常用向量范数与 L^p 范数族" type="definition" icon="📏">
+        <p><strong>常用向量范数（<span class="formula-inline">\mathbb{R}^n</span>上）</strong></p>
+        <Formula display="true">\|x\|_1 = \sum_{i=1}^n |x_i| \quad \text{(L¹范数，曼哈顿距离)}</Formula>
+        <Formula display="true">\|x\|_2 = \sqrt{\sum_{i=1}^n |x_i|^2} = \sqrt{x^{\mathsf{T}}x} \quad \text{(L²范数，欧氏距离)}</Formula>
+        <Formula display="true">\|x\|_\infty = \max_{1 \leq i \leq n} |x_i| \quad \text{(L∞范数，切比雪夫距离)}</Formula>
 
-      <h3>L<sup>p</sup> 范数族：统一视角</h3>
-      <Formula display="true">\|x\|_p = \left( \sum_{i=1}^n |x_i|^p \right)^{1/p}, \quad p \geq 1</Formula>
-      <p>
-        上述三种范数都是 <span class="formula-inline">L^p</span> 范数的特例：
-        <span class="formula-inline">\|x\|_1 = \|x\|_{p=1}</span>，
-        <span class="formula-inline">\|x\|_2 = \|x\|_{p=2}</span>。
-        条件 <span class="formula-inline">p \geq 1</span> 不可省——它正是
-        <strong>Minkowski 不等式</strong> <span class="formula-inline">\|x + y\|_p \leq \|x\|_p + \|y\|_p</span>
-        成立的临界点，也是三角不等式对 <span class="formula-inline">L^p</span> 成立的保证。当
-        <span class="formula-inline">p \to \infty</span> 时，<span class="formula-inline">L^p</span> 退化为
-        <span class="formula-inline">L^\infty</span>，见下。
-      </p>
+        <p style="margin-top:16px;"><strong>L<sup>p</sup> 范数族：统一视角</strong></p>
+        <Formula display="true">\|x\|_p = \left( \sum_{i=1}^n |x_i|^p \right)^{1/p}, \quad p \geq 1</Formula>
+        <p>
+          上述三种范数都是 <span class="formula-inline">L^p</span> 范数的特例：
+          <span class="formula-inline">\|x\|_1 = \|x\|_{p=1}</span>，
+          <span class="formula-inline">\|x\|_2 = \|x\|_{p=2}</span>。
+          条件 <span class="formula-inline">p \geq 1</span> 不可省——它正是
+          <strong>Minkowski 不等式</strong> <span class="formula-inline">\|x + y\|_p \leq \|x\|_p + \|y\|_p</span>
+          成立的临界点，也是三角不等式对 <span class="formula-inline">L^p</span> 成立的保证。当
+          <span class="formula-inline">p \to \infty</span> 时，<span class="formula-inline">L^p</span> 退化为
+          <span class="formula-inline">L^\infty</span>，见下。
+        </p>
+      </Theorem>
 
       <Theorem title="L∞ 是 Lp 的极限" type="theorem" icon="∞">
         <p>设 <span class="formula-inline">M = \max_i |x_i|</span>，则：</p>
@@ -285,44 +287,48 @@ x1="250" y1="200" :x2="250 + rvx" :y2="200 - rvy"
         </p>
       </Theorem>
 
-      <h3>从属范数（算子范数）</h3>
-      <p>由向量范数诱导的矩阵范数：</p>
-      <Formula>\|A\| = \max_{x \neq 0} \frac{\|Ax\|}{\|x\|} = \max_{\|x\|=1} \|Ax\|</Formula>
+      <Theorem title="从属范数（算子范数）" type="definition" icon="🎛️">
+        <p>由向量范数诱导的矩阵范数：</p>
+        <Formula>\|A\| = \max_{x \neq 0} \frac{\|Ax\|}{\|x\|} = \max_{\|x\|=1} \|Ax\|</Formula>
+      </Theorem>
 
-      <Theorem title="常用从属范数公式与推导" type="theorem" icon="📐">
-        <h3 style="margin-top:6px;">(1) 列和范数 ||A||₁ = max 列绝对值之和</h3>
+      <Theorem title="列和范数（L¹ 诱导）" type="theorem" icon="📐">
         <Formula display="true">\|A\|_1 = \max_{1 \leq j \leq n} \sum_{i=1}^m |a_{ij}|</Formula>
         <p><strong>推导</strong>：用 <span class="formula-inline">\|x\|_1 = \sum_j |x_j|</span>，按列分组：</p>
         <Formula display="true">\|Ax\|_1 = \sum_{i=1}^m \left| \sum_{j=1}^n a_{ij} x_j \right| \leq \sum_{j=1}^n |x_j| \underbrace{\sum_{i=1}^m |a_{ij}|}_{=:\, c_j} \leq \left( \max_j c_j \right) \|x\|_1</Formula>
         <p>等号可取：设 <span class="formula-inline">c_{j^*} = \max_j c_j</span>，取 <span class="formula-inline">x = e_{j^*}</span>（第 <span class="formula-inline">j^*</span> 个单位坐标向量），
           则 <span class="formula-inline">\|A e_{j^*}\|_1 = c_{j^*} = \|e_{j^*}\|_1 \cdot c_{j^*}</span>，达到上界。故
           <span class="formula-inline">\|A\|_1 = \max_j c_j</span>。</p>
+      </Theorem>
 
-        <h3>(2) 行和范数 ||A||∞ = max 行绝对值之和</h3>
+      <Theorem title="行和范数（L∞ 诱导）" type="theorem" icon="📐">
         <Formula display="true">\|A\|_\infty = \max_{1 \leq i \leq m} \sum_{j=1}^n |a_{ij}|</Formula>
         <p><strong>推导</strong>：用 <span class="formula-inline">\|x\|_\infty = \max_j |x_j|</span>：</p>
         <Formula display="true">\|Ax\|_\infty = \max_i \left| \sum_j a_{ij} x_j \right| \leq \max_i \sum_j |a_{ij}| \cdot |x_j| \leq \underbrace{\left( \max_i \sum_j |a_{ij}| \right)}_{=:\, r_{\max}} \cdot \|x\|_\infty</Formula>
         <p>等号可取：设第 <span class="formula-inline">k</span> 行达到 <span class="formula-inline">r_{\max}</span>，取
           <span class="formula-inline">x_j = \operatorname{sign}(a_{kj})</span>，则该行求和恒正且达到 <span class="formula-inline">r_{\max}</span>，
           而 <span class="formula-inline">\|x\|_\infty = 1</span>，达到上界。</p>
+      </Theorem>
 
-        <h3>(3) 谱范数 ||A||₂ = 最大奇异值</h3>
+      <Theorem title="谱范数（L² 诱导）" type="theorem" icon="📐">
         <Formula display="true">\|A\|_2 = \sqrt{\lambda_{\max}(A^{\mathsf{T}} A)} = \sigma_{\max}(A)</Formula>
         <p><strong>推导</strong>：因为 <span class="formula-inline">A^{\mathsf{T}} A</span> 对称半正定，可用 <strong>Rayleigh 商</strong>：</p>
         <Formula display="true">\|A\|_2^2 = \max_{\|x\|_2 = 1} \|Ax\|_2^2 = \max_{\|x\|_2 = 1} x^{\mathsf{T}} A^{\mathsf{T}} A\, x = \lambda_{\max}(A^{\mathsf{T}} A)</Formula>
         <p>由定义 <span class="formula-inline">\sigma_i^2 = \lambda_i(A^{\mathsf{T}} A)</span>，故
           <span class="formula-inline">\|A\|_2 = \sigma_{\max}(A)</span>。
           等号在 <span class="formula-inline">x</span> 取 <span class="formula-inline">A^{\mathsf{T}} A</span> 的最大特征向量时取得。</p>
-        <p><strong>对比三种推导</strong>：1-范数用<span class="formula-inline">L^1</span>-对偶（按列拆 + 单位向量取等）；
-          ∞-范数用逐行放缩 + 符号向量取等；2-范数用对称矩阵的 Rayleigh 商——这是后续 SVD、条件数、低秩近似的共同入口。</p>
       </Theorem>
 
-      <h3>Frobenius 范数</h3>
-      <Formula display="true">\|A\|_F = \sqrt{\sum_{i,j} |a_{ij}|^2} = \sqrt{\operatorname{tr}(A^{\mathsf{T}} A)} = \sqrt{\sum_i \sigma_i^2}</Formula>
-      <p><strong>三种等价视角</strong>：(1) 把矩阵拉直为 <span class="formula-inline">n^2</span> 维向量后的 <span class="formula-inline">L^2</span> 范数；
-        (2) <span class="formula-inline">A^{\mathsf{T}} A</span> 的迹的开方；(3) 所有奇异值的 <span class="formula-inline">L^2</span> 组合。</p>
+      <p style="margin:4px 0 12px;font-size:13px;color:var(--color-muted);">
+        💡 <strong>对比三种推导</strong>：1-范数用 L¹-对偶（按列拆 + 单位向量取等）；
+        ∞-范数用逐行放缩 + 符号向量取等；2-范数用对称矩阵的 Rayleigh 商——后续 SVD、条件数、低秩近似的共同入口。
+      </p>
 
-      <Theorem title="Frobenius 范数的性质" type="note" icon="🔍">
+      <Theorem title="Frobenius 范数" type="definition" icon="⊞">
+        <Formula display="true">\|A\|_F = \sqrt{\sum_{i,j} |a_{ij}|^2} = \sqrt{\operatorname{tr}(A^{\mathsf{T}} A)} = \sqrt{\sum_i \sigma_i^2}</Formula>
+        <p><strong>三种等价视角</strong>：(1) 把矩阵拉直为 <span class="formula-inline">n^2</span> 维向量后的 <span class="formula-inline">L^2</span> 范数；
+          (2) <span class="formula-inline">A^{\mathsf{T}} A</span> 的迹的开方；(3) 所有奇异值的 <span class="formula-inline">L^2</span> 组合。</p>
+        <p style="margin-top:12px;"><strong>性质</strong>：</p>
         <ul>
           <li><strong>不是从属范数</strong>：任何从属范数都满足 <span class="formula-inline">\|I\| = 1</span>，而
             <span class="formula-inline">\|I_n\|_F = \sqrt{n} \neq 1</span>（<span class="formula-inline">n > 1</span> 时）。</li>
@@ -360,45 +366,46 @@ x1="250" y1="200" :x2="250 + rvx" :y2="200 - rvy"
           <span class="formula-inline">\|A\| &lt; 1</span>，这正是<strong>迭代法 <span class="formula-inline">x_{k+1} = Ax_k + c</span> 收敛</strong>的充要条件。</p>
       </Theorem>
 
-      <h3>实例：四种矩阵范数与谱半径的对比计算</h3>
-      <p>取 <span class="formula-inline">A = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}</span>，逐一计算：</p>
+      <Theorem title="实例：四种矩阵范数与谱半径的对比计算" type="tip" icon="🧮">
+        <p>取 <span class="formula-inline">A = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}</span>，逐一计算：</p>
 
-      <div class="step"><div class="step-num">1</div><div>
-        <p><strong>列和范数 ||A||₁</strong>——逐列绝对值求和，取最大：</p>
-        <Formula display="true">\text{列 1}: |1| + |3| = 4, \quad \text{列 2}: |2| + |4| = 6 \implies \|A\|_1 = 6</Formula>
-      </div></div>
+        <div class="step"><div class="step-num">1</div><div>
+          <p><strong>列和范数 ||A||₁</strong>——逐列绝对值求和，取最大：</p>
+          <Formula display="true">\text{列 1}: |1| + |3| = 4, \quad \text{列 2}: |2| + |4| = 6 \implies \|A\|_1 = 6</Formula>
+        </div></div>
 
-      <div class="step"><div class="step-num">2</div><div>
-        <p><strong>行和范数 ||A||∞</strong>——逐行绝对值求和，取最大：</p>
-        <Formula display="true">\text{行 1}: |1| + |2| = 3, \quad \text{行 2}: |3| + |4| = 7 \implies \|A\|_\infty = 7</Formula>
-      </div></div>
+        <div class="step"><div class="step-num">2</div><div>
+          <p><strong>行和范数 ||A||∞</strong>——逐行绝对值求和，取最大：</p>
+          <Formula display="true">\text{行 1}: |1| + |2| = 3, \quad \text{行 2}: |3| + |4| = 7 \implies \|A\|_\infty = 7</Formula>
+        </div></div>
 
-      <div class="step"><div class="step-num">3</div><div>
-        <p><strong>Frobenius 范数</strong>——所有元素平方和开方：</p>
-        <Formula display="true">\|A\|_F = \sqrt{1^2 + 2^2 + 3^2 + 4^2} = \sqrt{30} \approx 5.477</Formula>
-      </div></div>
+        <div class="step"><div class="step-num">3</div><div>
+          <p><strong>Frobenius 范数</strong>——所有元素平方和开方：</p>
+          <Formula display="true">\|A\|_F = \sqrt{1^2 + 2^2 + 3^2 + 4^2} = \sqrt{30} \approx 5.477</Formula>
+        </div></div>
 
-      <div class="step"><div class="step-num">4</div><div>
-        <p><strong>谱范数 ||A||₂</strong>——先算 <span class="formula-inline">A^{\mathsf{T}} A</span>，再求其最大特征值：</p>
-        <Formula display="true">A^{\mathsf{T}} A = \begin{pmatrix} 1 &amp; 3 \\ 2 &amp; 4 \end{pmatrix}\begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix} = \begin{pmatrix} 10 &amp; 14 \\ 14 &amp; 20 \end{pmatrix}</Formula>
-        <p>特征方程：<span class="formula-inline">\lambda^2 - 30 \lambda + (200 - 196) = \lambda^2 - 30\lambda + 4 = 0</span>，</p>
-        <Formula display="true">\lambda = \frac{30 \pm \sqrt{900 - 16}}{2} = 15 \pm \sqrt{221} \implies \|A\|_2 = \sqrt{15 + \sqrt{221}} \approx 5.465</Formula>
-      </div></div>
+        <div class="step"><div class="step-num">4</div><div>
+          <p><strong>谱范数 ||A||₂</strong>——先算 <span class="formula-inline">A^{\mathsf{T}} A</span>，再求其最大特征值：</p>
+          <Formula display="true">A^{\mathsf{T}} A = \begin{pmatrix} 1 &amp; 3 \\ 2 &amp; 4 \end{pmatrix}\begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix} = \begin{pmatrix} 10 &amp; 14 \\ 14 &amp; 20 \end{pmatrix}</Formula>
+          <p>特征方程：<span class="formula-inline">\lambda^2 - 30 \lambda + (200 - 196) = \lambda^2 - 30\lambda + 4 = 0</span>，</p>
+          <Formula display="true">\lambda = \frac{30 \pm \sqrt{900 - 16}}{2} = 15 \pm \sqrt{221} \implies \|A\|_2 = \sqrt{15 + \sqrt{221}} \approx 5.465</Formula>
+        </div></div>
 
-      <div class="step"><div class="step-num">5</div><div>
-        <p><strong>谱半径 ρ(A)</strong>——<span class="formula-inline">A</span> 本身的特征值：</p>
-        <Formula display="true">\det(A - \lambda I) = (1 - \lambda)(4 - \lambda) - 6 = \lambda^2 - 5\lambda - 2 = 0</Formula>
-        <Formula display="true">\lambda = \frac{5 \pm \sqrt{33}}{2} \implies \rho(A) = \frac{5 + \sqrt{33}}{2} \approx 5.372</Formula>
-      </div></div>
+        <div class="step"><div class="step-num">5</div><div>
+          <p><strong>谱半径 ρ(A)</strong>——<span class="formula-inline">A</span> 本身的特征值：</p>
+          <Formula display="true">\det(A - \lambda I) = (1 - \lambda)(4 - \lambda) - 6 = \lambda^2 - 5\lambda - 2 = 0</Formula>
+          <Formula display="true">\lambda = \frac{5 \pm \sqrt{33}}{2} \implies \rho(A) = \frac{5 + \sqrt{33}}{2} \approx 5.372</Formula>
+        </div></div>
 
-      <div class="step"><div class="step-num">6</div><div>
-        <p><strong>验证所有不等式</strong>：</p>
-        <Formula display="true">\underbrace{\rho(A)}_{\approx 5.372} \leq \underbrace{\|A\|_2}_{\approx 5.465} \leq \underbrace{\|A\|_F}_{\approx 5.477} \leq \sqrt{2}\,\|A\|_2 \approx 7.728</Formula>
-        <Formula display="true">\rho(A) \approx 5.372 \leq \|A\|_1 = 6, \quad \rho(A) \approx 5.372 \leq \|A\|_\infty = 7</Formula>
-        <p>五种"大小"各不相同，但都满足 <span class="formula-inline">\rho(A) \leq \text{任一范数}</span>。
-          注意 <span class="formula-inline">\|A\|_F</span> 与 <span class="formula-inline">\|A\|_2</span> 非常接近——
-          这是因为 <span class="formula-inline">A</span> 只有两个相近量级的奇异值；对秩 1 矩阵两者将完全相等。</p>
-      </div></div>
+        <div class="step"><div class="step-num">6</div><div>
+          <p><strong>验证所有不等式</strong>：</p>
+          <Formula display="true">\underbrace{\rho(A)}_{\approx 5.372} \leq \underbrace{\|A\|_2}_{\approx 5.465} \leq \underbrace{\|A\|_F}_{\approx 5.477} \leq \sqrt{2}\,\|A\|_2 \approx 7.728</Formula>
+          <Formula display="true">\rho(A) \approx 5.372 \leq \|A\|_1 = 6, \quad \rho(A) \approx 5.372 \leq \|A\|_\infty = 7</Formula>
+          <p>五种"大小"各不相同，但都满足 <span class="formula-inline">\rho(A) \leq \text{任一范数}</span>。
+            注意 <span class="formula-inline">\|A\|_F</span> 与 <span class="formula-inline">\|A\|_2</span> 非常接近——
+            这是因为 <span class="formula-inline">A</span> 只有两个相近量级的奇异值；对秩 1 矩阵两者将完全相等。</p>
+        </div></div>
+      </Theorem>
     </Section>
 
     <!-- 真题例题 -->
@@ -1030,6 +1037,30 @@ h3 { color: #7c3aed; }
 .responsive-svg { max-width: 100%; height: auto; display: block; }
 :deep(.formula-block), :deep(.formula-inline) { overflow-x: auto; }
 
+/* Worked example steps inside Theorem cards */
+.step {
+  display: flex;
+  gap: 12px;
+  margin: 10px 0;
+  padding: 10px 14px;
+  background: var(--color-background);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  min-width: 0;
+  overflow-x: auto;
+}
+.step-num {
+  min-width: 28px; height: 28px;
+  background: var(--color-brand); color: var(--color-on-brand);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; flex-shrink: 0;
+}
+.step > :not(.step-num) {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
 .ls3d-stage {
   width: min(100%, 980px);
   margin: 0 auto;
@@ -1131,6 +1162,17 @@ h3 { color: #7c3aed; }
   .ls3d-legend strong {
     grid-column: 1 / -1;
     text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .step {
+    gap: 8px;
+    padding: 8px 10px;
+  }
+  .step-num {
+    min-width: 24px; height: 24px;
+    font-size: 12px;
   }
 }
 </style>

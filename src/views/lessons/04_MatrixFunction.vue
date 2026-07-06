@@ -20,15 +20,53 @@
           <div class="flow-node active">④ f(A) = P·f(J)·P⁻¹</div>
         </div>
 
-      <div class="key-point">
-        <strong>常用矩阵函数：</strong>
+      <Theorem title="常用矩阵函数：级数定义 → 计算展开式" type="theorem" icon="📊">
+        <p>由 Jordan 表示法得：对每个函数，先给出<strong>定义（级数形式）</strong>，再给出<strong>计算展开式</strong>（应用 <span class="formula-inline">A = PJP^{-1}</span> 后的实用结果）。</p>
+
+        <p><strong>① 矩阵指数 e^A</strong>（矩阵指数）</p>
         <ul>
-          <li><span class="formula-inline">e^A = \sum_{k=0}^{\infty} \dfrac{A^k}{k!}</span> （矩阵指数）</li>
-          <li><span class="formula-inline">\sin A = \sum_{k=0}^{\infty} \dfrac{(-1)^k A^{2k+1}}{(2k+1)!}</span></li>
-          <li><span class="formula-inline">\cos A = \sum_{k=0}^{\infty} \dfrac{(-1)^k A^{2k}}{(2k)!}</span></li>
-          <li><span class="formula-inline">(I-A)^{-1} = \sum_{k=0}^{\infty} A^k</span>（ρ(A)<1时收敛）</li>
+          <li>定义（级数形式）：<span class="formula-inline">e^A = \sum_{k=0}^{\infty} \dfrac{A^k}{k!}</span></li>
+          <li>对角化时：若 <span class="formula-inline">A = PDP^{-1}</span>，则</li>
         </ul>
-      </div>
+        <Formula display="true">e^A = P\,\operatorname{diag}\!\left(e^{\lambda_1}, \ldots, e^{\lambda_n}\right)\,P^{-1}</Formula>
+        <ul>
+          <li>Jordan 块 <span class="formula-inline">J_r(\lambda)</span>（由 Jordan 表示法得上三角 Toeplitz 形）：</li>
+        </ul>
+        <Formula display="true">e^{J_r(\lambda)} = e^{\lambda}\begin{pmatrix} 1 &amp; \dfrac{1}{1!} &amp; \dfrac{1}{2!} &amp; \cdots &amp; \dfrac{1}{(r-1)!} \\ 0 &amp; 1 &amp; \dfrac{1}{1!} &amp; \cdots &amp; \dfrac{1}{(r-2)!} \\ 0 &amp; 0 &amp; \ddots &amp; \ddots &amp; \vdots \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; \dfrac{1}{1!} \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \end{pmatrix}</Formula>
+        <ul>
+          <li>特例 <span class="formula-inline">r=2</span>：</li>
+        </ul>
+        <Formula display="true">e^{J_2(\lambda)} = e^{\lambda}\begin{pmatrix} 1 &amp; 1 \\ 0 &amp; 1 \end{pmatrix}</Formula>
+
+        <p><strong>② sin A</strong></p>
+        <ul>
+          <li>定义（级数形式）：<span class="formula-inline">\sin A = \sum_{k=0}^{\infty} \dfrac{(-1)^k A^{2k+1}}{(2k+1)!}</span></li>
+          <li>对角化时：若 <span class="formula-inline">A = PDP^{-1}</span>，则</li>
+        </ul>
+        <Formula display="true">\sin A = P\,\operatorname{diag}\!\left(\sin\lambda_1, \ldots, \sin\lambda_n\right)\,P^{-1}</Formula>
+        <ul>
+          <li>Jordan 块 <span class="formula-inline">J_2(\lambda)</span>：</li>
+        </ul>
+        <Formula display="true">\sin J_2(\lambda) = \begin{pmatrix} \sin\lambda &amp; \cos\lambda \\ 0 &amp; \sin\lambda \end{pmatrix}</Formula>
+
+        <p><strong>③ cos A</strong></p>
+        <ul>
+          <li>定义（级数形式）：<span class="formula-inline">\cos A = \sum_{k=0}^{\infty} \dfrac{(-1)^k A^{2k}}{(2k)!}</span></li>
+          <li>对角化时：若 <span class="formula-inline">A = PDP^{-1}</span>，则</li>
+        </ul>
+        <Formula display="true">\cos A = P\,\operatorname{diag}\!\left(\cos\lambda_1, \ldots, \cos\lambda_n\right)\,P^{-1}</Formula>
+        <ul>
+          <li>Jordan 块 <span class="formula-inline">J_2(\lambda)</span>：</li>
+        </ul>
+        <Formula display="true">\cos J_2(\lambda) = \begin{pmatrix} \cos\lambda &amp; -\sin\lambda \\ 0 &amp; \cos\lambda \end{pmatrix}</Formula>
+
+        <p><strong>④ (I-A)^{-1}</strong>（Neumann 级数）</p>
+        <ul>
+          <li>定义（级数形式）：<span class="formula-inline">(I-A)^{-1} = \sum_{k=0}^{\infty} A^k</span>（<span class="formula-inline">\rho(A) &lt; 1</span> 时收敛）</li>
+          <li>对角化时：若 <span class="formula-inline">A = PDP^{-1}</span>，则</li>
+        </ul>
+        <Formula display="true">(I-A)^{-1} = P\,\operatorname{diag}\!\left(\dfrac{1}{1-\lambda_1}, \ldots, \dfrac{1}{1-\lambda_n}\right)\,P^{-1}</Formula>
+      </Theorem>
 
       <h3>矩阵序列的收敛性</h3>
 

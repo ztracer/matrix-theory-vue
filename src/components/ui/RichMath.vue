@@ -23,6 +23,16 @@ const rootEl = ref(null)
 
 const cjkPattern = /[\u3400-\u9fff]/
 const cjkOrPunctuationPattern = /[\u3400-\u9fff，。：；、！？（）《》“”]/u
+const blockMathEnvironments = [
+  'aligned',
+  'cases',
+  'pmatrix',
+  'bmatrix',
+  'Bmatrix',
+  'vmatrix',
+  'Vmatrix',
+  'matrix'
+]
 
 function isDisplayMathLine(line) {
   const text = line.trim()
@@ -90,7 +100,7 @@ function parseText(value) {
     if (lineIndex > 0) output.push({ type: 'break' })
     if (!line.trim()) continue
 
-    const environment = line.match(/\\begin\{(aligned|cases)\}/)
+    const environment = line.match(new RegExp(`\\\\begin\\{(${blockMathEnvironments.join('|')})\\}`))
     if (environment) {
       const envName = environment[1]
       const collected = [line]

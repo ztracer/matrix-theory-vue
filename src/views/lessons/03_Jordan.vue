@@ -36,6 +36,42 @@ title="特征向量方向不变性" :playing="playing1" description="矩阵 A �
         <strong>对角化方法：</strong>取 <span class="formula-inline">P=[x_1,x_2,\dots,x_n]</span>（特征向量为列），
         <span class="formula-inline">\Lambda=\operatorname{diag}(\lambda_1,\dots,\lambda_n)</span>，则 <span class="formula-inline">AP=P\Lambda</span>。
       </p>
+
+      <figure class="diagonalization-figure">
+        <img :src="diagonalizationImg" alt="对角化相似变换示意图：先换到新基，再执行线性变换，最后换回原基" loading="lazy">
+      </figure>
+
+      <Theorem title="生活类比：换汇贩卖机" type="tip" icon="💡">
+        <p>线性代数里的公式，本质上可以理解成一套工作流水线。把 <span class="formula-inline">P^{-1}AP</span> 想成一台藏着美国自动贩卖机的中国机器。</p>
+        <ul class="analogy-list">
+          <li><strong>老基：</strong>美元 <span class="formula-inline">USD</span>，美国贩卖机 <span class="formula-inline">A</span> 只认美元。</li>
+          <li><strong>新基：</strong>人民币 <span class="formula-inline">RMB</span>，外部顾客只会投入人民币。</li>
+          <li><strong>变换：</strong>资产翻倍，投入 <span class="formula-inline">1</span> 单位就吐出 <span class="formula-inline">2</span> 单位。</li>
+        </ul>
+        <p>为了让顾客用人民币也得到同样的翻倍效果，机器 <span class="formula-inline">B</span> 内部按三步运行：</p>
+        <div class="pipeline-steps">
+          <div class="pipeline-step">
+            <strong>1. 换汇</strong>
+            <p>先把人民币输入换成美元坐标：</p>
+            <Formula display>\text{美元输入}=P\times\text{人民币输入}</Formula>
+          </div>
+          <div class="pipeline-step">
+            <strong>2. 加工</strong>
+            <p>把美元送进只认美元的机器 <span class="formula-inline">A</span>：</p>
+            <Formula display>\text{翻倍美元}=A(P\times\text{人民币输入})</Formula>
+          </div>
+          <div class="pipeline-step">
+            <strong>3. 换回</strong>
+            <p>最后把翻倍后的美元换回人民币：</p>
+            <Formula display>\text{翻倍人民币}=P^{-1}AP\times\text{人民币输入}</Formula>
+          </div>
+        </div>
+        <p>外部顾客只看到机器 <span class="formula-inline">B</span> 的整体效果：</p>
+        <Formula display>\text{翻倍人民币}=B\times\text{人民币输入}</Formula>
+        <p>两种描述对每个输入的效果完全一样，所以</p>
+        <Formula display>B=P^{-1}AP</Formula>
+        <p>矩阵乘法从右往左读：先用 <span class="formula-inline">P</span> 换到机器 <span class="formula-inline">A</span> 能理解的坐标，再用 <span class="formula-inline">A</span> 处理，最后用 <span class="formula-inline">P^{-1}</span> 换回外部顾客使用的坐标。</p>
+      </Theorem>
     </Section>
 
     <Section num="3" title="Jordan 标准形">
@@ -264,6 +300,7 @@ import { useKatex } from '../../composables/useKatex'
 import { quizBank } from '../../data/quizBank'
 import { homeworkBank } from '../../data/homeworkBank'
 import { ref, onMounted, onUnmounted, computed } from 'vue'
+import diagonalizationImg from '../../assets/diagonalization.png'
 
 const renderTrigger = ref(0)
 useKatex(renderTrigger)
@@ -501,3 +538,56 @@ onUnmounted(() => {
   if (timer3) clearTimeout(timer3)
 })
 </script>
+
+<style scoped>
+.diagonalization-figure {
+  margin: 18px 0 22px;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-card);
+  overflow-x: auto;
+}
+
+.diagonalization-figure img {
+  display: block;
+  width: 100%;
+  min-width: 640px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.analogy-list {
+  margin: 10px 0 14px;
+  padding-left: 20px;
+}
+
+.pipeline-steps {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 14px;
+}
+
+.pipeline-step {
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-background);
+  min-width: 0;
+}
+
+.pipeline-step p {
+  margin: 6px 0;
+}
+
+@media (max-width: 700px) {
+  .diagonalization-figure {
+    padding: 8px;
+    border-radius: 10px;
+  }
+
+  .diagonalization-figure img {
+    min-width: 560px;
+  }
+}
+</style>

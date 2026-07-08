@@ -43,11 +43,11 @@ describe('Lesson responsive layout regression', () => {
     expect(compact).toMatch(/\.lesson-main\s*\{[\s\S]*padding:\s*24px 24px 40px/)
   })
 
-  it('allows long inline math to scroll inside its own box at tablet widths', () => {
+  it('inline formula should not overflow at tablet widths (parent container handles scrolling)', () => {
     const compact = mediaBlock(globalCss, 1024)
     expect(compact).toMatch(/scroll-padding-top:\s*64px/)
     expect(compact).toMatch(/\.lesson-main \.formula-inline\s*\{[\s\S]*display:\s*inline-block/)
     expect(compact).toMatch(/\.lesson-main \.formula-inline\s*\{[\s\S]*max-width:\s*100%/)
-    expect(compact).toMatch(/\.lesson-main \.formula-inline\s*\{[\s\S]*overflow-x:\s*auto !important/)
+    expect(compact).not.toMatch(/\.lesson-main \.formula-inline\s*\{[\s\S]*overflow-x:\s*auto/)
   })
 })

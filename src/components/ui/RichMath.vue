@@ -280,12 +280,17 @@ watch(parts, render)
   font-weight: 700;
 }
 
-.formula-inline,
 .formula-block {
   max-width: 100%;
   overflow-x: auto !important;
   overflow-y: visible !important;
   -webkit-overflow-scrolling: touch;
+}
+
+.formula-inline {
+  max-width: 100%;
+  overflow-x: visible;
+  overflow-y: visible;
 }
 
 .formula-inline {

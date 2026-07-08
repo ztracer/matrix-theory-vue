@@ -109,7 +109,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ========== KaTeX 公式修复 ========== */
 /* 公式容器统一支持横向滚动，防止溢出截断 */
-.formula-block, .formula-inline,
+.formula-block,
 .formula-box, .formula-box .formula-content,
 .theorem-body, .section-body,
 .quiz-problem, .step-content,
@@ -139,6 +139,7 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
   padding: 0 0.12em;
   vertical-align: baseline;
+  overflow-x: visible;
 }
 
 /* KaTeX 显示模式 */
@@ -430,10 +431,7 @@ html {
   .lesson-main .formula-inline {
     display: inline-block;
     max-width: 100%;
-    overflow-x: auto !important;
-    overflow-y: visible !important;
     vertical-align: middle;
-    -webkit-overflow-scrolling: touch;
   }
 }
 

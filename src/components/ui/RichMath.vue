@@ -283,7 +283,7 @@ watch(parts, render)
 .formula-block {
   max-width: 100%;
   overflow-x: auto !important;
-  overflow-y: visible !important;
+  overflow-y: hidden !important;
   -webkit-overflow-scrolling: touch;
 }
 

@@ -111,10 +111,15 @@ h1, h2, h3, h4, h5, h6 {
 /* 公式容器统一支持横向滚动，防止溢出截断 */
 .formula-block,
 .formula-box, .formula-box .formula-content,
+.katex-display {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
 .theorem-body, .section-body,
-.quiz-problem, .step-content,
+.quiz-problem,
 .solution-content, .example-problem,
-.example-solution, .katex-display {
+.example-solution {
   overflow-x: auto !important;
   overflow-y: visible !important;
 }
@@ -128,9 +133,35 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--color-border);
   border-radius: 8px;
   overflow-x: auto !important;
-  overflow-y: visible !important;
+  overflow-y: hidden !important;
   text-align: center;
   min-width: 0;
+}
+
+.formula-block::-webkit-scrollbar,
+.katex-display::-webkit-scrollbar,
+.formula-box::-webkit-scrollbar,
+.formula-box .formula-content::-webkit-scrollbar {
+  height: 6px;
+  width: 0;
+}
+
+.formula-block::-webkit-scrollbar-thumb,
+.katex-display::-webkit-scrollbar-thumb,
+.formula-box::-webkit-scrollbar-thumb,
+.formula-box .formula-content::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.formula-block:hover::-webkit-scrollbar-thumb,
+.formula-block:focus-within::-webkit-scrollbar-thumb,
+.katex-display:hover::-webkit-scrollbar-thumb,
+.katex-display:focus-within::-webkit-scrollbar-thumb,
+.formula-box:hover::-webkit-scrollbar-thumb,
+.formula-box:focus-within::-webkit-scrollbar-thumb,
+.formula-box .formula-content:hover::-webkit-scrollbar-thumb,
+.formula-box .formula-content:focus-within::-webkit-scrollbar-thumb {
+  background: var(--color-border);
 }
 
 /* 行内公式 */
@@ -146,7 +177,7 @@ h1, h2, h3, h4, h5, h6 {
 .katex-display {
   margin: 8px 0 !important;
   overflow-x: auto !important;
-  overflow-y: visible !important;
+  overflow-y: hidden !important;
   padding: 4px 0;
 }
 

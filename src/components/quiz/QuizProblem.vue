@@ -140,7 +140,7 @@ const show = ref(props.defaultOpen)
   background: var(--color-background);
   border-radius: 10px;
   border: 1px solid var(--color-border);
-  overflow-x: auto;
+  overflow: visible;
 }
 .step-num-circle {
   min-width: 28px; height: 28px;
@@ -151,7 +151,7 @@ const show = ref(props.defaultOpen)
 }
 .step-body { flex: 1; min-width: 0; }
 .step-title { font-weight: 700; color: var(--color-foreground); margin-bottom: 4px; }
-.step-content { color: var(--color-secondary); overflow-x: auto; }
+.step-content { color: var(--color-secondary); min-width: 0; overflow: visible; }
 .slide-enter-active, .slide-leave-active { transition: all .2s ease; }
 .slide-enter-from, .slide-leave-to { opacity: 0; transform: translateY(-8px); }
 </style>

@@ -142,7 +142,7 @@
               </div>
               <div class="card-footer">
                 <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 真题{{ getHwCount(l.id) ? ' + ' + getHwCount(l.id) + ' 作业' : '' }}</span>
-                <span v-if="readLessons.has(l.id)" class="card-read">✓ 已读</span>
+                <span v-if="readLessons.has(l.id)" class="card-read">✓ 已访问</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -172,7 +172,7 @@
               </div>
               <div class="card-footer">
                 <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 真题{{ getHwCount(l.id) ? ' + ' + getHwCount(l.id) + ' 作业' : '' }}</span>
-                <span v-if="readLessons.has(l.id)" class="card-read">✓ 已读</span>
+                <span v-if="readLessons.has(l.id)" class="card-read">✓ 已访问</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -202,7 +202,7 @@
               </div>
               <div class="card-footer">
                 <span class="card-anim">🎬 {{ l.anims }} 个动画 · 📝 {{ getQuizCount(l.id) }} 真题{{ getHwCount(l.id) ? ' + ' + getHwCount(l.id) + ' 作业' : '' }}</span>
-                <span v-if="readLessons.has(l.id)" class="card-read">✓ 已读</span>
+                <span v-if="readLessons.has(l.id)" class="card-read">✓ 已访问</span>
                 <span class="card-arrow">→</span>
               </div>
             </router-link>
@@ -282,6 +282,7 @@
           <div class="section-tag">Learning Path</div>
           <h2>🗺️ 推荐学习路径</h2>
           <p class="section-desc">从基础到应用，循序渐进掌握矩阵论</p>
+          <button v-if="readLessons.size > 0" class="reset-progress-btn" @click="resetProgress">🔄 重置访问记录</button>
         </div>
         <div class="path-map">
           <section
@@ -317,7 +318,7 @@
                 <div class="path-outcome">{{ s.outcome }}</div>
                 <div class="path-node-footer">
                   <span v-for="tag in s.tags" :key="tag" class="path-tag">{{ tag }}</span>
-                  <span v-if="isPathRead(s)" class="path-state">已读</span>
+                  <span v-if="isPathRead(s)" class="path-state">已访问</span>
                   <span v-else-if="nextPathLesson?.lesson === s.lesson" class="path-state next">继续</span>
                 </div>
               </router-link>
@@ -367,6 +368,17 @@ onMounted(() => {
     readLessons.value = new Set()
   }
 })
+
+function resetProgress() {
+  if (!confirm('确定要重置所有课程的访问记录吗？这将清除"已访问"标记，方便你开始新一轮复习。')) return
+  try {
+    localStorage.removeItem('matrix-read-lessons')
+    readLessons.value = new Set()
+  } catch {
+    readLessons.value = new Set()
+  }
+}
+
 const tip = ref(null)
 const tipShow = ref(false)
 const tipText = ref('')
@@ -917,6 +929,25 @@ const hideTip = () => { tipShow.value = false }
 .card-read { font-size: 12px; color: var(--color-accent); font-weight: 600; }
 .card-arrow { font-size:20px; transition:transform .18s ease; color:var(--color-accent); }
 .card:hover .card-arrow { transform:translateX(4px); }
+
+/* Reset progress */
+.reset-progress-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-secondary);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .18s ease;
+}
+.reset-progress-btn:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
 
 /* Path map */
 .path-section {

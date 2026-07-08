@@ -202,11 +202,8 @@ function setupObserver() {
   })
 }
 
-// V2 (tie-in): mark lesson as read in localStorage when a section enters view
-let readMarked = false
+// V2 (tie-in): mark lesson as visited in localStorage when a section enters view
 function markLessonRead() {
-  if (readMarked) return
-  readMarked = true
   try {
     const readKey = 'matrix-read-lessons'
     const read = JSON.parse(localStorage.getItem(readKey) || '[]')

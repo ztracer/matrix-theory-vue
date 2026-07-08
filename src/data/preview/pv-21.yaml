@@ -1,0 +1,77 @@
+id: "pv-21"
+source: "考前预测题·第1-3讲融合"
+lesson: 1
+knowledge:
+  - 线性空间
+  - 公理体系
+  - 内积空间
+  - Gram-Schmidt正交化
+  - 标准正交基
+  - 基与维数
+problem: |
+  在次数不超过 2 的实系数多项式空间 P_2[x] 上，定义内积 \langle f,g\rangle = \int_{-1}^{1} f(x)g(x)\,\mathrm{d}x。
+
+  (1) 验证：集合 W=\{p(x)\in P_2[x] \mid p(0)=0\} 关于多项式的加法和数乘构成 \mathbb{R} 上的线性空间（只需验证非空性、加法封闭性和数乘封闭性）；
+
+  (2) 取 P_2[x] 的自然基 \{1,\;x,\;x^2\}，利用上述内积将这组基通过 Gram-Schmidt 正交化方法化为一组标准正交基 \{e_1(x),\;e_2(x),\;e_3(x)\}；
+
+  (3) 验证所得 e_1,e_2,e_3 两两正交且长度均为 1。
+steps:
+  - title: "(1) 验证 W 是线性空间"
+    content: |
+      \textbf{非空性：} 零多项式 p(x)\equiv0 满足 p(0)=0，故 0\in W\neq\varnothing。
+
+      \textbf{加法封闭：} 设 p,q\in W，则 p(0)=0,\;q(0)=0。对于和 (p+q)(x)=p(x)+q(x)，有 (p+q)(0)=p(0)+q(0)=0+0=0。故 p+q\in W。
+
+      \textbf{数乘封闭：} 设 p\in W，k\in\mathbb{R}，则 (kp)(0)=k\cdot p(0)=k\cdot0=0。故 kp\in W。
+
+      加法结合律、交换律、分配律等其余 5 条公理由多项式运算自动继承。故 (W,+,\cdot) 是 \mathbb{R} 上的线性空间。
+
+  - title: "(2) Gram-Schmidt 正交化"
+    content: |
+      内积定义：\langle f,g\rangle=\int_{-1}^{1}f(x)g(x)\,\mathrm{d}x。计算各基向量的内积：
+
+      \langle 1,1\rangle=\int_{-1}^{1}1\,\mathrm{d}x=2,\quad
+      \langle 1,x\rangle=\int_{-1}^{1}x\,\mathrm{d}x=0
+
+      \langle x,x\rangle=\int_{-1}^{1}x^2\,\mathrm{d}x=\frac{2}{3},\quad
+      \langle 1,x^2\rangle=\int_{-1}^{1}x^2\,\mathrm{d}x=\frac{2}{3}
+
+      \langle x,x^2\rangle=\int_{-1}^{1}x^3\,\mathrm{d}x=0,\quad
+      \langle x^2,x^2\rangle=\int_{-1}^{1}x^4\,\mathrm{d}x=\frac{2}{5}
+
+      \textbf{第一步：}v_1=1，\|v_1\|=\sqrt{\langle1,1\rangle}=\sqrt{2}，单位化：e_1=\dfrac{1}{\sqrt{2}}。
+
+      \textbf{第二步：}v_2=x-\dfrac{\langle x,v_1\rangle}{\langle v_1,v_1\rangle}v_1=x-\dfrac{0}{2}\cdot1=x。
+      \|v_2\|=\sqrt{\langle x,x\rangle}=\sqrt{\dfrac{2}{3}}，单位化：e_2=\sqrt{\dfrac{3}{2}}\,x。
+
+      \textbf{第三步：}
+      v_3=x^2-\dfrac{\langle x^2,v_1\rangle}{\langle v_1,v_1\rangle}v_1-\dfrac{\langle x^2,v_2\rangle}{\langle v_2,v_2\rangle}v_2
+      =x^2-\dfrac{2/3}{2}\cdot1-\dfrac{0}{2/3}\cdot x=x^2-\dfrac{1}{3}
+
+      \|v_3\|^2=\int_{-1}^{1}\left(x^2-\frac{1}{3}\right)^2\mathrm{d}x
+      =\int_{-1}^{1}\left(x^4-\frac{2}{3}x^2+\frac{1}{9}\right)\mathrm{d}x
+      =\frac{2}{5}-\frac{4}{9}+\frac{2}{9}=\frac{8}{45}
+
+      \|v_3\|=\sqrt{\dfrac{8}{45}}=\dfrac{2\sqrt{2}}{3\sqrt{5}}，单位化：e_3=\dfrac{3\sqrt{5}}{2\sqrt{2}}\left(x^2-\dfrac{1}{3}\right)。
+
+      标准正交基：\{e_1,e_2,e_3\}。
+      注：这组基正是 \mathrm{Legendre} 多项式的缩放版本（P_0=1, P_1=x, P_2=\frac{3x^2-1}{2}）。
+
+  - title: "(3) 验证正交性与单位长度"
+    content: |
+      \textbf{正交性验证：}
+      \langle e_1,e_2\rangle=\dfrac{1}{\sqrt{2}}\sqrt{\dfrac{3}{2}}\int_{-1}^{1}1\cdot x\,\mathrm{d}x=0 \quad\checkmark
+
+      \langle e_1,e_3\rangle=\dfrac{1}{\sqrt{2}}\cdot\dfrac{3\sqrt{5}}{2\sqrt{2}}\int_{-1}^{1}\left(x^2-\frac{1}{3}\right)\mathrm{d}x
+      =\dfrac{3\sqrt{5}}{4}\left(\frac{2}{3}-\frac{2}{3}\right)=0 \quad\checkmark
+
+      \langle e_2,e_3\rangle=\sqrt{\dfrac{3}{2}}\cdot\dfrac{3\sqrt{5}}{2\sqrt{2}}\int_{-1}^{1}x\left(x^2-\frac{1}{3}\right)\mathrm{d}x
+      =\dfrac{3\sqrt{15}}{4}\left(0-0\right)=0 \quad\checkmark
+
+      \textbf{单位长度验证：}
+      \|e_1\|^2=\frac{1}{2}\cdot2=1,\quad
+      \|e_2\|^2=\frac{3}{2}\cdot\frac{2}{3}=1,\quad
+      \|e_3\|^2=\frac{45}{8}\cdot\frac{8}{45}=1 \quad\checkmark
+
+      三项验证全部通过，\{e_1,e_2,e_3\} 确实是 P_2[x] 的一组标准正交基。

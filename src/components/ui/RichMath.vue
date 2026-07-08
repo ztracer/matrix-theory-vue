@@ -37,9 +37,72 @@ const blockMathEnvironments = [
 function isDisplayMathLine(line) {
   const text = line.trim()
   if (!text) return false
-  if (/\\begin\{(?:p|b|v|B|V)?matrix\}|\\begin\{cases\}|\\boxed\{/.test(text)) return true
   if (cjkPattern.test(text)) return false
   return /\\|[_^=]|\\sum|\\frac|\\det|\\lambda/.test(text)
+}
+
+function hasCompleteEnvironment(line) {
+  for (const env of blockMathEnvironments) {
+    const beginStr = '\\begin{' + env + '}'
+    const endStr = '\\end{' + env + '}'
+    const beginIdx = line.indexOf(beginStr)
+    if (beginIdx !== -1) {
+      const endIdx = line.indexOf(endStr, beginIdx)
+      if (endIdx !== -1) return true
+    }
+  }
+  return false
+}
+
+function splitLineWithEnvironments(line) {
+  const segments = []
+  let cursor = 0
+
+  while (cursor < line.length) {
+    let nextBegin = -1
+    let nextEnv = null
+    for (const env of blockMathEnvironments) {
+      const idx = line.indexOf('\\begin{' + env + '}', cursor)
+      if (idx !== -1 && (nextBegin === -1 || idx < nextBegin)) {
+        nextBegin = idx
+        nextEnv = env
+      }
+    }
+
+    if (nextBegin === -1) {
+      const remaining = line.slice(cursor)
+      if (remaining.trim()) {
+        segments.push(...splitMixedLine(remaining))
+      }
+      break
+    }
+
+    const endStr = '\\end{' + nextEnv + '}'
+    const endIdx = line.indexOf(endStr, nextBegin)
+    if (endIdx === -1) {
+      const before = line.slice(cursor, nextBegin)
+      if (before.trim()) {
+        segments.push(...splitMixedLine(before))
+      }
+      segments.push(...splitMixedLine(line.slice(nextBegin, nextBegin + ('\\begin{' + nextEnv + '}').length)))
+      cursor = nextBegin + ('\\begin{' + nextEnv + '}').length
+      continue
+    }
+
+    if (nextBegin > cursor) {
+      const before = line.slice(cursor, nextBegin)
+      if (before.trim()) {
+        segments.push(...splitMixedLine(before))
+      }
+    }
+
+    const mathText = line.slice(nextBegin, endIdx + endStr.length)
+    segments.push({ type: 'math', text: mathText, display: false })
+
+    cursor = endIdx + endStr.length
+  }
+
+  return segments
 }
 
 function isMathSegment(segment) {
@@ -101,7 +164,7 @@ function parseText(value) {
     if (!line.trim()) continue
 
     const environment = line.match(new RegExp(`\\\\begin\\{(${blockMathEnvironments.join('|')})\\}`))
-    if (environment) {
+    if (environment && !cjkPattern.test(line)) {
       const envName = environment[1]
       const collected = [line]
       while (lineIndex + 1 < lines.length && !lines[lineIndex].includes(`\\end{${envName}}`)) {
@@ -188,6 +251,9 @@ function readLatexCommand(text, start) {
 function parseLineSegment(line) {
   if (isDisplayMathLine(line)) {
     return [{ type: 'math', text: line.trim(), display: true }]
+  }
+  if (hasCompleteEnvironment(line)) {
+    return splitLineWithEnvironments(line)
   }
   return splitMixedLine(line)
 }

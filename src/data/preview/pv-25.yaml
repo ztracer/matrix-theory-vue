@@ -1,0 +1,71 @@
+id: "pv-25"
+source: "考前预测题·第10讲补充"
+lesson: 10
+knowledge:
+  - 特征值
+  - 共轭特征对
+  - Gershgorin
+  - 盖尔圆盘
+  - 特征值估计
+problem: |
+  (1) 设 A\in\mathbb{R}^{n\times n} 是实矩阵。证明：若 \lambda=a+bi（b\neq0）是 A 的特征值，则其共轭 \overline{\lambda}=a-bi 也是 A 的特征值，且二者有相同的代数重数和几何重数；
+
+  (2) 对于 A=\begin{pmatrix}1&-2\\1&1\end{pmatrix}，求全部特征值，验证 (1) 的结论；
+
+  (3) 绘制 A 的盖尔圆盘，论证圆盘关于实轴对称这一事实与 (1) 中共轭特征对的关系——为何实矩阵的 Gershgorin 圆盘天然关于实轴对称？
+
+  (4) 利用 Gershgorin 圆盘估计 \rho(A) 的上界。
+steps:
+  - title: "(1) 共轭特征对定理的证明"
+    content: |
+      设 Av=\lambda v，v\neq0。两边取共轭：\overline{Av}=\overline{\lambda v}。
+
+      因 A 是实矩阵，\overline{A}=A，故 \overline{Av}=A\overline{v}；右端 \overline{\lambda v}=\overline{\lambda}\,\overline{v}。
+
+      所以 A\overline{v}=\overline{\lambda}\,\overline{v}。由于 v\neq0 蕴含 \overline{v}\neq0，故 \overline{\lambda} 也是 A 的特征值，\overline{v} 为对应特征向量。
+
+      \textbf{代数重数相同：} A 的特征多项式 \det(A-\lambda I) 是实系数多项式，其复根必定成对出现。
+      设 \lambda 的重数为 m，因实系数多项式复根共轭成对，\overline{\lambda} 的重数也为 m。
+
+      \textbf{几何重数相同：} 映射 v\mapsto\overline{v} 给出了 \ker(A-\lambda I) 与 \ker(A-\overline{\lambda}I) 之间的双射（共轭线性同构），故 \dim\ker(A-\lambda I)=\dim\ker(A-\overline{\lambda}I)。
+
+  - title: "(2) 计算 A=[[1,-2],[1,1]] 的特征值"
+    content: |
+      特征多项式：
+      \det(A-\lambda I)=\begin{vmatrix}1-\lambda&-2\\1&1-\lambda\end{vmatrix}
+      =(1-\lambda)^2+2=\lambda^2-2\lambda+3=0
+
+      解得 \lambda=\dfrac{2\pm\sqrt{4-12}}{2}=1\pm i\sqrt{2}。
+
+      \lambda_1=1+i\sqrt{2},\quad\lambda_2=1-i\sqrt{2}
+
+      二者确为共轭复数，验证了 (1) 的结论。二者的代数重数和几何重数均为 1。
+
+  - title: "(3) Gershgorin 圆盘与实轴对称性"
+    content: |
+      A 的盖尔圆盘（按行）：
+
+      G_1：中心 a_{11}=1，半径 R_1=|{-2}|=2，即 |z-1|\leq2
+      G_2：中心 a_{22}=1，半径 R_2=|1|=1，即 |z-1|\leq1
+
+      两个圆盘同心（中心均为 (1,0)），G_1 包含 G_2。合并后特征值位于 |z-1|\leq2。
+
+      \textbf{为什么圆盘天然关于实轴对称？}
+      对于任意实矩阵 A=(a_{ij})，每个圆盘 G_i 的中心 a_{ii} 是实数，半径 R_i=\sum_{j\neq i}|a_{ij}| 也是实数（绝对值）。
+      因此每个圆盘方程 |z-a_{ii}|\leq R_i 描述的是复平面上以实轴上的点为圆心、实数半径的圆——这样的圆天然关于实轴对称。
+
+      \textbf{与共轭特征对的联系：} 实矩阵的复特征值成对出现（定理 (1)），而 Gershgorin 圆盘关于实轴对称保证了圆盘对共轭特征对同时"接纳"：若 \lambda=a+bi 在某个圆盘内，则 \overline{\lambda}=a-bi 也在同一圆盘内——因为两点关于实轴对称，而圆盘也关于实轴对称。
+
+  - title: "(4) 谱半径估计"
+    content: |
+      由 Gershgorin 定理，所有特征值均满足 |\lambda-1|\leq2，故 |\lambda|\leq|\lambda-1|+|1|\leq2+1=3。
+
+      因此 \rho(A)\leq3。
+
+      实际验算：\lambda=1\pm i\sqrt{2}，|\lambda|=\sqrt{1^2+(\sqrt{2})^2}=\sqrt{3}\approx1.732。
+
+      可见 Gershgorin 给出了一个宽松但安全的上界 \rho(A)\leq3（实际 \sqrt{3}\approx1.73）。
+
+      \textbf{改进估计}：A 的列盖尔圆盘（A^{\mathsf{T}} 的行圆盘）：
+      中心 a_{11}=1，半径 |1|=1（列 1）；中心 a_{22}=1，半径 |{-2}|=2（列 2）。
+      结合行、列圆盘的交集，可得更紧的估计 \rho(A)\leq2。

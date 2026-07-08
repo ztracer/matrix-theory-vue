@@ -1,0 +1,121 @@
+id: "pv-26"
+source: "考前预测题·第10讲补充·对角相似与圆盘隔离"
+lesson: 10
+knowledge:
+  - Gershgorin
+  - 盖尔圆盘
+  - 对角相似变换
+  - 特征值估计
+  - 隔离定理
+problem: |
+  设
+  A=\begin{pmatrix}5&1&0\\1&6&0\\2&3&10\end{pmatrix}。
+
+  本题研究一种重要的 Gershgorin 技巧：通过正对角矩阵 D 作对角相似变换 B=DAD^{-1}，在不改变特征值的前提下改变行盖尔圆盘的半径，从而让某些圆盘被隔离出来。
+
+  (1) 画出 A 的三个行盖尔圆盘，并给出所有特征值的范围估计；
+  (2) 说明为什么 B=DAD^{-1} 与 A 有相同特征值，并写出 B 的元素 b_{ij} 与 a_{ij},d_i,d_j 的关系；
+  (3) 取 D=\operatorname{diag}(1,1,0.1)，计算 B=DAD^{-1}，画出新的行盖尔圆盘，并用隔离定理说明恰有一个特征值位于 [9.5,10.5]；
+  (4) 计算 A 的实际特征值，并与第 (3) 步的估计比较。
+steps:
+  - title: "(1) 原矩阵的 Gershgorin 圆盘"
+    content: |
+      对矩阵
+      A=\begin{pmatrix}5&1&0\\1&6&0\\2&3&10\end{pmatrix}，按行使用 Gershgorin 圆盘定理。
+
+      第 1 行：中心 a_{11}=5，半径
+      R_1=|1|+|0|=1，故
+      G_1:|z-5|\leq1，对实轴上的区间为 [4,6]。
+
+      第 2 行：中心 a_{22}=6，半径
+      R_2=|1|+|0|=1，故
+      G_2:|z-6|\leq1，对实轴上的区间为 [5,7]。
+
+      第 3 行：中心 a_{33}=10，半径
+      R_3=|2|+|3|=5，故
+      G_3:|z-10|\leq5，对实轴上的区间为 [5,15]。
+
+      因此所有特征值都落在三个圆盘的并集中。若只看实轴范围，可写为
+      [4,6]\cup[5,7]\cup[5,15]=[4,15]。
+
+      但三个圆盘互相重叠，特别是 G_3 与前两个圆盘有明显交叠，所以原始圆盘无法隔离出单个特征值。
+
+  - title: "(2) 对角相似变换的思想"
+    content: |
+      设 D=\operatorname{diag}(d_1,d_2,\dots,d_n)，其中 d_i>0。令
+      B=DAD^{-1}。
+
+      因为 B 与 A 相似，所以二者有相同的特征多项式：
+      \det(\lambda I-B)=\det(\lambda I-DAD^{-1})
+      =\det(D(\lambda I-A)D^{-1})
+      =\det(\lambda I-A)。
+
+      因此 B 与 A 有完全相同的特征值。
+
+      但 B 的元素会发生缩放。由于 D 左乘会把第 i 行乘以 d_i，右乘 D^{-1} 会把第 j 列乘以 \frac{1}{d_j}，所以
+      b_{ij}=\frac{d_i}{d_j}a_{ij}。
+
+      因而第 i 行的新半径为
+      R_i'=\sum_{j\neq i}|b_{ij}|=\sum_{j\neq i}\frac{d_i}{d_j}|a_{ij}|。
+
+      这说明选择较小的 d_i 可以压缩第 i 行的圆盘半径；但同时也可能放大其他行中指向第 i 列的元素，所以需要有目的地选择 D。
+
+  - title: "(3) 取 D 后的新圆盘与隔离"
+    content: |
+      取
+      D=\operatorname{diag}(1,1,0.1),\quad D^{-1}=\operatorname{diag}(1,1,10)。
+
+      根据 b_{ij}=\frac{d_i}{d_j}a_{ij} 逐项计算：
+      b_{11}=5，b_{12}=\frac{1}{1}\cdot1=1，b_{13}=\frac{1}{0.1}\cdot0=0；
+      b_{21}=1，b_{22}=6，b_{23}=0；
+      b_{31}=\frac{0.1}{1}\cdot2=0.2，b_{32}=\frac{0.1}{1}\cdot3=0.3，b_{33}=10。
+
+      因此
+      B=DAD^{-1}=\begin{pmatrix}5&1&0\\1&6&0\\0.2&0.3&10\end{pmatrix}。
+
+      新的行盖尔圆盘为：
+
+      G_1': |z-5|\leq |1|+|0|=1，即 [4,6]；
+
+      G_2': |z-6|\leq |1|+|0|=1，即 [5,7]；
+
+      G_3': |z-10|\leq |0.2|+|0.3|=0.5，即 [9.5,10.5]。
+
+      现在 G_3' 与 G_1'\cup G_2' 不相交，因为
+      9.5>7。
+
+      由 Gershgorin 隔离定理，若若干个连通分量由 k 个圆盘组成，则其中恰含 k 个特征值（按代数重数计）。因此单独的圆盘 G_3' 中恰有一个特征值，即恰有一个特征值位于 [9.5,10.5]。
+
+      同时，G_1'\cup G_2' 是另一个连通分量，由两个圆盘组成，因此其中含有另外两个特征值，它们位于 [4,7] 中。
+
+  - title: "(4) 实际特征值与验证"
+    content: |
+      计算特征多项式：
+      \det(A-\lambda I)=
+      \det\begin{pmatrix}5-\lambda&1&0\\1&6-\lambda&0\\2&3&10-\lambda\end{pmatrix}。
+
+      因第三列前两个元素为 0，可沿第三列展开：
+      \det(A-\lambda I)=(10-\lambda)
+      \det\begin{pmatrix}5-\lambda&1\\1&6-\lambda\end{pmatrix}。
+
+      其中
+      \det\begin{pmatrix}5-\lambda&1\\1&6-\lambda\end{pmatrix}
+      =(5-\lambda)(6-\lambda)-1
+      =\lambda^2-11\lambda+29。
+
+      所以
+      \det(A-\lambda I)=(10-\lambda)(\lambda^2-11\lambda+29)。
+
+      特征值为
+      \lambda_1=10，\quad
+      \lambda_{2,3}=\frac{11\pm\sqrt{121-116}}{2}=\frac{11\pm\sqrt5}{2}。
+
+      数值上
+      \frac{11-\sqrt5}{2}\approx4.382，\quad
+      \frac{11+\sqrt5}{2}\approx6.618。
+
+      与第 (3) 步的新 Gershgorin 圆盘比较：
+      \lambda_1=10\in[9.5,10.5]\ \checkmark，
+      \lambda_2\approx4.382,\lambda_3\approx6.618\in[4,7]\ \checkmark。
+
+      这说明对角相似变换没有改变特征值，却成功缩小了第三个圆盘，从而隔离出了靠近 10 的那个特征值。

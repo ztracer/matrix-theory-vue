@@ -7,6 +7,7 @@ knowledge:
   - 几何重数
   - 最小多项式
   - 对角化
+  - Jordan链
 problem: |
   设 A=\begin{pmatrix}2&1&0\\0&2&0\\1&0&3\end{pmatrix}
 
